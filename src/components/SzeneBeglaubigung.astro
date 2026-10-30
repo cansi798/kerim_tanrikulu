@@ -1,0 +1,59 @@
+---
+// Szene „Beglaubigte Übersetzung“ (höchstens 1,5 s): Original links, der Goldfaden trägt den Inhalt hinüber,
+// die Übersetzung füllt sich Zeile für Zeile, Schnur und Siegel verbinden beides. Ablauf: 0–0,3 s Original,
+// 0,2–0,6 s Faden, 0,35–0,95 s Übersetzung, 0,9–1,2 s Schnur, 1,05–1,45 s Siegel.
+const FEDER = "M48.6 91.5C44 80 22 60 22 41C22 30 26.5 20 32 11L68 11C73.5 20 78 30 78 41C78 60 56 80 51.4 91.5L51.4 49.6A5.8 5.8 0 1 0 48.6 49.6Z";
+const zeilenL = [96, 120, 104, 128, 88, 116, 72];
+const zeilenR = [100, 124, 108, 126, 92, 112, 64];
+---
+<figure class="szene-beglaubigung" data-szene>
+  <svg viewBox="0 0 480 250" role="img" aria-labelledby="sb-titel" focusable="false">
+    <title id="sb-titel">Beglaubigte Übersetzung: Aus dem Original entsteht die Übersetzung, verbunden mit Schnur und Siegel.</title>
+    <g class="original">
+      <rect class="blatt-linie" x="40" y="22" width="150" height="196" rx="3" />
+      {zeilenL.map((w, i) => <rect class="zeile-hell" x="58" y={48 + i * 20} width={w} height="3" rx="1.5" />)}
+      <text class="beschriftung" x="115" y="244" text-anchor="middle">Original</text>
+    </g>
+    <path class="faden strich" pathLength="1" d="M192 104C222 62 260 62 288 104" />
+    <g class="uebersetzung">
+      <rect class="blatt" x="290" y="22" width="150" height="196" rx="3" />
+      <text class="beschriftung" x="365" y="244" text-anchor="middle">Übersetzung</text>
+    </g>
+    {zeilenR.map((w, i) => <rect class="zeile" x="308" y={48 + i * 20} width={w} height="3" rx="1.5" />)}
+    <path class="schnur strich" pathLength="1" d="M176 208C232 244 334 240 392 196" />
+    <g class="siegel">
+      <circle cx="400" cy="186" r="25" class="lack" />
+      <circle cx="400" cy="186" r="19.5" class="ring" />
+      <g transform="translate(388.5 172) scale(0.23)"><path class="mini" d={FEDER} /></g>
+    </g>
+  </svg>
+</figure>
+<style>
+  .szene-beglaubigung { margin: 0; }
+  svg { width: 100%; height: auto; overflow: visible; }
+  .blatt-linie { fill: none; stroke: var(--hell-leise); stroke-width: 1.4; }
+  .zeile-hell { fill: var(--hell-leise); opacity: 0.55; }
+  .blatt { fill: var(--hell); }
+  .zeile { fill: var(--tinte); opacity: 0.8; transform-box: fill-box; transform-origin: left; }
+  .beschriftung { font: 500 15px var(--sans); letter-spacing: 0.04em; fill: var(--hell-leise); }
+  .faden { fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; }
+  .schnur { fill: none; stroke: var(--rot-hover); stroke-width: 2; stroke-linecap: round; }
+  .lack { fill: var(--rot); }
+  .ring { fill: none; stroke: #e9c9b8; stroke-width: 0.9; opacity: 0.8; }
+  .mini { fill: #f3dfd2; }
+  .siegel { transform-box: fill-box; transform-origin: center; transform: rotate(-8deg); }
+
+  .original { animation: auftauchen 0.3s var(--sanft) both; }
+  .faden { animation: zeichnen 0.4s ease-in-out 0.2s both; }
+  .uebersetzung { animation: einblenden 0.2s ease 0.35s both; }
+  .zeile { animation: breiten 0.22s var(--sanft) both; }
+  .zeile:nth-of-type(1) { animation-delay: 0.5s; }
+  .zeile:nth-of-type(2) { animation-delay: 0.57s; }
+  .zeile:nth-of-type(3) { animation-delay: 0.64s; }
+  .zeile:nth-of-type(4) { animation-delay: 0.71s; }
+  .zeile:nth-of-type(5) { animation-delay: 0.78s; }
+  .zeile:nth-of-type(6) { animation-delay: 0.85s; }
+  .zeile:nth-of-type(7) { animation-delay: 0.92s; }
+  .schnur { animation: zeichnen 0.3s ease-out 0.9s both; }
+  .siegel { animation: stempeln 0.4s var(--sanft) 1.05s both; }
+</style>

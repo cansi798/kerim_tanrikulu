@@ -1,27 +1,36 @@
 ---
-// Ablauf einer Anfrage (Jamils Konzept). Echte Reihenfolge, daher nummeriert.
-// Die Schritte hängen an einer feinen Linie; jeder Schritt erscheint beim Scrollen (wo der Browser das ohne JS kann).
-interface Props { schritte: { titel: string; text: string }[] }
+// Ablauf in drei Schritten: der Goldfaden zieht sich einmal durch, jeder Schritt erscheint, wenn der Faden ihn erreicht (1,2 s).
+interface Props { schritte: { titel: string; text: string; icon?: string }[] }
 const { schritte } = Astro.props;
 ---
-<ol class="ablauf">
-  {schritte.map((s) => <li class="einblenden"><h3>{s.titel}</h3><p>{s.text}</p></li>)}
+<ol class="ablauf" data-szene>
+  {schritte.map((s, i) => (
+    <li class={`schritt s${i + 1}`}>
+      <span class="punkt" aria-hidden="true">{i + 1}</span>
+      <h3>{s.titel}</h3>
+      <p>{s.text}</p>
+    </li>
+  ))}
 </ol>
 <style>
-  .ablauf { list-style: none; padding: 0; margin: 0 0 2rem; counter-reset: schritt; display: grid; gap: 2rem; position: relative; }
-  .ablauf::before { content: ""; position: absolute; left: 1.5rem; top: 1.5rem; bottom: 1.5rem; width: 1px; background: var(--messing); }
-  .ablauf li { counter-increment: schritt; position: relative; padding-left: 4.5rem; }
-  .ablauf li::before {
-    content: counter(schritt); position: absolute; left: 0; top: 0;
-    width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center;
-    background: var(--elfenbein); border: 1px solid var(--messing); color: var(--tinte);
-    font: 400 1.4rem/1 var(--caslon);
+  .ablauf { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 2.25rem; }
+  .ablauf::before { content: ""; position: absolute; left: 1.45rem; top: 1.5rem; bottom: 1.5rem; width: 1px; background: var(--gold); transform-origin: top; animation: hoch 1.2s linear both; }
+  @media (min-width: 52rem) {
+    .ablauf { grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+    .ablauf::before { left: 1.5rem; right: calc(33.3% - 1rem); top: 1.45rem; bottom: auto; width: auto; height: 1px; transform-origin: left; animation-name: breiten; }
   }
-  .ablauf h3 { margin: 0.45rem 0 0.35rem; }
-  .ablauf p { margin: 0; }
-  @media (min-width: 56rem) {
-    .ablauf { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-    .ablauf::before { left: 1.5rem; right: calc((100% - 5rem) / 3 - 1.5rem); top: 1.5rem; bottom: auto; width: auto; height: 1px; }
-    .ablauf li { padding-left: 0; padding-top: 4.5rem; }
+  .schritt { position: relative; padding-left: 4.25rem; }
+  @media (min-width: 52rem) { .schritt { padding-left: 0; padding-top: 4.5rem; } }
+  .punkt {
+    position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 2.9rem; height: 2.9rem; border-radius: 50%;
+    background: var(--buetten); border: 1px solid var(--gold); color: var(--gold-dunkel); font: 500 1.25rem/1 var(--serif);
   }
+  :global(.weiss) .punkt { background: var(--weiss); }
+  .schritt h3 { margin-bottom: 0.5rem; }
+  .schritt p { color: var(--text-leise); margin: 0; max-width: 24em; }
+  .schritt { animation: auftauchen 0.4s var(--sanft) both; }
+  .s1 { animation-delay: 0s; }
+  .s2 { animation-delay: 0.5s; }
+  .s3 { animation-delay: 1s; }
+  @keyframes hoch { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 </style>

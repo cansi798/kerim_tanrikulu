@@ -1,64 +1,88 @@
 ---
 import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
+import SzeneBeglaubigung from "../components/SzeneBeglaubigung.astro";
 import Platzhalter from "../components/Platzhalter.astro";
 import Ablauf from "../components/Ablauf.astro";
-import { DOKUMENTE, HONORAR, GERICHT, SEIT, u } from "../daten";
+import Icon from "../components/Icon.astro";
+import { HONORAR, GERICHT, SEIT, u } from "../daten";
+// Dokumentarten wörtlich nach der Jimdo-Seite („Dokumente aller Art, wie zum Beispiel …“), je mit Symbol
+const dokumente = [
+  { icon: "urteil", text: "Gerichtsurteile, darunter auch Scheidungsurteile" },
+  { icon: "zeugnis", text: "Zeugnisse" },
+  { icon: "ausweis", text: "Personalausweise" },
+  { icon: "medizin", text: "medizinische Unterlagen" },
+  { icon: "urkunde", text: "Urkunden" },
+] as const;
 ---
 <Basis titel="Beglaubigte Übersetzungen Türkisch Deutsch" beschreibung="Beglaubigte Übersetzungen Türkisch und Deutsch vom ermächtigten Übersetzer Kerim Mikael Tanrikulu: Gerichtsurteile, Scheidungsurteile, Zeugnisse, Ausweise, medizinische Unterlagen und Urkunden. Honorar nach JVEG.">
-  <SeitenKopf titel="Beglaubigte Übersetzungen">
-    <p class="lead">Ihr Dokument muss bei einer Behörde oder einem Gericht eingereicht werden? Ich übersetze es aus dem Türkischen ins Deutsche oder aus dem Deutschen ins Türkische.</p>
+  <SeitenKopf titel="Beglaubigte Übersetzungen" zeile="Türkisch und Deutsch">
+    <p class="lead">Ihr Dokument muss bei einer Behörde oder einem Gericht eingereicht werden? Ich übersetze es und bestätige schriftlich, dass die Übersetzung richtig und vollständig ist.</p>
+    <SzeneBeglaubigung slot="bild" />
   </SeitenKopf>
 
-  <section class="abschnitt" aria-labelledby="was-titel">
-    <div class="huelle rand-raster">
-      <h2 id="was-titel">Was eine beglaubigte Übersetzung ist</h2>
-      <div>
-        <p>Ich bin seit {SEIT} durch das {GERICHT} als Übersetzer ermächtigt. Damit kann ich schriftlich bestätigen, dass meine Übersetzung richtig und vollständig ist. Eine solche Übersetzung nennt man beglaubigte Übersetzung.</p>
-        <p>Ob Sie für Ihr Dokument eine beglaubigte Übersetzung brauchen, legt die Stelle fest, bei der Sie es einreichen. Fragen Sie dort im Zweifel nach, welche Form verlangt wird.</p>
-        <Platzhalter>Wortlaut zur Ermächtigung und Beglaubigung bitte vom Kunden bestätigen lassen (z. B. wie der Bestätigungsvermerk aussieht).</Platzhalter>
+  <section class="abschnitt" aria-labelledby="dok-titel">
+    <div class="huelle">
+      <div class="kopfzeile">
+        <h2 id="dok-titel">Dokumente aller Art</h2>
+        <p>Zum Beispiel:</p>
       </div>
+      <ul class="dokumente" data-szene>
+        {dokumente.map((d, i) => (
+          <li class={`d${i}`}><span class="symbol"><Icon name={d.icon} zeichnen /></span><span>{d.text}</span></li>
+        ))}
+      </ul>
     </div>
   </section>
 
-  <section class="abschnitt pergament" aria-labelledby="dok-titel">
-    <div class="huelle rand-raster">
-      <h2 id="dok-titel">Häufig übersetzte Dokumente</h2>
+  <section class="abschnitt weiss" aria-labelledby="was-titel">
+    <div class="huelle raster-2">
+      <h2 id="was-titel">Was „beglaubigt“ bedeutet</h2>
       <div>
-        <p>Gerne übersetze ich für Sie Dokumente aller Art, zum Beispiel:</p>
-        <ul class="strichliste gross">
-          {DOKUMENTE.map((d) => <li>{d}</li>)}
-        </ul>
+        <p class="lead">Seit {SEIT} bin ich durch das {GERICHT} als Übersetzer ermächtigt. Damit kann ich schriftlich bestätigen, dass meine Übersetzung richtig und vollständig ist.</p>
+        <p class="leise">Ob Sie eine beglaubigte Übersetzung brauchen, legt die Stelle fest, bei der Sie das Dokument einreichen. Fragen Sie dort im Zweifel nach.</p>
+        <Platzhalter>Wortlaut zur Ermächtigung und Beglaubigung bitte vom Kunden bestätigen lassen (z. B. wie der Bestätigungsvermerk aussieht).</Platzhalter>
       </div>
     </div>
   </section>
 
   <section class="abschnitt" aria-labelledby="ablauf-titel">
     <div class="huelle">
-      <h2 id="ablauf-titel">So läuft eine Anfrage ab</h2>
-      <div class="ablauf-platz">
-        <Ablauf schritte={[
-          { titel: "Dokument senden", text: "Schicken Sie mir das Dokument und schreiben Sie dazu, wofür Sie die Übersetzung brauchen." },
-          { titel: "Anfrage prüfen", text: "Ich sehe mir das Dokument und Ihre Angaben an." },
-          { titel: "Rückmeldung erhalten", text: "Sie hören von mir, wie es weitergeht." },
-        ]} />
-        <Platzhalter>Sicherer Weg für Dokumente (z. B. verschlüsselter Upload statt einfacher E-Mail) folgt nach Absprache mit dem Kunden. Ablauf bitte vom Kunden bestätigen.</Platzhalter>
-      </div>
+      <div class="kopfzeile"><h2 id="ablauf-titel">So läuft eine Anfrage ab</h2></div>
+      <Ablauf schritte={[
+        { titel: "Dokument senden", text: "Schicken Sie mir das Dokument und schreiben Sie dazu, wofür Sie die Übersetzung brauchen." },
+        { titel: "Anfrage prüfen", text: "Ich sehe mir das Dokument und Ihre Angaben an." },
+        { titel: "Rückmeldung erhalten", text: "Sie hören von mir, wie es weitergeht." },
+      ]} />
+      <Platzhalter>Sicherer Weg für Dokumente (z. B. verschlüsselter Upload statt einfacher E-Mail) folgt nach Absprache mit dem Kunden. Ablauf bitte vom Kunden bestätigen.</Platzhalter>
     </div>
   </section>
 
-  <section class="abschnitt pergament" aria-labelledby="honorar-titel">
-    <div class="huelle rand-raster">
+  <section class="abschnitt weiss honorar" aria-labelledby="honorar-titel">
+    <div class="huelle raster-2">
       <h2 id="honorar-titel">Honorar</h2>
       <div>
-        <p>{HONORAR}</p>
-        <p>Antworten auf weitere Fragen finden Sie unter <a href={u("/fragen/")}>Häufige Fragen</a>.</p>
+        <p class="lead">{HONORAR}</p>
+        <a class="weiter" href={u("/fragen/")}>Häufige Fragen</a>
       </div>
     </div>
   </section>
 </Basis>
 <style>
-  .gross li { font: 400 1.45rem/1.35 var(--caslon); color: var(--tinte); margin-bottom: 0.7rem; }
-  .gross li::before { top: 0.8em; }
-  .ablauf-platz { margin-top: 2.5rem; }
+  .dokumente { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+  @media (min-width: 40rem) { .dokumente { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .dokumente { grid-template-columns: repeat(5, 1fr); } }
+  .dokumente li {
+    display: flex; flex-direction: column; gap: 1.1rem; padding: 1.5rem; background: var(--weiss); border: 1px solid var(--linie); border-radius: 4px;
+    font: 500 1.2rem/1.3 var(--serif); color: var(--tinte); animation: auftauchen 0.45s var(--sanft) both;
+  }
+  @media (max-width: 39.99rem) { .dokumente li { flex-direction: row; align-items: center; } }
+  .symbol { display: grid; place-items: center; flex: none; width: 3.25rem; height: 3.25rem; border-radius: 50%; background: var(--tinte); color: var(--gold); }
+  .symbol :global(svg) { width: 1.6rem; height: 1.6rem; }
+  .dokumente :global(.strich) { animation: zeichnen 0.8s ease-out 0.2s both; }
+  .dokumente .d1 { animation-delay: 0.1s; }
+  .dokumente .d2 { animation-delay: 0.2s; }
+  .dokumente .d3 { animation-delay: 0.3s; }
+  .dokumente .d4 { animation-delay: 0.4s; }
+  .honorar { border-top: 1px solid var(--linie); }
 </style>

@@ -1,0 +1,20 @@
+---
+// Bildzeichen: Federspitze, deren zwei Zinken sich in einem Punkt treffen (zwei Sprachen, eine Bedeutung).
+// `schreiben`: Feder erscheint, Tinte läuft durch den Schlitz, der Tropfen fällt (0–0,85 s; Jamil Talk 3889).
+interface Props { schreiben?: boolean; titel?: string }
+const { schreiben = false, titel } = Astro.props;
+const FEDER = "M48.6 91.5C44 80 22 60 22 41C22 30 26.5 20 32 11L68 11C73.5 20 78 30 78 41C78 60 56 80 51.4 91.5L51.4 49.6A5.8 5.8 0 1 0 48.6 49.6Z";
+---
+<svg class:list={["feder", { schreiben }]} viewBox="0 0 100 102" role={titel ? "img" : undefined} aria-label={titel} aria-hidden={titel ? undefined : "true"} focusable="false">
+  <path class="spitze" fill="currentColor" d={FEDER} />
+  {schreiben && <path class="tinte strich" pathLength="1" d="M50 50.5V91" />}
+  <circle class="tropfen" cx="50" cy="97.2" r="2.6" />
+</svg>
+<style>
+  .feder { overflow: visible; }
+  .tropfen { fill: var(--gold); }
+  .tinte { fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-linecap: round; }
+  .schreiben .spitze { transform-origin: 50% 40%; animation: auftauchen 0.45s var(--sanft) both; }
+  .schreiben .tinte { animation: zeichnen 0.4s ease-in 0.3s both; }
+  .schreiben .tropfen { transform-box: fill-box; transform-origin: center; animation: aufploppen 0.25s var(--sanft) 0.65s both; }
+</style>

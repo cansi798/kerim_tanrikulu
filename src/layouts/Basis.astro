@@ -1,8 +1,11 @@
 ---
+// Schriften selbst gehostet (fontsource, variabel). Hauptdateien vorladen – gleiche Datei wie im CSS, Vite fasst sie zusammen.
+import "@fontsource-variable/bodoni-moda/opsz.css";
+import "@fontsource-variable/bodoni-moda/opsz-italic.css";
+import "@fontsource-variable/hanken-grotesk/wght.css";
+import bodoniUrl from "@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-opsz-normal.woff2?url";
+import hankenUrl from "@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url";
 import "../styles/global.css";
-// Hauptschriften vorladen (gleiche Datei wie im CSS, Vite fasst sie zusammen) – weniger Schriftwechsel beim Laden
-import caslonUrl from "@fontsource/libre-caslon-display/files/libre-caslon-display-latin-400-normal.woff2?url";
-import jostUrl from "@fontsource/jost/files/jost-latin-400-normal.woff2?url";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
 import Aufruf from "../components/Aufruf.astro";
@@ -56,20 +59,26 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <link rel="preload" href={caslonUrl} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={jostUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodoniUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={hankenUrl} as="font" type="font/woff2" crossorigin />
+    <script is:inline src={u("/sichtbar.js")}></script>
     <title>{voll}</title>
     <meta name="description" content={beschreibung} />
     {VORSCHAU && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={kanon} />
-    <meta name="theme-color" content="#f8f3ea" />
+    <meta name="theme-color" content="#1e1a23" />
     <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
+    <link rel="icon" href={u("/favicon-32.png")} sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href={u("/apple-touch-icon.png")} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="de_DE" />
     <meta property="og:site_name" content={MARKE} />
     <meta property="og:title" content={voll} />
     <meta property="og:description" content={beschreibung} />
     <meta property="og:url" content={kanon} />
+    <meta property="og:image" content={new URL(u("/og.png"), Astro.site).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <link rel="sitemap" href={u("/sitemap.xml")} />
     {jsonLd.map((o) => <script type="application/ld+json" set:html={ld(o)} />)}
   </head>
@@ -78,7 +87,7 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
     {VORSCHAU && (
       <div class="vorschau" role="note">
         <div class="huelle">
-          <strong>Vorschau.</strong> Diese Seite ist noch nicht veröffentlicht und für Suchmaschinen gesperrt. Rot gestrichelte Stellen sind Platzhalter, das Logo ist ein Nachbau.
+          <strong>Vorschau.</strong> Diese Seite ist noch nicht veröffentlicht und für Suchmaschinen gesperrt. Rot gestrichelte Stellen sind Platzhalter. Logo und Gestaltung sind ein Entwurf und brauchen die Freigabe von Herrn Tanrikulu.
         </div>
       </div>
     )}
@@ -91,6 +100,6 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
   </body>
 </html>
 <style>
-  .vorschau { background: #fbf0f0; color: #5b1520; border-bottom: 2px dashed #9b2335; font-size: 0.92rem; line-height: 1.5; padding-block: 0.55rem; }
-  .vorschau strong { color: #9b2335; font-weight: 500; }
+  .vorschau { background: #fbf0f0; color: #5b1520; border-bottom: 2px dashed #9b2335; font-size: 0.9rem; line-height: 1.5; padding-block: 0.5rem; }
+  .vorschau strong { color: #9b2335; font-weight: 600; }
 </style>

@@ -1,19 +1,20 @@
 ---
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
-import { NAV, RECHTLICHES, u, NAME, TELEFON, TELEFON_LINK, MAIL, mailLink, ORT, DOLMETSCHER, UEBERSETZER } from "../daten";
+import { NAV, RECHTLICHES, u, NAME, TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, mailLink, ORT, DOLMETSCHER, UEBERSETZER } from "../daten";
 const jahr = new Date().getFullYear();
+const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
 ---
-<footer class="fuss dunkel">
+<footer class="fuss">
   <div class="huelle raster">
-    <div>
-      <Logo klein />
-      <p class="wer">{NAME}<br />{DOLMETSCHER} und {UEBERSETZER} für Deutsch und Türkisch</p>
+    <div class="wer">
+      <Logo />
+      <p>{NAME}<br /><span class="leise">{DOLMETSCHER} und {UEBERSETZER} für Deutsch und Türkisch</span></p>
     </div>
     <div>
       <h2 class="klein">Kontakt</h2>
       <ul class="liste">
-        <li><a href={TELEFON_LINK}><Icon name="telefon" />{TELEFON}</a></li>
+        <li><a href={TELEFON_LINK}><Icon name="telefon" /><span class:list={{ unbestaetigt: markieren }}>{TELEFON}</span></a></li>
         <li><a href={mailLink()}><Icon name="mail" />{MAIL}</a></li>
         <li><span><Icon name="ort" />{ORT}</span></li>
       </ul>
@@ -38,33 +39,36 @@ const jahr = new Date().getFullYear();
   <a href={mailLink()}><Icon name="mail" /><span>E-Mail schreiben</span></a>
 </nav>
 <style>
-  .fuss { background: var(--nacht); padding-block: 4rem 1.5rem; font-size: 0.98rem; }
+  .fuss { background: var(--tinte-tief); color: var(--hell); padding-block: clamp(3.5rem, 7vw, 5rem) 1.5rem; font-size: 0.98rem; }
+  .fuss a { color: var(--hell); text-decoration: none; }
+  .fuss a:hover { color: var(--gold-hell); }
   .raster { display: grid; gap: 2.5rem; }
-  @media (min-width: 52rem) { .raster { grid-template-columns: 1.4fr 1fr 1fr; } }
-  .wer { margin-top: 1.25rem; color: var(--auf-dunkel); }
-  .klein { font: 500 0.95rem/1.4 var(--sans); letter-spacing: 0.04em; color: var(--messing-hell); margin-bottom: 0.75rem; }
+  @media (min-width: 52rem) { .raster { grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; } }
+  .wer :global(.logo) { width: 11rem; color: var(--hell); margin-bottom: 1.25rem; }
+  .wer p { max-width: 24rem; line-height: 1.6; }
+  .leise { color: var(--hell-leise); }
+  .klein { font: 600 0.95rem/1.4 var(--sans); letter-spacing: 0.02em; color: var(--gold); margin-bottom: 0.9rem; }
   .liste { list-style: none; padding: 0; margin: 0; }
-  .liste a, .liste span { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; color: var(--auf-dunkel); overflow-wrap: anywhere; text-decoration: none; }
-  .liste a:hover { color: var(--elfenbein); text-decoration: underline; text-decoration-color: var(--messing-hell); }
-  .liste :global(svg) { width: 1.1rem; height: 1.1rem; flex: none; color: var(--messing-hell); }
-  .unten { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid rgba(217, 189, 133, 0.35); color: var(--auf-dunkel); }
+  .liste li { margin-bottom: 0.55rem; }
+  .liste a, .liste span { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 1.75rem; overflow-wrap: anywhere; }
+  .liste :global(svg) { width: 1.05rem; height: 1.05rem; color: var(--gold); flex: none; }
+  .unten {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem;
+    margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--tinte-3); color: var(--hell-leise); font-size: 0.92rem;
+  }
   .unten ul { list-style: none; display: flex; gap: 1.5rem; margin: 0; padding: 0; }
-  .unten a { color: var(--auf-dunkel); display: inline-block; min-height: 2.75rem; line-height: 2.75rem; }
-  .unten span { line-height: 2.75rem; }
+  .unten a { display: inline-block; padding-block: 0.25rem; }
 
   .schnell {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
-    padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
-    background: var(--elfenbein); border-top: 1px solid var(--messing);
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: 1fr 1fr;
+    background: var(--tinte); border-top: 1px solid var(--tinte-3); padding-bottom: env(safe-area-inset-bottom);
   }
   .schnell a {
-    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    min-height: 3rem; border: 1px solid var(--tinte); border-radius: var(--ecke);
-    color: var(--tinte); text-decoration: none; font-weight: 500; font-size: 0.98rem;
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 3.5rem;
+    color: var(--hell); text-decoration: none; font-weight: 500;
   }
-  .schnell a.ruf { background: var(--tinte); color: var(--elfenbein); }
-  .schnell :global(svg) { width: 1.15rem; height: 1.15rem; flex: none; }
-  :global(body) { padding-bottom: 4.1rem; }
-  @media (min-width: 60rem) { .schnell { display: none; } :global(body) { padding-bottom: 0; } }
+  .schnell .ruf { background: var(--rot); color: var(--weiss); }
+  .schnell :global(svg) { width: 1.2rem; height: 1.2rem; }
+  @media (min-width: 66rem) { .schnell { display: none; } }
+  @media (max-width: 65.99rem) { :global(body) { padding-bottom: 3.5rem; } }
 </style>

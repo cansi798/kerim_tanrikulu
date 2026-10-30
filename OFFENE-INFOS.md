@@ -1,6 +1,6 @@
 # Offene Infos – das brauchen wir vom Kunden
 
-Stand: 30.10.2026 (Design v2). In der Vorschau sind diese Stellen rot gestrichelt markiert.
+Stand: 30.10.2026 (Design v3). In der Vorschau sind diese Stellen rot gestrichelt markiert.
 
 ## Vor dem Livegang nötig
 
@@ -15,7 +15,7 @@ Stand: 30.10.2026 (Design v2). In der Vorschau sind diese Stellen rot gestrichel
 
 ## Für bessere Inhalte
 
-9. **Original-Logo** als Datei (SVG oder PDF). Das Logo auf der Vorschau ist ein Nachbau.
+9. **Neues Logo und CI freigeben:** Das Logo (Federspitze + „Tanrikulu Translations“) und das CI-Handbuch sind ein Entwurf von uns. Herr Tanrikulu muss beides freigeben oder Änderungen nennen. Falls er sein altes Logo behalten möchte: Original als Datei (SVG oder PDF).
 10. **Portraitfoto** (Jamils Konzept sieht ein echtes Foto vor, auf „Über mich“ und ggf. im Hero).
 11. **Ablauf einer Übersetzung bestätigen:** Dokument senden, Anfrage prüfen, Rückmeldung erhalten. Stimmt das so?
 12. **Wortlaut zur Beglaubigung bestätigen:** „Als ermächtigter Übersetzer kann ich schriftlich bestätigen, dass meine Übersetzung richtig und vollständig ist.“
@@ -28,6 +28,9 @@ Stand: 30.10.2026 (Design v2). In der Vorschau sind diese Stellen rot gestrichel
 19. **Türkische Fassung der Website** gewünscht? (Dann auch Impressum und Datenschutz auf Türkisch.)
 20. **Sprachrichtungen bestätigen:** Übersetzt er beide Richtungen (Türkisch → Deutsch und Deutsch → Türkisch)? Die Seite sagt das bisher nach Jamils Konzept („Unterstützung in beide Sprachrichtungen“), die alte Seite nennt nur „die türkische und deutsche Sprache“.
 21. **Kontaktformular:** Jamils Konzept nennt eines, die Vorschau hat bewusst keins (nur Telefon und E-Mail, kein Fremddienst). Wenn gewünscht: eigener Versand mit Spamschutz und Datenschutz-Abschnitt.
+
+22. **Leitsatz bestätigen:** Im Kopf der Startseite steht „Brücken bauen zwischen den Kulturen.“, abgeleitet aus seinem Satz „Ich verstehe meine Arbeit als eine Form von Brückenbildung zwischen den Kulturen.“ Passt das für ihn?
+23. **Türkischer Beispielsatz prüfen:** Die Dolmetsch-Animation zeigt „Wann ist der Termin?“ → „Randevu ne zaman?“. Bitte von Herrn Tanrikulu gegenlesen lassen.
 
 ## Bewusst nicht auf der Seite
 

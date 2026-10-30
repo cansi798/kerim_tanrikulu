@@ -1,183 +1,136 @@
-/* Design v2 „Die Feder schreibt die Brücke“ (30.10.2026, nach Jamils Rückmeldung: wärmer, edler, hochwertiger)
-   Schriften lokal (fontsource), Latein + Latein-erweitert (ç, ş, ğ, ı, İ). Keine externen Dienste. */
-@import "@fontsource/libre-caslon-display/latin-400.css";
-@import "@fontsource/libre-caslon-display/latin-ext-400.css";
-@import "@fontsource/libre-caslon-text/latin-400-italic.css";
-@import "@fontsource/libre-caslon-text/latin-ext-400-italic.css";
-@import "@fontsource/jost/latin-400.css";
-@import "@fontsource/jost/latin-ext-400.css";
-@import "@fontsource/jost/latin-500.css";
-@import "@fontsource/jost/latin-ext-500.css";
-/* nur für den Logo-Nachbau (Großbuchstaben, Latein) */
-@import "@fontsource/cormorant-garamond/latin-600.css";
+/* Tanrikulu Translations – Design v3 „Zwei Ufer“ (CI-Entwurf 30.10.2026)
+   Tinte als Bühne, Gold als Faden, Siegelrot als Beglaubigung, Bütten als Lesefläche.
+   Schriften: Bodoni Moda (Überschriften, Logo) und Hanken Grotesk (Text), beide selbst gehostet. */
 
-/* Farben: Elfenbein und Pergament (warmes Papier), Tinte (Navy aus dem Logo), Messing (feine Linien) */
 :root {
-  --elfenbein: #f8f3ea;
-  --papier: #fffcf6;
-  --pergament: #efe5d3;
-  --tinte: #1c2b4b;
-  --nacht: #141f36;
-  --messing: #9c7a3c;
-  --messing-text: #775820;
-  --messing-hell: #d9bd85;
-  --linie: #ddcfb6;
-  --text: #2b2721;
-  --text-leise: #5c5448;
-  --auf-dunkel: #ece4d4;
+  --tinte: #1e1a23;
+  --tinte-2: #29232f;
+  --tinte-3: #3a3242;
+  --tinte-tief: #16131a;
+  --gold: #c9a35b;
+  --gold-hell: #e2c894;
+  --gold-dunkel: #7a5a22;
+  --rot: #8e2a2f;
+  --rot-hover: #a3343a;
+  --buetten: #f6f2ec;
+  --weiss: #fffdf9;
+  --text: #2b2530;
+  --text-leise: #5e5560;
+  --hell: #f3ede4;
+  --hell-leise: #bdb3ae;
+  --linie: #e4dbd0;
 
-  --caslon: "Libre Caslon Display", "Big Caslon", "Iowan Old Style", Georgia, serif;
-  --caslon-kursiv: "Libre Caslon Text", "Big Caslon", Georgia, serif;
-  --sans: "Jost", "Futura", "Century Gothic", "Segoe UI", system-ui, sans-serif;
-  --logo-schrift: "Cormorant Garamond", Georgia, serif;
+  --serif: "Bodoni Moda Variable", "Bodoni 72", "Didot", Georgia, serif;
+  --sans: "Hanken Grotesk Variable", "Segoe UI", system-ui, sans-serif;
 
-  --mass: 64ch;
-  --breit: 74rem;
-  --rand: clamp(1rem, 5vw, 3rem);
-  --abschnitt: clamp(4rem, 10vw, 8rem);
-  --ecke: 2px;
-  --sanft: cubic-bezier(.45, .05, .25, 1);
-  interpolate-size: allow-keywords;
+  --breite: 76rem;
+  --rand: clamp(1.25rem, 5vw, 3rem);
+  --sanft: cubic-bezier(0.22, 0.7, 0.2, 1);
+  --kopf-h: 4.75rem;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: 6.5rem; }
-@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: calc(var(--kopf-h) + 1rem); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
-  margin: 0;
-  background: var(--elfenbein);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 1.0625rem;
-  line-height: 1.7;
-  font-weight: 400;
+  margin: 0; background: var(--buetten); color: var(--text);
+  font: 400 1.0625rem/1.7 var(--sans); font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
-@media (min-width: 48rem) { body { font-size: 1.15rem; } }
-
 img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+p { margin: 0 0 1.25rem; }
+ul { margin: 0 0 1.25rem; }
 
 h1, h2, h3 {
-  font-family: var(--caslon);
-  font-weight: 400;
-  color: var(--tinte);
-  line-height: 1.12;
-  margin: 0 0 0.55em;
-  text-wrap: balance;
-  hyphens: manual;
-  letter-spacing: -0.005em;
+  font-family: var(--serif); font-weight: 500; line-height: 1.12; letter-spacing: -0.005em;
+  color: inherit; margin: 0 0 1.25rem; text-wrap: balance;
 }
-h1 { font-size: clamp(2.35rem, 5.4vw, 4.4rem); line-height: 1.06; }
-h2 { font-size: clamp(1.95rem, 3.9vw, 3rem); }
-h3 { font-size: clamp(1.35rem, 2.2vw, 1.6rem); line-height: 1.22; }
-@media (max-width: 30rem) { h1, h2 { hyphens: auto; } }
-p, ul, ol, dl { margin: 0 0 1.15em; }
-p { max-width: var(--mass); text-wrap: pretty; }
-strong { font-weight: 500; }
+h1 { font-size: clamp(2.4rem, 6vw, 4.6rem); }
+@media (max-width: 40rem) { h1, h2 { hyphens: auto; overflow-wrap: break-word; } }
+h2 { font-size: clamp(1.9rem, 4vw, 3rem); }
+h3 { font-size: clamp(1.35rem, 2.2vw, 1.65rem); line-height: 1.2; }
 
-a { color: var(--tinte); text-decoration-color: var(--messing); text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
-a:hover { text-decoration-thickness: 2px; }
-:focus-visible { outline: 2px solid var(--tinte); outline-offset: 4px; border-radius: 1px; }
-.dunkel :focus-visible { outline-color: var(--messing-hell); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+.dunkel :focus-visible, .kopf :focus-visible { outline-color: var(--gold-hell); }
 
-.skip {
-  position: absolute; left: 1rem; top: -4rem; z-index: 100;
-  background: var(--tinte); color: var(--elfenbein); padding: 0.7rem 1rem;
-}
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: 1rem; top: -4rem; z-index: 100; padding: 0.6rem 1rem; background: var(--weiss); color: var(--tinte); }
 .skip:focus { top: 1rem; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-.huelle { width: min(100% - 2 * var(--rand), var(--breit)); margin-inline: auto; }
-.abschnitt { padding-block: var(--abschnitt); }
-.abschnitt.pergament { background: var(--pergament); }
-.lead { font-size: 1.18em; line-height: 1.6; color: var(--text); }
+.huelle { width: min(100% - 2 * var(--rand), var(--breite)); margin-inline: auto; }
+.abschnitt { padding-block: clamp(4rem, 9vw, 7rem); }
+.weiss { background: var(--weiss); }
+.dunkel { background: var(--tinte); color: var(--hell); }
+.dunkel a { color: var(--hell); }
+
+.lead { font-size: clamp(1.15rem, 1.8vw, 1.35rem); line-height: 1.6; max-width: 40em; }
 .leise { color: var(--text-leise); }
-.dunkel { background: var(--tinte); color: var(--auf-dunkel); }
-.dunkel h2, .dunkel h3 { color: var(--elfenbein); }
-.dunkel a { color: var(--elfenbein); text-decoration-color: var(--messing-hell); }
+.dunkel .leise { color: var(--hell-leise); }
+.schmal { max-width: 40em; }
+.kopfzeile { max-width: 46rem; margin-bottom: clamp(2.25rem, 5vw, 3.5rem); }
+.kopfzeile p { color: var(--text-leise); font-size: 1.12rem; }
+.dunkel .kopfzeile p { color: var(--hell-leise); }
 
-/* Knöpfe: Tinte gefüllt, zweiter Knopf mit feiner Linie */
-.knopf {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
-  min-height: 3.25rem; padding: 0.75rem 1.6rem;
-  font: 500 1rem/1.2 var(--sans); letter-spacing: 0.02em;
-  border-radius: var(--ecke); border: 1px solid var(--tinte);
-  background: var(--tinte); color: var(--elfenbein); text-decoration: none;
-  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-}
-.knopf:hover { background: var(--nacht); }
-.knopf.zweit { background: transparent; color: var(--tinte); border-color: var(--messing); }
-.knopf.zweit:hover { background: var(--papier); border-color: var(--tinte); }
-.dunkel .knopf { background: var(--elfenbein); color: var(--tinte); border-color: var(--elfenbein); }
-.dunkel .knopf:hover { background: var(--pergament); }
-.knopf svg { width: 1.15em; height: 1.15em; flex: none; }
+/* Knöpfe: ein Hauptknopf (Siegelrot), ein Nebenknopf (Rahmen) */
 .knoepfe { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+.knopf {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; min-height: 3.25rem;
+  padding: 0.8rem 1.6rem; border: 1px solid var(--rot); border-radius: 999px;
+  background: var(--rot); color: var(--weiss); font: 500 1.02rem/1.2 var(--sans); letter-spacing: 0.01em;
+  text-decoration: none; transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s var(--sanft);
+}
+.knopf:hover { background: var(--rot-hover); border-color: var(--rot-hover); transform: translateY(-1px); }
+.knopf svg { width: 1.15rem; height: 1.15rem; flex: none; }
+.knopf.rahmen { background: transparent; color: var(--tinte); border-color: var(--tinte); }
+.knopf.rahmen:hover { background: var(--tinte); color: var(--weiss); }
+.dunkel .knopf { color: var(--weiss); }
+.dunkel .knopf.rahmen, .kopf .knopf.rahmen { color: var(--hell); border-color: rgba(201, 163, 91, 0.7); }
+.dunkel .knopf.rahmen:hover, .kopf .knopf.rahmen:hover { background: var(--gold); border-color: var(--gold); color: var(--tinte); }
 
-/* Listen mit feinem Messingstrich */
+/* Textlink mit Goldstrich */
+.weiter { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500; color: var(--tinte); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 0.15rem; }
+.weiter:hover { border-bottom-color: var(--tinte); }
+.dunkel .weiter { color: var(--hell); }
+.dunkel .weiter:hover { border-bottom-color: var(--hell); }
+
+/* Liste mit feinem Goldstrich */
 .strichliste { list-style: none; padding: 0; }
-.strichliste li { position: relative; padding-left: 1.6rem; margin-bottom: 0.55rem; max-width: var(--mass); }
-.strichliste li::before {
-  content: ""; position: absolute; left: 0; top: 0.85em; width: 0.9rem; height: 1px; background: var(--messing);
-}
-.dunkel .strichliste li::before { background: var(--messing-hell); }
+.strichliste li { position: relative; padding: 0.55rem 0 0.55rem 1.75rem; border-bottom: 1px solid var(--linie); }
+.strichliste li:last-child { border-bottom: 0; }
+.strichliste li::before { content: ""; position: absolute; left: 0; top: 1.35em; width: 1rem; height: 1px; background: var(--gold); }
+.dunkel .strichliste li { border-bottom-color: var(--tinte-3); }
 
-/* Platzhalter: nur in der Vorschau sichtbar (Komponente Platzhalter.astro) – bewusst rot, damit sie auffallen */
-.platzhalter {
-  max-width: var(--mass);
-  border: 2px dashed #9b2335; border-radius: var(--ecke);
-  background: #fbf0f0; color: #5b1520;
-  padding: 0.8rem 1rem; margin: 0 0 1.25rem; font-size: 0.95rem; line-height: 1.55;
-}
-.platzhalter strong { color: #9b2335; }
+/* Zweispaltiges Raster: Überschrift links, Inhalt rechts */
+.raster-2 { display: grid; gap: 1.5rem 4rem; }
+@media (min-width: 56rem) { .raster-2 { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+
+/* Platzhalter (nur Vorschau) und Pflicht-Lücken */
+.platzhalter { margin: 1.5rem 0 0; padding: 0.85rem 1rem; border: 2px dashed #9b2335; background: #fbf0f0; color: #5b1520; font-size: 0.95rem; line-height: 1.5; max-width: 46rem; }
+.platzhalter strong { color: #9b2335; font-weight: 600; }
 .luecke { background: #fbf0f0; color: #5b1520; border-bottom: 2px dashed #9b2335; padding: 0 0.2em; }
+.unbestaetigt { text-decoration: underline dashed #c4485a; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
 
-/* Zweispaltig: Überschrift links, Text rechts (wie Randvermerk in einer Akte) */
-.rand-raster { display: grid; gap: 1.25rem 4rem; }
-@media (min-width: 60rem) {
-  .rand-raster { grid-template-columns: minmax(14rem, 21rem) 1fr; }
-  .rand-raster > h2 { position: sticky; top: 7.5rem; align-self: start; }
-}
-
-/* Häufige Fragen (details/summary, funktioniert ohne JavaScript) */
-.fragen { border-top: 1px solid var(--linie); max-width: 50rem; }
-.fragen details { border-bottom: 1px solid var(--linie); }
-.fragen summary {
-  cursor: pointer; list-style: none;
-  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1.5rem;
-  min-height: 3.5rem; padding: 1.35rem 0;
-  font: 400 clamp(1.3rem, 2.3vw, 1.55rem)/1.3 var(--caslon); color: var(--tinte);
-}
-.fragen summary::-webkit-details-marker { display: none; }
-.fragen summary .zeichen { position: relative; width: 1.1rem; height: 1.1rem; }
-.fragen summary .zeichen::before, .fragen summary .zeichen::after {
-  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--messing);
-  transition: transform 0.35s var(--sanft);
-}
-.fragen summary .zeichen::after { transform: rotate(90deg); }
-.fragen details[open] summary .zeichen::after { transform: rotate(0deg); }
-.fragen summary:hover { color: var(--nacht); }
-.fragen .antwort { padding: 0 0 1.6rem; max-width: 44rem; }
-.fragen .antwort p:last-child { margin-bottom: 0; }
-@media (prefers-reduced-motion: no-preference) {
-  .fragen details::details-content { height: 0; overflow: clip; transition: height 0.4s var(--sanft), content-visibility 0.4s allow-discrete; }
-  .fragen details[open]::details-content { height: auto; }
-}
-
-/* Dezentes Einblenden beim Scrollen – nur wo der Browser es ohne JavaScript kann; sonst sofort sichtbar */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .einblenden { animation: einblenden linear both; animation-timeline: view(); animation-range: entry 5% entry 55%; }
-  }
-}
-@keyframes einblenden { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; }
-}
-
-/* Impressum und Datenschutz */
-.recht .huelle { max-width: 50rem; }
-.recht h2 { font-size: 1.65rem; margin-top: 2.5rem; }
+/* Rechtstexte */
+.recht h2 { font-size: clamp(1.35rem, 2.4vw, 1.7rem); margin-top: 2.5rem; }
 .recht h2:first-child { margin-top: 0; }
-.recht h3 { font-size: 1.3rem; margin-top: 1.5rem; }
-.recht .hinweis { border-left: 1px solid var(--messing); padding-left: 1.25rem; margin-bottom: 1.25rem; }
+.recht p, .recht li { max-width: 46rem; }
+.recht .hinweis { padding: 1rem 1.2rem; border-left: 2px solid var(--gold); background: var(--weiss); }
+
+/* ---------- Animationen ----------
+   Regel (CI): einmal beim ersten Sichtbarwerden, je Szene höchstens 1,5 s, Endbild bleibt stehen.
+   Ohne JavaScript laufen sie einmal beim Laden; mit JavaScript warten sie, bis die Szene im Bild ist (sichtbar.js).
+   „Bewegung reduzieren“: keine Animation, sofort das fertige Bild. */
+.js [data-szene]:not(.an), .js [data-szene]:not(.an) *,
+.js [data-szene]:not(.an)::before, .js [data-szene]:not(.an)::after,
+.js [data-szene]:not(.an) *::before, .js [data-szene]:not(.an) *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@keyframes zeichnen { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes auftauchen { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes einblenden { from { opacity: 0; } to { opacity: 1; } }
+@keyframes aufploppen { 0% { opacity: 0; transform: scale(0.86); } 70% { opacity: 1; transform: scale(1.03); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes stempeln { 0% { opacity: 0; transform: scale(1.6) rotate(-14deg); } 65% { opacity: 1; transform: scale(0.94) rotate(-8deg); } 100% { opacity: 1; transform: scale(1) rotate(-8deg); } }
+@keyframes breiten { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.strich { stroke-dasharray: 1; }

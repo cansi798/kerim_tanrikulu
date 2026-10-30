@@ -1,38 +1,43 @@
 ---
-// Abschluss jeder Seite (Jamils Konzept: „Benötigen Sie Unterstützung?“ + „Jetzt Kontakt aufnehmen“)
+// Abschluss jeder Seite (Jamils Konzept: „Benötigen Sie Unterstützung?“ + „Jetzt Kontakt aufnehmen“).
+// Szene: der Goldfaden läuft einmal über die Breite, die Federspitze setzt den Punkt (1,2 s).
 import Icon from "./Icon.astro";
-import { u, TELEFON, TELEFON_LINK, MAIL, mailLink, ORT } from "../daten";
+import Feder from "./Feder.astro";
+import { u, TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, mailLink, ORT } from "../daten";
+const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
 ---
-<section class="aufruf" aria-labelledby="aufruf-titel">
-  <div class="huelle rahmen einblenden">
+<section class="aufruf dunkel" aria-labelledby="aufruf-titel" data-szene>
+  <span class="faden" aria-hidden="true"></span>
+  <div class="huelle innen">
     <div class="frage">
       <h2 id="aufruf-titel">Benötigen Sie Unterstützung?</h2>
       <p>Sie benötigen eine Übersetzung oder einen Dolmetscher? Nehmen Sie Kontakt auf.</p>
       <a class="knopf" href={u("/kontakt/")}>Jetzt Kontakt aufnehmen</a>
     </div>
     <ul class="wege">
-      <li><a href={TELEFON_LINK}><Icon name="telefon" /><span class="art">Telefon</span><span class="wert">{TELEFON}</span></a></li>
+      <li><a href={TELEFON_LINK}><Icon name="telefon" /><span class="art">Telefon</span><span class:list={["wert", { unbestaetigt: markieren }]}>{TELEFON}</span></a></li>
       <li><a href={mailLink()}><Icon name="mail" /><span class="art">E-Mail</span><span class="wert">{MAIL}</span></a></li>
       <li><span class="ohne"><Icon name="ort" /><span class="art">Standort</span><span class="wert">{ORT}</span></span></li>
     </ul>
+    <div class="zeichen" aria-hidden="true"><Feder /></div>
   </div>
 </section>
 <style>
-  .aufruf { padding-block: clamp(3.5rem, 8vw, 6rem); border-top: 1px solid var(--linie); }
-  .rahmen {
-    display: grid; gap: 2.5rem; align-items: center;
-    padding: clamp(1.75rem, 5vw, 3.5rem); background: var(--papier);
-    border: 1px solid var(--linie); outline: 1px solid var(--linie); outline-offset: -8px;
-  }
-  @media (min-width: 56rem) { .rahmen { grid-template-columns: 1.2fr 1fr; gap: 4rem; } }
-  .frage p { margin-bottom: 1.75rem; }
-  .wege { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--linie); }
+  .aufruf { position: relative; overflow: hidden; padding-block: clamp(4rem, 9vw, 6.5rem); background: var(--tinte-2); }
+  .faden { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--gold); transform-origin: left; animation: breiten 1s var(--sanft) both; }
+  .innen { position: relative; display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 56rem) { .innen { grid-template-columns: 1.2fr 1fr; gap: 5rem; } }
+  .frage h2 { animation: auftauchen 0.7s var(--sanft) 0.15s both; }
+  .frage p { color: var(--hell-leise); font-size: 1.15rem; margin-bottom: 1.75rem; max-width: 30em; }
+  .wege { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--tinte-3); position: relative; z-index: 1; }
   .wege a, .wege .ohne {
-    display: grid; grid-template-columns: auto 1fr; gap: 0 0.9rem; align-items: center;
-    padding: 0.9rem 0; border-bottom: 1px solid var(--linie); color: var(--text); text-decoration: none;
+    display: grid; grid-template-columns: auto 1fr; gap: 0 1rem; align-items: center;
+    padding: 1rem 0; border-bottom: 1px solid var(--tinte-3); text-decoration: none; color: var(--hell);
   }
-  .wege :global(svg) { grid-row: span 2; width: 1.35rem; height: 1.35rem; color: var(--messing); }
-  .art { font-size: 0.88rem; color: var(--text-leise); letter-spacing: 0.03em; }
-  .wert { font: 400 1.35rem/1.3 var(--caslon); color: var(--tinte); overflow-wrap: anywhere; }
-  .wege a:hover .wert { text-decoration: underline; text-decoration-color: var(--messing); text-underline-offset: 0.2em; }
+  .wege :global(svg) { grid-row: span 2; width: 1.4rem; height: 1.4rem; color: var(--gold); }
+  .art { font-size: 0.86rem; color: var(--hell-leise); letter-spacing: 0.02em; }
+  .wert { font: 500 1.3rem/1.3 var(--serif); overflow-wrap: anywhere; }
+  .wege a:hover .wert { color: var(--gold-hell); }
+  .zeichen { position: absolute; right: -2rem; bottom: -5rem; width: 16rem; opacity: 0.08; pointer-events: none; color: var(--hell); }
+  @media (max-width: 55.99rem) { .zeichen { display: none; } }
 </style>

@@ -10,7 +10,9 @@ const schema = [{
 }];
 ---
 <Basis titel="Häufige Fragen" beschreibung="Antworten zu beglaubigten Übersetzungen und Dolmetschen Türkisch und Deutsch: was eine beglaubigte Übersetzung ist, welche Dokumente übersetzt werden, Honorar nach JVEG, Anfrage." schema={schema}>
-  <SeitenKopf titel="Häufige Fragen" />
+  <SeitenKopf titel="Häufige Fragen">
+    <p class="lead">Kurze Antworten zu beglaubigten Übersetzungen, zum Dolmetschen und zu Ihrer Anfrage.</p>
+  </SeitenKopf>
   <section class="abschnitt" aria-label="Fragen und Antworten">
     <div class="huelle">
       <div class="fragen">
@@ -26,5 +28,21 @@ const schema = [{
   </section>
 </Basis>
 <style>
-  .fragen { margin-bottom: 2rem; }
+  .fragen { max-width: 52rem; margin-bottom: 2rem; border-top: 1px solid var(--linie); }
+  details { border-bottom: 1px solid var(--linie); }
+  summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.4rem 0; cursor: pointer; list-style: none;
+    font: 500 clamp(1.2rem, 2vw, 1.45rem)/1.35 var(--serif); color: var(--tinte);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--gold-dunkel); }
+  .zeichen { position: relative; flex: none; width: 2.25rem; height: 2.25rem; border: 1px solid var(--gold); border-radius: 50%; }
+  .zeichen::before, .zeichen::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.85rem; height: 1px; background: var(--tinte); transform: translate(-50%, -50%); transition: transform 0.3s var(--sanft); }
+  .zeichen::after { transform: translate(-50%, -50%) rotate(90deg); }
+  details[open] .zeichen::after { transform: translate(-50%, -50%) rotate(0deg); }
+  details[open] .zeichen { background: var(--tinte); }
+  details[open] .zeichen::before, details[open] .zeichen::after { background: var(--gold); }
+  .antwort { padding: 0 3.5rem 1.5rem 0; color: var(--text); }
+  .antwort p { max-width: 42em; }
+  @media (prefers-reduced-motion: no-preference) { details[open] .antwort { animation: auftauchen 0.35s var(--sanft) both; } }
 </style>
