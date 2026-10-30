@@ -2,6 +2,14 @@
    Tinte als Bühne, Gold als Faden, Siegelrot als Beglaubigung, Bütten als Lesefläche.
    Schriften: Bodoni Moda (Überschriften, Logo) und Hanken Grotesk (Text), beide selbst gehostet. */
 
+/* Bodoni Moda zeichnet Bindestrich und Halbgeviertstrich bei großer optischer Größe als Haarlinie (fast unsichtbar,
+   z. B. „Schleswig-Holstein“). Nur diese Zeichen kommen aus dem statischen Schnitt (OFL, fontsource @fontsource/bodoni-moda 5.3.0). */
+@font-face {
+  font-family: "Bodoni Strich"; font-style: normal; font-weight: 400 900; font-display: swap;
+  src: url("./schriften/bodoni-strich.woff2") format("woff2");
+  unicode-range: U+002D, U+2010-2011, U+2013;
+}
+
 :root {
   --tinte: #1e1a23;
   --tinte-2: #29232f;
@@ -20,7 +28,7 @@
   --hell-leise: #bdb3ae;
   --linie: #e4dbd0;
 
-  --serif: "Bodoni Moda Variable", "Bodoni 72", "Didot", Georgia, serif;
+  --serif: "Bodoni Strich", "Bodoni Moda Variable", "Bodoni 72", "Didot", Georgia, serif;
   --sans: "Hanken Grotesk Variable", "Segoe UI", system-ui, sans-serif;
 
   --breite: 76rem;
