@@ -1,0 +1,57 @@
+---
+import Basis from "../layouts/Basis.astro";
+import Nachweise from "../components/Nachweise.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Platzhalter from "../components/Platzhalter.astro";
+import { ERFAHRUNGEN, VORSCHAU } from "../daten";
+---
+<Basis titel="Über mich" beschreibung="Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische und deutsche Sprache durch das Oberlandesgericht Schleswig seit Mai 2021.">
+  <SeitenKopf titel="Über mich" />
+
+  <section class="abschnitt" aria-label="Vorstellung">
+    <div class="huelle vorstellung">
+      {VORSCHAU && (
+        <figure class="portrait" aria-label="Platzhalter für ein Portraitfoto">
+          <span>Portraitfoto folgt</span>
+        </figure>
+      )}
+      <div>
+        <!-- Text sinngemäß bzw. wörtlich von der bisherigen Jimdo-Seite -->
+        <p class="lead">Ich bin Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische und deutsche Sprache durch das Oberlandesgericht Schleswig seit Mai 2021.</p>
+        <p>Meine Begeisterung für das Übersetzen habe ich bei einem Studienaufenthalt in der Türkei entdeckt. Seither bereitet es mir immer große Freude, wenn ich zu einem gelungenen Gespräch und zu gegenseitiger Verständigung beitragen kann.</p>
+        <p class="bruecke">Ich verstehe meine Arbeit als eine Form von Brückenbildung zwischen den Kulturen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt blatt-grund" aria-labelledby="vertrauen-titel">
+    <div class="huelle rand-raster">
+      <h2 id="vertrauen-titel">Warum Sie mir Ihre Unterlagen anvertrauen können</h2>
+      <div>
+        <Nachweise />
+        <Platzhalter>Ein Satz zum Umgang mit Unterlagen (Vertraulichkeit, Aufbewahrung, Rückgabe) bitte vom Kunden formulieren lassen.</Platzhalter>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="erfahrung-titel">
+    <div class="huelle rand-raster">
+      <h2 id="erfahrung-titel">Bisherige Erfahrungen</h2>
+      <div>
+        <p>Zu meinen bisherigen Erfahrungen gehört unter anderem die Arbeit mit:</p>
+        <ul class="strichliste">
+          {ERFAHRUNGEN.map((e) => <li>{e}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Basis>
+<style>
+  .vorstellung { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 52rem) { .vorstellung { grid-template-columns: 16rem 1fr; gap: 3.5rem; } }
+  .portrait {
+    margin: 0; aspect-ratio: 4 / 5; max-width: 16rem; display: grid; place-items: center;
+    border: 2px dashed var(--kordel); border-radius: var(--radius); background: #fbf3f4; color: #5b1520; font-weight: 700;
+  }
+  .bruecke { font: italic 500 clamp(1.5rem, 3vw, 1.9rem)/1.3 var(--serif); color: var(--tinte); border-left: 3px solid var(--kordel); padding-left: 1.1rem; max-width: 36ch; }
+</style>

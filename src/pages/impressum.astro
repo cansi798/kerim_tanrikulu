@@ -1,0 +1,33 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Luecke from "../components/Luecke.astro";
+import { NAME, TELEFON, MAIL, GERICHT } from "../daten";
+// Struktur nach § 5 DDG. Markierte Lücken liefert der Kunde (OFFENE-INFOS.md). Anschrift NICHT aus dem Justiz-Verzeichnis übernehmen.
+---
+<Basis titel="Impressum" beschreibung="Impressum der Website von Kerim Mikael Tanrikulu." aufruf={false}>
+  <SeitenKopf titel="Impressum" />
+  <section class="abschnitt recht">
+    <div class="huelle">
+      <h2>Angaben gemäß § 5 DDG</h2>
+      <p>{NAME}<br /><Luecke>Straße und Hausnummer</Luecke><br /><Luecke>PLZ und Ort</Luecke></p>
+
+      <h2>Kontakt</h2>
+      <p>Telefon: {TELEFON} <Luecke>bitte bestätigen</Luecke><br />E-Mail: <a href={`mailto:${MAIL}`}>{MAIL}</a></p>
+
+      <h2>Berufsrechtliche Angaben</h2>
+      <p>Berufsbezeichnung: allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische Sprache <Luecke>Wortlaut laut Urkunde bestätigen</Luecke><br />
+      Beeidigt und ermächtigt durch: {GERICHT} <Luecke>genaue Bezeichnung und Anschrift laut Urkunde</Luecke><br />
+      Verliehen in: Bundesrepublik Deutschland<br />
+      Rechtsgrundlage: <Luecke>Landesgesetz laut Urkunde</Luecke></p>
+
+      <h2>Umsatzsteuer-ID</h2>
+      <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: <Luecke>falls vorhanden, sonst Abschnitt streichen</Luecke></p>
+
+      <h2>Verbraucherstreitbeilegung</h2>
+      <p><Luecke>Entscheidung des Kunden: Teilnahme an Streitbeilegungsverfahren ja oder nein (§ 36 VSBG), sonst Abschnitt streichen</Luecke></p>
+
+      <p class="leise">Stand: <Luecke>Datum beim Livegang</Luecke></p>
+    </div>
+  </section>
+</Basis>

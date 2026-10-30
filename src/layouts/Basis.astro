@@ -1,0 +1,91 @@
+---
+import "../styles/global.css";
+import Kopf from "../components/Kopf.astro";
+import Fuss from "../components/Fuss.astro";
+import Aufruf from "../components/Aufruf.astro";
+import {
+  VORSCHAU, NAME, MARKE, BESCHREIBUNG, MAIL, TELEFON, TELEFON_BESTAETIGT, ORT, GERICHT, u,
+} from "../daten";
+
+interface Props {
+  titel?: string;
+  beschreibung?: string;
+  schema?: Record<string, unknown>[];
+  /** Abschluss-Aufruf „Benötigen Sie Unterstützung?“ (aus auf Kontakt, Impressum, Datenschutz) */
+  aufruf?: boolean;
+}
+const { titel, beschreibung = BESCHREIBUNG, schema = [], aufruf = true } = Astro.props;
+const voll = titel
+  ? `${titel} | ${NAME}`
+  : `Beglaubigte Übersetzungen und Dolmetschen Deutsch Türkisch in Hamburg | ${NAME}`;
+const kanon = new URL(Astro.url.pathname, Astro.site);
+const start = new URL(u("/"), Astro.site).href;
+
+// Strukturierte Daten: nur belegte Angaben (Jimdo-Seite, Jamils Konzept). Telefon erst nach Bestätigung.
+const person: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${start}#person`,
+  name: NAME,
+  url: start,
+  jobTitle: ["Allgemein beeidigter Dolmetscher", "Ermächtigter Übersetzer"],
+  knowsLanguage: ["de", "tr"],
+  email: `mailto:${MAIL}`,
+  address: { "@type": "PostalAddress", addressLocality: ORT, addressCountry: "DE" },
+  hasCredential: [
+    { "@type": "EducationalOccupationalCredential", name: "Allgemeine Beeidigung als Dolmetscher (Türkisch)", recognizedBy: { "@type": "GovernmentOrganization", name: GERICHT }, dateCreated: "2021-05" },
+    { "@type": "EducationalOccupationalCredential", name: "Ermächtigung als Übersetzer (Türkisch)", recognizedBy: { "@type": "GovernmentOrganization", name: GERICHT }, dateCreated: "2021-05" },
+  ],
+};
+if (TELEFON_BESTAETIGT) person.telephone = TELEFON;
+const jsonLd = [
+  person,
+  { "@context": "https://schema.org", "@type": "WebSite", "@id": `${start}#website`, url: start, name: MARKE, inLanguage: "de-DE", publisher: { "@id": `${start}#person` } },
+  ...schema,
+];
+// „<“ maskieren, damit kein Text das Skript-Element beenden kann
+const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>{voll}</title>
+    <meta name="description" content={beschreibung} />
+    {VORSCHAU && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={kanon} />
+    <meta name="theme-color" content="#1c2b4b" />
+    <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={MARKE} />
+    <meta property="og:title" content={voll} />
+    <meta property="og:description" content={beschreibung} />
+    <meta property="og:url" content={kanon} />
+    <link rel="sitemap" href={u("/sitemap.xml")} />
+    {jsonLd.map((o) => <script type="application/ld+json" set:html={ld(o)} />)}
+  </head>
+  <body>
+    <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+    {VORSCHAU && (
+      <div class="vorschau" role="note">
+        <div class="huelle">
+          <strong>Vorschau.</strong> Diese Seite ist noch nicht veröffentlicht und für Suchmaschinen gesperrt. Rot gestrichelte Stellen sind Platzhalter, das Logo ist ein Nachbau.
+        </div>
+      </div>
+    )}
+    <Kopf />
+    <main id="inhalt">
+      <slot />
+      {aufruf && <Aufruf />}
+    </main>
+    <Fuss />
+  </body>
+</html>
+<style>
+  .vorschau { background: #fbf3f4; color: #5b1520; border-bottom: 2px dashed var(--kordel); font-size: 0.92rem; padding-block: 0.55rem; }
+  .vorschau strong { color: var(--kordel); }
+</style>

@@ -1,0 +1,42 @@
+---
+// Zeichnung im Hero: Original (Türkçe) und Übersetzung (Deutsch), verbunden durch die Kordel –
+// so werden beglaubigte Übersetzungen mit der Vorlage verbunden. Zugleich Kerims Bild der „Brücke zwischen den Kulturen“.
+// Einzige Bewegung der Seite: die Kordel zeichnet sich einmal (ca. 1,6 s); bei reduzierter Bewegung sofort das Endbild.
+const zeilenVorn = [180, 214, 196, 150, 206, 188, 120, 0, 200, 176, 210, 96];
+const zeilenHinten = [78, 64, 82, 70, 58, 80, 74, 66, 50];
+---
+<svg class="blatt" viewBox="0 -14 460 420" aria-hidden="true" focusable="false">
+  <!-- hinteres Blatt: Original -->
+  <g transform="rotate(3 290 190)">
+    <rect class="papier" x="160" y="18" width="262" height="336" rx="3" />
+    <text class="sprache" x="330" y="86" lang="tr">Türkçe</text>
+    {zeilenHinten.map((b, i) => <rect class="zeile" x="330" y={110 + i * 22} width={b} height="6" rx="3" />)}
+  </g>
+  <!-- vorderes Blatt: Übersetzung -->
+  <rect class="schatten" x="46" y="58" width="262" height="336" rx="3" />
+  <rect class="papier" x="40" y="50" width="262" height="336" rx="3" />
+  <text class="sprache" x="66" y="100">Deutsch</text>
+  {zeilenVorn.map((b, i) => b > 0 && <rect class="zeile" x="66" y={128 + i * 20} width={b} height="6" rx="3" />)}
+  <rect class="vermerk" x="66" y="350" width="120" height="1.5" />
+  <!-- Kordel -->
+  <path class="kordel" pathLength="1" d="M168 92 C 196 8, 286 -6, 322 70" />
+  <circle class="oese a" cx="168" cy="92" r="5" />
+  <circle class="oese b" cx="322" cy="70" r="5" />
+</svg>
+<style>
+  .blatt { width: 100%; height: auto; overflow: visible; }
+  .papier { fill: #fff; stroke: var(--linie); stroke-width: 1.5; }
+  .schatten { fill: #d9e0ea; }
+  .zeile { fill: #d3dbe6; }
+  .vermerk { fill: var(--tinte); opacity: 0.6; }
+  .sprache { font-family: var(--serif); font-weight: 600; font-size: 27px; fill: var(--tinte); }
+  .kordel { fill: none; stroke: var(--kordel); stroke-width: 3; stroke-linecap: round; }
+  .oese { fill: var(--kordel); }
+  @media (prefers-reduced-motion: no-preference) {
+    .kordel { stroke-dasharray: 1; stroke-dashoffset: 1; animation: zeichnen 1.6s cubic-bezier(.55,.1,.3,1) 0.35s both; }
+    .oese.a { animation: auf 0.3s ease 0.3s both; }
+    .oese.b { animation: auf 0.3s ease 1.85s both; }
+  }
+  @keyframes zeichnen { to { stroke-dashoffset: 0; } }
+  @keyframes auf { from { opacity: 0; } to { opacity: 1; } }
+</style>

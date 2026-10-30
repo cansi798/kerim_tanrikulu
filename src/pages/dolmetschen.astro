@@ -1,0 +1,51 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Platzhalter from "../components/Platzhalter.astro";
+import { ERFAHRUNGEN, HONORAR, GERICHT, SEIT } from "../daten";
+---
+<Basis titel="Dolmetscher Türkisch Deutsch" beschreibung="Allgemein beeidigter Dolmetscher für Türkisch und Deutsch: Kerim Mikael Tanrikulu, beeidigt durch das Oberlandesgericht Schleswig seit Mai 2021. Sprachmittlung bei Terminen und Gesprächen.">
+  <SeitenKopf titel="Dolmetschen">
+    <p class="lead">Bei Terminen und Gesprächen übertrage ich mündlich zwischen Deutsch und Türkisch, damit sich beide Seiten verstehen.</p>
+  </SeitenKopf>
+
+  <section class="abschnitt" aria-labelledby="beeidigt-titel">
+    <div class="huelle rand-raster">
+      <h2 id="beeidigt-titel">Allgemein beeidigt</h2>
+      <div>
+        <p>Ich bin seit {SEIT} durch das {GERICHT} als Dolmetscher für die türkische und deutsche Sprache allgemein beeidigt.</p>
+        <p>Es bereitet mir immer große Freude, wenn ich zu einem gelungenen Gespräch und zu gegenseitiger Verständigung beitragen kann.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt blatt-grund" aria-labelledby="erfahrung-titel">
+    <div class="huelle rand-raster">
+      <h2 id="erfahrung-titel">Bisherige Erfahrungen</h2>
+      <div>
+        <p>Zu meinen bisherigen Erfahrungen gehört unter anderem die Arbeit mit:</p>
+        <ul class="strichliste">
+          {ERFAHRUNGEN.map((e) => <li>{e}</li>)}
+        </ul>
+        <Platzhalter>Typische Einsätze und Einsatzgebiet bitte vom Kunden bestätigen (z. B. Gericht, Behörde, Notar, Standesamt, Schule, Arzt; nur Hamburg oder auch Schleswig-Holstein?).</Platzhalter>
+        <Platzhalter>Dolmetschen für Unternehmen (z. B. Gespräche mit Geschäftspartnern): bitte bestätigen, ob angeboten.</Platzhalter>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="anfrage-titel">
+    <div class="huelle rand-raster">
+      <h2 id="anfrage-titel">Was ich für Ihre Anfrage brauche</h2>
+      <div>
+        <p>Damit ich Ihre Anfrage einschätzen kann, schreiben Sie mir bitte:</p>
+        <ul class="strichliste">
+          <li>Datum und Uhrzeit des Termins</li>
+          <li>den Ort</li>
+          <li>um welche Art von Termin es geht</li>
+          <li>wie lange er ungefähr dauert</li>
+        </ul>
+        <p>{HONORAR}</p>
+      </div>
+    </div>
+  </section>
+</Basis>

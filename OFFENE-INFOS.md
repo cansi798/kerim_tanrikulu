@@ -1,0 +1,32 @@
+# Offene Infos – das brauchen wir vom Kunden
+
+Stand: 30.10.2026. In der Vorschau sind diese Stellen rot gestrichelt markiert.
+
+## Vor dem Livegang nötig
+
+1. **Telefonnummer bestätigen:** 0177 4207 664 wurde aus einem kleinen Bild der alten Seite gelesen. Bis zur Bestätigung steht sie nicht in den strukturierten Daten und nicht in `llms.txt`.
+2. **Anschrift fürs Impressum** (Straße, Hausnummer, PLZ, Ort; geschäftlich oder privat).
+3. **Standort Hamburg bestätigen** und Einsatzgebiet fürs Dolmetschen (nur Hamburg oder auch Schleswig-Holstein?).
+4. **Urkunde(n) zu Beeidigung und Ermächtigung:** genauer Wortlaut der Berufsbezeichnung, genaue Bezeichnung und Anschrift des Gerichts, Rechtsgrundlage (Landesgesetz). Bestätigung, dass beides aktuell gültig ist.
+5. **Umsatzsteuer-ID** (falls vorhanden) und Entscheidung zur Verbraucherstreitbeilegung (§ 36 VSBG).
+6. **Hoster der fertigen Seite** und Vertrag zur Auftragsverarbeitung; **E-Mail-Anbieter** bestätigen (WEB.DE?).
+7. **Sicherer Weg für Dokumente:** Wie sollen Kunden Urkunden, Ausweise oder medizinische Unterlagen schicken (z. B. verschlüsselter Upload statt E-Mail)? Wie lange werden Dokumente aufbewahrt, wann gelöscht oder zurückgegeben?
+8. **Domain dolmetscher-kt.de:** Zugang zum Domain-Anbieter, damit die Seite dort erreichbar wird.
+
+## Für bessere Inhalte
+
+9. **Original-Logo** als Datei (SVG oder PDF). Das Logo auf der Vorschau ist ein Nachbau.
+10. **Portraitfoto** (Jamils Konzept sieht ein echtes Foto vor, auf „Über mich“ und ggf. im Hero).
+11. **Ablauf einer Übersetzung bestätigen:** Dokument senden, Anfrage prüfen, Rückmeldung erhalten. Stimmt das so?
+12. **Wortlaut zur Beglaubigung bestätigen:** „Als ermächtigter Übersetzer kann ich schriftlich bestätigen, dass meine Übersetzung richtig und vollständig ist.“
+13. **Typische Dolmetsch-Einsätze:** wo genau (Gericht, Behörde, Notar, Standesamt, Schule, Arzt …)?
+14. **Unternehmen als Zielgruppe:** Übernimmt er auch Aufträge von Firmen (Geschäftskorrespondenz, Gespräche mit Geschäftspartnern)?
+15. **Ein Satz zum Umgang mit Unterlagen** (Vertraulichkeit, Aufbewahrung) für „Über mich“.
+16. **Weitere häufige Fragen** mit seinen Antworten.
+17. **Eintrag im Justiz-Verzeichnis:** Darf die Seite darauf verweisen?
+18. **Google-Unternehmensprofil:** vorhanden? Sonst anlegen, mit denselben Kontaktdaten wie auf der Website.
+19. **Türkische Fassung der Website** gewünscht? (Dann auch Impressum und Datenschutz auf Türkisch.)
+
+## Bewusst nicht auf der Seite
+
+Keine Preise, Bearbeitungszeiten, Referenzen, Kundenstimmen oder Zahlen, solange nichts davon belegt ist. Kein Kontaktformular mit Fremddienst; Kontakt per Telefon und E-Mail.

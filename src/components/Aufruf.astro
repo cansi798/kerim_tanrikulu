@@ -1,0 +1,32 @@
+---
+// Abschluss jeder Seite (Jamils Konzept: „Benötigen Sie Unterstützung?“ + „Jetzt Kontakt aufnehmen“)
+import Icon from "./Icon.astro";
+import { u, TELEFON, TELEFON_LINK, MAIL, mailLink } from "../daten";
+---
+<section class="aufruf dunkel" aria-labelledby="aufruf-titel">
+  <div class="huelle innen">
+    <div>
+      <h2 id="aufruf-titel">Benötigen Sie Unterstützung?</h2>
+      <p>Sie benötigen eine Übersetzung oder einen Dolmetscher? Nehmen Sie Kontakt auf.</p>
+      <a class="knopf" href={u("/kontakt/")}>Jetzt Kontakt aufnehmen</a>
+    </div>
+    <ul class="wege">
+      <li><a href={TELEFON_LINK}><Icon name="telefon" /><span>{TELEFON}</span></a></li>
+      <li><a href={mailLink()}><Icon name="mail" /><span>{MAIL}</span></a></li>
+    </ul>
+  </div>
+</section>
+<style>
+  .aufruf { background: var(--tinte); color: #e6ebf3; padding-block: clamp(3rem, 7vw, 5rem); }
+  .aufruf h2 { color: #fff; }
+  .innen { display: grid; gap: 2rem; align-items: end; }
+  @media (min-width: 52rem) { .innen { grid-template-columns: 1.4fr 1fr; } }
+  .wege { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+  .wege a {
+    display: flex; align-items: center; gap: 0.75rem; min-height: 3rem;
+    color: #fff; text-decoration: none; font-size: 1.1rem; overflow-wrap: anywhere;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25); padding-block: 0.5rem;
+  }
+  .wege a:hover span { text-decoration: underline; text-underline-offset: 0.2em; }
+  .wege :global(svg) { flex: none; }
+</style>

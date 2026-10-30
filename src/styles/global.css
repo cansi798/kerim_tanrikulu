@@ -1,0 +1,169 @@
+/* Schriften lokal (fontsource), nur Latein + Latein-erweitert (ç, ş, ğ, ı, İ) */
+@import "@fontsource/cormorant-garamond/latin-600.css";
+@import "@fontsource/cormorant-garamond/latin-ext-600.css";
+@import "@fontsource/cormorant-garamond/latin-500-italic.css";
+@import "@fontsource/cormorant-garamond/latin-ext-500-italic.css";
+@import "@fontsource/atkinson-hyperlegible-next/latin-400.css";
+@import "@fontsource/atkinson-hyperlegible-next/latin-ext-400.css";
+@import "@fontsource/atkinson-hyperlegible-next/latin-700.css";
+@import "@fontsource/atkinson-hyperlegible-next/latin-ext-700.css";
+
+/* Farben: Tinte (Logo-Navy), Papier, Löschblatt, Kordel (die Schnur, mit der Original und Übersetzung verbunden werden) */
+:root {
+  --tinte: #1c2b4b;
+  --tinte-tief: #131e37;
+  --papier: #ffffff;
+  --loeschblatt: #edf1f6;
+  --linie: #c3cddb;
+  --text: #2b3446;
+  --text-leise: #4f5a6e;
+  --kordel: #9b2335;
+
+  --serif: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: "Atkinson Hyperlegible Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --mass: 66ch;
+  --breit: 72rem;
+  --rand: clamp(1rem, 4vw, 2.5rem);
+  --abschnitt: clamp(3.5rem, 8vw, 6.5rem);
+  --radius: 4px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 6rem; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+}
+@media (min-width: 48rem) { body { font-size: 1.125rem; } }
+
+img, svg { display: block; max-width: 100%; }
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  color: var(--tinte);
+  line-height: 1.12;
+  margin: 0 0 0.6em;
+  text-wrap: balance;
+  hyphens: manual;
+}
+h1 { font-size: clamp(2.2rem, 5.6vw, 3.75rem); letter-spacing: -0.005em; }
+h2 { font-size: clamp(1.85rem, 3.8vw, 2.6rem); }
+h3 { font-size: clamp(1.4rem, 2.4vw, 1.7rem); line-height: 1.2; }
+@media (max-width: 30rem) { h1, h2 { hyphens: auto; } }
+p, ul, ol, dl { margin: 0 0 1.1em; }
+p { max-width: var(--mass); text-wrap: pretty; }
+
+a { color: var(--tinte); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--tinte); outline-offset: 3px; border-radius: 2px; }
+.dunkel :focus-visible { outline-color: #fff; }
+
+.skip {
+  position: absolute; left: 1rem; top: -4rem; z-index: 100;
+  background: var(--tinte); color: #fff; padding: 0.7rem 1rem; border-radius: var(--radius);
+}
+.skip:focus { top: 1rem; }
+
+.huelle { width: min(100% - 2 * var(--rand), var(--breit)); margin-inline: auto; }
+.abschnitt { padding-block: var(--abschnitt); }
+.abschnitt.blatt-grund { background: var(--loeschblatt); }
+.lead { font-size: 1.15em; color: var(--text); }
+.leise { color: var(--text-leise); }
+
+/* Knöpfe */
+.knopf {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  min-height: 3rem; padding: 0.7rem 1.4rem;
+  font: 700 1rem/1.2 var(--sans);
+  border-radius: var(--radius); border: 2px solid var(--tinte);
+  background: var(--tinte); color: #fff; text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.knopf:hover { background: var(--tinte-tief); }
+.knopf.zweit { background: transparent; color: var(--tinte); }
+.knopf.zweit:hover { background: var(--loeschblatt); }
+.dunkel .knopf { background: #fff; color: var(--tinte); border-color: #fff; }
+.dunkel .knopf:hover { background: var(--loeschblatt); }
+.knopf svg { width: 1.15em; height: 1.15em; flex: none; }
+.knoepfe { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+/* Listen mit Kordel-Strich statt Punkt */
+.strichliste { list-style: none; padding: 0; }
+.strichliste li { position: relative; padding-left: 1.4rem; margin-bottom: 0.45rem; max-width: var(--mass); }
+.strichliste li::before {
+  content: ""; position: absolute; left: 0; top: 0.8em; width: 0.75rem; height: 2px; background: var(--kordel);
+}
+
+/* Platzhalter: nur in der Vorschau sichtbar (Komponente Platzhalter.astro) */
+.platzhalter {
+  max-width: var(--mass);
+  border: 2px dashed var(--kordel); border-radius: var(--radius);
+  background: #fbf3f4; color: #5b1520;
+  padding: 0.8rem 1rem; margin: 0 0 1.25rem; font-size: 0.95rem;
+}
+.platzhalter strong { color: var(--kordel); }
+.luecke { background: #fbf3f4; color: #5b1520; border-bottom: 2px dashed var(--kordel); padding: 0 0.2em; }
+
+/* Seitenkopf der Unterseiten */
+.seitenkopf { padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 2.5rem); border-bottom: 1px solid var(--linie); }
+.seitenkopf h1 { max-width: 20ch; }
+.seitenkopf .lead { margin-bottom: 0; }
+
+/* Zweispaltig mit Randspalte (wie ein Blatt mit Randnotiz) */
+.rand-raster { display: grid; gap: 1.5rem 3rem; }
+@media (min-width: 60rem) {
+  .rand-raster { grid-template-columns: minmax(15rem, 22rem) 1fr; }
+  .rand-raster > h2 { position: sticky; top: 7rem; align-self: start; }
+}
+
+/* Schrittfolge (echte Reihenfolge, daher nummeriert) */
+.schritte { list-style: none; padding: 0; counter-reset: schritt; display: grid; gap: 1.25rem; }
+.schritte > li { counter-increment: schritt; display: grid; grid-template-columns: 2.75rem 1fr; gap: 0 1rem; }
+.schritte > li::before {
+  content: counter(schritt);
+  grid-row: span 2;
+  width: 2.75rem; height: 2.75rem; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 2px solid var(--tinte); color: var(--tinte);
+  font: 600 1.35rem/1 var(--serif);
+}
+.schritte h3 { margin: 0.35rem 0 0.25rem; font-size: 1.35rem; }
+.schritte p { margin: 0; }
+
+/* Häufige Fragen (details/summary, funktioniert ohne JavaScript) */
+.fragen { border-top: 1px solid var(--linie); max-width: 48rem; }
+.fragen details { border-bottom: 1px solid var(--linie); }
+.fragen summary {
+  cursor: pointer; list-style: none;
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  min-height: 3.25rem; padding: 1rem 0;
+  font: 600 clamp(1.3rem, 2.4vw, 1.5rem)/1.25 var(--serif); color: var(--tinte);
+}
+.fragen summary::-webkit-details-marker { display: none; }
+.fragen summary::after {
+  content: ""; flex: none; width: 0.7rem; height: 0.7rem;
+  border-right: 2px solid var(--tinte); border-bottom: 2px solid var(--tinte);
+  transform: rotate(45deg) translateY(-25%); transition: transform 0.2s ease;
+}
+.fragen details[open] summary::after { transform: rotate(-135deg); }
+.fragen .antwort { padding: 0 0 1.25rem; }
+.fragen .antwort p:last-child { margin-bottom: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* Impressum und Datenschutz */
+.recht h2 { font-size: 1.6rem; margin-top: 2.25rem; }
+.recht h2:first-child { margin-top: 0; }
+.recht h3 { font-size: 1.3rem; margin-top: 1.5rem; }
+.recht .hinweis { border-left: 3px solid var(--tinte); padding-left: 1rem; margin-bottom: 1.25rem; }

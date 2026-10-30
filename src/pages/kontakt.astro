@@ -1,0 +1,67 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Platzhalter from "../components/Platzhalter.astro";
+import Icon from "../components/Icon.astro";
+import { TELEFON, TELEFON_LINK, MAIL, mailLink, ORT } from "../daten";
+---
+<Basis titel="Kontakt" beschreibung="Kontakt zu Kerim Mikael Tanrikulu, Dolmetscher und Übersetzer für Türkisch und Deutsch in Hamburg: Telefon und E-Mail." aufruf={false}>
+  <SeitenKopf titel="Kontakt">
+    <p class="lead">Haben Sie Fragen oder möchten Sie eine Übersetzung oder einen Dolmetscher anfragen? Rufen Sie an oder schreiben Sie mir eine E-Mail.</p>
+  </SeitenKopf>
+
+  <section class="abschnitt" aria-label="Kontaktwege">
+    <div class="huelle wege">
+      <a class="weg" href={TELEFON_LINK}>
+        <Icon name="telefon" />
+        <span class="art">Telefon</span>
+        <span class="wert">{TELEFON}</span>
+      </a>
+      <a class="weg" href={mailLink()}>
+        <Icon name="mail" />
+        <span class="art">E-Mail</span>
+        <span class="wert">{MAIL}</span>
+      </a>
+      <div class="weg ohne-link">
+        <Icon name="ort" />
+        <span class="art">Standort</span>
+        <span class="wert">{ORT}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt blatt-grund" aria-labelledby="nachricht-titel">
+    <div class="huelle rand-raster">
+      <h2 id="nachricht-titel">Was in Ihre Nachricht gehört</h2>
+      <div>
+        <h3>Für eine Übersetzung</h3>
+        <ul class="strichliste">
+          <li>um welches Dokument es geht</li>
+          <li>wofür Sie die Übersetzung brauchen, zum Beispiel für eine Behörde oder ein Gericht</li>
+          <li>ob aus dem Türkischen ins Deutsche oder umgekehrt</li>
+        </ul>
+        <h3>Für einen Dolmetscher</h3>
+        <ul class="strichliste">
+          <li>Datum, Uhrzeit und Ort des Termins</li>
+          <li>um welche Art von Termin es geht und wie lange er ungefähr dauert</li>
+        </ul>
+        <p>Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.</p>
+        <Platzhalter>Hinweis zum sicheren Versand von Dokumenten (z. B. verschlüsselter Upload) folgt nach Absprache mit dem Kunden. Bis dahin kein Upload und kein Formular mit Fremddienst.</Platzhalter>
+      </div>
+    </div>
+  </section>
+</Basis>
+<style>
+  .wege { display: grid; gap: 1rem; }
+  @media (min-width: 52rem) { .wege { grid-template-columns: repeat(3, 1fr); } }
+  .weg {
+    display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.9rem; align-items: center;
+    padding: 1.5rem; border: 1px solid var(--linie); border-left: 4px solid var(--tinte); border-radius: var(--radius);
+    color: var(--text); text-decoration: none; min-height: 6rem;
+  }
+  a.weg:hover { border-left-color: var(--kordel); }
+  .weg :global(svg) { grid-row: span 2; width: 1.75rem; height: 1.75rem; color: var(--tinte); }
+  .art { color: var(--text-leise); font-size: 0.95rem; }
+  .wert { font: 600 1.45rem/1.25 var(--serif); color: var(--tinte); overflow-wrap: anywhere; }
+  a.weg .wert { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+</style>

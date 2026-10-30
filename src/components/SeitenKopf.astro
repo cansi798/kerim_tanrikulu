@@ -1,0 +1,10 @@
+---
+interface Props { titel: string }
+const { titel } = Astro.props;
+---
+<header class="seitenkopf">
+  <div class="huelle">
+    <h1>{titel}</h1>
+    <slot />
+  </div>
+</header>

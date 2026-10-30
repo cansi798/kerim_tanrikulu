@@ -1,0 +1,10 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import { u } from "../daten";
+---
+<Basis titel="Seite nicht gefunden">
+  <SeitenKopf titel="Diese Seite gibt es nicht">
+    <p class="lead">Vielleicht hat sich die Adresse geändert. Zur <a href={u("/")}>Startseite</a> oder direkt zum <a href={u("/kontakt/")}>Kontakt</a>.</p>
+  </SeitenKopf>
+</Basis>

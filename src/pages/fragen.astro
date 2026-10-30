@@ -1,0 +1,30 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Platzhalter from "../components/Platzhalter.astro";
+import { FRAGEN } from "../daten";
+const schema = [{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FRAGEN.map((f) => ({ "@type": "Question", name: f.frage, acceptedAnswer: { "@type": "Answer", text: f.antwort.join(" ") } })),
+}];
+---
+<Basis titel="Häufige Fragen" beschreibung="Antworten zu beglaubigten Übersetzungen und Dolmetschen Türkisch und Deutsch: was eine beglaubigte Übersetzung ist, welche Dokumente übersetzt werden, Honorar nach JVEG, Anfrage." schema={schema}>
+  <SeitenKopf titel="Häufige Fragen" />
+  <section class="abschnitt" aria-label="Fragen und Antworten">
+    <div class="huelle">
+      <div class="fragen">
+        {FRAGEN.map((f) => (
+          <details>
+            <summary>{f.frage}</summary>
+            <div class="antwort">{f.antwort.map((a) => <p>{a}</p>)}</div>
+          </details>
+        ))}
+      </div>
+      <Platzhalter>Weitere Fragen nur mit Antworten des Kunden (z. B. sicherer Dokumentversand, Einsatzgebiet, Termine).</Platzhalter>
+    </div>
+  </section>
+</Basis>
+<style>
+  .fragen { margin-bottom: 2rem; }
+</style>

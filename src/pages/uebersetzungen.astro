@@ -1,0 +1,62 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Platzhalter from "../components/Platzhalter.astro";
+import { DOKUMENTE, HONORAR, GERICHT, SEIT, u } from "../daten";
+---
+<Basis titel="Beglaubigte Übersetzungen Türkisch Deutsch" beschreibung="Beglaubigte Übersetzungen Türkisch und Deutsch vom ermächtigten Übersetzer Kerim Mikael Tanrikulu: Gerichtsurteile, Scheidungsurteile, Zeugnisse, Ausweise, medizinische Unterlagen und Urkunden. Honorar nach JVEG.">
+  <SeitenKopf titel="Beglaubigte Übersetzungen">
+    <p class="lead">Ihr Dokument muss bei einer Behörde oder einem Gericht eingereicht werden? Ich übersetze es aus dem Türkischen ins Deutsche oder aus dem Deutschen ins Türkische.</p>
+  </SeitenKopf>
+
+  <section class="abschnitt" aria-labelledby="was-titel">
+    <div class="huelle rand-raster">
+      <h2 id="was-titel">Was eine beglaubigte Übersetzung ist</h2>
+      <div>
+        <p>Ich bin seit {SEIT} durch das {GERICHT} als Übersetzer ermächtigt. Damit kann ich schriftlich bestätigen, dass meine Übersetzung richtig und vollständig ist. Eine solche Übersetzung nennt man beglaubigte Übersetzung.</p>
+        <p>Ob Sie für Ihr Dokument eine beglaubigte Übersetzung brauchen, legt die Stelle fest, bei der Sie es einreichen. Fragen Sie dort im Zweifel nach, welche Form verlangt wird.</p>
+        <Platzhalter>Wortlaut zur Ermächtigung und Beglaubigung bitte vom Kunden bestätigen lassen (z. B. wie der Bestätigungsvermerk aussieht).</Platzhalter>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt blatt-grund" aria-labelledby="dok-titel">
+    <div class="huelle rand-raster">
+      <h2 id="dok-titel">Häufig übersetzte Dokumente</h2>
+      <div>
+        <p>Gerne übersetze ich für Sie Dokumente aller Art, zum Beispiel:</p>
+        <ul class="strichliste gross">
+          {DOKUMENTE.map((d) => <li>{d}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="ablauf-titel">
+    <div class="huelle rand-raster">
+      <h2 id="ablauf-titel">So läuft eine Anfrage ab</h2>
+      <div>
+        <ol class="schritte">
+          <li><h3>Dokument senden</h3><p>Schicken Sie mir das Dokument und schreiben Sie dazu, wofür Sie die Übersetzung brauchen.</p></li>
+          <li><h3>Anfrage prüfen</h3><p>Ich sehe mir das Dokument und Ihre Angaben an.</p></li>
+          <li><h3>Rückmeldung erhalten</h3><p>Sie hören von mir, wie es weitergeht.</p></li>
+        </ol>
+        <Platzhalter>Sicherer Weg für Dokumente (z. B. verschlüsselter Upload statt einfacher E-Mail) folgt nach Absprache mit dem Kunden. Ablauf bitte vom Kunden bestätigen.</Platzhalter>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt blatt-grund" aria-labelledby="honorar-titel">
+    <div class="huelle rand-raster">
+      <h2 id="honorar-titel">Honorar</h2>
+      <div>
+        <p>{HONORAR}</p>
+        <p>Antworten auf weitere Fragen finden Sie unter <a href={u("/fragen/")}>Häufige Fragen</a>.</p>
+      </div>
+    </div>
+  </section>
+</Basis>
+<style>
+  .gross li { font: 600 1.35rem/1.35 var(--serif); color: var(--tinte); margin-bottom: 0.6rem; }
+  .gross li::before { top: 0.75em; }
+</style>

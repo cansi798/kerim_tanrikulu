@@ -1,0 +1,114 @@
+---
+import Basis from "../layouts/Basis.astro";
+import Nachweise from "../components/Nachweise.astro";
+import Blatt from "../components/Blatt.astro";
+import { u, mailLink, NAME, DOLMETSCHER, UEBERSETZER, ERFAHRUNGEN } from "../daten";
+
+// Kundenprobleme wörtlich aus Jamils Konzept (Talk 30.10.2026)
+const probleme = [
+  "Meine Behörde verlangt eine beglaubigte Übersetzung.",
+  "Mein Dokument wird nur in offizieller Übersetzung akzeptiert.",
+  "Ich benötige kurzfristig einen Dolmetscher.",
+  "Ich weiß nicht, welche Unterlagen eingereicht werden müssen.",
+];
+---
+<Basis>
+  <!-- Hero: Headline, Subheadline und Knöpfe wörtlich nach Jamils Konzept -->
+  <section class="hero" aria-labelledby="hero-titel">
+    <div class="huelle hero-raster">
+      <div class="hero-text">
+        <h1 id="hero-titel">Beglaubigte Übersetzungen und Dolmetscher&shy;dienstleistungen für Deutsch und Türkisch</h1>
+        <p class="lead">Unterstützung bei offiziellen Dokumenten, Behördenangelegenheiten und Gesprächen mit türkischsprachigen Ansprechpartnern.</p>
+        <div class="knoepfe">
+          <a class="knopf" href={mailLink("Anfrage: Übersetzung oder Dolmetschen")}>Anfrage senden</a>
+          <a class="knopf zweit" href={u("/kontakt/")}>Kontakt aufnehmen</a>
+        </div>
+        <p class="wer">{NAME}, {DOLMETSCHER} und {UEBERSETZER}</p>
+      </div>
+      <div class="hero-bild">
+        <Blatt />
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt blatt-grund" aria-labelledby="problem-titel">
+    <div class="huelle rand-raster">
+      <h2 id="problem-titel">Wenn Dokumente offiziell anerkannt werden müssen</h2>
+      <div>
+        <p class="lead">Viele Behörden, Gerichte und Institutionen verlangen beglaubigte Übersetzungen. Vielleicht kennen Sie einen dieser Sätze:</p>
+        <ul class="zitate">
+          {probleme.map((p) => <li>{p}</li>)}
+        </ul>
+        <p>Schreiben Sie mir oder rufen Sie an. Wie es in Ihrem Fall weitergeht, bespreche ich gerne persönlich mit Ihnen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="leistungen-titel">
+    <div class="huelle">
+      <h2 id="leistungen-titel">Wobei ich Sie unterstütze</h2>
+      <div class="leistungen">
+        <a class="leistung" href={u("/uebersetzungen/")}>
+          <h3>Beglaubigte Übersetzungen</h3>
+          <p>Übersetzung offizieller Dokumente, zum Beispiel Urkunden, Zeugnisse oder Gerichtsurteile.</p>
+          <span class="mehr">Mehr zu Übersetzungen</span>
+        </a>
+        <a class="leistung" href={u("/dolmetschen/")}>
+          <h3>Dolmetschen</h3>
+          <p>Sprachmittlung bei Terminen und Gesprächen.</p>
+          <span class="mehr">Mehr zum Dolmetschen</span>
+        </a>
+      </div>
+      <p class="sprachpaar"><span>Deutsch</span><span class="pfeil" aria-hidden="true"></span><span lang="tr">Türkçe</span><span class="sr">:</span> Unterstützung in beide Sprachrichtungen.</p>
+    </div>
+  </section>
+
+  <section class="abschnitt blatt-grund" aria-labelledby="vertrauen-titel">
+    <div class="huelle rand-raster">
+      <h2 id="vertrauen-titel">Offiziell beeidigt und ermächtigt</h2>
+      <div>
+        <Nachweise />
+        <h3>Bisherige Erfahrungen</h3>
+        <p>Zu meinen bisherigen Erfahrungen gehört unter anderem die Arbeit mit:</p>
+        <ul class="strichliste">
+          {ERFAHRUNGEN.map((e) => <li>{e}</li>)}
+        </ul>
+        <p><a href={u("/ueber-mich/")}>Mehr über mich</a></p>
+      </div>
+    </div>
+  </section>
+</Basis>
+
+<style>
+  .hero { padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(3rem, 7vw, 5rem); overflow: hidden; }
+  .hero-raster { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 60rem) { .hero-raster { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; } }
+  .hero h1 { max-width: 18ch; }
+  .hero .lead { max-width: 46ch; margin-bottom: 1.75rem; }
+  .wer { margin: 1.75rem 0 0; color: var(--text-leise); font-size: 0.98rem; max-width: 46ch; }
+  .hero-bild { max-width: 34rem; width: 100%; margin-inline: auto; }
+
+  .zitate { list-style: none; padding: 0; margin: 1.5rem 0 1.75rem; display: grid; gap: 0.9rem; }
+  .zitate li {
+    font: italic 500 clamp(1.35rem, 2.6vw, 1.6rem)/1.3 var(--serif); color: var(--tinte);
+    padding-left: 1.1rem; border-left: 3px solid var(--kordel); max-width: 40ch;
+  }
+  .zitate li::before { content: "„"; }
+  .zitate li::after { content: "“"; }
+
+  .leistungen { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
+  @media (min-width: 48rem) { .leistungen { grid-template-columns: 1fr 1fr; } }
+  .leistung {
+    display: flex; flex-direction: column; padding: 1.75rem; min-height: 100%;
+    border: 1px solid var(--linie); border-top: 4px solid var(--tinte); border-radius: var(--radius);
+    color: var(--text); text-decoration: none; background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .leistung:hover { border-top-color: var(--kordel); box-shadow: 0 10px 24px rgba(19, 30, 55, 0.08); }
+  .leistung .mehr { margin-top: auto; color: var(--tinte); font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
+  .sprachpaar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.8rem; margin: 2rem 0 0; max-width: none; color: var(--text-leise); }
+  .sprachpaar > span:not(.pfeil):not(.sr) { font: 600 1.5rem/1 var(--serif); color: var(--tinte); }
+  .pfeil { width: 2.2rem; height: 0.7rem; border-top: 2px solid var(--kordel); border-bottom: 2px solid var(--kordel); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+</style>

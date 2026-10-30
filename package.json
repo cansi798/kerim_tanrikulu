@@ -1,0 +1,17 @@
+{
+  "name": "kerim-tanrikulu",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build"
+  },
+  "dependencies": {
+    "astro": "^7.3.2"
+  },
+  "devDependencies": {
+    "@fontsource/atkinson-hyperlegible-next": "^5.2.0",
+    "@fontsource/cormorant-garamond": "^5.2.0"
+  }
+}
