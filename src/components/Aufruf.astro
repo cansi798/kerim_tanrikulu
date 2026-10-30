@@ -1,8 +1,7 @@
 ---
 // Abschluss jeder Seite (Jamils Konzept: „Benötigen Sie Unterstützung?“ + „Jetzt Kontakt aufnehmen“).
-// Szene: der Goldfaden läuft einmal über die Breite, die Federspitze setzt den Punkt (1,2 s).
+// Szene: der Goldfaden läuft einmal über die Breite (1 s).
 import Icon from "./Icon.astro";
-import Feder from "./Feder.astro";
 import { u, TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, mailLink, ORT } from "../daten";
 const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
 ---
@@ -19,7 +18,6 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
       <li><a href={mailLink()}><Icon name="mail" /><span class="art">E-Mail</span><span class="wert">{MAIL}</span></a></li>
       <li><span class="ohne"><Icon name="ort" /><span class="art">Standort</span><span class="wert">{ORT}</span></span></li>
     </ul>
-    <div class="zeichen" aria-hidden="true"><Feder /></div>
   </div>
 </section>
 <style>
@@ -34,10 +32,8 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
     display: grid; grid-template-columns: auto 1fr; gap: 0 1rem; align-items: center;
     padding: 1rem 0; border-bottom: 1px solid var(--tinte-3); text-decoration: none; color: var(--hell);
   }
-  .wege :global(svg) { grid-row: span 2; width: 1.4rem; height: 1.4rem; color: var(--gold); }
+  .wege :global(svg) { grid-row: span 2; width: 1.4rem; height: 1.4rem; color: var(--gold-dunkel); }
   .art { font-size: 0.86rem; color: var(--hell-leise); letter-spacing: 0.02em; }
   .wert { font: 500 1.2rem/1.35 var(--sans); overflow-wrap: anywhere; }
   .wege a:hover .wert { color: var(--gold-hell); }
-  .zeichen { position: absolute; right: -2rem; bottom: -5rem; width: 16rem; opacity: 0.08; pointer-events: none; color: var(--hell); }
-  @media (max-width: 55.99rem) { .zeichen { display: none; } }
 </style>

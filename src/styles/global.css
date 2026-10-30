@@ -1,5 +1,5 @@
-/* Tanrikulu Translations – Design v3 „Zwei Ufer“ (CI-Entwurf 30.10.2026)
-   Tinte als Bühne, Gold als Faden, Siegelrot als Beglaubigung, Bütten als Lesefläche.
+/* Kerim Tanrikulu – Design v3c (31.10.2026, Jamil Talk 3907)
+   Beige als Bühne, Creme als Lesefläche, Gold als Faden, Siegelrot nur für den Hauptknopf, bisheriges Logo.
    Schriften: Bodoni Moda (Überschriften, Logo) und Hanken Grotesk (Text), beide selbst gehostet. */
 
 /* Bodoni Moda zeichnet Bindestrich und Halbgeviertstrich bei großer optischer Größe als Haarlinie (fast unsichtbar,
@@ -11,22 +11,28 @@
 }
 
 :root {
-  --tinte: #1e1a23;
-  --tinte-2: #29232f;
-  --tinte-3: #3a3242;
-  --tinte-tief: #16131a;
-  --gold: #c9a35b;
-  --gold-hell: #e2c894;
-  --gold-dunkel: #7a5a22;
+  /* v3c (Jamil Talk 3907): elegantes Beige statt Violett. Namen bleiben, Werte sind die helle Fassung:
+     „tinte“ = warme dunkle Schrift, „hell“ = Schrift auf der Beige-Bühne, „tinte-2/-3/-tief“ = Beige-Flächen und Linien. */
+  --tinte: #2b241f;
+  --tinte-2: #efe5d6;
+  --tinte-3: #d8c9b2;
+  --tinte-tief: #e6dac7;
+  --sand: #ebe0cf;
+  --creme: #fbf7f0;
+  --gold: #a8803c;
+  --gold-hell: #6e5020;
+  --gold-dunkel: #6e5020;
   --rot: #8e2a2f;
   --rot-hover: #a3343a;
-  --buetten: #f6f2ec;
+  --buetten: #f6f1e8;
   --weiss: #fffdf9;
-  --text: #2b2530;
-  --text-leise: #5e5560;
-  --hell: #f3ede4;
-  --hell-leise: #bdb3ae;
-  --linie: #e4dbd0;
+  --text: #2b241f;
+  --text-leise: #5f5349;
+  --hell: #2b241f;
+  --hell-leise: #5f5349;
+  --linie: #e2d6c4;
+  --logo: #1c2b4b;
+  --logo-grund: #fbf7f0;
 
   --serif: "Bodoni Strich", "Bodoni Moda Variable", "Bodoni 72", "Didot", Georgia, serif;
   --sans: "Hanken Grotesk Variable", "Segoe UI", system-ui, sans-serif;
@@ -69,7 +75,7 @@ h3 { font-size: clamp(1.35rem, 2.2vw, 1.65rem); line-height: 1.2; }
 .huelle { width: min(100% - 2 * var(--rand), var(--breite)); margin-inline: auto; }
 .abschnitt { padding-block: clamp(4rem, 9vw, 7rem); }
 .weiss { background: var(--weiss); }
-.dunkel { background: var(--tinte); color: var(--hell); }
+.dunkel { background: var(--sand); color: var(--text); --logo-grund: var(--sand); }
 .dunkel a { color: var(--hell); }
 
 .lead { font-size: clamp(1.15rem, 1.8vw, 1.35rem); line-height: 1.6; max-width: 40em; }
@@ -93,8 +99,8 @@ h3 { font-size: clamp(1.35rem, 2.2vw, 1.65rem); line-height: 1.2; }
 .knopf.rahmen { background: transparent; color: var(--tinte); border-color: var(--tinte); }
 .knopf.rahmen:hover { background: var(--tinte); color: var(--weiss); }
 .dunkel .knopf { color: var(--weiss); }
-.dunkel .knopf.rahmen, .kopf .knopf.rahmen { color: var(--hell); border-color: rgba(201, 163, 91, 0.7); }
-.dunkel .knopf.rahmen:hover, .kopf .knopf.rahmen:hover { background: var(--gold); border-color: var(--gold); color: var(--tinte); }
+.dunkel .knopf.rahmen, .kopf .knopf.rahmen { color: var(--tinte); border-color: var(--gold); }
+.dunkel .knopf.rahmen:hover, .kopf .knopf.rahmen:hover { background: var(--tinte); border-color: var(--tinte); color: var(--weiss); }
 
 /* Textlink mit Goldstrich */
 .weiter { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500; color: var(--tinte); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 0.15rem; }

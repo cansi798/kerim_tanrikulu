@@ -1,21 +1,21 @@
 ---
 import Basis from "../layouts/Basis.astro";
 import Icon from "../components/Icon.astro";
-import Portrait from "../components/Portrait.astro";
 import Nachweise from "../components/Nachweise.astro";
 import SzeneUebersetzung from "../components/SzeneUebersetzung.astro";
 import SzeneDolmetschen from "../components/SzeneDolmetschen.astro";
 import { u, mailLink, ERFAHRUNGEN, TELEFON_LINK, CLAIM } from "../daten";
-// Startseite nach Jamils Hero-Konzept (Talk 3904). Nur Angaben der bestehenden Website.
+// Startseite nach Jamils Hero-Konzept (Talk 3904/3907). Nur Angaben der bestehenden Website.
 ---
 <Basis>
+  <!-- Hero nach Jamil Talk 3907: Anliegen vor Person, Sprachbrücke als zentrales Markenelement -->
   <section class="hero dunkel" aria-labelledby="hero-titel">
     <div class="huelle">
-      <div class="oben" data-szene>
-        <div class="text">
+      <div class="oben">
+        <div class="text" data-szene>
           <p class="badge"><Icon name="schild" /><span>Allgemein beeidigter Dolmetscher und ermächtigter Übersetzer</span></p>
           <h1 id="hero-titel">Beglaubigte Übersetzungen und Dolmetscher&shy;dienstleistungen für Deutsch und Türkisch</h1>
-          <p class="sub">Allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die deutsche und türkische Sprache.</p>
+          <p class="sub">Für Behörden, Gerichte und andere offizielle Stellen.</p>
           <div class="knoepfe">
             <a class="knopf haupt" href={mailLink("Anfrage: Übersetzung oder Dolmetschen")}>Anfrage senden</a>
             <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />Anrufen</a>
@@ -26,18 +26,18 @@ import { u, mailLink, ERFAHRUNGEN, TELEFON_LINK, CLAIM } from "../daten";
             <li><Icon name="haken" />Deutsch und Türkisch</li>
           </ul>
         </div>
-        <div class="bild"><Portrait /></div>
-      </div>
 
-      <!-- Sprachbrücke (Jamil Talk 3904): Goldlinie zeichnet sich beim Laden von links nach rechts, ca. 2 s -->
-      <div class="bruecke" data-szene>
-        <span class="sprache">Deutsch</span>
-        <svg class="bogen" viewBox="0 0 600 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <path class="strich" pathLength="1" d="M4 52 C 160 4, 440 4, 596 52" />
-          <circle class="ende l" cx="4" cy="52" r="3.5" /><circle class="ende r" cx="596" cy="52" r="3.5" />
-        </svg>
-        <span class="sprache">Türkisch</span>
-        <p class="claim">{CLAIM}</p>
+        <!-- Sprachbrücke: Linie zeichnet sich in 2 s von links nach rechts; alle 10 s wandert ein Lichtpunkt hinüber -->
+        <figure class="bruecke" data-szene>
+          <svg viewBox="0 0 440 190" aria-hidden="true" focusable="false">
+            <path class="deck strich" pathLength="1" d="M20 150 H420" />
+            <path class="bogen strich" pathLength="1" d="M20 150 C 110 18, 330 18, 420 150" />
+            <path class="licht" pathLength="1" d="M20 150 C 110 18, 330 18, 420 150" />
+            <circle class="ende l" cx="20" cy="150" r="4.5" /><circle class="ende r" cx="420" cy="150" r="4.5" />
+          </svg>
+          <div class="ufer"><span>Deutsch</span><span>Türkisch</span></div>
+          <figcaption class="claim">{CLAIM}.</figcaption>
+        </figure>
       </div>
 
       <ul class="karten" data-szene>
@@ -48,7 +48,7 @@ import { u, mailLink, ERFAHRUNGEN, TELEFON_LINK, CLAIM } from "../daten";
           <span class="titel">Deutsch und Türkisch</span><Icon name="pfeil" /></a></li>
       </ul>
 
-      <a class="mehr" href="#leistungen"><span class="linie" aria-hidden="true"></span><span>↓ Mehr erfahren</span></a>
+      <a class="mehr" href="#leistungen"><span class="linie" aria-hidden="true"></span><span>Mehr erfahren</span></a>
     </div>
   </section>
 
@@ -96,80 +96,87 @@ import { u, mailLink, ERFAHRUNGEN, TELEFON_LINK, CLAIM } from "../daten";
 </Basis>
 
 <style>
-  /* Hero: dunkler Verlauf Dunkelviolett → Anthrazit mit cremefarbenem Licht (Jamil Talk 3904) */
+  /* Hero: elegantes Beige mit Creme-Licht (Jamil Talk 3907) */
   .hero {
     position: relative; overflow: hidden; padding-block: clamp(2.75rem, 7vw, 5rem) clamp(1.5rem, 3vw, 2.25rem);
     background:
-      radial-gradient(48rem 26rem at 78% 8%, rgba(243, 237, 228, 0.08), transparent 70%),
-      linear-gradient(165deg, #241c2b 0%, #1e1a23 45%, #262428 100%);
+      radial-gradient(52rem 28rem at 80% 10%, rgba(255, 253, 249, 0.75), transparent 70%),
+      linear-gradient(168deg, #e8dcc9 0%, #eee4d5 50%, #f4ede2 100%);
   }
-  .oben { display: grid; gap: 2.75rem; align-items: center; }
-  @media (min-width: 62rem) { .oben { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 4.5rem; } }
+  .oben { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 62rem) { .oben { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 4rem; } }
   .badge {
     display: inline-flex; align-items: center; gap: 0.6rem; margin: 0 0 1.75rem; padding: 0.5rem 1rem 0.5rem 0.75rem;
-    border: 1px solid var(--gold); border-radius: 999px; background: transparent; color: var(--hell);
+    border: 1px solid var(--gold); border-radius: 999px; background: transparent; color: var(--text);
     font-size: 0.92rem; line-height: 1.35; animation: auftauchen 0.8s var(--sanft) both;
   }
-  .badge :global(svg) { width: 1.2rem; height: 1.2rem; color: var(--gold); flex: none; }
-  .hero h1 { font-size: clamp(2.05rem, 4vw, 3.35rem); line-height: 1.1; max-width: 15em; margin-bottom: 1.25rem; }
-  .sub { font-size: clamp(1.08rem, 1.6vw, 1.25rem); color: var(--hell-leise); max-width: 34em; margin-bottom: 2rem; }
+  .badge :global(svg) { width: 1.2rem; height: 1.2rem; color: var(--gold-dunkel); flex: none; }
+  .hero h1 { font-size: clamp(2.05rem, 4vw, 3.35rem); line-height: 1.1; max-width: 15em; margin-bottom: 1.1rem; }
+  .sub { font-size: clamp(1.1rem, 1.7vw, 1.3rem); color: var(--text-leise); max-width: 34em; margin-bottom: 1.9rem; }
   .haupt { transition: background-color 0.25s ease, transform 0.25s var(--sanft); }
   .haupt:hover { background: var(--rot-hover); transform: scale(1.02); }
-  .hero .knopf.rahmen { border-color: rgba(243, 237, 228, 0.55); }
-  .vertrauen { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem; margin: 1.75rem 0 0; padding: 0; color: var(--hell); font-size: 0.98rem; }
+  .vertrauen { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem; margin: 1.5rem 0 0; padding: 0; color: var(--text); font-size: 0.98rem; }
   .vertrauen li { display: inline-flex; align-items: center; gap: 0.45rem; }
-  .vertrauen :global(svg) { width: 1.1rem; height: 1.1rem; color: var(--gold); }
-  .bild { display: flex; justify-content: center; }
+  .vertrauen :global(svg) { width: 1.1rem; height: 1.1rem; color: var(--gold-dunkel); }
 
-  /* Sprachbrücke */
-  .bruecke {
-    display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: 0.5rem 1.25rem;
-    margin: clamp(3rem, 6vw, 4.5rem) auto 0; max-width: 56rem;
-  }
-  .sprache { font: 500 clamp(1.25rem, 2.4vw, 1.75rem)/1 var(--serif); color: var(--hell); padding-bottom: 0.15rem; }
-  .bogen { width: 100%; height: clamp(2.5rem, 5vw, 3.75rem); overflow: visible; }
-  .bogen path { fill: none; stroke: var(--gold); stroke-width: 1.6; vector-effect: non-scaling-stroke; animation: zeichnen 2s cubic-bezier(0.4, 0, 0.25, 1) both; }
+  /* Sprachbrücke groß */
+  .bruecke { margin: 0; width: 100%; max-width: 34rem; justify-self: center; }
+  .bruecke svg { width: 100%; height: auto; overflow: visible; }
+  .bogen { fill: none; stroke: var(--gold); stroke-width: 2.2; stroke-linecap: round; animation: zeichnen 2s cubic-bezier(0.4, 0, 0.25, 1) both; }
+  .deck { fill: none; stroke: var(--gold); stroke-width: 1; opacity: 0.7; animation: zeichnen 2s linear both; }
   .ende { fill: var(--gold); }
   .ende.r { animation: einblenden 0.2s ease 1.85s both; }
+  .licht {
+    fill: none; stroke: #fffaf0; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 0.001 2; stroke-dashoffset: 0.001;
+    filter: drop-shadow(0 0 3px rgba(168, 128, 60, 0.9)); opacity: 0;
+    animation: lichtpunkt 10s linear 2.2s infinite;
+  }
+  @keyframes lichtpunkt {
+    0% { stroke-dashoffset: 0.001; opacity: 0; }
+    1% { opacity: 1; }
+    16% { stroke-dashoffset: -1; opacity: 1; }
+    17%, 100% { stroke-dashoffset: -1; opacity: 0; }
+  }
+  .ufer { display: flex; justify-content: space-between; margin-top: -0.4rem; font: 500 clamp(1.5rem, 3vw, 2.2rem)/1 var(--serif); color: var(--text); }
   .claim {
-    grid-column: 1 / -1; justify-self: center; margin: 0.9rem 0 0;
-    font: italic 400 clamp(1.2rem, 2.2vw, 1.6rem)/1.3 var(--serif); color: var(--gold-hell); animation: einblenden 0.6s ease 1.5s both;
+    margin: 1.4rem 0 0; text-align: center; font: italic 400 clamp(1.25rem, 2.3vw, 1.65rem)/1.3 var(--serif);
+    color: var(--gold-dunkel); animation: einblenden 0.6s ease 1.5s both;
   }
 
-  /* Drei Karten, nacheinander im Abstand von 0,2 s */
-  .karten { list-style: none; margin: clamp(2.25rem, 4vw, 3rem) 0 0; padding: 0; display: grid; gap: 1rem; }
+  /* Drei Karten, nacheinander im Abstand von 0,15 s */
+  .karten { list-style: none; margin: clamp(2.5rem, 5vw, 3.5rem) 0 0; padding: 0; display: grid; gap: 1rem; }
   @media (min-width: 48rem) { .karten { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
   .karten a {
     display: flex; align-items: center; gap: 1rem; height: 100%; padding: 1.15rem 1.25rem; border-radius: 4px;
-    background: rgba(243, 237, 228, 0.05); border: 1px solid rgba(243, 237, 228, 0.16); color: var(--hell); text-decoration: none;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
+    background: rgba(255, 253, 249, 0.7); border: 1px solid var(--tinte-3); color: var(--text); text-decoration: none;
+    transition: transform 0.3s var(--sanft), box-shadow 0.3s var(--sanft), border-color 0.3s ease;
   }
-  .karten a:hover { border-color: var(--gold); background: rgba(243, 237, 228, 0.08); }
-  .karten .symbol { display: grid; place-items: center; flex: none; width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(201, 163, 91, 0.7); color: var(--gold); }
+  .karten a:hover { transform: translateY(-3px); box-shadow: 0 16px 30px -20px rgba(43, 36, 31, 0.45); border-color: var(--gold); }
+  .karten .symbol { display: grid; place-items: center; flex: none; width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold-dunkel); }
   .karten .symbol :global(svg) { width: 1.45rem; height: 1.45rem; }
   .sprachen svg { width: 2.35rem !important; height: auto !important; overflow: visible; }
-  .sprachen text { font: 600 11px var(--sans); fill: var(--hell); letter-spacing: 0.02em; }
-  .sprachen path { fill: none; stroke: var(--gold); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .sprachen text { font: 600 11px var(--sans); fill: var(--text); letter-spacing: 0.02em; }
+  .sprachen path { fill: none; stroke: var(--gold-dunkel); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
   .karten .titel { flex: 1; font: 500 1.2rem/1.25 var(--serif); }
-  .karten a > :global(svg:last-child) { width: 1.1rem; height: 1.1rem; color: var(--gold); flex: none; }
+  .karten a > :global(svg:last-child) { width: 1.1rem; height: 1.1rem; color: var(--gold-dunkel); flex: none; }
   .karten li { animation: auftauchen 0.5s var(--sanft) both; }
   .karten .k0 { animation-delay: 0.3s; }
-  .karten .k1 { animation-delay: 0.5s; }
-  .karten .k2 { animation-delay: 0.7s; }
+  .karten .k1 { animation-delay: 0.45s; }
+  .karten .k2 { animation-delay: 0.6s; }
 
-  /* Scroll-Indikator: goldene Linie, langsames Pulsieren (Jamils Wunsch; bei reduzierter Bewegung statisch) */
-  .mehr { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; width: max-content; margin: clamp(2.25rem, 4vw, 3rem) auto 0; color: var(--hell-leise); text-decoration: none; font-size: 0.95rem; padding: 0.4rem 0.75rem; }
-  .mehr .linie { width: 1px; height: 2.5rem; background: linear-gradient(var(--gold), rgba(201, 163, 91, 0)); }
-  .mehr:hover { color: var(--gold-hell); }
+  /* Scroll-Übergang: kleine goldene Linie, sanftes Pulsieren (bei reduzierter Bewegung statisch) */
+  .mehr { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; width: max-content; margin: clamp(2.25rem, 4vw, 3rem) auto 0; color: var(--text-leise); text-decoration: none; font-size: 0.95rem; padding: 0.4rem 0.75rem; }
+  .mehr .linie { width: 1px; height: 2.5rem; background: linear-gradient(var(--gold), rgba(168, 128, 60, 0)); }
+  .mehr:hover { color: var(--gold-dunkel); }
   @media (prefers-reduced-motion: no-preference) {
     .mehr .linie { animation: pulsieren 2.8s ease-in-out 2.2s infinite; }
   }
-  @keyframes pulsieren { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+  @keyframes pulsieren { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
   /* Leistungen */
   .leistungen { display: grid; gap: 3.5rem; }
   @media (min-width: 60rem) { .leistungen { grid-template-columns: 1fr 1fr; gap: 4.5rem; } }
-  .leistung :global(figure) { padding: clamp(1.25rem, 3vw, 2rem); background: var(--tinte); border-radius: 4px; margin-bottom: 2rem; }
+  .leistung :global(figure) { padding: clamp(1.25rem, 3vw, 2rem); background: var(--sand); border: 1px solid var(--tinte-3); border-radius: 4px; margin-bottom: 2rem; }
   .leistung p { color: var(--text-leise); max-width: 34em; }
 
   /* Erfahrung */

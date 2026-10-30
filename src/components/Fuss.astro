@@ -39,15 +39,15 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
   <a href={mailLink()}><Icon name="mail" /><span>E-Mail schreiben</span></a>
 </nav>
 <style>
-  .fuss { background: var(--tinte-tief); color: var(--hell); padding-block: clamp(3.5rem, 7vw, 5rem) 1.5rem; font-size: 0.98rem; }
+  .fuss { background: var(--tinte-tief); color: var(--hell); --logo-grund: var(--tinte-tief); padding-block: clamp(3.5rem, 7vw, 5rem) 1.5rem; font-size: 0.98rem; }
   .fuss a { color: var(--hell); text-decoration: none; }
   .fuss a:hover { color: var(--gold-hell); }
   .raster { display: grid; gap: 2.5rem; }
   @media (min-width: 52rem) { .raster { grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; } }
-  .wer :global(.logo) { width: 11rem; color: var(--hell); margin-bottom: 1.25rem; }
+  .wer :global(.logo) { width: 12rem; margin-bottom: 1.25rem; }
   .wer p { max-width: 24rem; line-height: 1.6; }
   .leise { color: var(--hell-leise); }
-  .klein { font: 600 0.95rem/1.4 var(--sans); letter-spacing: 0.02em; color: var(--gold); margin-bottom: 0.9rem; }
+  .klein { font: 600 0.95rem/1.4 var(--sans); letter-spacing: 0.02em; color: var(--gold-dunkel); margin-bottom: 0.9rem; }
   .liste { list-style: none; padding: 0; margin: 0; }
   .liste li { margin-bottom: 0.55rem; }
   .liste a, .liste span { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 1.75rem; overflow-wrap: anywhere; }
@@ -61,7 +61,7 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
 
   .schnell {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: 1fr 1fr;
-    background: var(--tinte); border-top: 1px solid var(--tinte-3); padding-bottom: env(safe-area-inset-bottom);
+    background: var(--creme); border-top: 1px solid var(--tinte-3); padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -8px 24px -16px rgba(43, 36, 31, 0.35);
   }
   .schnell a {
     display: flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 3.5rem;

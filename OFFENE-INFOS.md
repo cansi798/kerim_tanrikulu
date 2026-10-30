@@ -1,6 +1,6 @@
 # Offene Infos – das brauchen wir vom Kunden
 
-Stand: 31.10.2026 (Design v3b nach Jamils Hero-Konzept, Talk 3904). Grundregel: Auf der Seite steht nur, was auf der bisherigen Website steht. In der Vorschau sind diese Stellen rot gestrichelt markiert.
+Stand: 31.10.2026 (Design v3c nach Jamil Talk 3904/3907: Beige statt Violett, bisheriges Logo). Grundregel: Auf der Seite steht nur, was auf der bisherigen Website steht. In der Vorschau sind diese Stellen rot gestrichelt markiert.
 
 ## Vor dem Livegang nötig
 
@@ -15,7 +15,7 @@ Stand: 31.10.2026 (Design v3b nach Jamils Hero-Konzept, Talk 3904). Grundregel: 
 
 ## Für bessere Inhalte
 
-9. **Neues Logo und CI freigeben:** Das Logo (Federspitze + „Tanrikulu Translations“) und das CI-Handbuch sind ein Entwurf von uns. Herr Tanrikulu muss beides freigeben oder Änderungen nennen. Falls er sein altes Logo behalten möchte: Original als Datei (SVG oder PDF).
+9. **Logo:** Jamil (Talk 3907): Das bisherige Logo (Federkiel + „TANRIKULU / TRANSLATIONS“) bleibt. Auf der Website steht ein Nachbau nach der alten Seite. Bitte das Original als Datei (SVG oder PDF) vom Kunden holen. Der Entwurf eines neuen Logos und das CI-Handbuch liegen nur als Vorschlag in Nextcloud (Kerim_Tanrikulu/CI), nicht auf der Website.
 10. **Portraitfoto** für den Kopf der Startseite und „Über mich“ (Format 4 : 5, z. B. 800 × 1000 px). Bis dahin steht in der Vorschau ein markierter Platzhalter; live ohne Foto bleibt die Stelle leer.
 11. **Ablauf einer Übersetzung bestätigen:** Dokument senden, Anfrage prüfen, Rückmeldung erhalten. Stimmt das so?
 12. **Wortlaut zur Beglaubigung bestätigen:** „Als ermächtigter Übersetzer kann ich schriftlich bestätigen, dass meine Übersetzung richtig und vollständig ist.“
