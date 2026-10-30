@@ -1,25 +1,23 @@
 ---
-// Szene „Dolmetschen“ (Jamil Talk 3892, höchstens 1,5 s): Ein Satz auf Deutsch geht über den Dolmetscher (Federspitze)
-// als Goldfaden ans andere Ufer und kommt dort auf Türkisch an. Ablauf: 0–0,35 s Blase links, 0,25–1,0 s Faden,
-// 0,5–0,8 s Feder, 1,0–1,35 s Blase rechts. Türkischer Beispielsatz: bitte vom Kunden prüfen lassen (OFFENE-INFOS).
+// Szene „Dolmetschen“ (Jamil Talk 3892, höchstens 1,5 s): Was auf Deutsch gesagt wird, geht über den Dolmetscher
+// (Federspitze) als Goldfaden ans andere Ufer und kommt dort auf Türkisch an. Ablauf: 0–0,35 s Blase links,
+// 0,25–1,0 s Faden, 0,5–0,8 s Feder, 1,0–1,35 s Blase rechts. Blasen ohne Beispielsätze: keine erfundenen Inhalte (Talk 3904).
 const FEDER = "M48.6 91.5C44 80 22 60 22 41C22 30 26.5 20 32 11L68 11C73.5 20 78 30 78 41C78 60 56 80 51.4 91.5L51.4 49.6A5.8 5.8 0 1 0 48.6 49.6Z";
-interface Props { gross?: boolean }
-const { gross = false } = Astro.props;
 ---
-<figure class:list={["szene-dolmetschen", { gross }]} data-szene>
+<figure class="szene-dolmetschen" data-szene>
   <svg viewBox="0 0 480 250" role="img" aria-labelledby="sd-titel" focusable="false">
-    <title id="sd-titel">Dolmetschen: Der Satz „Wann ist der Termin?“ wird über den Dolmetscher ins Türkische übertragen: „Randevu ne zaman?“</title>
+    <title id="sd-titel">Dolmetschen: Was auf Deutsch gesagt wird, kommt über den Dolmetscher auf Türkisch an.</title>
     <g class="links">
       <text class="sprache" x="22" y="14">Deutsch</text>
       <path class="blase" d="M39 26h168a31 31 0 0 1 0 62H70l-28 20 7-20h-10a31 31 0 0 1 0-62Z" />
-      <text class="satz" x="123" y="64" text-anchor="middle">Wann ist der Termin?</text>
+      <rect class="zeile" x="52" y="50" width="142" height="4" rx="2" /><rect class="zeile" x="52" y="62" width="96" height="4" rx="2" />
     </g>
     <path class="faden strich" pathLength="1" d="M46 106C90 158 182 156 240 141C300 126 380 118 424 140" />
     <g class="mitte"><g transform="translate(215 87) scale(0.5)"><path class="spitze" d={FEDER} /><circle class="tropfen" cx="50" cy="97.2" r="3.4" /></g></g>
     <g class="rechts">
       <path class="blase gold" d="M273 156H399L425 140L421 156H441A31 31 0 0 1 441 218H273A31 31 0 0 1 273 156Z" />
-      <text class="satz" x="357" y="194" text-anchor="middle" lang="tr">Randevu ne zaman?</text>
-      <text class="sprache" x="458" y="246" text-anchor="end" lang="tr">Türkçe</text>
+      <rect class="zeile" x="286" y="180" width="142" height="4" rx="2" /><rect class="zeile" x="286" y="192" width="104" height="4" rx="2" />
+      <text class="sprache" x="458" y="246" text-anchor="end">Türkisch</text>
     </g>
   </svg>
 </figure>
@@ -27,7 +25,7 @@ const { gross = false } = Astro.props;
   .szene-dolmetschen { margin: 0; }
   svg { width: 100%; height: auto; overflow: visible; }
   .sprache { font: 500 14px var(--sans); letter-spacing: 0.05em; fill: var(--hell-leise); }
-  .satz { font: 500 20px var(--sans); fill: var(--tinte); }
+  .zeile { fill: var(--tinte); opacity: 0.75; }
   .blase { fill: var(--hell); }
   .blase.gold { fill: var(--gold); }
   .faden { fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; }

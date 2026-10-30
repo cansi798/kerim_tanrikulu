@@ -1,11 +1,10 @@
 ---
 import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
-import SzeneBeglaubigung from "../components/SzeneBeglaubigung.astro";
+import SzeneUebersetzung from "../components/SzeneUebersetzung.astro";
 import Platzhalter from "../components/Platzhalter.astro";
-import Ablauf from "../components/Ablauf.astro";
 import Icon from "../components/Icon.astro";
-import { HONORAR, GERICHT, SEIT, u } from "../daten";
+import { HONORAR, GERICHT, SEIT, TELEFON_LINK, mailLink, u } from "../daten";
 // Dokumentarten wörtlich nach der Jimdo-Seite („Dokumente aller Art, wie zum Beispiel …“), je mit Symbol
 const dokumente = [
   { icon: "urteil", text: "Gerichtsurteile, darunter auch Scheidungsurteile" },
@@ -15,10 +14,10 @@ const dokumente = [
   { icon: "urkunde", text: "Urkunden" },
 ] as const;
 ---
-<Basis titel="Beglaubigte Übersetzungen Türkisch Deutsch" beschreibung="Beglaubigte Übersetzungen Türkisch und Deutsch vom ermächtigten Übersetzer Kerim Mikael Tanrikulu: Gerichtsurteile, Scheidungsurteile, Zeugnisse, Ausweise, medizinische Unterlagen und Urkunden. Honorar nach JVEG.">
+<Basis titel="Beglaubigte Übersetzungen Türkisch Deutsch" beschreibung="Beglaubigte Übersetzungen Türkisch und Deutsch vom ermächtigten Übersetzer Kerim Mikael Tanrikulu: Gerichtsurteile, Scheidungsurteile, Zeugnisse, Personalausweise, medizinische Unterlagen und Urkunden. Honorar nach JVEG.">
   <SeitenKopf titel="Beglaubigte Übersetzungen" zeile="Türkisch und Deutsch">
-    <p class="lead">Ihr Dokument muss bei einer Behörde oder einem Gericht eingereicht werden? Ich übersetze es und bestätige schriftlich, dass die Übersetzung richtig und vollständig ist.</p>
-    <SzeneBeglaubigung slot="bild" />
+    <p class="lead">Ihr Dokument muss bei einer Behörde, einem Gericht oder einer anderen offiziellen Stelle eingereicht werden? Gerne übersetze ich für Sie Dokumente aller Art.</p>
+    <SzeneUebersetzung slot="bild" />
   </SeitenKopf>
 
   <section class="abschnitt" aria-labelledby="dok-titel">
@@ -37,24 +36,24 @@ const dokumente = [
 
   <section class="abschnitt weiss" aria-labelledby="was-titel">
     <div class="huelle raster-2">
-      <h2 id="was-titel">Was „beglaubigt“ bedeutet</h2>
+      <h2 id="was-titel">Ermächtigter Übersetzer</h2>
       <div>
-        <p class="lead">Seit {SEIT} bin ich durch das {GERICHT} als Übersetzer ermächtigt. Damit kann ich schriftlich bestätigen, dass meine Übersetzung richtig und vollständig ist.</p>
-        <p class="leise">Ob Sie eine beglaubigte Übersetzung brauchen, legt die Stelle fest, bei der Sie das Dokument einreichen. Fragen Sie dort im Zweifel nach.</p>
+        <p class="lead">Seit {SEIT} bin ich durch das {GERICHT} als Übersetzer für die türkische und deutsche Sprache ermächtigt.</p>
         <Platzhalter>Wortlaut zur Ermächtigung und Beglaubigung bitte vom Kunden bestätigen lassen (z. B. wie der Bestätigungsvermerk aussieht).</Platzhalter>
       </div>
     </div>
   </section>
 
-  <section class="abschnitt" aria-labelledby="ablauf-titel">
-    <div class="huelle">
-      <div class="kopfzeile"><h2 id="ablauf-titel">So läuft eine Anfrage ab</h2></div>
-      <Ablauf schritte={[
-        { titel: "Dokument senden", text: "Schicken Sie mir das Dokument und schreiben Sie dazu, wofür Sie die Übersetzung brauchen." },
-        { titel: "Anfrage prüfen", text: "Ich sehe mir das Dokument und Ihre Angaben an." },
-        { titel: "Rückmeldung erhalten", text: "Sie hören von mir, wie es weitergeht." },
-      ]} />
-      <Platzhalter>Sicherer Weg für Dokumente (z. B. verschlüsselter Upload statt einfacher E-Mail) folgt nach Absprache mit dem Kunden. Ablauf bitte vom Kunden bestätigen.</Platzhalter>
+  <section class="abschnitt" aria-labelledby="anfrage-titel">
+    <div class="huelle raster-2">
+      <h2 id="anfrage-titel">Anfrage</h2>
+      <div>
+        <p class="lead">Rufen Sie mich an oder senden Sie mir eine Anfrage per E-Mail.</p>
+        <div class="knoepfe">
+          <a class="knopf" href={mailLink("Anfrage: Übersetzung")}>Anfrage senden</a>
+          <a class="knopf rahmen" href={TELEFON_LINK}>Anrufen</a>
+        </div>
+      </div>
     </div>
   </section>
 

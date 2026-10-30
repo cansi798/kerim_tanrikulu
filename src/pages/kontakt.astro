@@ -41,28 +41,10 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
     </div>
   </section>
 
-  <section class="abschnitt weiss" aria-labelledby="nachricht-titel">
+  <section class="abschnitt weiss" aria-label="Hinweis zur Anfrage">
     <div class="huelle">
-      <div class="kopfzeile"><h2 id="nachricht-titel">Was in Ihre Nachricht gehört</h2></div>
-      <div class="spalten">
-        <div class="spalte">
-          <h3>Für eine Übersetzung</h3>
-          <ul class="strichliste">
-            <li>um welches Dokument es geht</li>
-            <li>wofür Sie die Übersetzung brauchen, zum Beispiel für eine Behörde oder ein Gericht</li>
-            <li>ob aus dem Türkischen ins Deutsche oder umgekehrt</li>
-          </ul>
-        </div>
-        <div class="spalte">
-          <h3>Für einen Dolmetscher</h3>
-          <ul class="strichliste">
-            <li>Datum, Uhrzeit und Ort des Termins</li>
-            <li>um welche Art von Termin es geht und wie lange er ungefähr dauert</li>
-          </ul>
-        </div>
-      </div>
-      <p class="leise schluss">Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.</p>
-      <Platzhalter>Hinweis zum sicheren Versand von Dokumenten (z. B. verschlüsselter Upload) folgt nach Absprache mit dem Kunden. Bis dahin kein Upload und kein Formular mit Fremddienst.</Platzhalter>
+      <p class="lead schluss">Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.</p>
+      <Platzhalter>Die bisherige Website hat ein Kontaktformular. Ob und wie es hier wieder eingebaut wird (eigener Versand, Spamschutz, Datenschutz), klären wir mit dem Kunden.</Platzhalter>
     </div>
   </section>
 </Basis>
@@ -87,7 +69,5 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
   .wege .w1 { animation-delay: 0.12s; }
   .wege .w2 { animation-delay: 0.24s; }
   .wege :global(.strich) { animation: zeichnen 0.8s ease-out 0.2s both; }
-  .spalten { display: grid; gap: 1rem 4rem; }
-  @media (min-width: 52rem) { .spalten { grid-template-columns: 1fr 1fr; } }
-  .schluss { margin-top: 1.5rem; max-width: 46rem; }
+  .schluss { margin: 0; max-width: 46rem; }
 </style>

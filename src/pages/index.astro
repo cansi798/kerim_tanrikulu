@@ -1,99 +1,93 @@
 ---
 import Basis from "../layouts/Basis.astro";
-import Feder from "../components/Feder.astro";
 import Icon from "../components/Icon.astro";
+import Portrait from "../components/Portrait.astro";
 import Nachweise from "../components/Nachweise.astro";
-import SzeneBeglaubigung from "../components/SzeneBeglaubigung.astro";
+import SzeneUebersetzung from "../components/SzeneUebersetzung.astro";
 import SzeneDolmetschen from "../components/SzeneDolmetschen.astro";
-import { u, mailLink, NAME, ERFAHRUNGEN, TELEFON_LINK } from "../daten";
-
-// Fragen in Kundensprache (Jamils Konzept, Talk 3877): Besucher erkennen ihr Anliegen und kommen mit einem Klick weiter.
-const anliegen = [
-  { icon: "dokument", frage: "Ihr Dokument muss bei einer Behörde oder einem Gericht eingereicht werden?", link: "/uebersetzungen/", weiter: "Beglaubigte Übersetzungen" },
-  { icon: "gespraech", frage: "Sie suchen einen Dolmetscher für Türkisch, zum Beispiel für einen Termin?", link: "/dolmetschen/", weiter: "Dolmetschen" },
-  { icon: "frage", frage: "Sie wissen nicht, welche Form Ihre Behörde verlangt?", link: "/fragen/", weiter: "Häufige Fragen" },
-] as const;
+import { u, mailLink, ERFAHRUNGEN, TELEFON_LINK, CLAIM } from "../daten";
+// Startseite nach Jamils Hero-Konzept (Talk 3904). Nur Angaben der bestehenden Website.
 ---
 <Basis>
-  <!-- Hero (Jamil Talk 3894): Logo und Name mit Vision. Die Feder schreibt, der Faden verbindet beide Ufer (1,4 s). -->
-  <section class="hero dunkel" aria-labelledby="hero-titel" data-szene>
-    <div class="huelle hero-innen">
-      <div class="zeichen"><Feder schreiben /></div>
-      <h1 id="hero-titel">
-        <span class="name">{NAME}</span>
-        <span class="titel">Allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für Deutsch und Türkisch</span>
-      </h1>
-      <div class="horizont" aria-hidden="true">
-        <span class="ufer">Deutsch</span>
-        <span class="linie"><span class="links"></span><span class="rechts"></span></span>
-        <span class="ufer" lang="tr">Türkçe</span>
-      </div>
-      <p class="vision">Brücken bauen zwischen den Kulturen.</p>
-      <div class="knoepfe">
-        <a class="knopf" href={mailLink("Anfrage: Übersetzung oder Dolmetschen")}>Anfrage senden</a>
-        <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />Anrufen</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Problem zuerst (Jamils Konzept): drei Anliegen als Fragen -->
-  <section class="abschnitt" aria-labelledby="anliegen-titel">
+  <section class="hero dunkel" aria-labelledby="hero-titel">
     <div class="huelle">
-      <div class="kopfzeile">
-        <h2 id="anliegen-titel">Wobei kann ich Ihnen helfen?</h2>
+      <div class="oben" data-szene>
+        <div class="text">
+          <p class="badge"><Icon name="schild" /><span>Allgemein beeidigter Dolmetscher und ermächtigter Übersetzer</span></p>
+          <h1 id="hero-titel">Beglaubigte Übersetzungen und Dolmetscher&shy;dienstleistungen für Deutsch und Türkisch</h1>
+          <p class="sub">Allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die deutsche und türkische Sprache.</p>
+          <div class="knoepfe">
+            <a class="knopf haupt" href={mailLink("Anfrage: Übersetzung oder Dolmetschen")}>Anfrage senden</a>
+            <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />Anrufen</a>
+          </div>
+          <ul class="vertrauen" aria-label="Auf einen Blick">
+            <li><Icon name="haken" />Dolmetscher</li>
+            <li><Icon name="haken" />Übersetzer</li>
+            <li><Icon name="haken" />Deutsch und Türkisch</li>
+          </ul>
+        </div>
+        <div class="bild"><Portrait /></div>
       </div>
-      <ul class="anliegen" data-szene>
-        {anliegen.map((a, i) => (
-          <li class={`k${i}`}>
-            <a href={u(a.link)}>
-              <span class="symbol"><Icon name={a.icon} zeichnen /></span>
-              <span class="frage">{a.frage}</span>
-              <span class="weiter">{a.weiter}<Icon name="pfeil" /></span>
-            </a>
-          </li>
-        ))}
+
+      <!-- Sprachbrücke (Jamil Talk 3904): Goldlinie zeichnet sich beim Laden von links nach rechts, ca. 2 s -->
+      <div class="bruecke" data-szene>
+        <span class="sprache">Deutsch</span>
+        <svg class="bogen" viewBox="0 0 600 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="strich" pathLength="1" d="M4 52 C 160 4, 440 4, 596 52" />
+          <circle class="ende l" cx="4" cy="52" r="3.5" /><circle class="ende r" cx="596" cy="52" r="3.5" />
+        </svg>
+        <span class="sprache">Türkisch</span>
+        <p class="claim">{CLAIM}</p>
+      </div>
+
+      <ul class="karten" data-szene>
+        <li class="k0"><a href={u("/uebersetzungen/")}><span class="symbol"><Icon name="dokument" /></span><span class="titel">Beglaubigte Übersetzungen</span><Icon name="pfeil" /></a></li>
+        <li class="k1"><a href={u("/dolmetschen/")}><span class="symbol"><Icon name="mikrofon" /></span><span class="titel">Dolmetschen</span><Icon name="pfeil" /></a></li>
+        <li class="k2"><a href={u("/ueber-mich/")}>
+          <span class="symbol sprachen" aria-hidden="true"><svg viewBox="0 0 44 24" focusable="false"><text x="0" y="16.5">DE</text><path d="M18.5 9.5h7m-2-2.5 2.5 2.5-2.5 2.5M25.5 14.5h-7m2-2.5-2.5 2.5 2.5 2.5" /><text x="28.5" y="16.5">TR</text></svg></span>
+          <span class="titel">Deutsch und Türkisch</span><Icon name="pfeil" /></a></li>
       </ul>
+
+      <a class="mehr" href="#leistungen"><span class="linie" aria-hidden="true"></span><span>↓ Mehr erfahren</span></a>
     </div>
   </section>
 
-  <!-- Leistungen als Szenen statt Text (Jamil Talk 3892/3898) -->
-  <section class="abschnitt dunkel" aria-labelledby="leistungen-titel">
+  <!-- Leistungen: Kerims eigene Sätze, je eine kleine Szene -->
+  <section class="abschnitt" id="leistungen" aria-labelledby="leistungen-titel">
     <div class="huelle">
       <div class="kopfzeile">
-        <h2 id="leistungen-titel">Schriftlich und mündlich</h2>
-        <p>Für die türkische und die deutsche Sprache.</p>
+        <h2 id="leistungen-titel">Übersetzen und Dolmetschen</h2>
+        <p>Für die türkische und deutsche Sprache. Für Behörden, Gerichte und andere offizielle Stellen.</p>
       </div>
       <div class="leistungen">
         <article class="leistung">
-          <SzeneBeglaubigung />
+          <SzeneUebersetzung />
           <h3>Beglaubigte Übersetzungen</h3>
-          <p>Urkunden, Zeugnisse, Gerichtsurteile und andere Dokumente. Mit schriftlicher Bestätigung, dass die Übersetzung richtig und vollständig ist.</p>
+          <p>Gerne übersetze ich für Sie Dokumente aller Art, wie zum Beispiel Gerichtsurteile, Zeugnisse, Personalausweise, medizinische Unterlagen und Urkunden.</p>
           <a class="weiter" href={u("/uebersetzungen/")}>Mehr zu Übersetzungen</a>
         </article>
         <article class="leistung">
           <SzeneDolmetschen />
           <h3>Dolmetschen</h3>
-          <p>Bei Terminen und Gesprächen übertrage ich mündlich zwischen Deutsch und Türkisch, damit sich beide Seiten verstehen.</p>
+          <p>Es bereitet mir immer große Freude, wenn ich zu einem gelungenen Gespräch und zu gegenseitiger Verständigung beitragen kann.</p>
           <a class="weiter" href={u("/dolmetschen/")}>Mehr zum Dolmetschen</a>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Vertrauen: nur nachweisbare Angaben -->
-  <section class="abschnitt" aria-labelledby="vertrauen-titel">
+  <section class="abschnitt weiss" aria-labelledby="vertrauen-titel">
     <div class="huelle">
       <Nachweise>
-        <h2 id="vertrauen-titel">Offiziell beeidigt und ermächtigt</h2>
-        <p class="leise schmal">Diese Angaben sind öffentlich nachweisbar.</p>
+        <h2 id="vertrauen-titel">Allgemein beeidigt und ermächtigt</h2>
         <a class="weiter" href={u("/ueber-mich/")}>Mehr über mich</a>
       </Nachweise>
     </div>
   </section>
 
-  <section class="erfahrung weiss" aria-labelledby="erfahrung-titel">
+  <section class="erfahrung" aria-labelledby="erfahrung-titel">
     <div class="huelle">
-      <h2 id="erfahrung-titel" class="klein">Bisherige Erfahrungen, unter anderem in der Arbeit mit</h2>
+      <h2 id="erfahrung-titel" class="klein">Zu meinen bisherigen Erfahrungen gehört unter anderem die Arbeit mit</h2>
       <ul>
         {ERFAHRUNGEN.map((e) => <li>{e}</li>)}
       </ul>
@@ -102,52 +96,81 @@ const anliegen = [
 </Basis>
 
 <style>
-  /* Hero */
+  /* Hero: dunkler Verlauf Dunkelviolett → Anthrazit mit cremefarbenem Licht (Jamil Talk 3904) */
   .hero {
-    position: relative; overflow: hidden; text-align: center;
-    padding-block: clamp(3.5rem, 9vw, 6.5rem) clamp(4rem, 9vw, 6.5rem);
-    background: radial-gradient(60rem 30rem at 50% 18%, rgba(201, 163, 91, 0.13), transparent 70%), var(--tinte);
+    position: relative; overflow: hidden; padding-block: clamp(2.75rem, 7vw, 5rem) clamp(1.5rem, 3vw, 2.25rem);
+    background:
+      radial-gradient(48rem 26rem at 78% 8%, rgba(243, 237, 228, 0.08), transparent 70%),
+      linear-gradient(165deg, #241c2b 0%, #1e1a23 45%, #262428 100%);
   }
-  .hero-innen { display: flex; flex-direction: column; align-items: center; }
-  .zeichen { width: clamp(4.5rem, 9vw, 6.5rem); color: var(--hell); margin-bottom: clamp(1.75rem, 4vw, 2.5rem); }
-  .hero h1 { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-  .name { font-size: clamp(2.7rem, 7.4vw, 5.6rem); line-height: 1.02; font-weight: 500; letter-spacing: -0.01em; max-width: 11em; }
-  .titel { font: 400 clamp(1.02rem, 1.6vw, 1.2rem)/1.5 var(--sans); color: var(--hell-leise); letter-spacing: 0.01em; max-width: 34em; }
-  .horizont { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; width: min(100%, 44rem); margin: clamp(2rem, 4vw, 2.75rem) 0 1.5rem; }
-  .ufer { font-size: 0.9rem; letter-spacing: 0.08em; color: var(--gold); animation: einblenden 0.4s ease 1s both; }
-  .linie { display: grid; grid-template-columns: 1fr 1fr; height: 1px; }
-  .linie span { background: var(--gold); animation: breiten 0.6s var(--sanft) 0.8s both; }
-  .linie .links { transform-origin: right; }
-  .linie .rechts { transform-origin: left; }
-  .vision { font: italic 400 clamp(1.5rem, 3.4vw, 2.35rem)/1.3 var(--serif); color: var(--gold-hell); margin: 0 0 clamp(2rem, 4vw, 2.75rem); animation: auftauchen 0.6s var(--sanft) 0.85s both; }
-  .hero .knoepfe { justify-content: center; }
+  .oben { display: grid; gap: 2.75rem; align-items: center; }
+  @media (min-width: 62rem) { .oben { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 4.5rem; } }
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.6rem; margin: 0 0 1.75rem; padding: 0.5rem 1rem 0.5rem 0.75rem;
+    border: 1px solid var(--gold); border-radius: 999px; background: transparent; color: var(--hell);
+    font-size: 0.92rem; line-height: 1.35; animation: auftauchen 0.8s var(--sanft) both;
+  }
+  .badge :global(svg) { width: 1.2rem; height: 1.2rem; color: var(--gold); flex: none; }
+  .hero h1 { font-size: clamp(2.05rem, 4vw, 3.35rem); line-height: 1.1; max-width: 15em; margin-bottom: 1.25rem; }
+  .sub { font-size: clamp(1.08rem, 1.6vw, 1.25rem); color: var(--hell-leise); max-width: 34em; margin-bottom: 2rem; }
+  .haupt { transition: background-color 0.25s ease, transform 0.25s var(--sanft); }
+  .haupt:hover { background: var(--rot-hover); transform: scale(1.02); }
+  .hero .knopf.rahmen { border-color: rgba(243, 237, 228, 0.55); }
+  .vertrauen { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem; margin: 1.75rem 0 0; padding: 0; color: var(--hell); font-size: 0.98rem; }
+  .vertrauen li { display: inline-flex; align-items: center; gap: 0.45rem; }
+  .vertrauen :global(svg) { width: 1.1rem; height: 1.1rem; color: var(--gold); }
+  .bild { display: flex; justify-content: center; }
 
-  /* Anliegen */
-  .anliegen { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
-  @media (min-width: 56rem) { .anliegen { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
-  .anliegen a {
-    position: relative; display: flex; flex-direction: column; gap: 1.25rem; height: 100%;
-    padding: clamp(1.5rem, 3vw, 2.25rem); background: var(--weiss); border: 1px solid var(--linie); border-radius: 4px;
-    color: var(--text); text-decoration: none; transition: transform 0.35s var(--sanft), box-shadow 0.35s var(--sanft), border-color 0.35s ease;
+  /* Sprachbrücke */
+  .bruecke {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: 0.5rem 1.25rem;
+    margin: clamp(3rem, 6vw, 4.5rem) auto 0; max-width: 56rem;
   }
-  .anliegen a::after { content: ""; position: absolute; left: -1px; right: -1px; bottom: -1px; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--sanft); }
-  .anliegen a:hover { transform: translateY(-3px); box-shadow: 0 22px 40px -28px rgba(30, 26, 35, 0.45); border-color: #d9cdbd; }
-  .anliegen a:hover::after { transform: scaleX(1); }
-  .symbol { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 50%; background: var(--tinte); color: var(--gold); }
-  .symbol :global(svg) { width: 1.6rem; height: 1.6rem; }
-  .frage { font: 500 clamp(1.3rem, 2vw, 1.5rem)/1.3 var(--serif); color: var(--tinte); }
-  .anliegen .weiter { margin-top: auto; align-self: flex-start; }
-  .weiter :global(svg) { width: 1.1rem; height: 1.1rem; }
-  .anliegen li { animation: auftauchen 0.5s var(--sanft) both; }
-  .anliegen .k1 { animation-delay: 0.12s; }
-  .anliegen .k2 { animation-delay: 0.24s; }
-  .anliegen :global(.strich) { animation: zeichnen 0.8s ease-out 0.25s both; }
+  .sprache { font: 500 clamp(1.25rem, 2.4vw, 1.75rem)/1 var(--serif); color: var(--hell); padding-bottom: 0.15rem; }
+  .bogen { width: 100%; height: clamp(2.5rem, 5vw, 3.75rem); overflow: visible; }
+  .bogen path { fill: none; stroke: var(--gold); stroke-width: 1.6; vector-effect: non-scaling-stroke; animation: zeichnen 2s cubic-bezier(0.4, 0, 0.25, 1) both; }
+  .ende { fill: var(--gold); }
+  .ende.r { animation: einblenden 0.2s ease 1.85s both; }
+  .claim {
+    grid-column: 1 / -1; justify-self: center; margin: 0.9rem 0 0;
+    font: italic 400 clamp(1.2rem, 2.2vw, 1.6rem)/1.3 var(--serif); color: var(--gold-hell); animation: einblenden 0.6s ease 1.5s both;
+  }
+
+  /* Drei Karten, nacheinander im Abstand von 0,2 s */
+  .karten { list-style: none; margin: clamp(2.25rem, 4vw, 3rem) 0 0; padding: 0; display: grid; gap: 1rem; }
+  @media (min-width: 48rem) { .karten { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
+  .karten a {
+    display: flex; align-items: center; gap: 1rem; height: 100%; padding: 1.15rem 1.25rem; border-radius: 4px;
+    background: rgba(243, 237, 228, 0.05); border: 1px solid rgba(243, 237, 228, 0.16); color: var(--hell); text-decoration: none;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  .karten a:hover { border-color: var(--gold); background: rgba(243, 237, 228, 0.08); }
+  .karten .symbol { display: grid; place-items: center; flex: none; width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(201, 163, 91, 0.7); color: var(--gold); }
+  .karten .symbol :global(svg) { width: 1.45rem; height: 1.45rem; }
+  .sprachen svg { width: 2.35rem !important; height: auto !important; overflow: visible; }
+  .sprachen text { font: 600 11px var(--sans); fill: var(--hell); letter-spacing: 0.02em; }
+  .sprachen path { fill: none; stroke: var(--gold); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .karten .titel { flex: 1; font: 500 1.2rem/1.25 var(--serif); }
+  .karten a > :global(svg:last-child) { width: 1.1rem; height: 1.1rem; color: var(--gold); flex: none; }
+  .karten li { animation: auftauchen 0.5s var(--sanft) both; }
+  .karten .k0 { animation-delay: 0.3s; }
+  .karten .k1 { animation-delay: 0.5s; }
+  .karten .k2 { animation-delay: 0.7s; }
+
+  /* Scroll-Indikator: goldene Linie, langsames Pulsieren (Jamils Wunsch; bei reduzierter Bewegung statisch) */
+  .mehr { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; width: max-content; margin: clamp(2.25rem, 4vw, 3rem) auto 0; color: var(--hell-leise); text-decoration: none; font-size: 0.95rem; padding: 0.4rem 0.75rem; }
+  .mehr .linie { width: 1px; height: 2.5rem; background: linear-gradient(var(--gold), rgba(201, 163, 91, 0)); }
+  .mehr:hover { color: var(--gold-hell); }
+  @media (prefers-reduced-motion: no-preference) {
+    .mehr .linie { animation: pulsieren 2.8s ease-in-out 2.2s infinite; }
+  }
+  @keyframes pulsieren { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 
   /* Leistungen */
   .leistungen { display: grid; gap: 3.5rem; }
   @media (min-width: 60rem) { .leistungen { grid-template-columns: 1fr 1fr; gap: 4.5rem; } }
-  .leistung :global(figure) { padding: clamp(1.25rem, 3vw, 2rem); background: var(--tinte-2); border: 1px solid var(--tinte-3); border-radius: 4px; margin-bottom: 2rem; }
-  .leistung p { color: var(--hell-leise); max-width: 34em; }
+  .leistung :global(figure) { padding: clamp(1.25rem, 3vw, 2rem); background: var(--tinte); border-radius: 4px; margin-bottom: 2rem; }
+  .leistung p { color: var(--text-leise); max-width: 34em; }
 
   /* Erfahrung */
   .erfahrung { padding-block: clamp(3rem, 6vw, 4.5rem); border-top: 1px solid var(--linie); }

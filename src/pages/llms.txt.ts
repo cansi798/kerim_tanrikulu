@@ -16,7 +16,7 @@ export const GET: APIRoute = ({ site }) => {
     "",
     "## Leistungen",
     `- Beglaubigte Übersetzungen: ${url("/uebersetzungen/")}`,
-    `- Dolmetschen bei Terminen und Gesprächen: ${url("/dolmetschen/")}`,
+    `- Dolmetschen: ${url("/dolmetschen/")}`,
     "",
     "## Dokumente (Beispiele)",
     ...DOKUMENTE.map((d) => `- ${d}`),

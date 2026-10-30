@@ -1,0 +1,38 @@
+---
+// Portrait von Kerim (Jamil Talk 3904: „Hochwertiges Portrait“). Solange kein Foto da ist, steht in der Vorschau
+// ein klar markierter Platzhalter im selben Format (4:5), damit das Foto später 1:1 eingesetzt werden kann
+// (PORTRAIT in daten.ts setzen). Live ohne Foto: nichts anzeigen.
+import Feder from "./Feder.astro";
+import { PORTRAIT, VORSCHAU, NAME, u } from "../daten";
+interface Props { klein?: boolean }
+const { klein = false } = Astro.props;
+const zeigen = PORTRAIT || VORSCHAU;
+---
+{zeigen && (
+  <figure class:list={["portrait", { klein }]}>
+    {PORTRAIT ? (
+      <img src={u(PORTRAIT)} alt={`Portrait von ${NAME}`} width="800" height="1000" loading="eager" decoding="async" />
+    ) : (
+      <div class="platz" role="img" aria-label="Platzhalter: Portrait von Kerim folgt">
+        <span class="feder"><Feder /></span>
+        <span class="hinweis">Portrait von Kerim folgt</span>
+        <span class="format">Format 4 : 5, z. B. 800 × 1000 px</span>
+      </div>
+    )}
+    <figcaption>{NAME}</figcaption>
+  </figure>
+)}
+<style>
+  .portrait { margin: 0; width: 100%; max-width: 24rem; }
+  .klein { max-width: 17rem; }
+  img, .platz { display: block; width: 100%; aspect-ratio: 4 / 5; border-radius: 4px; object-fit: cover; }
+  .platz {
+    display: grid; place-content: center; justify-items: center; gap: 0.9rem; text-align: center;
+    border: 2px dashed #c4485a; background: linear-gradient(160deg, rgba(243, 237, 228, 0.07), rgba(243, 237, 228, 0.02));
+    color: #f2c4ca;
+  }
+  .feder { width: 3.25rem; color: var(--hell-leise); opacity: 0.55; }
+  .hinweis { font-weight: 600; font-size: 1.05rem; }
+  .format { font-size: 0.85rem; color: var(--hell-leise); }
+  figcaption { margin-top: 0.9rem; font: 500 1.15rem/1.3 var(--serif); color: var(--hell); text-align: center; }
+</style>

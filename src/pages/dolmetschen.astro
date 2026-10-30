@@ -3,18 +3,11 @@ import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import SzeneDolmetschen from "../components/SzeneDolmetschen.astro";
 import Platzhalter from "../components/Platzhalter.astro";
-import Icon from "../components/Icon.astro";
-import { ERFAHRUNGEN, HONORAR, GERICHT, SEIT, u } from "../daten";
-const angaben = [
-  { icon: "kalender", text: "Datum und Uhrzeit des Termins" },
-  { icon: "ort", text: "den Ort" },
-  { icon: "termin", text: "um welche Art von Termin es geht" },
-  { icon: "uhr", text: "wie lange er ungefähr dauert" },
-] as const;
+import { ERFAHRUNGEN, HONORAR, GERICHT, SEIT, TELEFON_LINK, mailLink, u } from "../daten";
 ---
-<Basis titel="Dolmetscher Türkisch Deutsch" beschreibung="Allgemein beeidigter Dolmetscher für Türkisch und Deutsch: Kerim Mikael Tanrikulu, beeidigt durch das Oberlandesgericht Schleswig seit Mai 2021. Sprachmittlung bei Terminen und Gesprächen.">
+<Basis titel="Dolmetscher Türkisch Deutsch" beschreibung="Allgemein beeidigter Dolmetscher für Türkisch und Deutsch: Kerim Mikael Tanrikulu, beeidigt durch das Oberlandesgericht Schleswig seit Mai 2021, Hamburg.">
   <SeitenKopf titel="Dolmetschen" zeile="Türkisch und Deutsch">
-    <p class="lead">Bei Terminen und Gesprächen übertrage ich mündlich zwischen Deutsch und Türkisch, damit sich beide Seiten verstehen.</p>
+    <p class="lead">Es bereitet mir immer große Freude, wenn ich zu einem gelungenen Gespräch und zu gegenseitiger Verständigung beitragen kann.</p>
     <SzeneDolmetschen slot="bild" />
   </SeitenKopf>
 
@@ -23,20 +16,21 @@ const angaben = [
       <h2 id="beeidigt-titel">Allgemein beeidigt</h2>
       <div>
         <p class="lead">Seit {SEIT} bin ich durch das {GERICHT} als Dolmetscher für die türkische und deutsche Sprache allgemein beeidigt.</p>
-        <blockquote class="stimme"><p>Es bereitet mir immer große Freude, wenn ich zu einem gelungenen Gespräch und zu gegenseitiger Verständigung beitragen kann.</p></blockquote>
       </div>
     </div>
   </section>
 
   <section class="abschnitt weiss" aria-labelledby="anfrage-titel">
-    <div class="huelle">
-      <div class="kopfzeile">
-        <h2 id="anfrage-titel">Was ich für Ihre Anfrage brauche</h2>
+    <div class="huelle raster-2">
+      <h2 id="anfrage-titel">Anfrage</h2>
+      <div>
+        <p class="lead">Rufen Sie mich an oder senden Sie mir eine Anfrage per E-Mail.</p>
+        <div class="knoepfe">
+          <a class="knopf" href={mailLink("Anfrage: Dolmetschen")}>Anfrage senden</a>
+          <a class="knopf rahmen" href={TELEFON_LINK}>Anrufen</a>
+        </div>
+        <p class="honorar leise">{HONORAR}</p>
       </div>
-      <ul class="angaben" data-szene>
-        {angaben.map((a, i) => <li class={`a${i}`}><span class="symbol"><Icon name={a.icon} zeichnen /></span>{a.text}</li>)}
-      </ul>
-      <p class="honorar leise">{HONORAR}</p>
     </div>
   </section>
 
@@ -48,29 +42,13 @@ const angaben = [
         <ul class="strichliste">
           {ERFAHRUNGEN.map((e) => <li>{e}</li>)}
         </ul>
-        <Platzhalter>Typische Einsätze und Einsatzgebiet bitte vom Kunden bestätigen (z. B. Gericht, Behörde, Notar, Standesamt, Schule, Arzt; nur Hamburg oder auch Schleswig-Holstein?).</Platzhalter>
-        <Platzhalter>Dolmetschen für Unternehmen (z. B. Gespräche mit Geschäftspartnern): bitte bestätigen, ob angeboten.</Platzhalter>
+        <Platzhalter>Typische Einsätze und Einsatzgebiet bitte vom Kunden nennen lassen. Bis dahin steht hier nur, was auf der bisherigen Website steht.</Platzhalter>
         <p class="mt"><a class="weiter" href={u("/ueber-mich/")}>Mehr über mich</a></p>
       </div>
     </div>
   </section>
 </Basis>
 <style>
-  .stimme { margin: 2rem 0 0; padding-left: 1.5rem; border-left: 1px solid var(--gold); }
-  .stimme p { font: italic 400 clamp(1.25rem, 2.2vw, 1.6rem)/1.45 var(--serif); color: var(--tinte); margin: 0; max-width: 26em; }
-  .angaben { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
-  @media (min-width: 44rem) { .angaben { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 64rem) { .angaben { grid-template-columns: repeat(4, 1fr); } }
-  .angaben li {
-    display: flex; align-items: center; gap: 1rem; padding: 1.25rem; border: 1px solid var(--linie); border-radius: 4px; background: var(--buetten);
-    font: 500 1.15rem/1.3 var(--serif); color: var(--tinte); animation: auftauchen 0.45s var(--sanft) both;
-  }
-  .angaben .a1 { animation-delay: 0.12s; }
-  .angaben .a2 { animation-delay: 0.24s; }
-  .angaben .a3 { animation-delay: 0.36s; }
-  .symbol { display: grid; place-items: center; flex: none; width: 3rem; height: 3rem; border-radius: 50%; background: var(--tinte); color: var(--gold); }
-  .symbol :global(svg) { width: 1.5rem; height: 1.5rem; }
-  .angaben :global(.strich) { animation: zeichnen 0.8s ease-out 0.2s both; }
   .honorar { margin: 2rem 0 0; max-width: 46rem; }
   .mt { margin-top: 1.5rem; }
 </style>

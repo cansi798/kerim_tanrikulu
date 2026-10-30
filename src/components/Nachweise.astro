@@ -1,17 +1,11 @@
 ---
-// Vertrauensbereich: links Überschrift (Slot) und das Siegel der Marke (zeichnet sich einmal, 1,1 s),
-// rechts die öffentlich nachweisbaren Angaben. Bewusst kein amtlich wirkender Stempeltext – Markenzeichen, kein Dienstsiegel.
+// Vertrauensbereich: links Überschrift (Slot), rechts die Angaben der bestehenden Website (Zeilen erscheinen nacheinander, 1 s).
+// Bewusst kein Siegel-Motiv (Jamil Talk 3904: „Behördensiegel – nicht vorhanden“).
 import { NACHWEISE } from "../daten";
-const FEDER = "M48.6 91.5C44 80 22 60 22 41C22 30 26.5 20 32 11L68 11C73.5 20 78 30 78 41C78 60 56 80 51.4 91.5L51.4 49.6A5.8 5.8 0 1 0 48.6 49.6Z";
 ---
 <div class="nachweise" data-szene>
   <div class="links">
     <slot />
-    <svg class="siegel" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-      <circle class="ring1 strich" pathLength="1" cx="100" cy="100" r="92" transform="rotate(-90 100 100)" />
-      <circle class="ring2 strich" pathLength="1" cx="100" cy="100" r="82" transform="rotate(-90 100 100)" />
-      <g class="kern"><g transform="translate(64 56) scale(0.72)"><path class="spitze" d={FEDER} /><circle class="tropfen" cx="50" cy="97.2" r="3" /></g></g>
-    </svg>
   </div>
   <dl class="liste">
     {NACHWEISE.map((n, i) => (
@@ -22,23 +16,12 @@ const FEDER = "M48.6 91.5C44 80 22 60 22 41C22 30 26.5 20 32 11L68 11C73.5 20 78
 <style>
   .nachweise { display: grid; gap: 2.5rem 4rem; align-items: start; }
   @media (min-width: 56rem) { .nachweise { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
-  .siegel { width: 9rem; height: auto; margin-top: 2rem; color: var(--tinte); }
-  @media (min-width: 56rem) { .siegel { width: 11rem; margin-top: 2.75rem; } }
-  .ring1, .ring2 { fill: none; stroke: var(--gold); }
-  .ring1 { stroke-width: 2; }
-  .ring2 { stroke-width: 0.8; }
-  .spitze { fill: currentColor; }
-  .tropfen { fill: var(--gold); }
-  .kern { transform-box: fill-box; transform-origin: center; }
   .liste { margin: 0; border-top: 1px solid var(--linie); }
   .zeile { display: grid; grid-template-columns: minmax(0, 13rem) 1fr; gap: 0.25rem 1.5rem; align-items: baseline; padding: 1.05rem 0; border-bottom: 1px solid var(--linie); }
   @media (max-width: 30rem) { .zeile { grid-template-columns: 1fr; } }
   dt { color: var(--text-leise); font-size: 0.98rem; }
   dd { margin: 0; font: 500 clamp(1.2rem, 2vw, 1.4rem)/1.35 var(--serif); color: var(--tinte); }
 
-  .ring1 { animation: zeichnen 1s var(--sanft) both; }
-  .ring2 { animation: zeichnen 1s var(--sanft) 0.1s both; }
-  .kern { animation: aufploppen 0.4s var(--sanft) 0.7s both; }
   .zeile { animation: auftauchen 0.4s var(--sanft) both; }
   .zeile[data-i="1"] { animation-delay: 0.12s; }
   .zeile[data-i="2"] { animation-delay: 0.24s; }

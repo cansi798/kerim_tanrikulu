@@ -20,6 +20,11 @@ export const SPRACHEN = "Deutsch und Türkisch";
 /** Standort laut Jamils Konzept; vom Kunden bestätigen lassen (OFFENE-INFOS). */
 export const ORT = "Hamburg";
 
+/** Claim laut Jamil (Talk 3904). Kerims eigener Satz lautet „Brückenbildung zwischen den Kulturen“ – Wortlaut bestätigen lassen (OFFENE-INFOS). */
+export const CLAIM = "Brücken bauen zwischen den Sprachen";
+/** Portraitfoto (Pfad unter public/, z. B. "/portrait.jpg"). Solange leer: Platzhalter nur in der Vorschau. */
+export const PORTRAIT: string | null = null;
+
 export const MAIL = "info@dolmetscher-kt.de";
 /** Aus dem Screenshot der Jimdo-Seite gelesen – vor dem Livegang vom Kunden bestätigen. */
 export const TELEFON = "0177 4207 664";
@@ -64,18 +69,12 @@ export const NACHWEISE = [
 ];
 
 export type Frage = { frage: string; antwort: string[] };
-/** Nur Fragen, die mit belegten Angaben beantwortet werden können (Jamils Konzept). */
+/** Nur Fragen, die mit Angaben der bestehenden Website beantwortet werden können (Jamil Talk 3877/3904). */
 export const FRAGEN: Frage[] = [
   {
     frage: "Was ist eine beglaubigte Übersetzung?",
     antwort: [
-      "Bei einer beglaubigten Übersetzung bestätigt ein ermächtigter Übersetzer schriftlich, dass die Übersetzung richtig und vollständig ist. Behörden und Gerichte verlangen diese Form häufig, wenn Sie fremdsprachige Unterlagen einreichen.",
-    ],
-  },
-  {
-    frage: "Brauche ich für mein Dokument eine beglaubigte Übersetzung?",
-    antwort: [
-      "Das legt die Stelle fest, bei der Sie das Dokument einreichen, also zum Beispiel die Behörde oder das Gericht. Fragen Sie dort im Zweifel nach, welche Form verlangt wird.",
+      `Eine beglaubigte Übersetzung fertigt ein ermächtigter Übersetzer an. Behörden, Gerichte und andere offizielle Stellen können sie für fremdsprachige Dokumente verlangen. Ich bin seit ${SEIT} durch das ${GERICHT} als Übersetzer für die türkische und deutsche Sprache ermächtigt.`,
     ],
   },
   {
@@ -87,7 +86,7 @@ export const FRAGEN: Frage[] = [
   {
     frage: "Was bedeutet „allgemein beeidigter Dolmetscher“?",
     antwort: [
-      `Ein allgemein beeidigter Dolmetscher hat vor einem Gericht einen allgemeinen Eid geleistet, der für seine Dolmetschertätigkeit gilt. Umgangssprachlich heißt das oft „vereidigter Dolmetscher“. Ich bin seit ${SEIT} durch das ${GERICHT} allgemein beeidigt.`,
+      `Ich bin seit ${SEIT} durch das ${GERICHT} als Dolmetscher für die türkische und deutsche Sprache allgemein beeidigt. Umgangssprachlich spricht man oft von einem „vereidigten Dolmetscher“.`,
     ],
   },
   {
@@ -101,7 +100,7 @@ export const FRAGEN: Frage[] = [
   {
     frage: "Wie kann ich eine Anfrage senden?",
     antwort: [
-      `Schreiben Sie eine E-Mail an ${MAIL} oder rufen Sie an unter ${TELEFON}. Beschreiben Sie kurz, worum es geht: bei Übersetzungen welches Dokument und wofür Sie es brauchen, beim Dolmetschen Datum, Ort und Art des Termins.`,
+      `Schreiben Sie eine E-Mail an ${MAIL} oder rufen Sie an unter ${TELEFON}. Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.`,
     ],
   },
 ];

@@ -2,20 +2,14 @@
 import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import Nachweise from "../components/Nachweise.astro";
-import Platzhalter from "../components/Platzhalter.astro";
-import Feder from "../components/Feder.astro";
-import { ERFAHRUNGEN, VORSCHAU } from "../daten";
+import Portrait from "../components/Portrait.astro";
+import { ERFAHRUNGEN, PORTRAIT, VORSCHAU } from "../daten";
 ---
 <Basis titel="Über mich" beschreibung="Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische und deutsche Sprache durch das Oberlandesgericht Schleswig seit Mai 2021.">
   <SeitenKopf titel="Über mich" zeile="Kerim Mikael Tanrikulu">
     <!-- Text wörtlich von der bisherigen Jimdo-Seite -->
     <p class="lead">Ich bin Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische und deutsche Sprache durch das Oberlandesgericht Schleswig seit Mai 2021.</p>
-    {VORSCHAU && (
-      <figure slot="bild" class="portrait" aria-label="Platzhalter für ein Portraitfoto">
-        <span class="portrait-feder"><Feder /></span>
-        <span>Portraitfoto folgt</span>
-      </figure>
-    )}
+    {(PORTRAIT || VORSCHAU) && <div slot="bild" class="bildplatz"><Portrait klein /></div>}
   </SeitenKopf>
 
   <section class="abschnitt" aria-label="Wie ich zum Übersetzen kam">
@@ -43,8 +37,7 @@ import { ERFAHRUNGEN, VORSCHAU } from "../daten";
   <section class="abschnitt" aria-labelledby="vertrauen-titel">
     <div class="huelle">
       <Nachweise>
-        <h2 id="vertrauen-titel">Warum Sie mir Ihre Unterlagen anvertrauen können</h2>
-        <Platzhalter>Ein Satz zum Umgang mit Unterlagen (Vertraulichkeit, Aufbewahrung, Rückgabe) bitte vom Kunden formulieren lassen.</Platzhalter>
+        <h2 id="vertrauen-titel">Qualifikation</h2>
       </Nachweise>
     </div>
   </section>
@@ -62,11 +55,7 @@ import { ERFAHRUNGEN, VORSCHAU } from "../daten";
   </section>
 </Basis>
 <style>
-  .portrait {
-    margin: 0 auto; width: min(100%, 17rem); aspect-ratio: 4 / 5; display: grid; place-items: center; align-content: center; gap: 1rem;
-    border: 2px dashed #c4485a; background: rgba(251, 240, 240, 0.06); color: #f2c4ca; font-weight: 500;
-  }
-  .portrait-feder { width: 3.5rem; color: var(--hell-leise); opacity: 0.6; }
+  .bildplatz { display: flex; justify-content: center; }
   .zitat-band { padding-block: clamp(4rem, 9vw, 6.5rem); background: var(--tinte-2); }
   .zitat { margin: 0 auto; max-width: 50rem; text-align: center; }
   .bogen { width: min(100%, 30rem); margin: 0 auto 1.75rem; overflow: visible; }
