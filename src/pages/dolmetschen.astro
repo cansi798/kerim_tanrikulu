@@ -1,14 +1,14 @@
 ---
 import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
-import SzeneDolmetschen from "../components/SzeneDolmetschen.astro";
+import BildDolmetschen from "../components/BildDolmetschen.astro";
 import Platzhalter from "../components/Platzhalter.astro";
 import { ERFAHRUNGEN, HONORAR, GERICHT, SEIT, TELEFON_LINK, mailLink, u } from "../daten";
 ---
 <Basis titel="Dolmetscher Türkisch Deutsch" beschreibung="Allgemein beeidigter Dolmetscher für Türkisch und Deutsch: Kerim Mikael Tanrikulu, beeidigt durch das Oberlandesgericht Schleswig seit Mai 2021, Hamburg.">
   <SeitenKopf titel="Dolmetschen" zeile="Türkisch und Deutsch">
     <p class="lead">Es bereitet mir immer große Freude, wenn ich zu einem gelungenen Gespräch und zu gegenseitiger Verständigung beitragen kann.</p>
-    <SzeneDolmetschen slot="bild" />
+    <BildDolmetschen slot="bild" />
   </SeitenKopf>
 
   <section class="abschnitt" aria-labelledby="beeidigt-titel">

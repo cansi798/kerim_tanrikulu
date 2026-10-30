@@ -1,0 +1,24 @@
+---
+// Ruhiges Bild „Übersetzung“ (Jamil Talk 3910: elegant statt gezeichnet): zwei Blätter als Flächen.
+// Beim Sichtbarwerden gleitet die Übersetzung sanft vor das Original (0,9 s), danach Ruhe.
+---
+<figure class="bild-uebersetzung" data-szene role="img" aria-label="Original und Übersetzung als zwei Blätter nebeneinander">
+  <div class="blatt original" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><em>Original</em></div>
+  <div class="blatt uebersetzung" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><em>Übersetzung</em></div>
+</figure>
+<style>
+  .bild-uebersetzung { position: relative; margin: 0; height: clamp(12rem, 24vw, 15rem); }
+  .blatt {
+    position: absolute; top: 8%; width: 42%; height: 80%; padding: 8% 7%; border-radius: 6px;
+    display: flex; flex-direction: column; gap: 9%; box-shadow: 0 18px 34px -22px rgba(43, 36, 31, 0.45);
+  }
+  .blatt span { display: block; height: 3px; border-radius: 2px; background: currentColor; opacity: 0.35; }
+  .blatt span:nth-child(2n) { width: 78%; }
+  .blatt span:nth-child(3n) { width: 62%; }
+  .blatt em { position: absolute; left: 0; right: 0; bottom: -1.9rem; text-align: center; font: 600 0.85rem/1 var(--sans); font-style: normal; letter-spacing: 0.04em; color: var(--text-leise); }
+  .original { left: 8%; background: var(--tinte-2); color: var(--text-leise); transform: rotate(-3deg); }
+  .uebersetzung { right: 8%; background: var(--weiss); color: var(--tinte); border: 1px solid var(--linie); }
+  .original { animation: rise 0.6s var(--ease) both; }
+  .uebersetzung { animation: gleiten 0.9s var(--ease) 0.25s both; }
+  @keyframes gleiten { from { opacity: 0; transform: translateX(-28%); } to { opacity: 1; transform: none; } }
+</style>

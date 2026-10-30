@@ -25,7 +25,7 @@ import { ERFAHRUNGEN, PORTRAIT, VORSCHAU } from "../daten";
     <div class="huelle">
       <figure class="zitat">
         <svg class="bogen" viewBox="0 0 600 90" aria-hidden="true" focusable="false">
-          <path class="strich" pathLength="1" d="M8 84 Q 300 -50 592 84" />
+          <path d="M8 84 Q 300 -50 592 84" />
           <circle class="ufer-l" cx="8" cy="84" r="4" /><circle class="ufer-r" cx="592" cy="84" r="4" />
         </svg>
         <blockquote><p>Ich verstehe meine Arbeit als eine Form von Brückenbildung zwischen den Kulturen.</p></blockquote>
@@ -59,10 +59,10 @@ import { ERFAHRUNGEN, PORTRAIT, VORSCHAU } from "../daten";
   .zitat-band { padding-block: clamp(4rem, 9vw, 6.5rem); background: var(--tinte-2); }
   .zitat { margin: 0 auto; max-width: 50rem; text-align: center; }
   .bogen { width: min(100%, 30rem); margin: 0 auto 1.75rem; overflow: visible; }
-  .bogen path { fill: none; stroke: var(--gold); stroke-width: 1.5; animation: zeichnen 1.2s var(--sanft) both; }
+  .bogen { animation: einblenden 0.8s ease both; }
+  .bogen path { fill: none; stroke: var(--gold); stroke-width: 1.5; }
   .bogen circle { fill: var(--gold); }
-  .ufer-r { animation: einblenden 0.2s ease 1.1s both; }
   blockquote { margin: 0; }
-  blockquote p { margin: 0 auto; max-width: 20em; font: italic 400 clamp(1.7rem, 3.8vw, 2.7rem)/1.3 var(--serif); color: var(--hell); animation: auftauchen 0.8s var(--sanft) 0.3s both; }
+  blockquote p { margin: 0 auto; max-width: 22em; font: italic 500 clamp(1.5rem, 3.2vw, 2.25rem)/1.4 var(--serif); color: var(--hell); animation: rise var(--dur-reveal) var(--ease) 0.2s both; }
   figcaption { margin-top: 1.5rem; color: var(--gold-dunkel); letter-spacing: 0.04em; font-size: 0.98rem; }
 </style>

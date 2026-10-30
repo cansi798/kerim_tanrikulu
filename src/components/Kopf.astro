@@ -1,8 +1,9 @@
 ---
-// Kopfzeile auf Tinte: Logo, Navigation (Jamils Konzept), Telefon immer sichtbar. Menü am Handy ohne JS (<details>).
+// Kopfzeile nach Bauwelt-Muster (Jamil Talk 3910): Logo links, Navigation, Telefon, Hauptknopf „Anfrage senden“,
+// goldene Fortschrittsleiste an der Unterkante (sichtbar.js). Menü am Handy ohne JS (<details>).
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
-import { NAV, u, TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU } from "../daten";
+import { NAV, u, TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, mailLink } from "../daten";
 const pfad = Astro.url.pathname.replace(/\/?$/, "/");
 const aktiv = (href: string) => pfad === u(href).replace(/\/?$/, "/");
 const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
@@ -15,7 +16,8 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
         {NAV.map((n) => <li><a href={u(n.href)} aria-current={aktiv(n.href) ? "page" : undefined}>{n.label}</a></li>)}
       </ul>
     </nav>
-    <a class="knopf rahmen anruf" href={TELEFON_LINK} title={markieren ? "Nummer bitte vom Kunden bestätigen" : undefined}><Icon name="telefon" /><span class:list={{ unbestaetigt: markieren }}>{TELEFON}</span></a>
+    <a class="anruf" href={TELEFON_LINK} title={markieren ? "Nummer bitte vom Kunden bestätigen" : undefined}><Icon name="telefon" /><span class:list={{ unbestaetigt: markieren }}>{TELEFON}</span></a>
+    <a class="knopf kopf-cta" href={mailLink("Anfrage: Übersetzung oder Dolmetschen")}>Anfrage senden</a>
     <details class="nav-schmal">
       <summary><span class="zu"><Icon name="menue" /></span><span class="auf"><Icon name="schliessen" /></span><span>Menü</span></summary>
       <nav aria-label="Hauptnavigation (mobil)">
@@ -25,6 +27,7 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
       </nav>
     </details>
   </div>
+  <div class="kopf-balken" aria-hidden="true"><span></span></div>
 </header>
 <style>
   .kopf {
@@ -32,26 +35,32 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
     border-bottom: 1px solid var(--tinte-3); transition: box-shadow 0.3s ease;
   }
   .kopf.gescrollt { box-shadow: 0 10px 28px -16px rgba(43, 36, 31, 0.35); }
-  .kopf-innen { display: flex; align-items: center; gap: 1.25rem; height: var(--kopf-h); }
+  .kopf-innen { display: flex; align-items: center; gap: 1.1rem; height: var(--kopf-h); }
   .marke { display: block; margin-right: auto; color: var(--hell); }
-  .marke :global(.logo) { width: 11rem; height: auto; }
-  @media (min-width: 75rem) { .marke :global(.logo) { width: 12.5rem; } }
+  .marke :global(.logo) { width: 10.5rem; height: auto; }
+  @media (min-width: 75rem) { .marke :global(.logo) { width: 11.5rem; } }
 
   .nav-breit { display: none; }
   .nav-breit ul { list-style: none; display: flex; gap: 0.1rem; margin: 0; padding: 0; }
   .nav-breit a {
-    position: relative; display: block; padding: 0.6rem 0.7rem; color: var(--hell);
-    text-decoration: none; font-size: 0.98rem; letter-spacing: 0.01em;
+    position: relative; display: block; padding: 0.6rem 0.55rem; color: var(--hell);
+    text-decoration: none; font-size: 0.95rem; white-space: nowrap;
   }
   .nav-breit a::after {
-    content: ""; position: absolute; left: 0.7rem; right: 0.7rem; bottom: 0.3rem; height: 1px; background: var(--gold);
+    content: ""; position: absolute; left: 0.55rem; right: 0.55rem; bottom: 0.3rem; height: 1px; background: var(--gold);
     transform: scaleX(0); transform-origin: left; transition: transform 0.35s var(--sanft);
   }
   .nav-breit a:hover::after, .nav-breit a[aria-current="page"]::after { transform: scaleX(1); }
   .nav-breit a[aria-current="page"] { color: var(--gold-hell); }
 
-  .anruf { display: none; min-height: 2.75rem; padding: 0.5rem 1.15rem; font-size: 0.98rem; }
-  @media (min-width: 66rem) { .nav-breit { display: block; } .anruf { display: inline-flex; } .nav-schmal { display: none; } }
+  .anruf { display: none; align-items: center; gap: 0.5rem; color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.98rem; white-space: nowrap; }
+  .anruf :global(svg) { width: 1.15rem; height: 1.15rem; color: var(--gold-dunkel); }
+  .kopf-cta { display: none; min-height: 2.75rem; padding: 0.55rem 1.2rem; font-size: 0.92rem; white-space: nowrap; }
+  .kopf-balken { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; overflow: hidden; }
+  .kopf-balken span { display: block; height: 100%; background: var(--gold); transform: scaleX(0); transform-origin: left center; }
+  @media (min-width: 66rem) { .nav-breit { display: block; } .nav-schmal { display: none; } }
+  @media (min-width: 66rem) { .kopf-cta { display: inline-flex; } }
+  @media (min-width: 88rem) { .anruf { display: inline-flex; } }
 
   .nav-schmal summary {
     display: flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.4rem 0.9rem;

@@ -1,6 +1,6 @@
 ---
 // Abschluss jeder Seite (Jamils Konzept: „Benötigen Sie Unterstützung?“ + „Jetzt Kontakt aufnehmen“).
-// Szene: der Goldfaden läuft einmal über die Breite (1 s).
+// Überschrift steigt beim Sichtbarwerden ruhig auf (Bauwelt-Bewegung).
 import Icon from "./Icon.astro";
 import { u, TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, mailLink, ORT } from "../daten";
 const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
@@ -22,10 +22,10 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
 </section>
 <style>
   .aufruf { position: relative; overflow: hidden; padding-block: clamp(4rem, 9vw, 6.5rem); background: var(--tinte-2); }
-  .faden { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--gold); transform-origin: left; animation: breiten 1s var(--sanft) both; }
+  .faden { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--tinte-3); }
   .innen { position: relative; display: grid; gap: 2.5rem; align-items: center; }
   @media (min-width: 56rem) { .innen { grid-template-columns: 1.2fr 1fr; gap: 5rem; } }
-  .frage h2 { animation: auftauchen 0.7s var(--sanft) 0.15s both; }
+  .frage h2 { animation: rise var(--dur-reveal) var(--ease) both; }
   .frage p { color: var(--hell-leise); font-size: 1.15rem; margin-bottom: 1.75rem; max-width: 30em; }
   .wege { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--tinte-3); position: relative; z-index: 1; }
   .wege a, .wege .ohne {

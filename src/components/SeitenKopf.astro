@@ -1,5 +1,5 @@
 ---
-// Kopf der Unterseiten auf Tinte: Titel, ein Satz, rechts eine Szene. Unten läuft der Goldfaden einmal über die Breite.
+// Kopf der Unterseiten (Beige): Titel, ein Satz, rechts ein ruhiges Bild. Inhalte steigen gestaffelt auf wie im Bauwelt-Hero.
 interface Props { titel: string; zeile?: string }
 const { titel, zeile } = Astro.props;
 const mitBild = Astro.slots.has("bild");
@@ -20,8 +20,10 @@ const mitBild = Astro.slots.has("bild");
   .raster { display: grid; gap: 2.5rem; align-items: center; }
   @media (min-width: 60rem) { .mit-bild { grid-template-columns: minmax(0, 1fr) minmax(0, 30rem); gap: 4rem; } }
   .zeile { color: var(--gold-dunkel); font-size: 1.02rem; letter-spacing: 0.02em; margin-bottom: 0.75rem; }
-  h1 { max-width: 12em; }
-  .text :global(.lead) { color: var(--hell-leise); margin-bottom: 0; animation: auftauchen 0.7s var(--sanft) 0.15s both; }
+  h1 { max-width: 14em; animation: rise var(--dur-reveal) var(--ease) 120ms both; }
+  .zeile { animation: rise var(--dur-reveal) var(--ease) both; }
+  .bild { animation: rise var(--dur-reveal) var(--ease) 220ms both; }
+  .text :global(.lead) { color: var(--hell-leise); margin-bottom: 0; animation: rise var(--dur-reveal) var(--ease) 220ms both; }
   .bild { width: 100%; }
-  .faden { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--gold); transform-origin: left; animation: breiten 1.2s var(--sanft) 0.2s both; }
+  .faden { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--tinte-3); }
 </style>

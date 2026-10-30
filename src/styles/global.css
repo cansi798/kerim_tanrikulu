@@ -1,14 +1,6 @@
 /* Kerim Tanrikulu – Design v3c (31.10.2026, Jamil Talk 3907)
    Beige als Bühne, Creme als Lesefläche, Gold als Faden, Siegelrot nur für den Hauptknopf, bisheriges Logo.
-   Schriften: Bodoni Moda (Überschriften, Logo) und Hanken Grotesk (Text), beide selbst gehostet. */
-
-/* Bodoni Moda zeichnet Bindestrich und Halbgeviertstrich bei großer optischer Größe als Haarlinie (fast unsichtbar,
-   z. B. „Schleswig-Holstein“). Nur diese Zeichen kommen aus dem statischen Schnitt (OFL, fontsource @fontsource/bodoni-moda 5.3.0). */
-@font-face {
-  font-family: "Bodoni Strich"; font-style: normal; font-weight: 400 900; font-display: swap;
-  src: url("./schriften/bodoni-strich.woff2") format("woff2");
-  unicode-range: U+002D, U+2010-2011, U+2013;
-}
+   v3d (Jamil Talk 3910): Aufbau und Hero-Bewegung wie Bauwelt, Schriften Source Serif 4 + Open Sans, ruhige Animationen ohne Zeichnen. */
 
 :root {
   /* v3c (Jamil Talk 3907): elegantes Beige statt Violett. Namen bleiben, Werte sind die helle Fassung:
@@ -34,13 +26,17 @@
   --logo: #1c2b4b;
   --logo-grund: #fbf7f0;
 
-  --serif: "Bodoni Strich", "Bodoni Moda Variable", "Bodoni 72", "Didot", Georgia, serif;
-  --sans: "Hanken Grotesk Variable", "Segoe UI", system-ui, sans-serif;
+  --serif: "Source Serif 4 Variable", Georgia, "Times New Roman", serif;
+  --sans: "Open Sans Variable", "Segoe UI", Arial, sans-serif;
+  /* Bewegung wie Bauwelt (Jamil Talk 3910): eine Kurve, drei Dauern */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-reveal: 500ms;
 
   --breite: 76rem;
   --rand: clamp(1.25rem, 5vw, 3rem);
   --sanft: cubic-bezier(0.22, 0.7, 0.2, 1);
-  --kopf-h: 4.75rem;
+  --kopf-h: 5rem;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -48,7 +44,7 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-t
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
   margin: 0; background: var(--buetten); color: var(--text);
-  font: 400 1.0625rem/1.7 var(--sans); font-optical-sizing: auto;
+  font: 400 1.125rem/1.7 var(--sans);
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
 img, svg { display: block; max-width: 100%; }
@@ -57,13 +53,13 @@ p { margin: 0 0 1.25rem; }
 ul { margin: 0 0 1.25rem; }
 
 h1, h2, h3 {
-  font-family: var(--serif); font-weight: 500; line-height: 1.12; letter-spacing: -0.005em;
+  font-family: var(--serif); font-weight: 600; line-height: 1.18; letter-spacing: -0.005em;
   color: inherit; margin: 0 0 1.25rem; text-wrap: balance;
 }
-h1 { font-size: clamp(2.4rem, 6vw, 4.6rem); }
+h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
 @media (max-width: 40rem) { h1, h2 { hyphens: auto; overflow-wrap: break-word; } }
-h2 { font-size: clamp(1.9rem, 4vw, 3rem); }
-h3 { font-size: clamp(1.35rem, 2.2vw, 1.65rem); line-height: 1.2; }
+h2 { font-size: clamp(1.75rem, 3.4vw, 2.5rem); }
+h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
 .dunkel :focus-visible, .kopf :focus-visible { outline-color: var(--gold-hell); }
@@ -141,10 +137,23 @@ h3 { font-size: clamp(1.35rem, 2.2vw, 1.65rem); line-height: 1.2; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
-@keyframes zeichnen { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes auftauchen { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes einblenden { from { opacity: 0; } to { opacity: 1; } }
 @keyframes aufploppen { 0% { opacity: 0; transform: scale(0.86); } 70% { opacity: 1; transform: scale(1.03); } 100% { opacity: 1; transform: scale(1); } }
 @keyframes stempeln { 0% { opacity: 0; transform: scale(1.6) rotate(-14deg); } 65% { opacity: 1; transform: scale(0.94) rotate(-8deg); } 100% { opacity: 1; transform: scale(1) rotate(-8deg); } }
-@keyframes breiten { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.strich { stroke-dasharray: 1; }
+
+/* ---------- Bauwelt-Muster (Jamil Talk 3910) ---------- */
+@keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@keyframes nudge { 0%, 100% { transform: translateY(0); opacity: 0.9; } 50% { transform: translateY(8px); opacity: 0.5; } }
+.section-head { max-width: 46rem; margin: 0 auto clamp(2.25rem, 4vw, 3rem); text-align: center; }
+.section-head p { color: var(--text-leise); margin-inline: auto; }
+.eyebrow { display: block; font: 600 0.82rem/1.5 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dunkel); margin: 0 0 0.75rem; }
+.regel::after { content: ""; display: block; width: 64px; height: 3px; background: var(--gold); margin: 1rem auto 0; border-radius: 2px; }
+.links-buendig .regel::after { margin-left: 0; }
+.karte { background: var(--weiss); border: 1px solid var(--linie); border-radius: 16px; padding: clamp(1.5rem, 3vw, 2rem); }
+a.karte { color: inherit; text-decoration: none; transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), border-color var(--dur-fast) ease; }
+a.karte:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -20px rgba(43, 36, 31, 0.4); border-color: var(--gold); }
+/* Einblenden beim Scrollen wie Bauwelt (.reveal): nur mit JS, ohne JS ist alles sichtbar */
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-reveal) var(--ease), transform var(--dur-reveal) var(--ease); }
+.js .reveal.an { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; } }

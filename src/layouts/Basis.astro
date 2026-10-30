@@ -1,10 +1,10 @@
 ---
-// Schriften selbst gehostet (fontsource, variabel). Hauptdateien vorladen – gleiche Datei wie im CSS, Vite fasst sie zusammen.
-import "@fontsource-variable/bodoni-moda/opsz.css";
-import "@fontsource-variable/bodoni-moda/opsz-italic.css";
-import "@fontsource-variable/hanken-grotesk/wght.css";
-import bodoniUrl from "@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-opsz-normal.woff2?url";
-import hankenUrl from "@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url";
+// Schriften selbst gehostet (fontsource, variabel): Source Serif 4 (Überschriften, ruhige Serife mit niedrigem Kontrast)
+// und Open Sans (Text, wie bei Bauwelt). Jamil Talk 3910: gut lesbar statt Bodoni.
+import "@fontsource-variable/source-serif-4/wght.css";
+import "@fontsource-variable/open-sans/wght.css";
+import serifUrl from "@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2?url";
+import sansUrl from "@fontsource-variable/open-sans/files/open-sans-latin-wght-normal.woff2?url";
 import "../styles/global.css";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
@@ -59,8 +59,8 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <link rel="preload" href={bodoniUrl} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={hankenUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
     <script is:inline src={u("/sichtbar.js")}></script>
     <title>{voll}</title>
     <meta name="description" content={beschreibung} />

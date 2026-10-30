@@ -17,7 +17,7 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
       <ul class="wege" data-szene>
         <li class="w0">
           <a href={TELEFON_LINK}>
-            <span class="symbol"><Icon name="telefon" zeichnen /></span>
+            <span class="symbol"><Icon name="telefon" /></span>
             <span class="art">Anrufen</span>
             <span class:list={["wert", { unbestaetigt: markieren }]}>{TELEFON}</span>
             {markieren && <span class="hinweis"><Luecke>Nummer bitte bestätigen</Luecke></span>}
@@ -25,14 +25,14 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
         </li>
         <li class="w1">
           <a href={mailLink()}>
-            <span class="symbol"><Icon name="mail" zeichnen /></span>
+            <span class="symbol"><Icon name="mail" /></span>
             <span class="art">E-Mail schreiben</span>
             <span class="wert">{MAIL}</span>
           </a>
         </li>
         <li class="w2">
           <div>
-            <span class="symbol"><Icon name="ort" zeichnen /></span>
+            <span class="symbol"><Icon name="ort" /></span>
             <span class="art">Standort</span>
             <span class="wert">{ORT}</span>
           </div>
@@ -68,6 +68,5 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
   .wege li { animation: auftauchen 0.45s var(--sanft) both; }
   .wege .w1 { animation-delay: 0.12s; }
   .wege .w2 { animation-delay: 0.24s; }
-  .wege :global(.strich) { animation: zeichnen 0.8s ease-out 0.2s both; }
   .schluss { margin: 0; max-width: 46rem; }
 </style>
