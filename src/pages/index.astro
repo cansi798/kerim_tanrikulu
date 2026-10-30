@@ -1,8 +1,9 @@
 ---
 import Basis from "../layouts/Basis.astro";
 import Nachweise from "../components/Nachweise.astro";
-import Blatt from "../components/Blatt.astro";
-import { u, mailLink, NAME, DOLMETSCHER, UEBERSETZER, ERFAHRUNGEN } from "../daten";
+import Bruecke from "../components/Bruecke.astro";
+import Icon from "../components/Icon.astro";
+import { u, mailLink, NAME, DOLMETSCHER, UEBERSETZER, ERFAHRUNGEN, GERICHT, SEIT, ORT } from "../daten";
 
 // Kundenprobleme wörtlich aus Jamils Konzept (Talk 30.10.2026)
 const probleme = [
@@ -13,34 +14,38 @@ const probleme = [
 ];
 ---
 <Basis>
-  <!-- Hero: Headline, Subheadline und Knöpfe wörtlich nach Jamils Konzept -->
+  <!-- Hero: Headline, Subheadline und Knöpfe wörtlich nach Jamils Konzept; darunter schreibt die Feder die Brücke -->
   <section class="hero" aria-labelledby="hero-titel">
-    <div class="huelle hero-raster">
-      <div class="hero-text">
-        <h1 id="hero-titel">Beglaubigte Übersetzungen und Dolmetscher&shy;dienstleistungen für Deutsch und Türkisch</h1>
-        <p class="lead">Unterstützung bei offiziellen Dokumenten, Behördenangelegenheiten und Gesprächen mit türkischsprachigen Ansprechpartnern.</p>
-        <div class="knoepfe">
-          <a class="knopf" href={mailLink("Anfrage: Übersetzung oder Dolmetschen")}>Anfrage senden</a>
-          <a class="knopf zweit" href={u("/kontakt/")}>Kontakt aufnehmen</a>
+    <div class="huelle">
+      <div class="hero-raster">
+        <div>
+          <h1 id="hero-titel">Beglaubigte Übersetzungen und Dolmetscher&shy;dienstleistungen für Deutsch und Türkisch</h1>
+          <p class="lead">Unterstützung bei offiziellen Dokumenten, Behördenangelegenheiten und Gesprächen mit türkischsprachigen Ansprechpartnern.</p>
+          <div class="knoepfe">
+            <a class="knopf" href={mailLink("Anfrage: Übersetzung oder Dolmetschen")}>Anfrage senden</a>
+            <a class="knopf zweit" href={u("/kontakt/")}>Kontakt aufnehmen</a>
+          </div>
         </div>
-        <p class="wer">{NAME}, {DOLMETSCHER} und {UEBERSETZER}</p>
+        <div class="vermerk">
+          <p class="name">{NAME}</p>
+          <p>{DOLMETSCHER} und {UEBERSETZER}</p>
+          <p class="leise">{GERICHT}, seit {SEIT}<br />{ORT}</p>
+        </div>
       </div>
-      <div class="hero-bild">
-        <Blatt />
-      </div>
+      <div class="hero-bild"><Bruecke /></div>
     </div>
   </section>
 
-  <section class="abschnitt blatt-grund" aria-labelledby="problem-titel">
-    <div class="huelle rand-raster">
-      <h2 id="problem-titel">Wenn Dokumente offiziell anerkannt werden müssen</h2>
-      <div>
+  <section class="abschnitt pergament" aria-labelledby="problem-titel">
+    <div class="huelle">
+      <div class="problem-kopf">
+        <h2 id="problem-titel">Wenn Dokumente offiziell anerkannt werden müssen</h2>
         <p class="lead">Viele Behörden, Gerichte und Institutionen verlangen beglaubigte Übersetzungen. Vielleicht kennen Sie einen dieser Sätze:</p>
-        <ul class="zitate">
-          {probleme.map((p) => <li>{p}</li>)}
-        </ul>
-        <p>Schreiben Sie mir oder rufen Sie an. Wie es in Ihrem Fall weitergeht, bespreche ich gerne persönlich mit Ihnen.</p>
       </div>
+      <ul class="saetze">
+        {probleme.map((p) => <li class="einblenden">{p}</li>)}
+      </ul>
+      <p class="antwort">Schreiben Sie mir oder rufen Sie an. Wie es in Ihrem Fall weitergeht, bespreche ich gerne persönlich mit Ihnen.</p>
     </div>
   </section>
 
@@ -48,29 +53,31 @@ const probleme = [
     <div class="huelle">
       <h2 id="leistungen-titel">Wobei ich Sie unterstütze</h2>
       <div class="leistungen">
-        <a class="leistung" href={u("/uebersetzungen/")}>
+        <a class="leistung einblenden" href={u("/uebersetzungen/")}>
+          <span class="zeichen"><Icon name="dokument" /></span>
           <h3>Beglaubigte Übersetzungen</h3>
           <p>Übersetzung offizieller Dokumente, zum Beispiel Urkunden, Zeugnisse oder Gerichtsurteile.</p>
           <span class="mehr">Mehr zu Übersetzungen</span>
         </a>
-        <a class="leistung" href={u("/dolmetschen/")}>
+        <a class="leistung einblenden" href={u("/dolmetschen/")}>
+          <span class="zeichen"><Icon name="gespraech" /></span>
           <h3>Dolmetschen</h3>
           <p>Sprachmittlung bei Terminen und Gesprächen.</p>
           <span class="mehr">Mehr zum Dolmetschen</span>
         </a>
       </div>
-      <p class="sprachpaar"><span>Deutsch</span><span class="pfeil" aria-hidden="true"></span><span lang="tr">Türkçe</span><span class="sr">:</span> Unterstützung in beide Sprachrichtungen.</p>
+      <p class="sprachpaar"><span class="wort">Deutsch</span><span class="steg" aria-hidden="true"></span><span class="wort" lang="tr">Türkçe</span><span class="sr">:</span> <span>Unterstützung in beide Sprachrichtungen.</span></p>
     </div>
   </section>
 
-  <section class="abschnitt blatt-grund" aria-labelledby="vertrauen-titel">
+  <section class="abschnitt dunkel" aria-labelledby="vertrauen-titel">
     <div class="huelle rand-raster">
       <h2 id="vertrauen-titel">Offiziell beeidigt und ermächtigt</h2>
       <div>
-        <Nachweise />
+        <Nachweise dunkel />
         <h3>Bisherige Erfahrungen</h3>
         <p>Zu meinen bisherigen Erfahrungen gehört unter anderem die Arbeit mit:</p>
-        <ul class="strichliste">
+        <ul class="strichliste zweispaltig">
           {ERFAHRUNGEN.map((e) => <li>{e}</li>)}
         </ul>
         <p><a href={u("/ueber-mich/")}>Mehr über mich</a></p>
@@ -80,35 +87,50 @@ const probleme = [
 </Basis>
 
 <style>
-  .hero { padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(3rem, 7vw, 5rem); overflow: hidden; }
-  .hero-raster { display: grid; gap: 2.5rem; align-items: center; }
-  @media (min-width: 60rem) { .hero-raster { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; } }
-  .hero h1 { max-width: 18ch; }
-  .hero .lead { max-width: 46ch; margin-bottom: 1.75rem; }
-  .wer { margin: 1.75rem 0 0; color: var(--text-leise); font-size: 0.98rem; max-width: 46ch; }
-  .hero-bild { max-width: 34rem; width: 100%; margin-inline: auto; }
+  .hero { padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(3rem, 6vw, 4.5rem); overflow: hidden; }
+  .hero-raster { display: grid; gap: 2.5rem; align-items: end; }
+  @media (min-width: 62rem) { .hero-raster { grid-template-columns: 1fr 19rem; gap: 4rem; } }
+  .hero h1 { max-width: 13.5em; font-size: clamp(2.15rem, 5vw, 4.1rem); }
+  .hero .lead { max-width: 44ch; margin-bottom: 2rem; }
+  .vermerk { border-top: 1px solid var(--messing); padding-top: 1.1rem; font-size: 0.98rem; line-height: 1.55; max-width: 22rem; }
+  .vermerk p { margin: 0 0 0.35rem; }
+  .vermerk .name { font: 400 1.35rem/1.25 var(--caslon); color: var(--tinte); margin-bottom: 0.5rem; }
+  .hero-bild { margin-top: clamp(1.5rem, 4vw, 2.5rem); }
 
-  .zitate { list-style: none; padding: 0; margin: 1.5rem 0 1.75rem; display: grid; gap: 0.9rem; }
-  .zitate li {
-    font: italic 500 clamp(1.35rem, 2.6vw, 1.6rem)/1.3 var(--serif); color: var(--tinte);
-    padding-left: 1.1rem; border-left: 3px solid var(--kordel); max-width: 40ch;
+  .problem-kopf { max-width: 46rem; }
+  .saetze { list-style: none; padding: 0; margin: 2.75rem 0; display: grid; gap: 1.25rem; }
+  @media (min-width: 52rem) { .saetze { grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; } }
+  .saetze li {
+    position: relative; padding: 1.6rem 1.6rem 1.6rem 3.6rem; background: var(--papier); border: 1px solid var(--linie);
+    font: italic 400 clamp(1.2rem, 2vw, 1.4rem)/1.45 var(--caslon-kursiv); color: var(--tinte);
   }
-  .zitate li::before { content: "„"; }
-  .zitate li::after { content: "“"; }
+  .saetze li::before {
+    content: "„"; position: absolute; left: 1.15rem; top: 0.35rem;
+    font: 400 3.4rem/1 var(--caslon); color: var(--messing);
+  }
+  .antwort { position: relative; padding-left: 1.5rem; border-left: 1px solid var(--messing); max-width: 52ch; font-size: 1.08em; }
 
-  .leistungen { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
-  @media (min-width: 48rem) { .leistungen { grid-template-columns: 1fr 1fr; } }
+  .leistungen { display: grid; gap: 1.5rem; margin-top: 2.25rem; }
+  @media (min-width: 48rem) { .leistungen { grid-template-columns: 1fr 1fr; gap: 2rem; } }
   .leistung {
-    display: flex; flex-direction: column; padding: 1.75rem; min-height: 100%;
-    border: 1px solid var(--linie); border-top: 4px solid var(--tinte); border-radius: var(--radius);
-    color: var(--text); text-decoration: none; background: #fff;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative; display: flex; flex-direction: column; padding: clamp(1.75rem, 4vw, 2.75rem);
+    background: var(--papier); border: 1px solid var(--linie); color: var(--text); text-decoration: none;
+    transition: border-color 0.35s ease;
   }
-  .leistung:hover { border-top-color: var(--kordel); box-shadow: 0 10px 24px rgba(19, 30, 55, 0.08); }
-  .leistung .mehr { margin-top: auto; color: var(--tinte); font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
-  .sprachpaar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.8rem; margin: 2rem 0 0; max-width: none; color: var(--text-leise); }
-  .sprachpaar > span:not(.pfeil):not(.sr) { font: 600 1.5rem/1 var(--serif); color: var(--tinte); }
-  .pfeil { width: 2.2rem; height: 0.7rem; border-top: 2px solid var(--kordel); border-bottom: 2px solid var(--kordel); }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .leistung::after {
+    content: ""; position: absolute; left: -1px; right: -1px; bottom: -1px; height: 2px; background: var(--messing);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.5s var(--sanft);
+  }
+  .leistung:hover { border-color: var(--messing); }
+  .leistung:hover::after { transform: scaleX(1); }
+  .zeichen { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; border: 1px solid var(--messing); border-radius: 50%; color: var(--tinte); margin-bottom: 1.5rem; }
+  .zeichen :global(svg) { width: 1.75rem; height: 1.75rem; }
+  .leistung h3 { font-size: clamp(1.55rem, 2.6vw, 1.95rem); }
+  .leistung .mehr { margin-top: auto; padding-top: 0.5rem; color: var(--tinte); font-weight: 500; text-decoration: underline; text-decoration-color: var(--messing); text-underline-offset: 0.25em; }
+  .sprachpaar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; margin: 2.5rem 0 0; max-width: none; color: var(--text-leise); }
+  .sprachpaar .wort { font: italic 400 1.45rem/1 var(--caslon-kursiv); color: var(--tinte); }
+  .steg { width: 3rem; height: 7px; border-top: 1px solid var(--messing); border-bottom: 1px solid var(--messing); }
 
+  .dunkel h3 { margin-top: 0.5rem; }
+  @media (min-width: 48rem) { .zweispaltig { columns: 2; column-gap: 2.5rem; } .zweispaltig li { break-inside: avoid; } }
 </style>

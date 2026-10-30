@@ -11,7 +11,9 @@ Neue Website für Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und e
 - `src/daten.ts` – alle Angaben an einer Stelle (Kontakt, Qualifikation, Dokumente, Erfahrungen, Fragen, Navigation, Vorschau-Schalter). Seiten, JSON-LD, `sitemap.xml`, `llms.txt` und `robots.txt` lesen von hier.
 - `src/components/Platzhalter.astro` – sichtbare Platzhalter, nur in der Vorschau. `Luecke.astro` – Pflichtangaben im Impressum/Datenschutz, immer markiert.
 - `src/components/Logo.astro` – **Nachbau** des Logos (Federkiel + Schriftzug), bis das Original vorliegt.
-- Schriften lokal: Cormorant Garamond (Überschriften, Logo), Atkinson Hyperlegible Next (Text). Keine externen Dienste, keine Cookies, kein Tracking.
+- **Design v2** (30.10.2026, nach Jamils Rückmeldung „wärmer, edler, hochwertiger“): Elfenbein/Pergament, Tinte (Logo-Navy), feine Messinglinien. Im Hero schreibt die Feder aus dem Logo eine Brücke von „Deutsch“ nach „Türkçe“ (`src/components/Bruecke.astro`, SVG-Animation ohne JavaScript, einmalig, bei reduzierter Bewegung sofort das Endbild).
+- **Design v1** zum Vergleich: Tags `design-v1` (Quelle) und `design-v1-main` (gebaute Seite).
+- Schriften lokal: Libre Caslon Display/Text (Überschriften, Zitate), Jost (Text), Cormorant Garamond nur für den Logo-Nachbau. Keine externen Dienste, keine Cookies, kein Tracking.
 - Content-Security-Policy als Meta-Tag (keine Inline-Skripte, keine Inline-Styles).
 
 ## Bauen und veröffentlichen

@@ -3,7 +3,8 @@ import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import Platzhalter from "../components/Platzhalter.astro";
 import Icon from "../components/Icon.astro";
-import { TELEFON, TELEFON_LINK, MAIL, mailLink, ORT } from "../daten";
+import Logo from "../components/Logo.astro";
+import { TELEFON, TELEFON_LINK, MAIL, mailLink, ORT, NAME, DOLMETSCHER, UEBERSETZER } from "../daten";
 ---
 <Basis titel="Kontakt" beschreibung="Kontakt zu Kerim Mikael Tanrikulu, Dolmetscher und Übersetzer für Türkisch und Deutsch in Hamburg: Telefon und E-Mail." aufruf={false}>
   <SeitenKopf titel="Kontakt">
@@ -11,26 +12,26 @@ import { TELEFON, TELEFON_LINK, MAIL, mailLink, ORT } from "../daten";
   </SeitenKopf>
 
   <section class="abschnitt" aria-label="Kontaktwege">
-    <div class="huelle wege">
-      <a class="weg" href={TELEFON_LINK}>
-        <Icon name="telefon" />
-        <span class="art">Telefon</span>
-        <span class="wert">{TELEFON}</span>
-      </a>
-      <a class="weg" href={mailLink()}>
-        <Icon name="mail" />
-        <span class="art">E-Mail</span>
-        <span class="wert">{MAIL}</span>
-      </a>
-      <div class="weg ohne-link">
-        <Icon name="ort" />
-        <span class="art">Standort</span>
-        <span class="wert">{ORT}</span>
+    <div class="huelle karte-raster">
+      <!-- wie eine Visitenkarte: alle Kontaktwege auf einen Blick -->
+      <div class="karte">
+        <Logo klein />
+        <p class="name">{NAME}</p>
+        <p class="titel">{DOLMETSCHER} und {UEBERSETZER} für Deutsch und Türkisch</p>
+        <ul class="wege">
+          <li><a href={TELEFON_LINK}><Icon name="telefon" /><span class="art">Telefon</span><span class="wert">{TELEFON}</span></a></li>
+          <li><a href={mailLink()}><Icon name="mail" /><span class="art">E-Mail</span><span class="wert">{MAIL}</span></a></li>
+          <li><span class="ohne"><Icon name="ort" /><span class="art">Standort</span><span class="wert">{ORT}</span></span></li>
+        </ul>
+      </div>
+      <div class="knoepfe breit">
+        <a class="knopf" href={TELEFON_LINK}><Icon name="telefon" />Anrufen</a>
+        <a class="knopf zweit" href={mailLink()}><Icon name="mail" />E-Mail schreiben</a>
       </div>
     </div>
   </section>
 
-  <section class="abschnitt blatt-grund" aria-labelledby="nachricht-titel">
+  <section class="abschnitt pergament" aria-labelledby="nachricht-titel">
     <div class="huelle rand-raster">
       <h2 id="nachricht-titel">Was in Ihre Nachricht gehört</h2>
       <div>
@@ -52,16 +53,25 @@ import { TELEFON, TELEFON_LINK, MAIL, mailLink, ORT } from "../daten";
   </section>
 </Basis>
 <style>
-  .wege { display: grid; gap: 1rem; }
-  @media (min-width: 52rem) { .wege { grid-template-columns: repeat(3, 1fr); } }
-  .weg {
-    display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.9rem; align-items: center;
-    padding: 1.5rem; border: 1px solid var(--linie); border-left: 4px solid var(--tinte); border-radius: var(--radius);
-    color: var(--text); text-decoration: none; min-height: 6rem;
+  .karte-raster { display: grid; gap: 2rem; justify-items: start; }
+  /* am Handy übernimmt die feste Leiste unten Anrufen/E-Mail */
+  .breit { display: none; }
+  @media (min-width: 60rem) { .breit { display: flex; } }
+  .karte {
+    width: min(100%, 38rem); padding: clamp(1.5rem, 5vw, 2.75rem);
+    background: var(--papier); border: 1px solid var(--linie); outline: 1px solid var(--linie); outline-offset: -8px;
+    box-shadow: 0 24px 48px -28px rgba(43, 39, 33, 0.35);
   }
-  a.weg:hover { border-left-color: var(--kordel); }
-  .weg :global(svg) { grid-row: span 2; width: 1.75rem; height: 1.75rem; color: var(--tinte); }
-  .art { color: var(--text-leise); font-size: 0.95rem; }
-  .wert { font: 600 1.45rem/1.25 var(--serif); color: var(--tinte); overflow-wrap: anywhere; }
-  a.weg .wert { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .name { font: 400 clamp(1.6rem, 3.5vw, 2rem)/1.2 var(--caslon); color: var(--tinte); margin: 1.75rem 0 0.25rem; }
+  .titel { color: var(--text-leise); margin-bottom: 1.5rem; }
+  .wege { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--messing); }
+  .wege a, .wege .ohne {
+    display: grid; grid-template-columns: auto 1fr; gap: 0 0.9rem; align-items: center;
+    padding: 0.85rem 0; border-bottom: 1px solid var(--linie); color: var(--text); text-decoration: none;
+  }
+  .wege li:last-child a, .wege li:last-child .ohne { border-bottom: 0; }
+  .wege :global(svg) { grid-row: span 2; width: 1.35rem; height: 1.35rem; color: var(--messing); }
+  .art { font-size: 0.88rem; color: var(--text-leise); letter-spacing: 0.03em; }
+  .wert { font: 400 1.35rem/1.3 var(--caslon); color: var(--tinte); overflow-wrap: anywhere; }
+  .wege a:hover .wert { text-decoration: underline; text-decoration-color: var(--messing); text-underline-offset: 0.2em; }
 </style>

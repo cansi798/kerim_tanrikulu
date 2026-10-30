@@ -4,7 +4,7 @@ import Icon from "./Icon.astro";
 import { NAV, RECHTLICHES, u, NAME, TELEFON, TELEFON_LINK, MAIL, mailLink, ORT, DOLMETSCHER, UEBERSETZER } from "../daten";
 const jahr = new Date().getFullYear();
 ---
-<footer class="fuss">
+<footer class="fuss dunkel">
   <div class="huelle raster">
     <div>
       <Logo klein />
@@ -32,37 +32,39 @@ const jahr = new Date().getFullYear();
     </ul>
   </div>
 </footer>
-<!-- Handy: Anrufen und E-Mail immer erreichbar -->
+<!-- Handy: Anrufen und E-Mail immer erreichbar (Jamils Konzept: Telefon und E-Mail auf jeder Seite) -->
 <nav class="schnell" aria-label="Schnellkontakt">
-  <a href={TELEFON_LINK}><Icon name="telefon" /><span>{TELEFON}</span></a>
+  <a class="ruf" href={TELEFON_LINK}><Icon name="telefon" /><span>Anrufen</span></a>
   <a href={mailLink()}><Icon name="mail" /><span>E-Mail schreiben</span></a>
 </nav>
 <style>
-  .fuss { background: var(--loeschblatt); border-top: 1px solid var(--linie); padding-block: 3rem 1.5rem; font-size: 0.98rem; }
-  .raster { display: grid; gap: 2rem; }
-  @media (min-width: 52rem) { .raster { grid-template-columns: 1.3fr 1fr 1fr; } }
-  .wer { margin-top: 1rem; color: var(--text-leise); }
-  .klein { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--tinte); margin-bottom: 0.6rem; }
+  .fuss { background: var(--nacht); padding-block: 4rem 1.5rem; font-size: 0.98rem; }
+  .raster { display: grid; gap: 2.5rem; }
+  @media (min-width: 52rem) { .raster { grid-template-columns: 1.4fr 1fr 1fr; } }
+  .wer { margin-top: 1.25rem; color: var(--auf-dunkel); }
+  .klein { font: 500 0.95rem/1.4 var(--sans); letter-spacing: 0.04em; color: var(--messing-hell); margin-bottom: 0.75rem; }
   .liste { list-style: none; padding: 0; margin: 0; }
-  .liste a, .liste span { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; color: var(--text); overflow-wrap: anywhere; }
-  .liste :global(svg) { width: 1.1rem; height: 1.1rem; flex: none; color: var(--tinte); }
-  .unten { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--linie); color: var(--text-leise); }
+  .liste a, .liste span { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; color: var(--auf-dunkel); overflow-wrap: anywhere; text-decoration: none; }
+  .liste a:hover { color: var(--elfenbein); text-decoration: underline; text-decoration-color: var(--messing-hell); }
+  .liste :global(svg) { width: 1.1rem; height: 1.1rem; flex: none; color: var(--messing-hell); }
+  .unten { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid rgba(217, 189, 133, 0.35); color: var(--auf-dunkel); }
   .unten ul { list-style: none; display: flex; gap: 1.5rem; margin: 0; padding: 0; }
-  .unten a { color: var(--text); display: inline-block; min-height: 2.75rem; line-height: 2.75rem; }
+  .unten a { color: var(--auf-dunkel); display: inline-block; min-height: 2.75rem; line-height: 2.75rem; }
   .unten span { line-height: 2.75rem; }
 
   .schnell {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-    display: grid; grid-template-columns: 1fr 1fr;
-    background: var(--tinte); box-shadow: 0 -4px 16px rgba(19, 30, 55, 0.2);
-    padding-bottom: env(safe-area-inset-bottom);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+    padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
+    background: var(--elfenbein); border-top: 1px solid var(--messing);
   }
   .schnell a {
     display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    min-height: 3.5rem; color: #fff; text-decoration: none; font-weight: 700; font-size: 0.98rem;
+    min-height: 3rem; border: 1px solid var(--tinte); border-radius: var(--ecke);
+    color: var(--tinte); text-decoration: none; font-weight: 500; font-size: 0.98rem;
   }
-  .schnell a + a { border-left: 1px solid rgba(255, 255, 255, 0.25); }
-  .schnell :global(svg) { width: 1.2rem; height: 1.2rem; flex: none; }
-  :global(body) { padding-bottom: 3.5rem; }
+  .schnell a.ruf { background: var(--tinte); color: var(--elfenbein); }
+  .schnell :global(svg) { width: 1.15rem; height: 1.15rem; flex: none; }
+  :global(body) { padding-bottom: 4.1rem; }
   @media (min-width: 60rem) { .schnell { display: none; } :global(body) { padding-bottom: 0; } }
 </style>

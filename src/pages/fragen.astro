@@ -16,7 +16,7 @@ const schema = [{
       <div class="fragen">
         {FRAGEN.map((f) => (
           <details>
-            <summary>{f.frage}</summary>
+            <summary><span>{f.frage}</span><span class="zeichen" aria-hidden="true"></span></summary>
             <div class="antwort">{f.antwort.map((a) => <p>{a}</p>)}</div>
           </details>
         ))}

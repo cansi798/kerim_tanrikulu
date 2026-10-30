@@ -1,5 +1,8 @@
 ---
 import "../styles/global.css";
+// Hauptschriften vorladen (gleiche Datei wie im CSS, Vite fasst sie zusammen) – weniger Schriftwechsel beim Laden
+import caslonUrl from "@fontsource/libre-caslon-display/files/libre-caslon-display-latin-400-normal.woff2?url";
+import jostUrl from "@fontsource/jost/files/jost-latin-400-normal.woff2?url";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
 import Aufruf from "../components/Aufruf.astro";
@@ -53,11 +56,13 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="preload" href={caslonUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jostUrl} as="font" type="font/woff2" crossorigin />
     <title>{voll}</title>
     <meta name="description" content={beschreibung} />
     {VORSCHAU && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={kanon} />
-    <meta name="theme-color" content="#1c2b4b" />
+    <meta name="theme-color" content="#f8f3ea" />
     <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="de_DE" />
@@ -86,6 +91,6 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
   </body>
 </html>
 <style>
-  .vorschau { background: #fbf3f4; color: #5b1520; border-bottom: 2px dashed var(--kordel); font-size: 0.92rem; padding-block: 0.55rem; }
-  .vorschau strong { color: var(--kordel); }
+  .vorschau { background: #fbf0f0; color: #5b1520; border-bottom: 2px dashed #9b2335; font-size: 0.92rem; line-height: 1.5; padding-block: 0.55rem; }
+  .vorschau strong { color: #9b2335; font-weight: 500; }
 </style>

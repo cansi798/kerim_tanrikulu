@@ -1,6 +1,6 @@
 # Offene Infos – das brauchen wir vom Kunden
 
-Stand: 30.10.2026. In der Vorschau sind diese Stellen rot gestrichelt markiert.
+Stand: 30.10.2026 (Design v2). In der Vorschau sind diese Stellen rot gestrichelt markiert.
 
 ## Vor dem Livegang nötig
 
@@ -26,6 +26,8 @@ Stand: 30.10.2026. In der Vorschau sind diese Stellen rot gestrichelt markiert.
 17. **Eintrag im Justiz-Verzeichnis:** Darf die Seite darauf verweisen?
 18. **Google-Unternehmensprofil:** vorhanden? Sonst anlegen, mit denselben Kontaktdaten wie auf der Website.
 19. **Türkische Fassung der Website** gewünscht? (Dann auch Impressum und Datenschutz auf Türkisch.)
+20. **Sprachrichtungen bestätigen:** Übersetzt er beide Richtungen (Türkisch → Deutsch und Deutsch → Türkisch)? Die Seite sagt das bisher nach Jamils Konzept („Unterstützung in beide Sprachrichtungen“), die alte Seite nennt nur „die türkische und deutsche Sprache“.
+21. **Kontaktformular:** Jamils Konzept nennt eines, die Vorschau hat bewusst keins (nur Telefon und E-Mail, kein Fremddienst). Wenn gewünscht: eigener Versand mit Spamschutz und Datenschutz-Abschnitt.
 
 ## Bewusst nicht auf der Seite
 

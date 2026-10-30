@@ -2,6 +2,7 @@
 import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import Platzhalter from "../components/Platzhalter.astro";
+import Ablauf from "../components/Ablauf.astro";
 import { DOKUMENTE, HONORAR, GERICHT, SEIT, u } from "../daten";
 ---
 <Basis titel="Beglaubigte Übersetzungen Türkisch Deutsch" beschreibung="Beglaubigte Übersetzungen Türkisch und Deutsch vom ermächtigten Übersetzer Kerim Mikael Tanrikulu: Gerichtsurteile, Scheidungsurteile, Zeugnisse, Ausweise, medizinische Unterlagen und Urkunden. Honorar nach JVEG.">
@@ -20,7 +21,7 @@ import { DOKUMENTE, HONORAR, GERICHT, SEIT, u } from "../daten";
     </div>
   </section>
 
-  <section class="abschnitt blatt-grund" aria-labelledby="dok-titel">
+  <section class="abschnitt pergament" aria-labelledby="dok-titel">
     <div class="huelle rand-raster">
       <h2 id="dok-titel">Häufig übersetzte Dokumente</h2>
       <div>
@@ -33,20 +34,20 @@ import { DOKUMENTE, HONORAR, GERICHT, SEIT, u } from "../daten";
   </section>
 
   <section class="abschnitt" aria-labelledby="ablauf-titel">
-    <div class="huelle rand-raster">
+    <div class="huelle">
       <h2 id="ablauf-titel">So läuft eine Anfrage ab</h2>
-      <div>
-        <ol class="schritte">
-          <li><h3>Dokument senden</h3><p>Schicken Sie mir das Dokument und schreiben Sie dazu, wofür Sie die Übersetzung brauchen.</p></li>
-          <li><h3>Anfrage prüfen</h3><p>Ich sehe mir das Dokument und Ihre Angaben an.</p></li>
-          <li><h3>Rückmeldung erhalten</h3><p>Sie hören von mir, wie es weitergeht.</p></li>
-        </ol>
+      <div class="ablauf-platz">
+        <Ablauf schritte={[
+          { titel: "Dokument senden", text: "Schicken Sie mir das Dokument und schreiben Sie dazu, wofür Sie die Übersetzung brauchen." },
+          { titel: "Anfrage prüfen", text: "Ich sehe mir das Dokument und Ihre Angaben an." },
+          { titel: "Rückmeldung erhalten", text: "Sie hören von mir, wie es weitergeht." },
+        ]} />
         <Platzhalter>Sicherer Weg für Dokumente (z. B. verschlüsselter Upload statt einfacher E-Mail) folgt nach Absprache mit dem Kunden. Ablauf bitte vom Kunden bestätigen.</Platzhalter>
       </div>
     </div>
   </section>
 
-  <section class="abschnitt blatt-grund" aria-labelledby="honorar-titel">
+  <section class="abschnitt pergament" aria-labelledby="honorar-titel">
     <div class="huelle rand-raster">
       <h2 id="honorar-titel">Honorar</h2>
       <div>
@@ -57,6 +58,7 @@ import { DOKUMENTE, HONORAR, GERICHT, SEIT, u } from "../daten";
   </section>
 </Basis>
 <style>
-  .gross li { font: 600 1.35rem/1.35 var(--serif); color: var(--tinte); margin-bottom: 0.6rem; }
-  .gross li::before { top: 0.75em; }
+  .gross li { font: 400 1.45rem/1.35 var(--caslon); color: var(--tinte); margin-bottom: 0.7rem; }
+  .gross li::before { top: 0.8em; }
+  .ablauf-platz { margin-top: 2.5rem; }
 </style>
