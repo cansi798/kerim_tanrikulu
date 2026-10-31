@@ -36,6 +36,23 @@ document.addEventListener("DOMContentLoaded", function () {
     requestAnimationFrame(schritt);
   }
 
+  // 7) Einsatzgebiet-Karte (v5, wie Bauwelt): eigene SVG-Datei ca. 300 px vor dem Sichtbarwerden laden und einsetzen
+  //    (Farbblock der Datei entfernen – im Dokument gelten die Farben der Seite). Fehler → fertiges Bild als <img>.
+  var karten = document.querySelectorAll("[data-karte]");
+  var karteLaden = function (p) {
+    var src = p.getAttribute("data-karte"); p.removeAttribute("data-karte");
+    fetch(src).then(function (r) { if (!r.ok) throw r.status; return r.text(); })
+      .then(function (t) { p.insertAdjacentHTML("afterend", t.replace(/<style data-datei(="")?>[\s\S]*?<\/style>/, "")); p.parentNode.removeChild(p); })
+      .catch(function () { p.innerHTML = '<img class="rkarte-bild" src="' + src + '" alt="">'; });
+  };
+  if (karten.length) {
+    if (!("IntersectionObserver" in window) || !window.fetch) karten.forEach(karteLaden);
+    else {
+      var kio = new IntersectionObserver(function (e) { e.forEach(function (x) { if (x.isIntersecting) { kio.unobserve(x.target); karteLaden(x.target); } }); }, { rootMargin: "300px 0px" });
+      karten.forEach(function (k) { kio.observe(k); });
+    }
+  }
+
   var ziele = document.querySelectorAll("[data-szene], .reveal, [data-zahl]");
   var beobachtet = [];
   ziele.forEach(function (el) { if (!(story && el.hasAttribute("data-ab"))) beobachtet.push(el); });
