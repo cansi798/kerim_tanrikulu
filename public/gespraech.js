@@ -34,7 +34,7 @@
   var M = Math, bereich = L.bereich, ioc = L.ioc, oc = L.oc, buckel = L.buckel, qb = L.qb, setz = L.setz, frei = L.frei, glaenzen = L.glaenzen, GOLD = L.GOLD;
 
   // Punkte im SVG-Koordinatensystem (viewBox 440 × 220), siehe HeroGespraech.astro
-  var V = { mundL: [138, 100], ohrR: [344, 82], mundR: [302, 100], ohrL: [96, 82], kiel: [220, 80], cHin: [176, 64], cAus: [288, 50], cZur: [262, 112], cZur2: [150, 118], nicken: [97, 128] };
+  var V = { mundL: [139, 97], ohrR: [340, 86], mundR: [301, 97], ohrL: [100, 86], kiel: [220, 80], cHin: [176, 62], cAus: [286, 50], cZur: [262, 110], cZur2: [152, 118], nicken: [96, 128] };
   var P = {}, S = 1, strom = [], fertig = false, gl = {}, ring = -1;
 
   function sprechen(s, c, t0, t, richtung, st, rein) { // Schallwellen als Bogenstücke: am Mund nach außen, am Ohr nach innen

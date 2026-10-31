@@ -11,19 +11,25 @@ const { lang } = Astro.props;
 const T = t(lang);
 // Richtung wie die Brücke (Can 31.10. 09:43): deutsche Seiten Deutsch → Türkisch, türkische Seiten Türkçe → Almanca
 const [ERST, DANN] = lang === "tr" ? [T.ui.tuerkisch, T.ui.deutsch] : [T.ui.deutsch, T.ui.tuerkisch];
+// Federkiel 1:1 aus dem Logo (Logo.astro: Fahne + Schaft mit drei Ästen, Schaft in Hintergrundfarbe; Jamil Talk 3968)
 const KIEL = "M5 62 C 9 45, 21 23, 53 2 C 51 17, 46 28, 37 38 C 30 46, 18 54, 5 62 Z";
-// Büste nach rechts gewandt (die rechte Person ist gespiegelt): Kopf als ruhige Profilfläche ohne Gesichtszüge, Hals, Schultern.
-const KOPF = "M80 132 C 68 122, 64 108, 66 92 C 64 70, 70 50, 88 41 C 104 33, 124 38, 132 54 C 136 62, 136 70, 135 78 L 139 89 L 134 92 C 135 98, 133 104, 129 108 C 126 113, 120 115, 114 115 L 113 134 Z";
-const KOERPER = "M8 218 C 10 184, 30 160, 70 150 C 76 148, 80 142, 81 128 L 113 128 C 113 142, 118 148, 128 151 C 162 160, 186 182, 190 218 Z";
+const SCHAFT = "M5 62 L 46 11 M37 38 L 30 37 M44 26 L 38 26 M49 15 L 44 16";
+// Büste nach rechts gewandt (die rechte Person ist gespiegelt), männlich (Jamil Talk 3967): kurzes Haar als dunklere Kappe mit feiner Goldkante,
+// kräftiges Kinn und gerade Kieferlinie, breiter Hals und Schultern, Hemdkragen und Revers als feine Goldlinien. Keine Gesichtszüge.
+const KOPF = "M82 130 C 70 120, 64 104, 65 88 C 65 64, 76 44, 98 40 C 118 37, 132 48, 135 62 L 136 74 L 141 86 L 136 90 C 137 95, 136 99, 135 101 L 136 108 C 136 113, 132 116, 126 117 L 112 118 L 112 134 L 80 134 Z";
+const HAAR = "M134 58 C 132 47, 118 37, 98 40 C 76 44, 65 64, 65 88 C 65 94, 65 100, 67 108 C 76 104, 84 96, 87 86 C 90 76, 100 72, 106 80 L 108 82 L 109 68 C 114 61, 124 59, 134 58 Z";
+const HAARKANTE = "M67 108 C 76 104, 84 96, 87 86 C 90 76, 100 72, 106 80 L 108 82 L 109 68 C 114 61, 124 59, 134 58";
+const KOERPER = "M2 218 C 4 180, 26 158, 66 150 C 76 148, 80 142, 80 126 L 112 126 C 112 140, 118 148, 130 152 C 168 162, 192 184, 196 218 Z";
 // goldener Rand als offene Linien (sonst zeigt sich am Hals die Naht zwischen Kopf und Körper)
-const RAND_KOPF = "M80.5 131 C 68 122, 64 108, 66 92 C 64 70, 70 50, 88 41 C 104 33, 124 38, 132 54 C 136 62, 136 70, 135 78 L 139 89 L 134 92 C 135 98, 133 104, 129 108 C 126 113, 120 115, 114 115 L 113.2 131";
-const RAND_KOERPER = "M8 218 C 10 184, 30 160, 70 150 C 76 148, 80 142, 80.6 132 M113.2 132 C 113.6 142, 118 148, 128 151 C 162 160, 186 182, 190 218";
+const RAND_KOPF = "M81 130 C 70 120, 64 104, 65 88 C 65 64, 76 44, 98 40 C 118 37, 132 48, 135 62 L 136 74 L 141 86 L 136 90 C 137 95, 136 99, 135 101 L 136 108 C 136 113, 132 116, 126 117 L 112 118 L 112 131";
+const RAND_KOERPER = "M2 218 C 4 180, 26 158, 66 150 C 76 148, 80 142, 80 132 M112 132 C 112 140, 118 148, 130 152 C 168 162, 192 184, 196 218";
+const KRAGEN = "M80 136 C 90 143, 104 145, 113 139 L 124 158 M124 158 C 130 176, 136 196, 140 218 M113 139 C 112 146, 113 152, 116 158";
 // Schallwellen als Bogenstücke um einen Punkt (Mund links bzw. Ohr rechts)
 const bogen = (cx: number, cy: number, r: number, mitte: number, w = 0.55) => {
   const a = mitte - w, b = mitte + w, f = (x: number) => Math.round(x * 10) / 10;
   return `M${f(cx + r * Math.cos(a))} ${f(cy + r * Math.sin(a))} A ${r} ${r} 0 0 1 ${f(cx + r * Math.cos(b))} ${f(cy + r * Math.sin(b))}`;
 };
-const MUND = [138, 100], OHR = [344, 82];
+const MUND = [139, 97], OHR = [340, 86];
 ---
 <figure class="gespraech" data-gespraech>
   <svg viewBox="0 0 440 220" aria-hidden="true" focusable="false">
@@ -36,13 +42,13 @@ const MUND = [138, 100], OHR = [344, 82];
       </linearGradient>
     </defs>
     <g class="g-teil">
-      <path class="g-bahn" d="M146 94 Q 176 64 200 74" /><path class="g-bahn" d="M240 74 Q 290 50 328 76" />
+      <path class="g-bahn" d="M147 92 Q 176 64 200 74" /><path class="g-bahn" d="M240 74 Q 290 50 322 80" />
       <path class="g-welle w1" d={bogen(MUND[0], MUND[1], 11, 0)} /><path class="g-welle w2" d={bogen(MUND[0], MUND[1], 19, 0)} /><path class="g-welle w3" d={bogen(MUND[0], MUND[1], 27, 0)} />
       <path class="g-welle tief w1" d={bogen(OHR[0], OHR[1], 50, Math.PI, 0.42)} /><path class="g-welle tief w2" d={bogen(OHR[0], OHR[1], 59, Math.PI, 0.38)} />
     </g>
-    <g class="g-person g-links"><path class="g-koerper" d={KOERPER} /><path class="g-rand" d={RAND_KOERPER} /><g class="g-kopf"><path d={KOPF} /><path class="g-rand" d={RAND_KOPF} /></g></g>
-    <g class="g-person g-rechts"><g transform="matrix(-1 0 0 1 440 0)"><path class="g-koerper" d={KOERPER} /><path class="g-rand" d={RAND_KOERPER} /><g class="g-kopf"><path d={KOPF} /><path class="g-rand" d={RAND_KOPF} /></g></g></g>
-    <g class="g-kiel"><g transform="translate(193.9 51.2) scale(0.9)"><path d={KIEL} /><path class="schaft" d="M5 62 L 46 11" /></g></g>
+    <g class="g-person g-links"><path class="g-koerper" d={KOERPER} /><path class="g-rand" d={RAND_KOERPER} /><path class="g-kragen" d={KRAGEN} /><g class="g-kopf"><path d={KOPF} /><path class="g-haar" d={HAAR} /><path class="g-kante" d={HAARKANTE} /><path class="g-rand" d={RAND_KOPF} /></g></g>
+    <g class="g-person g-rechts"><g transform="matrix(-1 0 0 1 440 0)"><path class="g-koerper" d={KOERPER} /><path class="g-rand" d={RAND_KOERPER} /><path class="g-kragen" d={KRAGEN} /><g class="g-kopf"><path d={KOPF} /><path class="g-haar" d={HAAR} /><path class="g-kante" d={HAARKANTE} /><path class="g-rand" d={RAND_KOPF} /></g></g></g>
+    <g class="g-kiel"><g transform="translate(193.9 51.2) scale(0.9)"><path class="fahne" d={KIEL} /><path class="schaft" d={SCHAFT} /></g></g>
   </svg>
   <div class="g-namen"><span class="g-quelle">{ERST}</span><span class="g-ziel">{DANN}</span></div>
   <span class="sr">{T.ui.bildDo}</span>
@@ -53,10 +59,13 @@ const MUND = [138, 100], OHR = [344, 82];
   .gespraech svg { width: 100%; height: auto; overflow: visible; }
   .g-person path { fill: url(#g-fuell); }
   .g-person .g-rand { fill: none; stroke: url(#g-rand); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; stroke-opacity: 0.6; transition: stroke-opacity 0.6s ease, stroke-width 0.6s ease; }
+  .g-person .g-haar { fill: #241c17; }
+  .g-person .g-kante { fill: none; stroke: #c9a35b; stroke-width: 0.9; stroke-linecap: round; stroke-linejoin: round; opacity: 0.5; }
+  .g-person .g-kragen { fill: none; stroke: url(#g-rand); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; opacity: 0.6; }
   .g-person:global(.g-glanz) .g-rand { stroke-opacity: 1; stroke-width: 2.4; }
-  .g-kiel path { fill: var(--logo); transition: fill 0.5s ease; }
-  .g-kiel .schaft { fill: none; stroke: var(--sand); stroke-width: 1.6; stroke-linecap: round; }
-  .g-kiel:global(.g-glanz) path:not(.schaft) { fill: #6e5020; }
+  .g-kiel .fahne { fill: var(--logo); transition: fill 0.5s ease; }
+  .g-kiel .schaft { fill: none; stroke: #f1e9dc; stroke-width: 1.4; stroke-linecap: round; } /* wie im Logo: Schaft in Hintergrundfarbe */
+  .g-kiel:global(.g-glanz) .fahne { fill: #6e5020; }
   .g-bahn { fill: none; stroke: var(--gold); stroke-width: 1.3; stroke-linecap: round; stroke-dasharray: 4 7; opacity: 0.5; }
   .g-welle { fill: none; stroke: var(--gold); stroke-width: 1.8; stroke-linecap: round; }
   .g-welle.tief { stroke: #c9a35b; }
