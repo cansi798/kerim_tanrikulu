@@ -45,7 +45,24 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
   <a class="ruf" href={TELEFON_LINK}><Icon name="telefon" /><span>{T.ui.anrufen}</span></a>
   <a href={mailLink(T.ui.mailBetreff)}><Icon name="mail" /><span>{T.ui.mailSchreiben}</span></a>
 </nav>
+<!-- „Nach oben“ (Can Talk 3964): erscheint nach ca. 1,5 Bildschirmhöhen Scrollen, rechts unten über der Kontaktleiste; Steuerung in sichtbar.js.
+     Ohne JS unsichtbar (dann wäre er nur ein Sprung ohne Anzeige-Logik). -->
+<a class="hoch" href="#" data-hoch aria-label={T.ui.nachOben} title={T.ui.nachOben}><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 15l6-6 6 6" /></svg></a>
 <style>
+  .hoch {
+    position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: calc(3.5rem + env(safe-area-inset-bottom) + 0.85rem); z-index: 41;
+    display: none; place-items: center; width: 3rem; height: 3rem; border-radius: 50%;
+    background: var(--tinte); color: #e3c88f; border: 1.5px solid #c9a35b; box-shadow: 0 10px 24px -12px rgba(43, 36, 31, 0.55);
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s var(--ease), visibility 0s linear 0.3s, background-color var(--dur-fast) ease;
+  }
+  :global(.js) .hoch { display: grid; }
+  .hoch:global(.zeigen) { opacity: 1; visibility: visible; transform: none; transition: opacity 0.3s ease, transform 0.3s var(--ease), visibility 0s, background-color var(--dur-fast) ease; }
+  .hoch:hover { background: #3a3029; }
+  .hoch:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .hoch svg { width: 1.4rem; height: 1.4rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  @media (min-width: 66rem) { .hoch { bottom: 1.5rem; right: 1.5rem; width: 2.85rem; height: 2.85rem; opacity: 0; } .hoch:global(.zeigen) { opacity: 0.85; } .hoch:global(.zeigen):hover { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .hoch, .hoch:global(.zeigen) { transform: none; } }
   .fuss { background: var(--tinte-tief); color: var(--hell); --logo-grund: var(--tinte-tief); padding-block: clamp(3.5rem, 7vw, 5rem) 1.5rem; font-size: 0.98rem; }
   .fuss a { color: var(--hell); text-decoration: none; }
   .fuss a:hover { color: var(--gold-hell); }

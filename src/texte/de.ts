@@ -29,6 +29,7 @@ export const de = {
     mailBetreff: "Anfrage über die Website",
     anrufen: "Anrufen",
     mailSchreiben: "E-Mail schreiben",
+    nachOben: "Nach oben",
     telefonPruefen: "Nummer bitte vom Kunden bestätigen",
     telefonLuecke: "Nummer bitte bestätigen",
     platzhalter: "Platzhalter:",

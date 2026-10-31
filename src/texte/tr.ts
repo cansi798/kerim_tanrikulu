@@ -30,6 +30,7 @@ export const tr: Texte = {
     mailBetreff: "Web sitesi üzerinden talep",
     anrufen: "Arayın",
     mailSchreiben: "E-posta yazın",
+    nachOben: "Başa dön",
     telefonPruefen: "Numara müşteri tarafından onaylanmalı",
     telefonLuecke: "Numara onaylanmalı",
     platzhalter: "Yer tutucu:",
