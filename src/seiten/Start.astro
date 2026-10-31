@@ -5,6 +5,7 @@
 // → typische Dokumente → Ratgeber → Fragen → Kontakt.
 // Bewegung: Bauwelt-Kurve, gestaffelt, einmal; Scroll-Story und Parallaxe nur breit und ohne „Bewegung reduzieren“;
 // Tinten-Notizen (rough.js beim Bauen) an genau vier Stellen.
+// Signature (Can 31.10.2026 „Wow“): Sprachbrücke aus Licht im Hero (public/licht.js, Canvas 2D) – Sinnbild Übersetzen.
 import Basis from "../layouts/Basis.astro";
 import Icon from "../components/Icon.astro";
 import Vertrauensband from "../components/Vertrauensband.astro";
@@ -27,6 +28,17 @@ const themenSpalten = [
   { ...T.themen.detr, eintraege: flach(T.themen.detr.gruppen).slice(0, 6) },
 ];
 const ratgeberAuswahl = [0, 1, 3].map((i) => T.ratgeber.kapitel[i]);
+// Sprachbrücke: Bogen (Kubik-Kurve), feiner Innenbogen, Hänger senkrecht vom Bogen zur Fahrbahn, gedämpfte Spiegelung im Wasser
+const BOGEN = "M20 150 C 110 18, 330 18, 420 150";
+const BOGEN_INNEN = "M44 150 C 126 40, 314 40, 396 150";
+const SPIEGEL = "M20 150 C 110 205, 330 205, 420 150";
+const bez = (a: number, b: number, c: number, d: number, t: number) => (1 - t) ** 3 * a + 3 * t * (1 - t) ** 2 * b + 3 * t * t * (1 - t) * c + t ** 3 * d;
+const HAENGER = Array.from({ length: 13 }, (_, i) => {
+  const x = 70 + i * 25;
+  let lo = 0, hi = 1;
+  for (let k = 0; k < 40; k++) { const m = (lo + hi) / 2; if (bez(20, 110, 330, 420, m) < x) lo = m; else hi = m; }
+  return { x, y: Math.round(bez(150, 18, 18, 150, lo) * 10) / 10 };
+});
 ---
 <Basis lang={lang} seite="start">
   <section class="hero" aria-labelledby="hero-titel">
@@ -47,17 +59,25 @@ const ratgeberAuswahl = [0, 1, 3].map((i) => T.ratgeber.kapitel[i]);
         </ul>
       </div>
 
-      <!-- Sprachbrücke (Jamil 3907): blendet ruhig ein, alle 10 s gleitet ein Lichtpunkt hinüber; der Claim bekommt einmal einen feinen Tintenstrich -->
+      <!-- Sprachbrücke = Signature-Animation (Can 31.10.2026 „viel krasser, Wow“): Sinnbild Übersetzen.
+           licht.js (Canvas 2D, nur mit JS und ohne „Bewegung reduzieren“): Ufer leuchten auf, der Bogen wächst aus Licht von beiden
+           Seiten bis zur Mitte, Hänger und Spiegelung erscheinen, dann lösen sich Lichtteilchen aus dem Wort links, wandern über die Brücke
+           und setzen sich rechts zum Wort der anderen Sprache zusammen (ca. 3,5 s). Danach alle 10 s ein Lichtzug, abwechselnd hin und zurück.
+           Ohne JS bzw. ruhig: genau dieses SVG als fertiges Endbild; die Wörter sind echter Text. -->
       <div class="bruecke-ebene" data-parallax="-0.035">
-        <figure class="bruecke auf" data-d="2">
-          <svg viewBox="0 0 440 190" aria-hidden="true" focusable="false">
-            <path class="deck" d="M20 150 H420" />
-            <path class="bogen" d="M20 150 C 110 18, 330 18, 420 150" />
-            <path class="licht" pathLength="1" d="M20 150 C 110 18, 330 18, 420 150" />
-            <circle class="ende" cx="20" cy="150" r="4.5" /><circle class="ende" cx="420" cy="150" r="4.5" />
+        <figure class="bruecke auf" data-d="2" data-bruecke>
+          <svg viewBox="0 0 440 200" aria-hidden="true" focusable="false">
+            <g class="b-teil">
+              <path class="spiegel" d={SPIEGEL} />
+              <path class="deck" d="M20 150 H420" />
+              <g class="haenger">{HAENGER.map((h) => <line x1={h.x} y1={h.y} x2={h.x} y2="150" />)}</g>
+              <path class="bogen-innen" d={BOGEN_INNEN} />
+              <path class="bogen" d={BOGEN} />
+              <circle class="ende" cx="20" cy="150" r="4.5" /><circle class="ende" cx="420" cy="150" r="4.5" />
+            </g>
           </svg>
-          <div class="ufer"><span>{T.ui.deutsch}</span><span>{T.ui.tuerkisch}</span></div>
-          <figcaption class="claim"><Markiert art="strich" seed={11} v={6} dauer="mittel">{T.fakten.claim}.</Markiert></figcaption>
+          <div class="ufer"><span class="b-quelle">{T.ui.deutsch}</span><span class="b-ziel">{T.ui.tuerkisch}</span></div>
+          <figcaption class="claim"><Markiert art="strich" seed={11} v={0} dauer="mittel" szene={false}>{T.fakten.claim}.</Markiert></figcaption>
         </figure>
       </div>
     </div>
@@ -289,23 +309,29 @@ const ratgeberAuswahl = [0, 1, 3].map((i) => T.ratgeber.kapitel[i]);
   .vertrauen :global(svg) { width: 1.1rem; height: 1.1rem; color: var(--gold-dunkel); }
 
   .bruecke-ebene { justify-self: center; width: 100%; max-width: 34rem; }
-  .bruecke { margin: 0; width: 100%; }
+  .bruecke { position: relative; margin: 0; width: 100%; }
   .bruecke svg { width: 100%; height: auto; overflow: visible; }
   .bogen { fill: none; stroke: var(--gold); stroke-width: 2.2; stroke-linecap: round; }
-  .deck { fill: none; stroke: var(--gold); stroke-width: 1; opacity: 0.6; }
+  .bogen-innen { fill: none; stroke: var(--gold); stroke-width: 1; opacity: 0.45; }
+  .haenger line { stroke: var(--gold); stroke-width: 1; opacity: 0.5; }
+  .deck { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 0.7; }
+  .spiegel { fill: none; stroke: var(--gold); stroke-width: 1.3; stroke-linecap: round; stroke-dasharray: 5 7; opacity: 0.32; }
   .ende { fill: var(--gold); }
-  .licht {
-    fill: none; stroke: #fffdf6; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 0.001 2; stroke-dashoffset: 0.001; opacity: 0;
-    animation: lichtpunkt 10s linear 1.5s infinite;
-  }
-  @keyframes lichtpunkt {
-    0% { stroke-dashoffset: 0.001; opacity: 0; }
-    2% { opacity: 1; }
-    16% { stroke-dashoffset: -1; opacity: 1; }
-    17%, 100% { stroke-dashoffset: -1; opacity: 0; }
-  }
-  .ufer { display: flex; justify-content: space-between; margin-top: -0.3rem; font: 600 clamp(1.4rem, 2.6vw, 1.9rem)/1 var(--serif); color: var(--text); }
+  .ufer { display: flex; justify-content: space-between; margin-top: -0.6rem; font: 600 clamp(1.4rem, 2.6vw, 1.9rem)/1 var(--serif); color: var(--text); }
   .claim { margin: 1.4rem 0 0; text-align: center; font: italic 500 clamp(1.15rem, 2vw, 1.45rem)/1.35 var(--serif); color: var(--gold-dunkel); }
+  /* Canvas kommt aus bruecke.js (aria-hidden, absolut, kein Layout-Einfluss) */
+  .bruecke :global(canvas) { position: absolute; pointer-events: none; }
+  .ufer span { transition: text-shadow 0.6s ease; }
+  .ufer :global(.b-glanz) { text-shadow: 0 0 14px rgba(255, 244, 214, 0.95), 0 0 2px rgba(255, 244, 214, 0.9); }
+  /* Mit JS und Bewegung: Endbild erst nach der Intro-Choreografie. Notfall: lädt bruecke.js nicht, erscheint alles nach 3,5 s. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .bruecke .b-teil, :global(.js) .bruecke .b-ziel, :global(.js) .bruecke .claim { opacity: 0; }
+    :global(.js) .bruecke:not(.b-bereit) :is(.b-teil, .b-ziel, .claim) { animation: b-notfall 0.6s ease 3.5s both; }
+    :global(.js) .bruecke.b-fertig :is(.b-teil, .b-ziel, .claim) { opacity: 1; transition: opacity 0.5s linear; }
+    :global(.js) .bruecke.b-bereit:not(.b-fertig) .claim :global(.tinte path) { animation-play-state: paused; }
+    :global(.js) .bruecke.b-bereit:not(.b-fertig) :is(.b-ziel, .claim) { will-change: opacity, transform; } /* eigene Ebene: Einblenden ohne Neuzeichnen */
+  }
+  @keyframes b-notfall { from { opacity: 0; } to { opacity: 1; } }
 
   .karten { list-style: none; margin: clamp(2.5rem, 5vw, 3.25rem) 0 0; padding: 0; display: grid; gap: 1rem; }
   @media (min-width: 48rem) { .karten { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }

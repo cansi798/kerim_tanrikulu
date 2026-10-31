@@ -75,6 +75,8 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
     <link rel="preload" href={sansExtUrl} as="font" type="font/woff2" crossorigin />
     {lang === "tr" && <link rel="preload" href={serifExtUrl} as="font" type="font/woff2" crossorigin />}
     <script is:inline src={u("/sichtbar.js")}></script>
+    <!-- Licht-Szenen (Sprachbrücke, Dolmetschen; Can 31.10.2026) nur, wo sie vorkommen; defer = blockiert das Laden nicht -->
+    {(seite === "start" || seite === "dolmetschen") && <script is:inline defer src={u("/licht.js")}></script>}
     <title>{voll}</title>
     <meta name="description" content={text} />
     {VORSCHAU && <meta name="robots" content="noindex, nofollow" />}
