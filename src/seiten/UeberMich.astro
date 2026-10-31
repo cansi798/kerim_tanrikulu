@@ -3,7 +3,6 @@ import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import Nachweise from "../components/Nachweise.astro";
 import Portrait from "../components/Portrait.astro";
-import Markiert from "../components/Markiert.astro";
 import { PORTRAIT, VORSCHAU, NAME } from "../daten";
 import { type Lang } from "../i18n";
 import { t } from "../texte";
@@ -26,7 +25,7 @@ const zitat = T.fakten.kulturen.split(T.fakten.kulturenMarke);
     </div>
   </section>
 
-  <!-- Kerims Satz, mit einem feinen Tintenstrich unter der Brücke zwischen den Kulturen -->
+  <!-- Kerims Satz; die Brücke zwischen den Kulturen fett (v5: keine Unterstreichung, Jamil Talk 3957) -->
   <section class="zitat-band dunkel" aria-label={S.zitatLabel} data-szene>
     <div class="huelle">
       <figure class="zitat">
@@ -34,7 +33,7 @@ const zitat = T.fakten.kulturen.split(T.fakten.kulturenMarke);
           <path d="M8 84 Q 300 -50 592 84" />
           <circle cx="8" cy="84" r="4" /><circle cx="592" cy="84" r="4" />
         </svg>
-        <blockquote><p>{zitat[0]}<Markiert szene={false} seed={81} v={4} dauer="lang">{T.fakten.kulturenMarke}</Markiert>{zitat[1]}</p></blockquote>
+        <blockquote><p>{zitat[0]}<strong class="betont">{T.fakten.kulturenMarke}</strong>{zitat[1]}</p></blockquote>
         <figcaption>{NAME}</figcaption>
       </figure>
     </div>

@@ -1,0 +1,86 @@
+---
+// „So einfach geht's“ (Can 31.10.2026 10:41/10:43): Ablauf als kompakte Schritt-Leiste mit Licht-Animation.
+// Inhalt bewusst allgemein (Kerims eigener Satz: „Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.“),
+// in der Vorschau als Platzhalter zur Bestätigung markiert (OFFENE-INFOS 11).
+// Bewegung (public/licht.js, Szene „a“): Schritt 1 leuchtet auf, ein Lichtpunkt zieht die goldene Linie zu Schritt 2 und 3,
+// jeder Schritt erscheint, wenn das Licht ankommt (ca. 3,3 s). Start erst, wenn die Leiste zur Hälfte im Bild ist; danach alle 14 s
+// und beim Wiederkommen erneut; nie Sprung ans Ende beim Scrollen; iPhone-resize-sicher (gemeinsamer Kern in licht.js).
+// Ohne JS: fertige Leiste. „Bewegung reduzieren“: fertige Leiste blendet einmal sanft ein.
+import Icon from "./Icon.astro";
+import Platzhalter from "./Platzhalter.astro";
+import { TELEFON_LINK, mailLink } from "../daten";
+import type { Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+const A = T.ablauf;
+---
+<section class="abschnitt weiss ablauf" aria-labelledby="ablauf-titel">
+  <div class="huelle">
+    <div class="section-head reveal">
+      <span class="eyebrow">{A.eyebrow}</span>
+      <h2 id="ablauf-titel" class="regel">{A.titel}</h2>
+      <p class="breit-nur">{A.text}</p>
+    </div>
+    <div class="a-buehne" data-ablauf>
+      <span class="a-linie" aria-hidden="true"></span>
+      <ol class="a-schritte" aria-label={A.aria}>
+        {A.schritte.map((s, i) => (
+          <li class={`a-schritt s${i}`}>
+            <span class="a-kreis"><Icon name={s.icon as any} /><span class="a-nr" aria-hidden="true">{i + 1}</span></span>
+            <h3>{s.titel}</h3>
+            <p class="a-kurz">{s.kurz}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <div class="knoepfe a-knoepfe">
+      <a class="knopf" href={TELEFON_LINK}><Icon name="telefon" />{T.ui.anrufen}</a>
+      <a class="knopf rahmen" href={mailLink(T.ui.anfrageBetreff)}><Icon name="mail" />{T.ui.mailSchreiben}</a>
+    </div>
+    <div class="a-hinweis"><Platzhalter lang={lang}>{A.platzhalter}</Platzhalter></div>
+  </div>
+</section>
+<style>
+  .ablauf { padding-block: clamp(3rem, 7vw, 5.5rem); }
+  .ablauf .section-head { margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem); }
+  .breit-nur { display: none; }
+  @media (min-width: 48rem) { .breit-nur { display: block; } }
+  .a-buehne { position: relative; max-width: 60rem; margin: 0 auto; --kreis: 3.6rem; }
+  @media (min-width: 48rem) { .a-buehne { --kreis: 4.5rem; } }
+  .a-schritte { position: relative; z-index: 1; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; text-align: center; }
+  .a-schritt { display: flex; flex-direction: column; align-items: center; }
+  .a-kreis {
+    position: relative; display: grid; place-items: center; width: var(--kreis); height: var(--kreis); border-radius: 50%;
+    background: var(--weiss); border: 1.5px solid var(--gold); color: var(--gold-dunkel); margin-bottom: 0.9rem;
+    transition: box-shadow 0.6s ease, background-color 0.6s ease;
+  }
+  .a-kreis :global(svg) { width: 44%; height: 44%; }
+  .a-nr {
+    position: absolute; right: -0.3rem; top: -0.3rem; display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border-radius: 50%;
+    background: var(--tinte); color: var(--weiss); font: 700 0.78rem/1 var(--sans);
+  }
+  .a-schritt h3 { font-size: clamp(1rem, 1.6vw, 1.3rem); line-height: 1.3; margin: 0 0 0.4rem; max-width: 14em; }
+  .a-kurz { display: none; margin: 0; color: var(--text-leise); font-size: 1rem; line-height: 1.55; max-width: 18em; }
+  @media (min-width: 48rem) { .a-kurz { display: block; } }
+  /* Verbindungslinie durch die Mitten der Kreise (Spalten gleich breit → Mitten bei 1/6, 3/6, 5/6) */
+  .a-linie {
+    position: absolute; left: calc(100% / 6); right: calc(100% / 6); top: calc(var(--kreis) / 2 - 1px); height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--gold), #c9a35b 50%, var(--gold));
+  }
+  .a-buehne :global(canvas) { pointer-events: none; }
+  .a-kreis:global(.a-glanz) { box-shadow: 0 0 0 6px rgba(201, 163, 91, 0.18), 0 0 26px 6px rgba(255, 236, 196, 0.9); background: #fffaf0; }
+  .a-knoepfe { justify-content: center; margin-top: clamp(1.75rem, 3.5vw, 2.5rem); }
+  .a-hinweis :global(.platzhalter) { margin-inline: auto; }
+  /* schmal gibt es unten die feste Leiste „Anrufen | E-Mail schreiben“ → hier keine doppelten Knöpfe (weniger scrollen) */
+  @media (max-width: 65.99rem) { .a-knoepfe { display: none; } }
+  /* Mit JS und Bewegung: Schritte und Linie erscheinen erst mit dem Licht. Notfall: lädt licht.js nicht, erscheint alles nach 3,5 s. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .a-buehne :is(.a-schritt, .a-linie) { opacity: 0; }
+    :global(.js) .a-buehne:not(.a-bereit) :is(.a-schritt, .a-linie) { animation: a-notfall 0.6s ease 3.5s both; }
+    :global(.js) .a-buehne.a-fertig :is(.a-schritt, .a-linie) { opacity: 1; transition: opacity 0.5s linear; }
+    :global(.js) .a-buehne.a-aus :is(.a-schritt, .a-linie) { opacity: 0 !important; transition: opacity 0.6s ease !important; }
+  }
+  @keyframes a-notfall { from { opacity: 0; } to { opacity: 1; } }
+</style>

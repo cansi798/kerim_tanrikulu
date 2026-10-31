@@ -11,6 +11,8 @@ const BASIS = import.meta.env.BASE_URL.replace(/\/$/, "");
 export const u = (pfad: string) => `${BASIS}${pfad}`;
 
 export const NAME = "Kerim Mikael Tanrikulu";
+/** Kurzform für Seitentitel (SEO v5, Can 31.10.2026): „<Leistung + Ort> | Kerim Tanrikulu“ */
+export const TITEL_NAME = "Kerim Tanrikulu";
 export const MARKE = "Tanrikulu Translations";
 export const DOLMETSCHER = "allgemein beeidigter Dolmetscher";
 export const UEBERSETZER = "ermächtigter Übersetzer";
@@ -19,6 +21,9 @@ export const SEIT = "Mai 2021";
 export const SPRACHEN = "Deutsch und Türkisch";
 /** Standort laut Jamils Konzept; vom Kunden bestätigen lassen (OFFENE-INFOS). */
 export const ORT = "Hamburg";
+/** Einsatzgebiet fürs Dolmetschen vor Ort: Vorgabe von Can (31.10.2026 10:46), nicht von der bisherigen Website →
+ *  von Kerim bestätigen lassen (OFFENE-INFOS). Für JSON-LD areaServed (Bundesländer, deutsche Namen). */
+export const GEBIET = ["Hamburg", "Schleswig-Holstein", "Bremen", "Niedersachsen"];
 
 /** Claim laut Jamil (Talk 3904). Kerims eigener Satz lautet „Brückenbildung zwischen den Kulturen“ – Wortlaut bestätigen lassen (OFFENE-INFOS). */
 export const CLAIM = "Brücken bauen zwischen den Sprachen";

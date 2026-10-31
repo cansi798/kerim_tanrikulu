@@ -2,7 +2,7 @@
 // (Hinweis auf allen türkischen Seiten, Schalter TR_GEPRUEFT in i18n.ts, OFFENE-INFOS).
 // Gleiche Form wie de.ts. Fachbegriffe: allgemein beeidigter Dolmetscher = genel yeminli tercüman (sözlü),
 // ermächtigter Übersetzer = yetkili mütercim (yazılı), beglaubigte Übersetzung = onaylı (yeminli) çeviri, Apostille = Apostil.
-import { NAME, MAIL, TELEFON } from "../daten";
+import { NAME, MAIL, TELEFON, TITEL_NAME } from "../daten";
 import type { Texte } from "./de";
 
 const HONORAR =
@@ -68,11 +68,11 @@ export const tr: Texte = {
   },
 
   meta: {
-    titelStart: `Hamburg'da Almanca Türkçe onaylı çeviri ve sözlü tercüme | ${NAME}`,
+    titelStart: `Hamburg'da yeminli Türkçe tercüman ve mütercim | ${TITEL_NAME}`,
     beschreibung:
-      "Kerim Mikael Tanrikulu, Almanca ve Türkçe için genel yeminli tercüman ve yetkili mütercimdir (Schleswig Eyalet Yüksek Mahkemesi, Mayıs 2021'den beri). Onaylı çeviri ve sözlü tercüme, Hamburg.",
-    uebersetzungen: { titel: "Almanca Türkçe onaylı çeviri", beschreibung: "Yetkili mütercim Kerim Mikael Tanrikulu'dan Türkçe ve Almanca onaylı çeviriler: mahkeme kararları, boşanma kararları, diplomalar, kimlik kartları, tıbbi belgeler ve resmî belgeler. Ücret JVEG'e göre." },
-    dolmetschen: { titel: "Almanca Türkçe sözlü tercüman", beschreibung: "Türkçe ve Almanca genel yeminli tercüman: Kerim Mikael Tanrikulu, Mayıs 2021'den beri Schleswig Eyalet Yüksek Mahkemesi tarafından yeminli, Hamburg." },
+      "Türkçe–Almanca onaylı çeviri ve sözlü tercüme: Kerim Tanrikulu, Schleswig Eyalet Yüksek Mahkemesi'nden yeminli ve yetkili. Hamburg, Schleswig-Holstein, Bremen, Aşağı Saksonya.",
+    uebersetzungen: { titel: "Hamburg'da Türkçe–Almanca onaylı çeviri", beschreibung: "Hamburg'da yetkili mütercim Kerim Mikael Tanrikulu'dan Türkçe ve Almanca onaylı çeviriler: kararlar, diplomalar, kimlikler, tıbbi belgeler, resmî belgeler. Ücret JVEG'e göre." },
+    dolmetschen: { titel: "Türkçe sözlü tercüman: Hamburg, Schleswig-Holstein, Bremen, Aşağı Saksonya", beschreibung: "Türkçe ve Almanca genel yeminli tercüman (Schleswig Eyalet Yüksek Mahkemesi, Mayıs 2021'den beri). Hizmet bölgesi Hamburg, Schleswig-Holstein, Bremen ve Aşağı Saksonya." },
     themen: { titel: "Türkçe ve Almanca tipik belgeler", beschreibung: "Alman makamlarının hangi Türk belgelerini, Türk makamlarının hangi Alman belgelerini sıklıkla çevirili istediğine genel bakış: nüfus kayıtları, kararlar, diplomalar, kimlikler, tıbbi belgeler." },
     ratgeber: { titel: "Onaylı çeviri ve apostil rehberi", beschreibung: "Genel bilgiler: onaylı çeviri nedir, sözlü tercüman ile mütercim arasındaki fark, asıl belge mi fotokopi mi, Almanya ile Türkiye arasında apostil, çok dilli örnekler, JVEG." },
     ueber: { titel: "Hakkımda", beschreibung: "Kerim Mikael Tanrikulu, Mayıs 2021'den beri Schleswig Eyalet Yüksek Mahkemesi tarafından Türkçe ve Almanca için genel yeminli tercüman ve yetkili mütercim." },
@@ -132,61 +132,68 @@ export const tr: Texte = {
     sub: "Resmî daireler, mahkemeler ve diğer resmî kurumlar için.",
     vertrauen: ["Sözlü tercüman", "Mütercim", "Almanca ve Türkçe"],
     karten: ["Onaylı çeviriler", "Sözlü tercüme", "Almanca ve Türkçe"],
-  },
-
-  band: ["Genel yeminli tercüman", "Yetkili mütercim", "Schleswig Eyalet Yüksek Mahkemesi", "Mayıs 2021'den beri"],
-  bandLabel: "Bir bakışta yeterlilik",
-
-  richtungen: {
-    eyebrow: "İki yönde",
-    titel: "Almanca ile Türkçe arasında",
-    text: "Pek çok belge iki ülke arasında yol alır: Türk belgeleri Alman makamlarına, Alman belgeleri Türk makamlarına.",
-    links: { kopf: "Türkçe → Deutsch", titel: "Alman makamları için Türk belgeleri", beispiele: ["Nüfus kayıt örneği (Auszug aus dem Personenstandsregister)", "Boşanma kararları", "Diplomalar ve karneler"] },
-    rechts: { kopf: "Deutsch → Türkçe", titel: "Türk makamları için Alman belgeleri", beispiele: ["Doğum ve evlenme belgeleri", "Alman mahkemelerinin kararları", "Diplomalar ve meslek belgeleri"] },
-    pfeil: "Almanca ve Türkçe, iki yönde",
-    link: "Tipik belgeleri görün",
+    kartenKurz: ["Resmî belgeler, kararlar, diplomalar ve daha fazlası", "Görüşmeler ve randevular, genel yeminli", "İki yönde tipik belgeler"],
   },
 
   leistungen: {
-    eyebrow: "Hizmetler",
-    titel: "Yazılı ve sözlü tercüme",
-    text: "Türkçe ve Almanca için.",
     ueTitel: "Onaylı çeviriler",
-    ueText: "Sizin için her türlü belgeyi memnuniyetle çeviriyorum; örneğin mahkeme kararları, diplomalar, kimlik kartları, tıbbi belgeler ve resmî belgeler.",
-    ueLink: "Çeviriler hakkında",
     doTitel: "Sözlü tercüme",
-    doLink: "Sözlü tercüme hakkında",
   },
 
-  auszeichnet: {
-    eyebrow: "Neden Sayın Tanrikulu",
-    titel: "Sözlü ve yazılı tercüme tek elden",
-    text: "Sayın Tanrikulu hem genel yeminli tercüman hem de yetkili mütercimdir. Yani hem konuşulan hem de yazılı söz için yetkilidir.",
-    zahlen: [
-      { zahl: "2", wort: "dil", zeile: "Almanca ve Türkçe" },
-      { zahl: "2", wort: "yetki", zeile: "yemin ve mütercimlik yetkisi" },
-      { zahl: "2021", wort: "Mayıs'tan beri", zeile: "Schleswig Eyalet Yüksek Mahkemesi" },
-      { zahl: "5", wort: "kurum", zeile: "belirtilen deneyimler arasında" },
+  warum: {
+    eyebrow: "Avantajlarınız",
+    titel: "Neden Sayın Tanrikulu?",
+    details: "Ayrıntılar",
+    punkte: [
+      { icon: "gespraech", titel: "Sözlü ve yazılı tercüme tek elden", kurz: "Belgeler ve görüşmeler için tek muhatap.", lang: "Hem genel yeminli tercüman hem de yetkili mütercimdir. Çeviri ve randevu için tek bir muhatabınız olur.", seite: "dolmetschen", anker: "#unterschied-titel" },
+      { icon: "schild", titel: "Schleswig Eyalet Yüksek Mahkemesi'nden yeminli ve yetkili", kurz: "Mayıs 2021'den beri, Türkçe ve Almanca için.", lang: "Almanya'da yetkili bir mütercimin çevirisi, Alman resmî makamları ve mahkemeleri için olağan biçimdir.", seite: "ratgeber", anker: "#beglaubigt" },
+      { icon: "urteil", titel: "Mahkemeler ve resmî kurumlarla deneyim", kurz: "Yerel mahkemeler, konsolosluk, BAMF ve okullar.", lang: "Aralarında Schleswig-Holstein'daki yerel mahkemeler, Hamburg'daki Türk Konsolosluğu, Federal Göç ve Mülteciler Dairesi (BAMF), IQSH ve Hamburg'daki okullar var.", seite: "ueber", anker: "#erfahrung-titel" },
+      { icon: "dokument", titel: "JVEG'e göre ücret", kurz: "Mahkemelerin de uyguladığı kanuna göre.", lang: "JVEG, mahkemelerin ve resmî makamların tercümanlara nasıl ödeme yaptığını düzenler. Sizin durumunuzdaki ücreti Sayın Tanrikulu sizinle kişisel olarak konuşur.", seite: "ratgeber", anker: "#jveg" },
+      { icon: "telefon", titel: "Kolayca ulaşın", kurz: "Doğrudan telefon veya e-posta ile, form doldurmadan.", lang: "Form yok, aracı yok: Doğrudan Sayın Tanrikulu ile konuşur veya yazışırsınız.", seite: "kontakt", anker: "" },
+      { icon: "bruecke", titel: "İki kültürle kişisel bağ", kurz: "Çeviriye olan ilgisi Türkiye'de başladı.", lang: "Bu ilgiyi Türkiye'deki bir öğrenim döneminde keşfetti. İşini \u201ckültürler arasında bir tür köprü kurma\u201d olarak görüyor.", seite: "ueber", anker: "" },
     ],
-    nachweise: [
-      { titel: "Genel yeminli tercüman", art: "Sözlü", text: "Mayıs 2021'den beri Schleswig Eyalet Yüksek Mahkemesi tarafından yeminli." },
-      { titel: "Yetkili mütercim", art: "Yazılı", text: "Mayıs 2021'den beri Schleswig Eyalet Yüksek Mahkemesi tarafından yetkilendirilmiş." },
+  },
+
+  gebiet: {
+    titel: "Hizmet bölgesi",
+    laender: ["Hamburg", "Schleswig-Holstein", "Bremen", "Aşağı Saksonya"],
+    satz: "Hamburg, Schleswig-Holstein, Bremen ve Aşağı Saksonya",
+    zusatz: "Konum Hamburg. Bu dört eyalette yerinde sözlü tercüme.",
+    karte: "Harita: hizmet bölgesi Hamburg, Schleswig-Holstein, Bremen ve Aşağı Saksonya",
+  },
+
+  ablauf: {
+    eyebrow: "Süreç",
+    titel: "Bu kadar kolay",
+    text: "Çevirinize veya randevunuza üç adımda.",
+    aria: "Üç adımda süreç",
+    schritte: [
+      { icon: "telefon", titel: "İletişime geçin", kurz: "Arayın veya e-posta yazın." },
+      { icon: "gespraech", titel: "Talebinizi konuşun", kurz: "İzlenecek yolu Sayın Tanrikulu sizinle kişisel olarak konuşur." },
+      { icon: "dokument", titel: "Çeviri veya randevu", kurz: "Onaylı çevirinizi alırsınız ya da randevunuzda sözlü tercüme yapılır." },
     ],
-    erfahrungTitel: "Mahkemeler, resmî kurumlar ve okullarla deneyim",
-    jvegTitel: "JVEG'e göre ücret",
-    jvegText: "Ücret JVEG'e göre belirlenir. Mahkemeler ve resmî makamlar da tercümanlara bu kanuna göre ödeme yapar.",
-    tuerkeiTitel: "Türkiye ile kişisel bağ",
-    tuerkeiText: "Çeviriye olan ilgisini Türkiye'deki bir öğrenim döneminde keşfetti.",
-    ortTitel: "Hamburg ve Schleswig-Holstein",
-    ortText: "Konum Hamburg. Schleswig Eyalet Yüksek Mahkemesi tarafından yetkilendirilmiş, Schleswig-Holstein'daki yerel mahkemelerle deneyimli.",
-    link: "Sayın Tanrikulu hakkında",
+    platzhalter: "Süreç bilerek genel ifade edildi (Can 31.10.). Bir işin nasıl ilerlediğini Sayın Tanrikulu onaylamalı.",
+  },
+
+  gut: {
+    eyebrow: "Bilmekte fayda var",
+    titel: "Kısa cevaplar",
+    mehr: "Ayrıntılar",
+    fragen: [
+      { frage: "Onaylı çeviriye ihtiyacım var mı?", antwort: "Resmî daireler, mahkemeler ve diğer resmî kurumlar yabancı dildeki belgeler için bunu isteyebilir. İhtiyacınız olup olmadığını, belgeyi teslim edeceğiniz makam söyler.", seite: "ratgeber", anker: "#beglaubigt" },
+      { frage: "Hangi belgeler çevriliyor?", antwort: "Her türlü belge; örneğin mahkeme kararları (boşanma kararları dahil), diplomalar ve karneler, kimlik kartları, tıbbi belgeler ve resmî belgeler.", seite: "themen", anker: "" },
+      { frage: "Sözlü tercüman mı, mütercim mi?", antwort: "Sözlü tercüman konuşulanı, mütercim yazılı metni aktarır. Sayın Tanrikulu her ikisi için de yetkilidir.", seite: "ratgeber", anker: "#dolmetscher-uebersetzer" },
+      { frage: "Ücret ne kadar?", antwort: "Ücret JVEG'e göre belirlenir. Sizin durumunuzdaki ücreti Sayın Tanrikulu sizinle kişisel olarak konuşur.", seite: "ratgeber", anker: "#jveg" },
+      { frage: "Sayın Tanrikulu hangi bölgelerde sözlü tercüme yapıyor?", antwort: "Hamburg, Schleswig-Holstein, Bremen ve Aşağı Saksonya'da. Konumu Hamburg.", seite: "dolmetschen", anker: "#gebiet-titel" },
+      { frage: "Apostil gerekir mi?", antwort: "Apostil, resmî bir belgenin gerçek olduğunu teyit eder. Gerekip gerekmediği belgeye ve onu isteyen makama bağlıdır.", seite: "ratgeber", anker: "#apostille" },
+    ],
   },
 
   themen: {
     eyebrow: "Belgeler",
     titel: "İki yönde tipik belgeler",
     text: "Resmî daireler, mahkemeler ve diğer kurumlar bu belgeler için sıklıkla onaylı çeviri ister. Bu liste geneldir. Sayın Tanrikulu'nun hangi işleri üstlendiğini lütfen doğrudan kendisine sorun.",
-    legende: "Mürekkeple altı çizili olanlar: Sayın Tanrikulu'nun web sitesinde kendisinin örnek olarak verdiği belge türleri.",
+    legende: "Onay işaretiyle gösterilenler: Sayın Tanrikulu'nun web sitesinde kendisinin örnek olarak verdiği belge türleri.",
     laut: "Sayın Tanrikulu'ya göre",
     trde: {
       kopf: "Türkçe → Deutsch",
@@ -346,6 +353,7 @@ export const tr: Texte = {
       { frage: "\"Genel yeminli tercüman\" ne demek?", antwort: ["Mayıs 2021'den beri Schleswig Eyalet Yüksek Mahkemesi tarafından Türkçe ve Almanca için genel yeminli tercümanım (allgemein beeidigter Dolmetscher). Günlük dilde buna çoğu zaman \"yeminli tercüman\" denir."] },
       { frage: "Hangi dillerde çeviri ve sözlü tercüme yapıyorsunuz?", antwort: ["Türkçe ve Almanca."] },
       { frage: "Bir çeviri veya sözlü tercüme ne kadar tutar?", antwort: [HONORAR] },
+      { frage: "Hangi bölgelerde sözlü tercüme yapıyorsunuz?", antwort: ["Hamburg, Schleswig-Holstein, Bremen ve Aşağı Saksonya'da. Konumum Hamburg."] },
       { frage: "Nasıl talep gönderebilirim?", antwort: [`${MAIL} adresine e-posta yazın veya ${TELEFON} numarasından arayın. Size özel izlenecek yolu kişisel bir görüşmede memnuniyetle anlatırım.`] },
     ],
   },
@@ -377,7 +385,7 @@ export const tr: Texte = {
       unterschiedTitel: "Sözlü ve yazılı",
       unterschiedText: "Sözlü tercüman konuşulanı, mütercim yazılı metni aktarır. Sayın Tanrikulu her ikisi için de yetkilidir.",
       erfahrungTitel: "Bugüne kadarki deneyimler",
-      platzhalter: "Tipik görev yerleri ve hizmet bölgesi müşteri tarafından belirtilmeli. O zamana kadar burada yalnızca mevcut web sitesindeki bilgiler yer alır.",
+      platzhalter: "Tipik görev yerleri müşteri tarafından belirtilmeli. Hizmet bölgesini (Hamburg, Schleswig-Holstein, Bremen, Aşağı Saksonya) Can belirledi; Sayın Tanrikulu onaylamalı.",
       ueberLink: "Hakkımda daha fazla",
     },
     ueber: {

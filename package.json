@@ -9,8 +9,7 @@
     "build": "astro build"
   },
   "dependencies": {
-    "astro": "^7.3.2",
-    "roughjs": "^4.6.6"
+    "astro": "^7.3.2"
   },
   "devDependencies": {
     "@fontsource-variable/open-sans": "^5.3.0",

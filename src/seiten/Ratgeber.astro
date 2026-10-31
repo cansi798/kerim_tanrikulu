@@ -2,12 +2,10 @@
 // Ratgeber (neu in v4, Can 31.10.2026): allgemeines Wissen, das für jeden allgemein beeidigten Dolmetscher und
 // ermächtigten Übersetzer in Deutschland gilt. Als Wissen formuliert, nicht als Leistungsversprechen; sichtbarer Hinweis
 // „keine Rechtsberatung“. Was nur Kerim beantworten kann (Preise, Fristen, Ablauf, Versand), bleibt Platzhalter (OFFENE-INFOS).
-// Je Kapitel bekommt EIN Kernbegriff einen Tintenstrich, wenn das Kapitel ins Bild kommt.
+// Je Kapitel wird EIN Kernbegriff fett gesetzt (v5, Jamil Talk 3957: keine Unterstreichungen, keine krakeligen Linien).
 import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import Platzhalter from "../components/Platzhalter.astro";
-import Markiert from "../components/Markiert.astro";
-import Tinte from "../components/Tinte.astro";
 import Icon from "../components/Icon.astro";
 import { p, type Lang } from "../i18n";
 import { t } from "../texte";
@@ -47,7 +45,6 @@ const schema = [{
       </nav>
       <div class="kapitel-liste">
         <aside class="hinweis" data-szene>
-          <span class="klammer"><Tinte art="klammer" b={18} h={120} seed={71} staerke={1.6} dauer="mittel" v={2} /></span>
           <Icon name="frage" />
           <p>{T.ui.rechtHinweis}</p>
         </aside>
@@ -55,7 +52,7 @@ const schema = [{
           <article class="kapitel reveal" id={k.id} aria-labelledby={`${k.id}-t`}>
             <h2 id={`${k.id}-t`}>{k.frage}</h2>
             {k.teile.map((teil) => (
-              <p>{teil.vor}{teil.begriff && <Markiert seed={k.id.length * 7} v={3}>{teil.begriff}</Markiert>}{teil.nach}</p>
+              <p>{teil.vor}{teil.begriff && <strong class="begriff">{teil.begriff}</strong>}{teil.nach}</p>
             ))}
           </article>
         ))}
@@ -79,7 +76,8 @@ const schema = [{
   .inhalt a { color: var(--tinte); text-decoration: none; }
   .inhalt a:hover { text-decoration: underline; text-decoration-color: var(--gold); }
   .kapitel-liste { max-width: 46rem; }
-  .hinweis { position: relative; display: flex; gap: 0.75rem; align-items: flex-start; margin: 0 0 2.5rem; padding: 1rem 1.25rem 1rem 1.75rem; background: var(--weiss); border-radius: 6px; }
+  .hinweis { position: relative; display: flex; gap: 0.75rem; align-items: flex-start; margin: 0 0 2.5rem; padding: 1rem 1.25rem 1rem 1.25rem; background: var(--weiss); border-radius: 6px; border-left: 2px solid var(--gold); }
+  .begriff { font-weight: 650; color: var(--tinte); }
   .hinweis p { margin: 0; font-weight: 500; }
   .hinweis :global(svg.icon) { width: 1.3rem; height: 1.3rem; flex: none; margin-top: 0.2rem; color: var(--gold-dunkel); }
   .klammer { position: absolute; left: 0.35rem; top: 0.4rem; bottom: 0.4rem; width: 12px; }

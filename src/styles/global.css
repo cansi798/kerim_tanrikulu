@@ -48,7 +48,11 @@ body {
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
 img, svg { display: block; max-width: 100%; }
-a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+/* v5 (Jamil Talk 3957): keine unterstrichenen Texte. Links ohne Unterstrich; im Fließtext fett + dunkles Gold (nicht nur Farbe),
+   Unterstrich nur beim Darüberfahren und beim Tastatur-Fokus. */
+a { color: inherit; text-decoration: none; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+main p > a:not([class]) { font-weight: 600; color: var(--gold-dunkel); }
+main p > a:not([class]):is(:hover, :focus-visible) { text-decoration: underline; }
 p { margin: 0 0 1.25rem; }
 ul { margin: 0 0 1.25rem; }
 
@@ -98,11 +102,16 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 .dunkel .knopf.rahmen, .kopf .knopf.rahmen { color: var(--tinte); border-color: var(--gold); }
 .dunkel .knopf.rahmen:hover, .kopf .knopf.rahmen:hover { background: var(--tinte); border-color: var(--tinte); color: var(--weiss); }
 
-/* Textlink mit Goldstrich */
-.weiter { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500; color: var(--tinte); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 0.15rem; }
-.weiter:hover { border-bottom-color: var(--tinte); }
+/* Textlink (v5, Jamil 3957): ohne Unterstrich – fett, mit geradem Pfeil; Unterstrich nur bei Hover/Fokus */
+.weiter { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 600; color: var(--tinte); text-decoration: none; padding-block: 0.15rem; }
+.weiter::after {
+  content: ""; flex: none; width: 1em; height: 1em; background: var(--gold-dunkel); transition: transform var(--dur-fast) var(--ease);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15M14 7l5 5-5 5'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15M14 7l5 5-5 5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.weiter:is(:hover, :focus-visible) { text-decoration: underline; text-decoration-color: var(--gold); }
+.weiter:hover::after { transform: translateX(3px); }
 .dunkel .weiter { color: var(--hell); }
-.dunkel .weiter:hover { border-bottom-color: var(--hell); }
 
 /* Liste mit feinem Goldstrich */
 .strichliste { list-style: none; padding: 0; }
@@ -158,27 +167,8 @@ a.karte:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -20px rgba(
 .js .reveal.an { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; } }
 
-/* ---------- v4: Tinten-Notizen mit rough.js (Can 31.10.2026) ----------
-   Feine Feder-Handschrift in Navy-Tinte (Farbe des Logos) oder Gold. Jede Notiz zieht sich EINMAL in 0,6–1,0 s,
-   wenn ihr Bereich sichtbar wird; nie flächig, nie mehrere große Notizen gleichzeitig. Pfade kommen fertig aus dem Build. */
-.tinte { position: absolute; display: block; max-width: none; overflow: visible; pointer-events: none; --tinte-farbe: var(--logo); }
-.tinte.gold { --tinte-farbe: var(--gold); }
-.tinte path {
-  fill: none; stroke: var(--tinte-farbe); stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 1; stroke-dashoffset: 0;
-  animation: tinte-zug var(--td, 0.8s) cubic-bezier(0.5, 0.05, 0.25, 1) calc(var(--ts, 0s) + var(--tn, 0s)) both;
-}
-.tinte.kurz { --td: 0.6s; } .tinte.lang { --td: 1s; }
-.tinte.v1 { --ts: 0.15s; } .tinte.v2 { --ts: 0.3s; } .tinte.v3 { --ts: 0.45s; } .tinte.v4 { --ts: 0.6s; }
-.tinte.v5 { --ts: 0.75s; } .tinte.v6 { --ts: 0.9s; } .tinte.v7 { --ts: 1.05s; } .tinte.v8 { --ts: 1.2s; }
-.tinte .t1 { --tn: 0.5s; } .tinte .t2 { --tn: 0.62s; } .tinte .t3 { --tn: 0.7s; } .tinte .t4 { --tn: 0.8s; }
-.tinte-pfeil .t1, .tinte-pfeil .t2 { animation-duration: 0.35s; }
-@keyframes tinte-zug { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-
-.markiert { position: relative; display: inline-block; z-index: 0; }
-.markiert > .tinte { z-index: -1; }
-.m-strich > .tinte { left: -2%; width: 104%; bottom: -0.32em; height: 0.5em; }
-.m-kreis > .tinte { left: -0.55em; right: -0.55em; top: -0.32em; bottom: -0.32em; width: calc(100% + 1.1em); height: calc(100% + 0.64em); }
-
 /* v4 Ladezeit: Abschnitte außerhalb des Bildschirms erst rendern, wenn sie in die Nähe kommen (weniger Layout beim Laden) */
 .abschnitt, .aufruf, .fuss { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+/* v5: Vorteile-Band liegt direkt unter dem Hero – ebenfalls erst in der Nähe rendern (Ladezeit) */
+.warum { content-visibility: auto; contain-intrinsic-size: auto 1300px; }
 @media (max-width: 61.99rem) { .richtungen { content-visibility: auto; contain-intrinsic-size: auto 1100px; } }
