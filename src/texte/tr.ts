@@ -49,7 +49,7 @@ export const tr: Texte = {
     original: "Asıl belge",
     uebersetzung: "Çeviri",
     bildUe: "Asıl belge ve çevirisi yan yana iki sayfa olarak",
-    bildDo: "Sözlü tercüme: Almancadan tercüman aracılığıyla Türkçeye",
+    bildDo: "Sözlü tercüme: Türkçeden tercüman aracılığıyla Almancaya",
     deutsch: "Almanca",
     tuerkisch: "Türkçe",
   },
