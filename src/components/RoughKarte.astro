@@ -31,17 +31,17 @@ const datei = u(`/karte/karte-${lang}-${dunkel ? "dunkel" : "hell"}.svg`);
     --k-fluss: rgba(243, 237, 228, 0.24); --k-text: #fbf7f0; --k-leise: #ddd2c3; --k-meer: #c9bdad; --k-hof: var(--tinte);
   }
   .rk-svg { display: block; width: 100%; height: auto; overflow: visible; }
-  .rkarte-platz { aspect-ratio: 520 / 640; }
+  .rkarte-platz { aspect-ratio: 800 / 640; } /* = KARTE_MASSE (CSP: keine style-Attribute) */
   .rkarte-bild { display: block; width: 100%; height: auto; }
   .rk-s { stroke-dasharray: 1 1; }
   .rk-p { fill: var(--k-text); }
   /* Beschriftung mit Hof in Hintergrundfarbe, damit sie über Schraffur und Linien lesbar bleibt */
   .rk-x { stroke: var(--k-hof); stroke-width: 6px; paint-order: stroke; stroke-linejoin: round; }
-  .rk-land { font: 600 25px var(--serif); fill: var(--k-text); letter-spacing: 0.01em; }
-  .rk-stadt { font: 700 23px var(--sans); fill: var(--k-text); }
-  .rk-gross { font-size: 25px; }
-  .rk-klein { font: 600 18px var(--sans); fill: var(--k-leise); }
-  .rk-meer { font: italic 500 19px var(--serif); fill: var(--k-meer); letter-spacing: 0.04em; }
+  .rk-land { font: 600 28px var(--serif); fill: var(--k-text); letter-spacing: 0.01em; }
+  .rk-stadt { font: 700 26px var(--sans); fill: var(--k-text); }
+  .rk-gross { font-size: 28px; }
+  .rk-klein { font: 600 20px var(--sans); fill: var(--k-leise); }
+  .rk-meer { font: italic 500 21px var(--serif); fill: var(--k-meer); letter-spacing: 0.04em; }
   .rk-sitz { transform-box: fill-box; transform-origin: center; }
   /* einmal zeichnen, sobald im Bild (pausiert über data-szene bis „an“); Grundzustand = fertige Karte */
   .rk-s { animation: rk-zeichnen 0.6s ease-out both; }

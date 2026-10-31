@@ -11,7 +11,7 @@ import "../styles/global.css";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
 import Aufruf from "../components/Aufruf.astro";
-import { VORSCHAU, NAME, MARKE, MAIL, TELEFON, TELEFON_BESTAETIGT, ORT, GERICHT, GEBIET, TITEL_NAME, u } from "../daten";
+import { VORSCHAU, NAME, MARKE, MAIL, TELEFON_INTERNATIONAL, TELEFON_BESTAETIGT, WHATSAPP_LINK, PORTRAIT, ORT, GERICHT, GEBIET, TITEL_NAME, u } from "../daten";
 import { SEITEN, TR_GEPRUEFT, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
 
@@ -49,8 +49,15 @@ const person: Record<string, unknown> = {
   hasCredential: [
     { "@type": "EducationalOccupationalCredential", name: "Allgemeine Beeidigung als Dolmetscher (Türkisch)", recognizedBy: { "@type": "GovernmentOrganization", name: GERICHT }, dateCreated: "2021-05" },
     { "@type": "EducationalOccupationalCredential", name: "Ermächtigung als Übersetzer (Türkisch)", recognizedBy: { "@type": "GovernmentOrganization", name: GERICHT }, dateCreated: "2021-05" },
+    // Kerim Talk 3990: Bachelor of Arts in Philosophie und Germanistik, abgeschlossen 2021
+    { "@type": "EducationalOccupationalCredential", credentialCategory: "degree", name: "Bachelor of Arts in Philosophie und Germanistik", dateCreated: "2021" },
   ],
-  contactPoint: { "@type": "ContactPoint", contactType: "customer service", email: MAIL, availableLanguage: ["de", "tr"], areaServed: GEBIET.map((name) => ({ "@type": "AdministrativeArea", name })) },
+  contactPoint: [
+    { "@type": "ContactPoint", contactType: "customer service", email: MAIL, ...(TELEFON_BESTAETIGT ? { telephone: TELEFON_INTERNATIONAL } : {}), availableLanguage: ["de", "tr"], areaServed: GEBIET.map((name) => ({ "@type": "AdministrativeArea", name })) },
+    // WhatsApp (Kerim Talk 3993): Link, über den Kunden schreiben können
+    { "@type": "ContactPoint", contactType: "customer service", name: "WhatsApp", url: WHATSAPP_LINK, availableLanguage: ["de", "tr"] },
+  ],
+  ...(PORTRAIT ? { image: new URL(u(`${PORTRAIT}-560.webp`), Astro.site).href } : {}),
 };
 // v5 (Can 31.10.2026): Leistungen als Service mit Einsatzgebiet (Dolmetschen vor Ort). Übersetzungen ohne Gebietsangabe (kein Versprechen).
 const gebiet = GEBIET.map((name) => ({ "@type": "AdministrativeArea", name }));
@@ -64,13 +71,15 @@ const leistung = (name: string, seite: Seite, mitGebiet: boolean) => ({
   inLanguage: lang,
   ...(mitGebiet ? { areaServed: gebiet } : {}),
 });
-if (TELEFON_BESTAETIGT) person.telephone = TELEFON;
+if (TELEFON_BESTAETIGT) person.telephone = TELEFON_INTERNATIONAL;
 const jsonLd = [
   person,
   { "@context": "https://schema.org", "@type": "WebSite", "@id": `${start}#website`, url: start, name: MARKE, inLanguage: ["de", "tr"], publisher: { "@id": `${start}#person` } },
   { "@context": "https://schema.org", "@type": "WebPage", url: kanon.href, name: voll, inLanguage: lang, isPartOf: { "@id": `${start}#website` } },
   ...(seite === "start" || seite === "uebersetzungen" ? [leistung(lang === "tr" ? "Türkçe–Almanca onaylı çeviri" : "Beglaubigte Übersetzung Türkisch–Deutsch", "uebersetzungen", false)] : []),
   ...(seite === "start" || seite === "dolmetschen" ? [leistung(lang === "tr" ? "Türkçe–Almanca sözlü tercüme" : "Dolmetschen Türkisch–Deutsch", "dolmetschen", true)] : []),
+  // Video- und Telefondolmetschen (Kerim Talk 3990) – ortsunabhängig, daher ohne areaServed
+  ...(seite === "start" || seite === "dolmetschen" ? [leistung(lang === "tr" ? "Görüntülü ve telefonla sözlü tercüme Türkçe–Almanca" : "Video- und Telefondolmetschen Türkisch–Deutsch", "dolmetschen", false)] : []),
   ...schema,
 ];
 // „<“ maskieren, damit kein Text das Skript-Element beenden kann

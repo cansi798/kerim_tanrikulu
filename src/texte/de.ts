@@ -4,8 +4,11 @@
 // ermächtigten Übersetzer in Deutschland gilt – als Wissen formuliert, nicht als Leistungsversprechen.
 import { NAME, MAIL, TELEFON, TITEL_NAME } from "../daten";
 
+// Honorar: Kerims eigener Wortlaut (Talk 3990, 31.10.2026), ersetzt „Honorar nach JVEG“.
+const HONORAR_TITEL = "Honorar nach individueller Absprache";
 const HONORAR =
-  "Das Honorar richtet sich nach dem JVEG (Justizvergütungs- und -entschädigungsgesetz). Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.";
+  "Die Vergütung richtet sich nach Art, Umfang und Schwierigkeitsgrad des Auftrags. Bei gerichtlichen und behördlichen Aufträgen erfolgt die Abrechnung, soweit anwendbar, nach dem JVEG. Für private Aufträge erhalten Sie vorab ein individuelles Angebot.";
+const HONORAR_BEISPIEL = "Zum Beispiel: Sehr kurzfristige Anfragen oder Fachtexte wie medizinische Dokumente können mehr kosten.";
 
 export const de = {
   lang: "de",
@@ -29,6 +32,10 @@ export const de = {
     mailBetreff: "Anfrage über die Website",
     anrufen: "Anrufen",
     mailSchreiben: "E-Mail schreiben",
+    mailKurz: "E-Mail",
+    whatsapp: "WhatsApp",
+    whatsappLang: "Nachricht per WhatsApp",
+    whatsappLabel: "Per WhatsApp schreiben (öffnet WhatsApp)",
     nachOben: "Nach oben",
     telefonPruefen: "Nummer bitte vom Kunden bestätigen",
     telefonLuecke: "Nummer bitte bestätigen",
@@ -45,7 +52,7 @@ export const de = {
     kerimNennt: "von Herrn Tanrikulu genannt",
     portraitFolgt: "Portrait von Kerim folgt",
     portraitFormat: "Format 4 : 5, z. B. 800 × 1000 px",
-    portraitAlt: `Portrait von ${NAME}`,
+    portraitAlt: NAME,
     original: "Original",
     uebersetzung: "Übersetzung",
     bildUe: "Original und Übersetzung als zwei Blätter nebeneinander",
@@ -71,14 +78,14 @@ export const de = {
     // SEO v5 (Can 10:46): Leistung + Region, natürlich formuliert
     titelStart: `Übersetzer und Dolmetscher Türkisch in Hamburg | ${TITEL_NAME}`,
     beschreibung:
-      "Beglaubigte Übersetzungen und Dolmetschen Türkisch–Deutsch: Kerim Tanrikulu, beeidigt und ermächtigt vom OLG Schleswig. Hamburg, Schleswig-Holstein, Bremen, Niedersachsen.",
-    uebersetzungen: { titel: "Beglaubigte Übersetzungen Türkisch–Deutsch in Hamburg", beschreibung: "Beglaubigte Übersetzungen Türkisch und Deutsch vom ermächtigten Übersetzer Kerim Mikael Tanrikulu in Hamburg: Urteile, Zeugnisse, Ausweise, medizinische Unterlagen, Urkunden. Honorar nach JVEG." },
-    dolmetschen: { titel: "Dolmetscher Türkisch: Hamburg, Schleswig-Holstein, Bremen, Niedersachsen", beschreibung: "Allgemein beeidigter Dolmetscher für Türkisch und Deutsch (OLG Schleswig, seit Mai 2021). Einsatzgebiet Hamburg, Schleswig-Holstein, Bremen und Niedersachsen." },
+      "Beglaubigte Übersetzungen und Dolmetschen Türkisch–Deutsch: Kerim Tanrikulu, beeidigt und ermächtigt vom OLG Schleswig. Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen, Niedersachsen.",
+    uebersetzungen: { titel: "Beglaubigte Übersetzungen Türkisch–Deutsch in Hamburg", beschreibung: "Beglaubigte Übersetzungen Türkisch und Deutsch vom ermächtigten Übersetzer Kerim Mikael Tanrikulu in Hamburg: Urteile, Zeugnisse, Ausweise, medizinische Unterlagen, Urkunden. Vorab ein individuelles Angebot." },
+    dolmetschen: { titel: "Dolmetscher Türkisch in Hamburg und Norddeutschland, auch per Video", beschreibung: "Allgemein beeidigter Dolmetscher für Türkisch und Deutsch (OLG Schleswig, seit Mai 2021). Vor Ort in Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen und Niedersachsen, dazu Video- und Telefondolmetschen." },
     themen: { titel: "Typische Dokumente Türkisch und Deutsch", beschreibung: "Welche türkischen Dokumente deutsche Stellen und welche deutschen Dokumente türkische Stellen häufig übersetzt verlangen: Personenstand, Urteile, Zeugnisse, Ausweise, medizinische Unterlagen." },
     ratgeber: { titel: "Ratgeber beglaubigte Übersetzung und Apostille", beschreibung: "Allgemeine Informationen: Was ist eine beglaubigte Übersetzung, was unterscheidet Dolmetscher und Übersetzer, Original oder Kopie, Apostille zwischen Deutschland und der Türkei, mehrsprachige Auszüge, JVEG." },
-    ueber: { titel: "Über mich", beschreibung: "Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische und deutsche Sprache durch das Oberlandesgericht Schleswig seit Mai 2021." },
-    fragen: { titel: "Häufige Fragen", beschreibung: "Antworten zu beglaubigten Übersetzungen und Dolmetschen Türkisch und Deutsch: was eine beglaubigte Übersetzung ist, welche Dokumente übersetzt werden, Honorar nach JVEG, Anfrage." },
-    kontakt: { titel: "Kontakt", beschreibung: "Kontakt zu Kerim Mikael Tanrikulu, Dolmetscher und Übersetzer für Türkisch und Deutsch in Hamburg: Telefon und E-Mail." },
+    ueber: { titel: "Über mich", beschreibung: "Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische und deutsche Sprache durch das Oberlandesgericht Schleswig seit Mai 2021, Bachelor of Arts in Philosophie und Germanistik." },
+    fragen: { titel: "Häufige Fragen", beschreibung: "Antworten zu beglaubigten Übersetzungen und Dolmetschen Türkisch und Deutsch: was eine beglaubigte Übersetzung ist, welche Dokumente übersetzt werden, Honorar, Anfrage." },
+    kontakt: { titel: "Kontakt", beschreibung: "Kontakt zu Kerim Mikael Tanrikulu, Dolmetscher und Übersetzer für Türkisch und Deutsch in Hamburg: Telefon, WhatsApp und E-Mail." },
     impressum: { titel: "Impressum", beschreibung: "Impressum der Website von Kerim Mikael Tanrikulu." },
     datenschutz: { titel: "Datenschutz", beschreibung: "Datenschutzerklärung der Website von Kerim Mikael Tanrikulu." },
     nichtGefunden: { titel: "Seite nicht gefunden", beschreibung: "Diese Seite gibt es nicht." },
@@ -106,6 +113,9 @@ export const de = {
       "Institut für Qualitätsentwicklung an Schulen Schleswig-Holstein",
       "Hamburger Schulen",
       "Bundesamt für Migration und Flüchtlinge",
+      "Standesamt",
+      "Krankenhäuser",
+      "Untersuchungshaftanstalten",
     ],
     dokumenteSatz: "Gerne übersetze ich für Sie Dokumente aller Art, wie zum Beispiel Gerichtsurteile, darunter auch Scheidungsurteile, Zeugnisse, Personalausweise, medizinische Unterlagen und Urkunden.",
     dokumente: [
@@ -115,7 +125,12 @@ export const de = {
       { icon: "medizin", text: "medizinische Unterlagen" },
       { icon: "urkunde", text: "Urkunden" },
     ],
+    honorarTitel: HONORAR_TITEL,
     honorar: HONORAR,
+    honorarBeispiel: HONORAR_BEISPIEL,
+    // Kerim (Talk 3990): „Bachelor of Arts in Philosophie und Germanistik, abgeschlossen 2021“
+    studienabschluss: "Bachelor of Arts in Philosophie und Germanistik, abgeschlossen 2021",
+    fernDolmetschen: "Video- und Telefondolmetschen",
     ermaechtigtSatz: "Seit Mai 2021 bin ich durch das Oberlandesgericht Schleswig als Übersetzer für die türkische und deutsche Sprache ermächtigt.",
     beeidigtSatz: "Seit Mai 2021 bin ich durch das Oberlandesgericht Schleswig als Dolmetscher für die türkische und deutsche Sprache allgemein beeidigt.",
     nachweise: [
@@ -123,6 +138,7 @@ export const de = {
       { titel: "Übersetzer", wert: "ermächtigt" },
       { titel: "Beeidigt und ermächtigt durch", wert: "Oberlandesgericht Schleswig" },
       { titel: "Seit", wert: "Mai 2021" },
+      { titel: "Studium", wert: "Bachelor of Arts in Philosophie und Germanistik (2021)" },
       { titel: "Sprachen", wert: "Deutsch und Türkisch" },
       { titel: "Standort", wert: "Hamburg" },
     ],
@@ -134,7 +150,7 @@ export const de = {
     sub: "Für Behörden, Gerichte und andere offizielle Stellen.",
     vertrauen: ["Dolmetscher", "Übersetzer", "Deutsch und Türkisch"],
     karten: ["Beglaubigte Übersetzungen", "Dolmetschen", "Deutsch und Türkisch"],
-    kartenKurz: ["Urkunden, Urteile, Zeugnisse und mehr", "Gespräche und Termine, allgemein beeidigt", "Typische Dokumente in beide Richtungen"],
+    kartenKurz: ["Urkunden, Urteile, Zeugnisse und mehr", "Vor Ort, per Video oder Telefon", "Typische Dokumente in beide Richtungen"],
   },
 
   leistungen: {
@@ -148,24 +164,24 @@ export const de = {
     eyebrow: "Ihre Vorteile",
     titel: "Warum Herr Tanrikulu?",
     details: "Details",
-    platzhalter: "Wortlaute der sechs Vorteile und das Einsatzgebiet (Vorgabe von Can) bitte von Herrn Tanrikulu bestätigen lassen.",
+    platzhalter: "Wortlaute der sechs Vorteile bitte von Herrn Tanrikulu freigeben lassen (Einsatzgebiet, Honorar und Erfahrungen sind seit seinem Feedback vom 31.10. bestätigt).",
     punkte: [
-      { icon: "gespraech", titel: "Mündlich und schriftlich aus einer Hand", kurz: "Ein Ansprechpartner für Dokumente und Gespräche.", lang: "Er ist allgemein beeidigter Dolmetscher und ermächtigter Übersetzer. Für Übersetzung und Termin brauchen Sie nur einen Ansprechpartner.", seite: "dolmetschen", anker: "#unterschied-titel" },
-      { icon: "schild", titel: "Beeidigt und ermächtigt vom OLG Schleswig", kurz: "Seit Mai 2021, für Türkisch und Deutsch.", lang: "Die Übersetzung eines in Deutschland ermächtigten Übersetzers ist die übliche Form für deutsche Behörden und Gerichte.", seite: "ratgeber", anker: "#beglaubigt" },
-      { icon: "urteil", titel: "Erfahrung mit Gerichten und Behörden", kurz: "Amtsgerichte, Konsulat, BAMF und Schulen.", lang: "Unter anderem Amtsgerichte in Schleswig-Holstein, das Türkische Konsulat in Hamburg, das Bundesamt für Migration und Flüchtlinge, das IQSH und Hamburger Schulen.", seite: "ueber", anker: "#erfahrung-titel" },
-      { icon: "dokument", titel: "Honorar nach JVEG", kurz: "Nach dem Gesetz, nach dem auch Gerichte vergüten.", lang: "Das JVEG regelt, wie Gerichte und Behörden Dolmetscher und Übersetzer bezahlen. Was es in Ihrem Fall kostet, bespricht Herr Tanrikulu persönlich mit Ihnen.", seite: "ratgeber", anker: "#jveg" },
-      { icon: "telefon", titel: "Unkompliziert erreichbar", kurz: "Direkt per Telefon oder E-Mail, ohne Formular.", lang: "Kein Formular, keine Umwege: Sie sprechen oder schreiben direkt mit Herrn Tanrikulu.", seite: "kontakt", anker: "" },
+      { icon: "gespraech", titel: "Mündlich und schriftlich aus einer Hand", kurz: "Ein Ansprechpartner für Dokumente und Gespräche.", lang: "Er ist allgemein beeidigter Dolmetscher und ermächtigter Übersetzer. Er dolmetscht vor Ort, per Video oder am Telefon, und Sie brauchen nur einen Ansprechpartner.", seite: "dolmetschen", anker: "#unterschied-titel" },
+      { icon: "schild", titel: "Beeidigt und ermächtigt vom OLG Schleswig", kurz: "Seit Mai 2021, für Türkisch und Deutsch.", lang: "Die Übersetzung eines in Deutschland ermächtigten Übersetzers ist die übliche Form für deutsche Behörden und Gerichte. Dazu kommt ein Studium: Bachelor of Arts in Philosophie und Germanistik (2021).", seite: "ratgeber", anker: "#beglaubigt" },
+      { icon: "urteil", titel: "Erfahrung mit Gerichten, Behörden und Kliniken", kurz: "Gerichte, Konsulat, BAMF, Standesamt, Krankenhäuser und mehr.", lang: "Unter anderem Amtsgerichte in Schleswig-Holstein, das Türkische Konsulat in Hamburg, das BAMF, das IQSH, Hamburger Schulen, Standesamt, Krankenhäuser und Untersuchungshaftanstalten.", seite: "ueber", anker: "#erfahrung-titel" },
+      { icon: "dokument", titel: "Faire, transparente Vergütung", kurz: "Vorab ein individuelles Angebot.", lang: "Das Honorar richtet sich nach Art, Umfang und Schwierigkeitsgrad des Auftrags. Bei Gerichten und Behörden wird, soweit anwendbar, nach dem JVEG abgerechnet.", seite: "uebersetzungen", anker: "#honorar-titel" },
+      { icon: "telefon", titel: "Unkompliziert erreichbar", kurz: "Direkt per Telefon, WhatsApp oder E-Mail.", lang: "Kein Formular, keine Umwege: Sie sprechen oder schreiben direkt mit Herrn Tanrikulu.", seite: "kontakt", anker: "" },
       { icon: "bruecke", titel: "Persönlicher Bezug zu beiden Kulturen", kurz: "Seine Begeisterung fürs Übersetzen begann in der Türkei.", lang: "Entdeckt hat er sie bei einem Studienaufenthalt in der Türkei. Seine Arbeit versteht er als „Brückenbildung zwischen den Kulturen“.", seite: "ueber", anker: "" },
     ],
   },
 
-  // Einsatzgebiet: Vorgabe von Can (31.10.2026 10:46), steht nicht auf Kerims bisheriger Seite → OFFENE-INFOS
+  // Einsatzgebiet: Vorgabe von Can (31.10.2026 10:46), von Kerim bestätigt und um Mecklenburg-Vorpommern ergänzt (Talk 3990)
   gebiet: {
     titel: "Einsatzgebiet",
-    laender: ["Hamburg", "Schleswig-Holstein", "Bremen", "Niedersachsen"],
-    satz: "Hamburg, Schleswig-Holstein, Bremen und Niedersachsen",
-    zusatz: "Standort Hamburg. Dolmetschen vor Ort in diesen vier Ländern.",
-    karte: "Karte: Einsatzgebiet Hamburg, Schleswig-Holstein, Bremen und Niedersachsen",
+    laender: ["Hamburg", "Schleswig-Holstein", "Mecklenburg-Vorpommern", "Bremen", "Niedersachsen"],
+    satz: "Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen und Niedersachsen",
+    zusatz: "Standort Hamburg. Dolmetschen vor Ort in diesen fünf Ländern, dazu per Video oder Telefon.",
+    karte: "Karte: Einsatzgebiet Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen und Niedersachsen",
   },
 
   ablauf: {
@@ -174,11 +190,10 @@ export const de = {
     text: "In drei Schritten zu Ihrer Übersetzung oder Ihrem Termin.",
     aria: "Ablauf in drei Schritten",
     schritte: [
-      { icon: "telefon", titel: "Kontakt aufnehmen", kurz: "Anrufen oder eine E-Mail schreiben." },
-      { icon: "gespraech", titel: "Anliegen besprechen", kurz: "Das weitere Vorgehen klärt Herr Tanrikulu persönlich mit Ihnen." },
+      { icon: "telefon", titel: "Kontakt aufnehmen", kurz: "Anrufen, per WhatsApp oder per E\u2011Mail." },
+      { icon: "gespraech", titel: "Anliegen besprechen", kurz: "Sie schicken Ihre Dokumente als Foto oder Scan und erhalten einen Kostenvoranschlag." },
       { icon: "dokument", titel: "Übersetzung oder Termin", kurz: "Sie erhalten Ihre beglaubigte Übersetzung, oder er dolmetscht bei Ihrem Termin." },
     ],
-    platzhalter: "Ablauf bewusst allgemein formuliert (Can 31.10.). Bitte von Herrn Tanrikulu bestätigen, wie ein Auftrag bei ihm abläuft.",
   },
 
   gut: {
@@ -189,8 +204,8 @@ export const de = {
       { frage: "Brauche ich eine beglaubigte Übersetzung?", antwort: "Behörden, Gerichte und andere offizielle Stellen können sie für fremdsprachige Dokumente verlangen. Ob Sie eine brauchen, sagt Ihnen die Stelle, bei der Sie das Dokument einreichen.", seite: "ratgeber", anker: "#beglaubigt" },
       { frage: "Welche Dokumente werden übersetzt?", antwort: "Dokumente aller Art, zum Beispiel Gerichtsurteile (auch Scheidungsurteile), Zeugnisse, Personalausweise, medizinische Unterlagen und Urkunden.", seite: "themen", anker: "" },
       { frage: "Dolmetscher oder Übersetzer?", antwort: "Ein Dolmetscher überträgt das gesprochene Wort, ein Übersetzer das geschriebene. Herr Tanrikulu ist für beides zugelassen.", seite: "ratgeber", anker: "#dolmetscher-uebersetzer" },
-      { frage: "Was kostet es?", antwort: "Das Honorar richtet sich nach dem JVEG. Was es in Ihrem Fall kostet, bespricht Herr Tanrikulu persönlich mit Ihnen.", seite: "ratgeber", anker: "#jveg" },
-      { frage: "In welchen Regionen dolmetscht Herr Tanrikulu?", antwort: "In Hamburg, Schleswig-Holstein, Bremen und Niedersachsen. Sein Standort ist Hamburg.", seite: "dolmetschen", anker: "#gebiet-titel" },
+      { frage: "Was kostet es?", antwort: "Das Honorar wird individuell abgesprochen, nach Art, Umfang und Schwierigkeitsgrad des Auftrags. Für private Aufträge erhalten Sie vorab ein Angebot.", seite: "uebersetzungen", anker: "#honorar-titel" },
+      { frage: "In welchen Regionen dolmetscht Herr Tanrikulu?", antwort: "Vor Ort in Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen und Niedersachsen. Sein Standort ist Hamburg. Er dolmetscht auch per Video oder Telefon.", seite: "dolmetschen", anker: "#gebiet-titel" },
       { frage: "Brauche ich eine Apostille?", antwort: "Die Apostille bestätigt, dass eine öffentliche Urkunde echt ist. Ob sie nötig ist, hängt von der Urkunde und von der Stelle ab, die sie verlangt.", seite: "ratgeber", anker: "#apostille" },
     ],
   },
@@ -334,16 +349,16 @@ export const de = {
       },
       {
         id: "jveg",
-        frage: "Was bedeutet „Honorar nach JVEG“?",
+        frage: "Was ist das JVEG?",
         begriff: "JVEG",
-        kurz: "Das JVEG regelt, wie Gerichte und Behörden Dolmetscher und Übersetzer vergüten. Herr Tanrikulu richtet sein Honorar danach.",
+        kurz: "Das JVEG regelt, wie Gerichte und Behörden Dolmetscher und Übersetzer vergüten. Bei gerichtlichen und behördlichen Aufträgen rechnet Herr Tanrikulu, soweit anwendbar, danach ab.",
         absaetze: [
           "Das Justizvergütungs- und -entschädigungsgesetz (JVEG) regelt, wie Gerichte und Behörden Dolmetscher und Übersetzer vergüten: beim Dolmetschen nach Zeit, bei Übersetzungen nach dem Umfang des Textes.",
-          "Herr Tanrikulu richtet sein Honorar nach dem JVEG. Was eine Übersetzung oder ein Einsatz in Ihrem Fall kostet, besprechen Sie am besten direkt mit ihm.",
+          "Bei gerichtlichen und behördlichen Aufträgen rechnet Herr Tanrikulu, soweit anwendbar, nach dem JVEG ab. Sonst gilt ein Honorar nach individueller Absprache: Es richtet sich nach Art, Umfang und Schwierigkeitsgrad des Auftrags, und für private Aufträge erhalten Sie vorab ein Angebot.",
         ],
       },
     ],
-    platzhalter: "Was nur Herr Tanrikulu beantworten kann, ergänzen wir nach seiner Rückmeldung: Preise im Einzelfall, Bearbeitungszeit, Ablauf eines Auftrags und ob Unterlagen per Post oder E-Mail geschickt werden können.",
+    platzhalter: "Was nur Herr Tanrikulu beantworten kann, ergänzen wir nach seiner Rückmeldung: Bearbeitungszeit und der sichere Weg für Originale und sensible Unterlagen.",
     inhalt: "Inhalt",
   },
 
@@ -358,9 +373,10 @@ export const de = {
       { frage: "Welche Dokumente können übersetzt werden?", antwort: ["Dokumente aller Art, zum Beispiel Gerichtsurteile (auch Scheidungsurteile), Zeugnisse, Personalausweise, medizinische Unterlagen und Urkunden."] },
       { frage: "Was bedeutet „allgemein beeidigter Dolmetscher“?", antwort: ["Ich bin seit Mai 2021 durch das Oberlandesgericht Schleswig als Dolmetscher für die türkische und deutsche Sprache allgemein beeidigt. Umgangssprachlich spricht man oft von einem „vereidigten Dolmetscher“."] },
       { frage: "Für welche Sprachen übersetzen und dolmetschen Sie?", antwort: ["Für die türkische und die deutsche Sprache."] },
-      { frage: "Was kostet eine Übersetzung oder ein Dolmetscheinsatz?", antwort: [HONORAR] },
-      { frage: "In welchen Regionen dolmetschen Sie?", antwort: ["In Hamburg, Schleswig-Holstein, Bremen und Niedersachsen. Mein Standort ist Hamburg."] },
-      { frage: "Wie kann ich eine Anfrage senden?", antwort: [`Schreiben Sie eine E-Mail an ${MAIL} oder rufen Sie an unter ${TELEFON}. Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.`] },
+      { frage: "Was kostet eine Übersetzung oder ein Dolmetscheinsatz?", antwort: [`${HONORAR_TITEL}. ${HONORAR}`, HONORAR_BEISPIEL] },
+      { frage: "In welchen Regionen dolmetschen Sie?", antwort: ["Vor Ort in Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen und Niedersachsen. Mein Standort ist Hamburg."] },
+      { frage: "Dolmetschen Sie auch per Video oder Telefon?", antwort: ["Ja. Neben Einsätzen vor Ort dolmetsche ich auch per Video oder am Telefon."] },
+      { frage: "Wie kann ich eine Anfrage senden?", antwort: [`Rufen Sie mich an unter ${TELEFON}, schreiben Sie mir per WhatsApp oder eine E-Mail an ${MAIL}. Schicken Sie mir Ihre Dokumente als Foto oder Scan, dann erhalten Sie einen Kostenvoranschlag.`] },
     ],
   },
 
@@ -382,8 +398,8 @@ export const de = {
       wissenText: "Was ein Bestätigungsvermerk ist, ob eine Kopie genügt und wann eine Apostille gebraucht wird, steht im Ratgeber.",
       themenLink: "Typische Dokumente in beide Richtungen",
       anfrageTitel: "Anfrage",
-      anfrageText: "Rufen Sie mich an oder senden Sie mir eine Anfrage per E-Mail.",
-      honorarTitel: "Honorar",
+      anfrageText: "Rufen Sie mich an oder schreiben Sie mir per WhatsApp oder E-Mail. Schicken Sie Ihre Dokumente als Foto oder Scan, dann erhalten Sie einen Kostenvoranschlag.",
+      honorarTitel: HONORAR_TITEL,
     },
     dolmetschen: {
       zeile: "Türkisch und Deutsch",
@@ -391,7 +407,8 @@ export const de = {
       unterschiedTitel: "Mündlich und schriftlich",
       unterschiedText: "Ein Dolmetscher überträgt das gesprochene Wort, ein Übersetzer das geschriebene. Herr Tanrikulu ist für beides zugelassen.",
       erfahrungTitel: "Bisherige Erfahrungen",
-      platzhalter: "Typische Einsätze bitte vom Kunden nennen lassen. Das Einsatzgebiet (Hamburg, Schleswig-Holstein, Bremen, Niedersachsen) hat Can vorgegeben, bitte von Herrn Tanrikulu bestätigen.",
+      fernTitel: "Vor Ort, per Video oder Telefon",
+      fernText: "Ich dolmetsche vor Ort und auch per Video oder am Telefon. Was für Ihren Termin passt, besprechen wir vorab.",
       ueberLink: "Mehr über mich",
     },
     ueber: {
@@ -400,9 +417,10 @@ export const de = {
       beganLabel: "Wie ich zum Übersetzen kam",
       zitatLabel: "Mein Verständnis meiner Arbeit",
       qualiTitel: "Qualifikation",
+      studiumSatz: "Mein Studium habe ich 2021 als Bachelor of Arts in Philosophie und Germanistik abgeschlossen.",
     },
     kontakt: {
-      lead: "Haben Sie Fragen oder möchten Sie eine Übersetzung oder einen Dolmetscher anfragen? Rufen Sie an oder schreiben Sie mir eine E-Mail.",
+      lead: "Haben Sie Fragen oder möchten Sie eine Übersetzung oder einen Dolmetscher anfragen? Rufen Sie an oder schreiben Sie mir per WhatsApp oder E-Mail.",
       wegeLabel: "Kontaktwege",
       schluss: "Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.",
       hinweisLabel: "Hinweis zur Anfrage",

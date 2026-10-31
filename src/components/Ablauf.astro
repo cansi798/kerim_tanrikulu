@@ -1,14 +1,13 @@
 ---
 // „So einfach geht's“ (Can 31.10.2026 10:41/10:43): Ablauf als kompakte Schritt-Leiste mit Licht-Animation.
-// Inhalt bewusst allgemein (Kerims eigener Satz: „Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.“),
-// in der Vorschau als Platzhalter zur Bestätigung markiert (OFFENE-INFOS 11).
+// Inhalt seit Kerims Feedback (Talk 3990, 31.10.2026) bestätigt: Schritt 2 = Dokumente als Foto/Scan schicken → Kostenvoranschlag.
+// Schritt 1 nennt Telefon, WhatsApp und E-Mail (Talk 3993/3994). Kein Platzhalter mehr.
 // Bewegung (public/licht.js, Szene „a“): Schritt 1 leuchtet auf, ein Lichtpunkt zieht die goldene Linie zu Schritt 2 und 3,
 // jeder Schritt erscheint, wenn das Licht ankommt (ca. 3,3 s). Start erst, wenn die Leiste zur Hälfte im Bild ist; danach alle 14 s
 // und beim Wiederkommen erneut; nie Sprung ans Ende beim Scrollen; iPhone-resize-sicher (gemeinsamer Kern in licht.js).
 // Ohne JS: fertige Leiste. „Bewegung reduzieren“: fertige Leiste blendet einmal sanft ein.
 import Icon from "./Icon.astro";
-import Platzhalter from "./Platzhalter.astro";
-import { TELEFON_LINK, mailLink } from "../daten";
+import { TELEFON_LINK, WHATSAPP_LINK, mailLink } from "../daten";
 import type { Lang } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang }
@@ -37,9 +36,9 @@ const A = T.ablauf;
     </div>
     <div class="knoepfe a-knoepfe">
       <a class="knopf" href={TELEFON_LINK}><Icon name="telefon" />{T.ui.anrufen}</a>
+      <a class="knopf rahmen" href={WHATSAPP_LINK} rel="noopener"><Icon name="whatsapp" />{T.ui.whatsapp}</a>
       <a class="knopf rahmen" href={mailLink(T.ui.anfrageBetreff)}><Icon name="mail" />{T.ui.mailSchreiben}</a>
     </div>
-    <div class="a-hinweis"><Platzhalter lang={lang}>{A.platzhalter}</Platzhalter></div>
   </div>
 </section>
 <style>
@@ -72,8 +71,7 @@ const A = T.ablauf;
   .a-buehne :global(canvas) { pointer-events: none; }
   .a-kreis:global(.a-glanz) { box-shadow: 0 0 0 6px rgba(201, 163, 91, 0.18), 0 0 26px 6px rgba(255, 236, 196, 0.9); background: #fffaf0; }
   .a-knoepfe { justify-content: center; margin-top: clamp(1.75rem, 3.5vw, 2.5rem); }
-  .a-hinweis :global(.platzhalter) { margin-inline: auto; }
-  /* schmal gibt es unten die feste Leiste „Anrufen | E-Mail schreiben“ → hier keine doppelten Knöpfe (weniger scrollen) */
+  /* schmal gibt es unten die feste Leiste „Anrufen | WhatsApp | E-Mail“ → hier keine doppelten Knöpfe (weniger scrollen) */
   @media (max-width: 65.99rem) { .a-knoepfe { display: none; } }
   /* Mit JS und Bewegung: Schritte und Linie erscheinen erst mit dem Licht. Notfall: lädt licht.js nicht, erscheint alles nach 3,5 s. */
   @media (prefers-reduced-motion: no-preference) {

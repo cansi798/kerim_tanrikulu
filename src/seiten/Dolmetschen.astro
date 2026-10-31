@@ -2,9 +2,9 @@
 import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import BildDolmetschen from "../components/BildDolmetschen.astro";
-import Platzhalter from "../components/Platzhalter.astro";
 import RoughKarte from "../components/RoughKarte.astro";
-import { TELEFON_LINK, mailLink } from "../daten";
+import { TELEFON_LINK, WHATSAPP_LINK, mailLink } from "../daten";
+import Icon from "../components/Icon.astro";
 import { p, type Lang } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang }
@@ -25,7 +25,7 @@ const S = T.seiten.dolmetschen;
     </div>
   </section>
 
-  <!-- Einsatzgebiet (Can 31.10.2026 10:46, von Kerim zu bestätigen – OFFENE-INFOS) -->
+  <!-- Einsatzgebiet (Can 31.10.2026 10:46; von Kerim bestätigt und um Mecklenburg-Vorpommern ergänzt, Talk 3990) -->
   <section class="abschnitt sand gebiet" aria-labelledby="gebiet-titel">
     <div class="huelle raster-2">
       <h2 id="gebiet-titel">{T.gebiet.titel}</h2>
@@ -35,6 +35,21 @@ const S = T.seiten.dolmetschen;
           <p class="lead">{T.gebiet.satz}.</p>
           <p class="leise">{T.gebiet.zusatz}</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video- und Telefondolmetschen (Kerim Talk 3990) -->
+  <section class="abschnitt" aria-labelledby="fern-titel">
+    <div class="huelle raster-2">
+      <h2 id="fern-titel">{S.fernTitel}</h2>
+      <div>
+        <ul class="arten">
+          <li><span class="symbol"><Icon name="ort" /></span>{lang === "tr" ? "Yerinde" : "Vor Ort"}</li>
+          <li><span class="symbol"><Icon name="video" /></span>{lang === "tr" ? "Görüntülü" : "Per Video"}</li>
+          <li><span class="symbol"><Icon name="telefon" /></span>{lang === "tr" ? "Telefonla" : "Am Telefon"}</li>
+        </ul>
+        <p class="lead">{S.fernText}</p>
       </div>
     </div>
   </section>
@@ -56,9 +71,10 @@ const S = T.seiten.dolmetschen;
         <p class="lead">{T.seiten.uebersetzungen.anfrageText}</p>
         <div class="knoepfe">
           <a class="knopf" href={mailLink(T.ui.anfrageBetreffDo)}>{T.ui.anfrage}</a>
-          <a class="knopf rahmen" href={TELEFON_LINK}>{T.ui.anrufen}</a>
+          <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />{T.ui.anrufen}</a>
+          <a class="knopf rahmen" href={WHATSAPP_LINK} rel="noopener"><Icon name="whatsapp" />{T.ui.whatsapp}</a>
         </div>
-        <p class="honorar leise">{T.fakten.honorar}</p>
+        <p class="honorar leise"><strong>{T.fakten.honorarTitel}.</strong> {T.fakten.honorar} {T.fakten.honorarBeispiel}</p>
       </div>
     </div>
   </section>
@@ -69,7 +85,6 @@ const S = T.seiten.dolmetschen;
       <div>
         <p>{T.fakten.erfahrungEinleitung}</p>
         <ul class="strichliste">{T.fakten.erfahrungen.map((e) => <li>{e}</li>)}</ul>
-        <Platzhalter lang={lang}>{S.platzhalter}</Platzhalter>
         <p class="mt"><a class="weiter" href={p(lang, "ueber")}>{S.ueberLink}</a></p>
       </div>
     </div>
@@ -78,10 +93,14 @@ const S = T.seiten.dolmetschen;
 <style>
   .honorar { margin: 2rem 0 0; max-width: 46rem; }
   .mt { margin-top: 1.5rem; }
+  .arten { list-style: none; margin: 0 0 1.25rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; }
+  .arten li { display: flex; align-items: center; gap: 0.7rem; font: 600 1.1rem/1.3 var(--serif); color: var(--tinte); }
+  .arten .symbol { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold-dunkel); }
+  .arten .symbol :global(svg) { width: 1.3rem; height: 1.3rem; }
   .sand { background: var(--sand); }
   .gebiet-inhalt { display: grid; gap: 1.25rem; align-items: center; }
-  .gebiet-inhalt :global(.rkarte) { width: min(100%, 17rem); }
-  @media (min-width: 40rem) { .gebiet-inhalt { grid-template-columns: auto minmax(0, 1fr); gap: 2.5rem; } .gebiet-inhalt :global(.rkarte) { width: 16rem; } }
+  /* Karte über dem Text (seit MV breiter, 800 × 640) – nebeneinander wurden die Beschriftungen zu klein */
+  .gebiet-inhalt :global(.rkarte) { width: min(100%, 32rem); }
   .gebiet-inhalt .lead { margin-bottom: 0.5rem; }
   .gebiet-inhalt .leise { margin: 0; }
 </style>

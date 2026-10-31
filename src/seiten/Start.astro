@@ -12,8 +12,9 @@ import Icon from "../components/Icon.astro";
 import Ablauf from "../components/Ablauf.astro";
 import RoughKarte from "../components/RoughKarte.astro";
 import Platzhalter from "../components/Platzhalter.astro";
+import Portrait from "../components/Portrait.astro";
 import HeroGespraech from "../components/HeroGespraech.astro";
-import { mailLink, TELEFON_LINK } from "../daten";
+import { mailLink, TELEFON_LINK, WHATSAPP_LINK, PORTRAIT } from "../daten";
 import { p, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang }
@@ -39,7 +40,9 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
       </div>
       <div class="knoepfe auf" data-d="3">
         <a class="knopf haupt" href={mailLink(T.ui.anfrageBetreff)}>{T.ui.anfrage}</a>
-        <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />{T.ui.anrufen}</a>
+        <a class="knopf rahmen ruf-k" href={TELEFON_LINK}><Icon name="telefon" /><span class="k-text">{T.ui.anrufen}</span></a>
+        <!-- WhatsApp (Kerim Talk 3993, Jamil 3994): runder Symbol-Knopf, damit die Knöpfe am Handy in einer Zeile im ersten Bildschirm bleiben -->
+        <a class="knopf rahmen rund" href={WHATSAPP_LINK} rel="noopener" aria-label={T.ui.whatsappLabel} title={T.ui.whatsappLang}><Icon name="whatsapp" /></a>
       </div>
     </div>
 
@@ -62,7 +65,9 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
        Langfassung nur breit (steht aber im HTML), die ganze Zeile führt zu den Details. Dazu das Einsatzgebiet (Can 10:46). -->
   <section class="warum" aria-labelledby="warum-titel">
     <div class="huelle">
-      <div class="section-head reveal">
+      <div class="section-head reveal warum-kopf">
+        <!-- Portrait (Kerim Talk 3991/3992), dezent über der Frage „Warum Herr Tanrikulu?“; lazy, feste Maße (kein Springen) -->
+        {PORTRAIT && <Portrait lang={lang} groesse={112} name={false} klasse="warum-portrait" />}
         <span class="eyebrow">{W.eyebrow}</span>
         <h2 id="warum-titel" class="regel">{W.titel}</h2>
       </div>
@@ -155,7 +160,11 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
   .sub { font-size: clamp(1.05rem, 1.7vw, 1.3rem); line-height: 1.55; color: var(--text-leise); max-width: 34em; margin-bottom: 0.8rem; }
   @media (min-width: 62rem) { .hero h1 { margin-bottom: 1rem; } .sub { margin-bottom: 1.9rem; } }
   .knoepfe { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-  @media (max-width: 26rem) { .knoepfe .knopf { padding-inline: 1.2rem; } }
+  @media (max-width: 26rem) { .knoepfe { gap: 0.5rem; } .knoepfe .knopf { padding-inline: 0.9rem; } }
+  .knoepfe .rund { width: 3.25rem; padding: 0 !important; flex: none; }
+  .knoepfe .rund :global(svg) { width: 1.35rem; height: 1.35rem; }
+  /* sehr schmal (360 px): „Anrufen“ nur als Symbol (Name bleibt für Screenreader), damit drei Knöpfe in eine Zeile passen */
+  @media (max-width: 23.5rem) { .ruf-k { width: 3.25rem; padding: 0 !important; } .ruf-k .k-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
   .haupt { transition: background-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease); }
   .haupt:hover { background: var(--rot-hover); transform: scale(1.02); }
 
@@ -222,9 +231,10 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
 
   /* Einsatzgebiet: Skizzen-Karte (Can 11:29) – schmal über dem Text, breit daneben */
   .gebiet { display: grid; justify-items: center; text-align: center; gap: 1rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: clamp(1.25rem, 3vw, 2rem); border-top: 1px solid #3c4d70; }
-  .gebiet :global(.rkarte) { width: min(100%, 17rem); }
-  @media (min-width: 48rem) { .gebiet { grid-template-columns: auto minmax(0, 30rem); justify-content: center; justify-items: start; text-align: left; gap: 3rem; align-items: center; }
-    .gebiet :global(.rkarte) { width: 19rem; } }
+  .gebiet :global(.rkarte) { width: min(100%, 24rem); }
+  @media (min-width: 48rem) { .gebiet { grid-template-columns: auto minmax(0, 28rem); justify-content: center; justify-items: start; text-align: left; gap: 3rem; align-items: center; }
+    .gebiet :global(.rkarte) { width: 24rem; } }
+  @media (min-width: 66rem) { .gebiet :global(.rkarte) { width: 28rem; } }
   .gebiet-text h3 { font: 600 0.82rem/1.5 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: #e3c88f; margin: 0 0 0.3rem; }
   .gebiet-satz { font: 600 clamp(1.1rem, 1.9vw, 1.4rem)/1.35 var(--serif); color: #fbf7f0; margin: 0 0 0.35rem; }
   .lang-zeile { display: none; margin: 0 0 0.5rem; color: #ddd2c3; font-size: 1rem; }
@@ -239,6 +249,9 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
   .staffel > :global(.reveal:nth-child(6)) { transition-delay: 400ms; }
 
   .warum-hinweis :global(.platzhalter) { margin-inline: auto; }
+  .warum-kopf :global(.warum-portrait) { --portrait: 6rem; margin-bottom: 1rem; }
+  .warum-kopf :global(.warum-portrait picture) { background: var(--tinte); border-color: #c9a35b; }
+  @media (min-width: 48rem) { .warum-kopf :global(.warum-portrait) { --portrait: 7rem; } }
 
   /* ---------- Gut zu wissen ---------- */
   .gut { padding-block: clamp(3rem, 7vw, 5.5rem); }

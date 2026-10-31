@@ -12,7 +12,7 @@ const gen = rough.generator();
 // Projektion: x = (Länge − 6,55) · K, y = (55,1 − Breite) · K · 1,66 (1° Breite ≈ 1,66° Länge auf 53,5° N)
 const K = 100;
 const P = (lon: number, lat: number): [number, number] => [Math.round((lon - 6.55) * K * 10) / 10, Math.round((55.1 - lat) * K * 1.66 * 10) / 10];
-const BREITE = 520, HOEHE = 640;
+const BREITE = 800, HOEHE = 640; // 31.10.2026: breiter für Mecklenburg-Vorpommern (Kerim Talk 3990)
 
 // Vereinfachte Umrisse (Länge, Breite)
 const SH: [number, number][] = [
@@ -30,11 +30,18 @@ const NI: [number, number][] = [
   [9.65, 51.42], [9.55, 51.62], [9.3, 51.72], [9.1, 52.0], [8.75, 52.12], [8.45, 52.45], [8.0, 52.35], [7.9, 52.1], [7.6, 52.4],
   [7.05, 52.25], [6.75, 52.45], [7.05, 52.65], [7.0, 52.95],
 ];
+// Mecklenburg-Vorpommern (Kerim Talk 3990): Westgrenze = Ostgrenze SH/HH, Südwesten an der Elbe wie NI, Küste mit Darß und Rügen vereinfacht
+const MV: [number, number][] = [
+  [10.88, 53.96], [11.2, 54.0], [11.45, 53.92], [11.55, 54.05], [12.08, 54.18], [12.4, 54.33], [12.6, 54.45], [12.95, 54.43],
+  [13.15, 54.6], [13.4, 54.68], [13.6, 54.6], [13.7, 54.38], [13.75, 54.15], [14.0, 54.05], [14.22, 53.92], [14.27, 53.7],
+  [14.4, 53.3], [14.25, 53.27], [13.8, 53.35], [13.2, 53.25], [12.3, 53.2], [11.6, 53.05], [11.3, 53.1], [10.95, 53.25],
+  [10.62, 53.38], [10.78, 53.6], [10.95, 53.85],
+];
 const ELBE: [number, number][] = [[11.45, 53.05], [10.95, 53.25], [10.6, 53.37], [10.3, 53.43], [10.0, 53.53], [9.73, 53.56], [9.4, 53.75], [9.1, 53.88], [8.75, 53.96], [8.5, 54.02]];
 
-const T: Record<Lang, { sh: string; ni: string; hh: string; hb: string; sitz: string; nordsee: string; ostsee: string }> = {
-  de: { sh: "Schleswig-Holstein", ni: "Niedersachsen", hh: "Hamburg", hb: "Bremen", sitz: "Standort", nordsee: "Nordsee", ostsee: "Ostsee" },
-  tr: { sh: "Schleswig-Holstein", ni: "Aşağı Saksonya", hh: "Hamburg", hb: "Bremen", sitz: "Konum", nordsee: "Kuzey Denizi", ostsee: "Baltık Denizi" },
+const T: Record<Lang, { sh: string; ni: string; mv: [string, string]; hh: string; hb: string; sitz: string; nordsee: string; ostsee: string }> = {
+  de: { sh: "Schleswig-Holstein", ni: "Niedersachsen", mv: ["Mecklenburg-", "Vorpommern"], hh: "Hamburg", hb: "Bremen", sitz: "Standort", nordsee: "Nordsee", ostsee: "Ostsee" },
+  tr: { sh: "Schleswig-Holstein", ni: "Aşağı Saksonya", mv: ["Mecklenburg-", "Vorpommern"], hh: "Hamburg", hb: "Bremen", sitz: "Konum", nordsee: "Kuzey Denizi", ostsee: "Baltık Denizi" },
 };
 
 type Teil = { d: string; art: "s" | "f"; t: number; dauer?: number; farbe: string; breite: number; fill?: string };
@@ -46,9 +53,9 @@ const DATEI_STIL = (dunkel: boolean) =>
     ? "--k-linie:#d9bd85;--k-schraffur:rgba(217,189,133,.36);--k-gold:#c9a35b;--k-punkt-rand:#fbf7f0;--k-fluss:rgba(243,237,228,.24);--k-text:#fbf7f0;--k-leise:#ddd2c3;--k-meer:#c9bdad;--k-hof:#2b241f"
     : "--k-linie:#6e5020;--k-schraffur:rgba(168,128,60,.42);--k-gold:#c9a35b;--k-punkt-rand:#2b241f;--k-fluss:rgba(43,36,31,.13);--k-text:#2b241f;--k-leise:#5f5349;--k-meer:#5f5349;--k-hof:#ebe0cf") +
   "}.rk-x{stroke:var(--k-hof);stroke-width:6px;paint-order:stroke;stroke-linejoin:round}.rk-p{fill:var(--k-text)}" +
-  ".rk-land{font:600 25px Georgia,serif;fill:var(--k-text)}.rk-stadt{font:700 23px Arial,sans-serif;fill:var(--k-text)}.rk-gross{font-size:25px}" +
-  ".rk-klein{font:600 18px Arial,sans-serif;fill:var(--k-leise)}.rk-meer{font:italic 500 19px Georgia,serif;fill:var(--k-meer)}</style>";
-export const KARTE_MASSE = { breite: 520, hoehe: 640 };
+  ".rk-land{font:600 28px Georgia,serif;fill:var(--k-text)}.rk-stadt{font:700 26px Arial,sans-serif;fill:var(--k-text)}.rk-gross{font-size:28px}" +
+  ".rk-klein{font:600 20px Arial,sans-serif;fill:var(--k-leise)}.rk-meer{font:italic 500 21px Georgia,serif;fill:var(--k-meer)}</style>";
+export const KARTE_MASSE = { breite: BREITE, hoehe: HOEHE };
 
 /** SVG der Karte. `datei` = eigenständige .svg-Datei (mit xmlns, Größe und Farbblock für hell/dunkel). */
 export function karteSvg(lang: Lang, datei?: { dunkel: boolean }): string {
@@ -73,6 +80,7 @@ export function karteSvg(lang: Lang, datei?: { dunkel: boolean }): string {
   aufnehmen(gen.curve(ELBE.map(([a, b]) => P(a, b)), opt({ stroke: "var(--k-fluss)", strokeWidth: 4.5, roughness: 0.5 })), 0, 0.7);
   land(NI, 0.1, 0.9);
   land(SH, 0.35, 0.8, { hachureAngle: -48 });
+  land(MV, 0.5, 0.9, { hachureAngle: -36 });
   land(HB, 0.75, 0.35, { strokeWidth: 1.8, hachureGap: 5 });
   land(HB_HAFEN, 0.8, 0.3, { strokeWidth: 1.6, hachureGap: 5 });
   land(HH, 0.85, 0.4, { strokeWidth: 2, fill: "var(--k-gold)", fillStyle: "solid" });
@@ -91,7 +99,7 @@ export function karteSvg(lang: Lang, datei?: { dunkel: boolean }): string {
     : `<path class="rk-f ${tk(p.t)}" d="${p.d}" stroke="${p.farbe}" stroke-width="${p.breite}"/>`).join("");
   const text = (x: number, y: number, s: string, kl: string, t: number, anker = "middle") =>
     `<text class="rk-x ${kl} ${tk(t)}" x="${x}" y="${y}" text-anchor="${anker}">${s}</text>`;
-  const [shx, shy] = P(9.55, 54.3), [nix, niy] = P(9.2, 52.55), [nsx, nsy] = P(7.4, 54.35), [osx, osy] = P(11.2, 54.75);
+  const [shx, shy] = P(9.55, 54.3), [nix, niy] = P(9.2, 52.55), [nsx, nsy] = P(7.4, 54.35), [osx, osy] = P(11.9, 54.8), [mvx, mvy] = P(13.1, 53.74);
   const kopf = datei ? ` xmlns="http://www.w3.org/2000/svg" width="${BREITE}" height="${HOEHE}"` : "";
   return `<svg${kopf} class="rk-svg" viewBox="0 0 ${BREITE} ${HOEHE}" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">` +
     (datei ? DATEI_STIL(datei.dunkel) : "") + pfade +
@@ -99,6 +107,8 @@ export function karteSvg(lang: Lang, datei?: { dunkel: boolean }): string {
     `<circle class="rk-p ${tk(1.1)}" cx="${bx}" cy="${by}" r="5"/>` +
     text(shx, shy, L.sh, "rk-land", 1.0) +
     text(nix, niy, L.ni, "rk-land", 0.9) +
+    text(mvx, mvy, L.mv[0], "rk-land", 1.05) +
+    text(mvx, mvy + 32, L.mv[1], "rk-land", 1.05) +
     text(P(10.36, 0)[0] + 10, hy + 2, L.hh, "rk-stadt rk-gross", 1.3, "start") +
     text(P(10.36, 0)[0] + 10, hy + 26, L.sitz, "rk-klein", 1.35, "start") +
     text(bx - 14, by + 30, L.hb, "rk-stadt", 1.15, "end") +

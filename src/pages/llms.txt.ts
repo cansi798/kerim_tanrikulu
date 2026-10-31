@@ -1,6 +1,6 @@
 // /llms.txt – Kurzfassung für KI-Suchen (nur belegte Angaben + als allgemein gekennzeichnetes Ratgeber-Wissen).
 import type { APIRoute } from "astro";
-import { NAME, MARKE, MAIL, TELEFON, TELEFON_BESTAETIGT, u } from "../daten";
+import { NAME, MARKE, MAIL, TELEFON, TELEFON_BESTAETIGT, WHATSAPP_LINK, u } from "../daten";
 import { OEFFENTLICH, SEITEN } from "../i18n";
 import { t } from "../texte";
 
@@ -16,16 +16,18 @@ export const GET: APIRoute = ({ site }) => {
     "",
     "## Qualifikation",
     `- ${D.fakten.dolmetscher} und ${D.fakten.uebersetzer}, durch das ${D.fakten.gericht}, seit ${D.fakten.seit}`,
+    `- Studium: ${D.fakten.studienabschluss}`,
     `- Sprachen: ${D.fakten.sprachen}`,
     `- Standort: ${D.fakten.ort}`,
     `- Einsatzgebiet (Dolmetschen vor Ort): ${D.gebiet.satz}`,
+    `- Außerdem: ${D.fakten.fernDolmetschen}`,
     "",
     "## Vorteile auf einen Blick",
     ...D.warum.punkte.map((w) => `- ${w.titel}: ${w.kurz}`),
     "",
     "## Leistungen",
     `- ${D.leistungen.ueTitel}: ${url(SEITEN.uebersetzungen.de)}`,
-    `- ${D.leistungen.doTitel}: ${url(SEITEN.dolmetschen.de)}`,
+    `- ${D.leistungen.doTitel} (vor Ort, per Video oder Telefon): ${url(SEITEN.dolmetschen.de)}`,
     "",
     "## Dokumente (Beispiele laut Inhaber)",
     ...D.fakten.dokumente.map((d) => `- ${d.text}`),
@@ -34,7 +36,10 @@ export const GET: APIRoute = ({ site }) => {
     ...D.fakten.erfahrungen.map((e) => `- ${e}`),
     "",
     "## Honorar",
-    D.fakten.honorar,
+    `${D.fakten.honorarTitel}. ${D.fakten.honorar} ${D.fakten.honorarBeispiel}`,
+    "",
+    "## Ablauf",
+    ...D.ablauf.schritte.map((a, i) => `${i + 1}. ${a.titel}: ${a.kurz}`),
     "",
     "## Häufige Fragen",
     ...D.fragen.liste.map((f) => `- ${f.frage} ${f.antwort.join(" ")}`),
@@ -49,8 +54,9 @@ export const GET: APIRoute = ({ site }) => {
     ...OEFFENTLICH.map((s) => `- [${R.nav[s]}](${url(SEITEN[s].tr)})`),
     "",
     "## Kontakt",
-    `- E-Mail: ${MAIL}`,
     ...(TELEFON_BESTAETIGT ? [`- Telefon: ${TELEFON}`] : []),
+    `- WhatsApp: ${WHATSAPP_LINK}`,
+    `- E-Mail: ${MAIL}`,
   ];
   return new Response(zeilen.join("\n") + "\n", { headers: { "Content-Type": "text/plain; charset=utf-8" } });
 };

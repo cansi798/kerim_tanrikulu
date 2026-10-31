@@ -3,7 +3,7 @@
 // v4: Sprachwahl DE | TR (auch mobil sichtbar), führt auf die entsprechende Seite der anderen Sprache. Menü am Handy ohne JS (<details>).
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
-import { TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, mailLink } from "../daten";
+import { TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, WHATSAPP_LINK, mailLink } from "../daten";
 import { NAV_SEITEN, p, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang; seite: Seite | null }
@@ -21,6 +21,8 @@ const sprachen: Lang[] = ["de", "tr"];
       </ul>
     </nav>
     <a class="anruf" href={TELEFON_LINK} title={markieren ? T.ui.telefonPruefen : undefined}><Icon name="telefon" /><span class:list={{ unbestaetigt: markieren }}>{TELEFON}</span></a>
+    <!-- WhatsApp neben der Nummer (Jamil Talk 3994), runder Symbol-Knopf -->
+    <a class="wa-kopf" href={WHATSAPP_LINK} rel="noopener" aria-label={T.ui.whatsappLabel} title={T.ui.whatsappLang}><Icon name="whatsapp" /></a>
     <nav class="sprache" aria-label={T.ui.sprache}>
       {sprachen.map((l) => (
         <a href={p(l, seite ?? "start")} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined} title={T.ui.spracheName[l]}>
@@ -78,11 +80,15 @@ const sprachen: Lang[] = ["de", "tr"];
 
   .anruf { display: none; align-items: center; gap: 0.5rem; color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.98rem; white-space: nowrap; }
   .anruf :global(svg) { width: 1.15rem; height: 1.15rem; color: var(--gold-dunkel); }
+  .wa-kopf { display: none; place-items: center; flex: none; width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold-dunkel); }
+  .wa-kopf:hover { background: var(--tinte-2); }
+  .wa-kopf :global(svg) { width: 1.3rem; height: 1.3rem; }
   .kopf-cta { display: none; min-height: 2.75rem; padding: 0.55rem 1.2rem; font-size: 0.92rem; white-space: nowrap; }
   .kopf-balken { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; overflow: hidden; }
   .kopf-balken span { display: block; height: 100%; background: var(--gold); transform: scaleX(0); transform-origin: left center; }
   @media (min-width: 80rem) { .nav-breit { display: block; } .nav-schmal { display: none; } .kopf-cta { display: inline-flex; } }
   @media (min-width: 100rem) { .anruf { display: inline-flex; } }
+  @media (min-width: 80rem) { .wa-kopf { display: grid; } }
 
   .nav-schmal summary {
     display: flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.4rem 0.85rem;

@@ -2,7 +2,7 @@
 // Abschluss jeder Seite (Jamils Konzept: „Benötigen Sie Unterstützung?“ + „Jetzt Kontakt aufnehmen“).
 // Überschrift steigt beim Sichtbarwerden ruhig auf (Bauwelt-Bewegung).
 import Icon from "./Icon.astro";
-import { TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, mailLink } from "../daten";
+import { TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, WHATSAPP_LINK, mailLink } from "../daten";
 import { p, type Lang } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang }
@@ -20,6 +20,7 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
     </div>
     <ul class="wege">
       <li><a href={TELEFON_LINK}><Icon name="telefon" /><span class="art">{T.ui.telefon}</span><span class:list={["wert", { unbestaetigt: markieren }]}>{TELEFON}</span></a></li>
+      <li><a href={WHATSAPP_LINK} rel="noopener"><Icon name="whatsapp" /><span class="art">{T.ui.whatsapp}</span><span class="wert">{T.ui.whatsappLang}</span></a></li>
       <li><a href={mailLink(T.ui.mailBetreff)}><Icon name="mail" /><span class="art">{T.ui.email}</span><span class="wert">{MAIL}</span></a></li>
       <li><span class="ohne"><Icon name="ort" /><span class="art">{T.ui.standort}</span><span class="wert">{T.fakten.ort}</span></span></li>
     </ul>

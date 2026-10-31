@@ -1,7 +1,7 @@
 ---
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
-import { NAME, TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, mailLink } from "../daten";
+import { NAME, TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, WHATSAPP_LINK, mailLink } from "../daten";
 import { NAV_SEITEN, p, type Lang } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang }
@@ -20,6 +20,7 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
       <h2 class="klein">{T.ui.kontakt}</h2>
       <ul class="liste">
         <li><a href={TELEFON_LINK}><Icon name="telefon" /><span class:list={{ unbestaetigt: markieren }}>{TELEFON}</span></a></li>
+        <li><a href={WHATSAPP_LINK} rel="noopener" aria-label={T.ui.whatsappLabel}><Icon name="whatsapp" />{T.ui.whatsapp}</a></li>
         <li><a href={mailLink(T.ui.mailBetreff)}><Icon name="mail" />{MAIL}</a></li>
         <li><span><Icon name="ort" />{T.fakten.ort}</span></li>
       </ul>
@@ -40,10 +41,11 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
     </ul>
   </div>
 </footer>
-<!-- Handy: Anrufen und E-Mail immer erreichbar (Jamils Konzept: Telefon und E-Mail auf jeder Seite) -->
+<!-- Handy: Anrufen · WhatsApp · E-Mail immer erreichbar (Jamils Konzept; WhatsApp: Kerim Talk 3993, Jamil 3994). Drei gleich breite Felder, je ≥ 56 px hoch. -->
 <nav class="schnell" aria-label={T.ui.schnellkontakt}>
   <a class="ruf" href={TELEFON_LINK}><Icon name="telefon" /><span>{T.ui.anrufen}</span></a>
-  <a href={mailLink(T.ui.mailBetreff)}><Icon name="mail" /><span>{T.ui.mailSchreiben}</span></a>
+  <a class="wa" href={WHATSAPP_LINK} rel="noopener" aria-label={T.ui.whatsappLabel}><Icon name="whatsapp" /><span>{T.ui.whatsapp}</span></a>
+  <a href={mailLink(T.ui.mailBetreff)} aria-label={T.ui.mailSchreiben}><Icon name="mail" /><span>{T.ui.mailKurz}</span></a>
 </nav>
 <!-- „Nach oben“ (Can Talk 3964): erscheint nach ca. 1,5 Bildschirmhöhen Scrollen, rechts unten über der Kontaktleiste; Steuerung in sichtbar.js.
      Ohne JS unsichtbar (dann wäre er nur ein Sprung ohne Anzeige-Logik). -->
@@ -85,15 +87,20 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
   .unten a { display: inline-block; padding-block: 0.25rem; }
 
   .schnell {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: 1fr 1fr;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
     background: var(--creme); border-top: 1px solid var(--tinte-3); padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -8px 24px -16px rgba(43, 36, 31, 0.35);
   }
   .schnell a {
-    display: flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 3.5rem;
-    color: var(--hell); text-decoration: none; font-weight: 500;
+    display: flex; align-items: center; justify-content: center; gap: 0.45rem; min-height: 3.5rem; min-width: 0; padding-inline: 0.35rem;
+    color: var(--hell); text-decoration: none; font-weight: 600; font-size: 0.95rem; white-space: nowrap;
   }
   .schnell .ruf { background: var(--rot); color: var(--weiss); }
-  .schnell :global(svg) { width: 1.2rem; height: 1.2rem; }
+  /* WhatsApp in der Mitte: Navy-Schrift, goldenes Symbol, feine Trennlinien zu den Nachbarn */
+  .schnell .wa { border-inline: 1px solid var(--tinte-3); }
+  .schnell .wa :global(svg) { color: var(--gold-dunkel); }
+  .schnell a:not(.ruf):hover { background: var(--tinte-2); }
+  .schnell :global(svg) { width: 1.2rem; height: 1.2rem; flex: none; }
+  @media (max-width: 22rem) { .schnell a { font-size: 0.88rem; gap: 0.35rem; } }
   @media (min-width: 66rem) { .schnell { display: none; } }
   @media (max-width: 65.99rem) { :global(body) { padding-bottom: 3.5rem; } }
 </style>

@@ -1,25 +1,40 @@
 # Offene Infos – das brauchen wir vom Kunden
 
-Stand: 31.10.2026 (Design v5: kompakte Startseite mit Vorteilen, Ablauf und Einsatzgebiet; Deutsch/Türkisch, Themen, Ratgeber). Grundregel: Auf der Seite steht nur, was auf der bisherigen Website steht. In der Vorschau sind diese Stellen rot gestrichelt markiert.
+Stand: 31.10.2026, nach Kerims Feedback (über Jamil, Talk 3990–3994). Grundregel: Auf der Seite steht nur, was auf der bisherigen Website steht **oder was Kerim selbst bestätigt hat**. In der Vorschau sind offene Stellen rot gestrichelt markiert.
+
+## Erledigt durch Kerims Feedback (31.10.2026, Talk 3990–3994)
+
+- [x] **Telefonnummer** 0177 4207 664 bestätigt (Kerim nutzt sie für WhatsApp). Steht jetzt auch in den strukturierten Daten und in `llms.txt`; Markierung entfernt.
+- [x] **Einsatzgebiet bestätigt und erweitert:** Hamburg, Schleswig-Holstein, **Mecklenburg-Vorpommern**, Bremen, Niedersachsen (Karte, Texte, Titel, `areaServed`, Fragen, `llms.txt`).
+- [x] **Video- und Telefondolmetschen** als Leistung (Dolmetschen-Seite, Startseiten-Karte, Vorteil, Fragen, JSON-LD `Service`).
+- [x] **Studium:** Bachelor of Arts in Philosophie und Germanistik, abgeschlossen 2021 (Über mich, Vorteil, JSON-LD, `llms.txt`).
+- [x] **Honorar:** „Honorar nach individueller Absprache“ mit Kerims Text (JVEG nur noch bei gerichtlichen/behördlichen Aufträgen, soweit anwendbar; private Aufträge mit Angebot vorab; Beispiel kurzfristig/medizinisch).
+- [x] **Ablauf bestätigt:** Schritt 2 „Anliegen besprechen“ = Dokumente als Foto oder Scan schicken, Kostenvoranschlag erhalten. Platzhalter entfernt.
+- [x] **Erfahrungen ergänzt:** Standesamt, Krankenhäuser, Untersuchungshaftanstalten.
+- [x] **WhatsApp** (`https://wa.me/491774207664`) überall neben Anrufen/E-Mail (Kopfzeile, Hero, Handy-Leiste, Ablauf, Abschluss-Aufruf, Kontakt, Fuß, Unterseiten). Nur Link, kein Skript.
+- [x] **Portraitfoto** eingesetzt (rund, leicht aufgehellt): Über mich und Startseite („Warum Herr Tanrikulu?“).
 
 ## Vor dem Livegang nötig
 
-1. **Telefonnummer bestätigen:** 0177 4207 664 wurde aus einem kleinen Bild der alten Seite gelesen. Bis zur Bestätigung steht sie nicht in den strukturierten Daten und nicht in `llms.txt`.
+1. **WhatsApp-Datenschutztext prüfen lassen:** Abschnitt 6 der Datenschutzerklärung ist ein **Entwurf** (keine Rechtsberatung). Offen: privates oder WhatsApp-Business-Konto, Speicherdauer der Chats, Umgang mit sensiblen Unterlagen (z. B. medizinische Dokumente) über WhatsApp.
+
+## Vor dem Livegang nötig
+
 2. **Anschrift fürs Impressum** (Straße, Hausnummer, PLZ, Ort; geschäftlich oder privat).
-3. **Standort Hamburg und Einsatzgebiet bestätigen (v5):** Das Einsatzgebiet **Hamburg, Schleswig-Holstein, Bremen und Niedersachsen** hat Can vorgegeben (31.10.2026); es steht nicht auf Kerims bisheriger Seite. Es steht jetzt auf der Startseite („Einsatzgebiet“ mit kleiner Karte), auf „Dolmetschen“, in den Fragen, in den Seitentiteln/-beschreibungen, in den strukturierten Daten (`areaServed` beim Dolmetschen) und in `llms.txt`. Bitte von Kerim bestätigen lassen: Dolmetscht er in allen vier Ländern vor Ort?
+3. ~~Einsatzgebiet bestätigen~~ **erledigt** (Kerim, Talk 3990: plus Mecklenburg-Vorpommern). Standort Hamburg gilt weiter als bestätigt durch Jamils Konzept.
 4. **Urkunde(n) zu Beeidigung und Ermächtigung:** genauer Wortlaut der Berufsbezeichnung, genaue Bezeichnung und Anschrift des Gerichts, Rechtsgrundlage (Landesgesetz). Bestätigung, dass beides aktuell gültig ist.
 5. **Umsatzsteuer-ID** (falls vorhanden) und Entscheidung zur Verbraucherstreitbeilegung (§ 36 VSBG).
 6. **Hoster der fertigen Seite** und Vertrag zur Auftragsverarbeitung; **E-Mail-Anbieter** bestätigen (WEB.DE?).
-7. **Sicherer Weg für Dokumente:** Wie sollen Kunden Urkunden, Ausweise oder medizinische Unterlagen schicken (z. B. verschlüsselter Upload statt E-Mail)? Wie lange werden Dokumente aufbewahrt, wann gelöscht oder zurückgegeben?
+7. **Sicherer Weg für Dokumente:** Kerim nimmt Dokumente als Foto oder Scan für den Kostenvoranschlag an (Talk 3990). Offen: Über welchen Weg (E-Mail, WhatsApp, verschlüsselter Upload) bei sensiblen Unterlagen? Wie lange werden Dokumente aufbewahrt, wann gelöscht oder zurückgegeben? Braucht er für die beglaubigte Übersetzung das Original oder reicht der Scan?
 8. **Domain dolmetscher-kt.de:** Zugang zum Domain-Anbieter, damit die Seite dort erreichbar wird.
 
 ## Für bessere Inhalte
 
 9. **Logo:** Jamil (Talk 3907): Das bisherige Logo (Federkiel + „TANRIKULU / TRANSLATIONS“) bleibt. Auf der Website steht ein Nachbau nach der alten Seite. Bitte das Original als Datei (SVG oder PDF) vom Kunden holen. Der Entwurf eines neuen Logos und das CI-Handbuch liegen nur als Vorschlag in Nextcloud (Kerim_Tanrikulu/CI), nicht auf der Website.
-10. **Portraitfoto** für den Kopf der Startseite und „Über mich“ (Format 4 : 5, z. B. 800 × 1000 px). Bis dahin steht in der Vorschau ein markierter Platzhalter; live ohne Foto bleibt die Stelle leer.
-11. **Ablauf bestätigen (v5):** Auf der Startseite steht jetzt „So einfach geht's“ in drei allgemein gehaltenen Schritten: Kontakt aufnehmen (Anrufen oder E-Mail) → Anliegen besprechen („Das weitere Vorgehen klärt Herr Tanrikulu persönlich mit Ihnen“, nach seinem eigenen Satz) → Übersetzung oder Termin. In der Vorschau als Platzhalter markiert. Stimmt das so, oder gehört ein Schritt dazu (z. B. Unterlagen schicken, Kostenvoranschlag)?
+10. ~~Portraitfoto~~ **erledigt** (Talk 3991/3992): rund, leicht aufgehellt, auf Über mich und dezent auf der Startseite. Im Hero bleibt die Gesprächs-Animation (Can/Jamil 31.10.).
+11. ~~Ablauf bestätigen~~ **erledigt** (Talk 3990): Kontakt (Anrufen, WhatsApp, E-Mail) → Anliegen besprechen (Dokumente als Foto/Scan, Kostenvoranschlag) → Übersetzung oder Termin.
 12. **Wortlaut zur Beglaubigung bestätigen:** „Als ermächtigter Übersetzer kann ich schriftlich bestätigen, dass meine Übersetzung richtig und vollständig ist.“
-13. **Typische Dolmetsch-Einsätze:** wo genau (Gericht, Behörde, Notar, Standesamt, Schule, Arzt …)?
+13. ~~Typische Dolmetsch-Einsätze~~ **teilweise erledigt:** Erfahrungsliste um Standesamt, Krankenhäuser und Untersuchungshaftanstalten ergänzt (Talk 3990). Notar, Arzt, Unternehmen weiter nur nach Bestätigung.
 14. **Unternehmen als Zielgruppe:** Übernimmt er auch Aufträge von Firmen (Geschäftskorrespondenz, Gespräche mit Geschäftspartnern)?
 15. **Ein Satz zum Umgang mit Unterlagen** (Vertraulichkeit, Aufbewahrung) für „Über mich“.
 16. **Weitere häufige Fragen** mit seinen Antworten.
@@ -33,12 +48,12 @@ Stand: 31.10.2026 (Design v5: kompakte Startseite mit Vorteilen, Ablauf und Eins
 
 23. **Themenliste bestätigen oder kürzen (v4):** Die Seite „Themen“ zeigt typische Dokumente in beide Richtungen (türkische Dokumente für deutsche Stellen, deutsche Dokumente für türkische Stellen). Das ist eine allgemeine Übersicht, kein Versprechen. Mit Häkchen und fett markiert sind nur Arten, die Kerim auf seiner Seite selbst nennt (v5: keine Unterstreichungen mehr, Jamil Talk 3957). Bitte mit ihm durchgehen: Was soll bleiben, was fehlt, was übernimmt er nicht (z. B. Führerschein, Erbschein, Vollmachten, Renten- und Arbeitsunterlagen)?
 24. **Ratgeber-Texte prüfen (v4):** Allgemeine Informationen (beglaubigte Übersetzung und Bestätigungsvermerk, Dolmetscher und Übersetzer, Original oder Kopie, Apostille, Formül A/B/C, Anerkennung in der Türkei, Namen mit türkischen Buchstaben, JVEG). Sichtbar als „Allgemeine Information, keine Rechtsberatung“ markiert. Kerim soll fachlich gegenlesen.
-25. **Was nur Kerim beantworten kann** (im Ratgeber als Platzhalter): Preise im Einzelfall, Bearbeitungszeit, Ablauf eines Auftrags, Versand von Unterlagen per Post oder E-Mail (Fernübersetzung).
-26. **„Warum Herr Tanrikulu?“ prüfen (v5, ersetzt „Was ihn auszeichnet“):** sechs Vorteile aus belegten Fakten, als Kundennutzen formuliert: mündlich und schriftlich aus einer Hand (ein Ansprechpartner), beeidigt und ermächtigt vom OLG Schleswig seit Mai 2021 („die übliche Form für deutsche Behörden und Gerichte“ – allgemeine Aussage, keine Garantie), Erfahrung mit Gerichten/Konsulat/BAMF/IQSH/Schulen, Honorar nach JVEG, unkompliziert erreichbar (Telefon oder E-Mail, ohne Formular), persönlicher Bezug zu beiden Kulturen. Wortlaute von Kerim freigeben lassen.
+25. **Was nur Kerim beantworten kann** (im Ratgeber als Platzhalter): Bearbeitungszeit, sicherer Weg für Originale und sensible Unterlagen. (Honorar-Grundsatz und Ablauf sind seit Talk 3990 geklärt.)
+26. **„Warum Herr Tanrikulu?“ prüfen (v5, ersetzt „Was ihn auszeichnet“):** sechs Vorteile aus belegten Fakten, als Kundennutzen formuliert: mündlich und schriftlich aus einer Hand (ein Ansprechpartner), beeidigt und ermächtigt vom OLG Schleswig seit Mai 2021 („die übliche Form für deutsche Behörden und Gerichte“ – allgemeine Aussage, keine Garantie), Erfahrung mit Gerichten/Konsulat/BAMF/IQSH/Schulen, faire, transparente Vergütung (seit Talk 3990 statt „Honorar nach JVEG“), unkompliziert erreichbar (Telefon, WhatsApp oder E-Mail), persönlicher Bezug zu beiden Kulturen; dazu Studium (Vorteil 2) und Video-/Telefondolmetschen (Vorteil 1). Wortlaute von Kerim freigeben lassen.
 
 ## Von der Seite genommen (Talk 3904), erst nach Bestätigung wieder möglich
 
-- Ablauf „Dokument senden – Anfrage prüfen – Rückmeldung erhalten“ (Punkt 11)
+- ~~Ablauf~~ wieder auf der Seite in Kerims Fassung (Punkt 11, Talk 3990)
 - Hinweise zum Dokument-Upload bzw. sicheren Versand (Punkt 7)
 - Erklärung, dass die Übersetzung „richtig und vollständig“ bestätigt wird (Punkt 12)
 - Angaben, was in eine Anfrage gehört (Termin, Ort, Dauer, Dokumentart)
@@ -48,4 +63,4 @@ Stand: 31.10.2026 (Design v5: kompakte Startseite mit Vorteilen, Ablauf und Eins
 
 ## Bewusst nicht auf der Seite
 
-Keine Preise, Bearbeitungszeiten, Referenzen, Kundenstimmen oder Zahlen, solange nichts davon belegt ist. Kein Kontaktformular mit Fremddienst; Kontakt per Telefon und E-Mail.
+Keine konkreten Preise, Bearbeitungszeiten, Referenzen, Kundenstimmen oder Zahlen, solange nichts davon belegt ist. Kein Kontaktformular mit Fremddienst und kein WhatsApp-Widget; Kontakt per Telefon, WhatsApp-Link und E-Mail.

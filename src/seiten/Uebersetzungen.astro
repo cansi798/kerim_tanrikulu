@@ -4,7 +4,7 @@ import SeitenKopf from "../components/SeitenKopf.astro";
 import BildUebersetzung from "../components/BildUebersetzung.astro";
 import Platzhalter from "../components/Platzhalter.astro";
 import Icon from "../components/Icon.astro";
-import { TELEFON_LINK, mailLink } from "../daten";
+import { TELEFON_LINK, WHATSAPP_LINK, mailLink } from "../daten";
 import { p, type Lang } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang }
@@ -60,7 +60,8 @@ const S = T.seiten.uebersetzungen;
         <p class="lead">{S.anfrageText}</p>
         <div class="knoepfe">
           <a class="knopf" href={mailLink(T.ui.anfrageBetreffUe)}>{T.ui.anfrage}</a>
-          <a class="knopf rahmen" href={TELEFON_LINK}>{T.ui.anrufen}</a>
+          <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />{T.ui.anrufen}</a>
+          <a class="knopf rahmen" href={WHATSAPP_LINK} rel="noopener"><Icon name="whatsapp" />{T.ui.whatsapp}</a>
         </div>
       </div>
     </div>
@@ -71,6 +72,7 @@ const S = T.seiten.uebersetzungen;
       <h2 id="honorar-titel">{S.honorarTitel}</h2>
       <div>
         <p class="lead">{T.fakten.honorar}</p>
+        <p class="beispiel leise">{T.fakten.honorarBeispiel}</p>
         <a class="weiter" href={p(lang, "fragen")}>{T.nav.fragen}</a>
       </div>
     </div>
@@ -93,4 +95,5 @@ const S = T.seiten.uebersetzungen;
   .dokumente .d4 { animation-delay: 0.4s; }
   .honorar { border-top: 1px solid var(--linie); }
   .mt { margin-top: 1.75rem; }
+  .beispiel { max-width: 46rem; margin: -0.5rem 0 1.25rem; }
 </style>
