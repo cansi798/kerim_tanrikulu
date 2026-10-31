@@ -2,6 +2,8 @@
 
 > Kerim Mikael Tanrikulu ist allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für Deutsch und Türkisch (Oberlandesgericht Schleswig, seit Mai 2021). Beglaubigte Übersetzungen und Dolmetschen, Standort Hamburg.
 
+Sprachen der Website: Deutsch (de) und Türkisch (tr). Die türkische Fassung ist ein Entwurf und wird vom Inhaber geprüft.
+
 ## Qualifikation
 - allgemein beeidigter Dolmetscher und ermächtigter Übersetzer, durch das Oberlandesgericht Schleswig, seit Mai 2021
 - Sprachen: Deutsch und Türkisch
@@ -11,7 +13,7 @@
 - Beglaubigte Übersetzungen: https://cansi798.github.io/kerim_tanrikulu/uebersetzungen/
 - Dolmetschen: https://cansi798.github.io/kerim_tanrikulu/dolmetschen/
 
-## Dokumente (Beispiele)
+## Dokumente (Beispiele laut Inhaber)
 - Gerichtsurteile, darunter auch Scheidungsurteile
 - Zeugnisse
 - Personalausweise
@@ -36,13 +38,35 @@ Das Honorar richtet sich nach dem JVEG (Justizvergütungs- und -entschädigungsg
 - Was kostet eine Übersetzung oder ein Dolmetscheinsatz? Das Honorar richtet sich nach dem JVEG (Justizvergütungs- und -entschädigungsgesetz). Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.
 - Wie kann ich eine Anfrage senden? Schreiben Sie eine E-Mail an info@dolmetscher-kt.de oder rufen Sie an unter 0177 4207 664. Das weitere individuelle Vorgehen teile ich Ihnen gerne in einem persönlichen Gespräch mit.
 
-## Seiten
+## Ratgeber (allgemeine Information, keine Rechtsberatung)
+- Was ist eine beglaubigte Übersetzung? Eine schriftliche Übersetzung mit Vermerk, Unterschrift und meist einem Stempel des ermächtigten Übersetzers. https://cansi798.github.io/kerim_tanrikulu/ratgeber/#beglaubigt
+- Dolmetscher oder Übersetzer? Ein Dolmetscher überträgt das gesprochene Wort, ein Übersetzer das geschriebene. https://cansi798.github.io/kerim_tanrikulu/ratgeber/#dolmetscher-uebersetzer
+- Original oder Kopie? Übersetzt wird nach der Vorlage, die Sie mitbringen. Ob eine Kopie reicht, entscheidet die Stelle, die das Dokument verlangt. https://cansi798.github.io/kerim_tanrikulu/ratgeber/#original-kopie
+- Apostille: Wann wird sie gebraucht? Die Apostille bestätigt, dass eine öffentliche Urkunde echt ist. Zwischen Deutschland und der Türkei ersetzt sie die Legalisation. https://cansi798.github.io/kerim_tanrikulu/ratgeber/#apostille
+- Mehrsprachige Auszüge: Formül A, B und C Für Geburt, Eheschließung und Tod gibt es in der Türkei internationale Auszüge, die viele Stellen ohne Übersetzung annehmen. https://cansi798.github.io/kerim_tanrikulu/ratgeber/#formuel
+- Gilt die Übersetzung auch in der Türkei? Für deutsche Stellen ist die Übersetzung eines ermächtigten Übersetzers üblich. Türkische Stellen können zusätzliche Bestätigungen verlangen. https://cansi798.github.io/kerim_tanrikulu/ratgeber/#beide-richtungen
+- Namen mit türkischen Buchstaben Namen werden in der Regel so geschrieben wie im Ausgangsdokument. Abweichungen am besten gleich mitteilen. https://cansi798.github.io/kerim_tanrikulu/ratgeber/#namen
+- Was bedeutet „Honorar nach JVEG“? Das JVEG regelt, wie Gerichte und Behörden Dolmetscher und Übersetzer vergüten. Herr Tanrikulu richtet sein Honorar danach. https://cansi798.github.io/kerim_tanrikulu/ratgeber/#jveg
+
+## Seiten (Deutsch)
 - [Startseite](https://cansi798.github.io/kerim_tanrikulu/)
 - [Übersetzungen](https://cansi798.github.io/kerim_tanrikulu/uebersetzungen/)
 - [Dolmetschen](https://cansi798.github.io/kerim_tanrikulu/dolmetschen/)
+- [Themen](https://cansi798.github.io/kerim_tanrikulu/themen/)
+- [Ratgeber](https://cansi798.github.io/kerim_tanrikulu/ratgeber/)
 - [Über mich](https://cansi798.github.io/kerim_tanrikulu/ueber-mich/)
 - [Häufige Fragen](https://cansi798.github.io/kerim_tanrikulu/fragen/)
 - [Kontakt](https://cansi798.github.io/kerim_tanrikulu/kontakt/)
+
+## Sayfalar (Türkçe)
+- [Ana sayfa](https://cansi798.github.io/kerim_tanrikulu/tr/)
+- [Çeviriler](https://cansi798.github.io/kerim_tanrikulu/tr/ceviriler/)
+- [Sözlü tercüme](https://cansi798.github.io/kerim_tanrikulu/tr/sozlu-tercume/)
+- [Belgeler](https://cansi798.github.io/kerim_tanrikulu/tr/konular/)
+- [Rehber](https://cansi798.github.io/kerim_tanrikulu/tr/rehber/)
+- [Hakkımda](https://cansi798.github.io/kerim_tanrikulu/tr/hakkimda/)
+- [SSS](https://cansi798.github.io/kerim_tanrikulu/tr/sss/)
+- [İletişim](https://cansi798.github.io/kerim_tanrikulu/tr/iletisim/)
 
 ## Kontakt
 - E-Mail: info@dolmetscher-kt.de
