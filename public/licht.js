@@ -9,6 +9,8 @@
 //      sie kommen als neue Wellen bei Türkisch an → kurze Antwort zurück. Leerlauf: alle 10 s ein Wortwechsel, abwechselnd die Richtung.
 // Nur mit JS und ohne „Bewegung reduzieren“; sonst bleibt das fertige Standbild (SVG/HTML). Texte bleiben echter Text, Canvas ist aria-hidden.
 // Rechnet nur, solange die Szene im Bild und der Tab sichtbar ist (IntersectionObserver, visibilitychange, kein rAF im Leerlauf).
+// Can 31.10. 08:45: Die Intro beginnt erst, wenn die Szene wirklich im Bild ist (mind. die Hälfte), und läuft dann ganz ab –
+// auch beim Weiterscrollen (Pause nur, wenn sie ganz aus dem Bild ist). Nichts läuft vorher außerhalb des Bildes ab.
 (function () {
   if (!window.requestAnimationFrame || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   var M = Math, GOLD = "#a8803c";
@@ -84,7 +86,7 @@
       c.messen(s);
     }
 
-    var t = 0, intro = !spaet, zug = null, laeuft = false, raf = 0, letzte = 0, sichtbar = false, aktiv = !document.hidden;
+    var t = 0, intro = !spaet, zug = null, laeuft = false, raf = 0, letzte = 0, sichtbar = false, genug = false, aktiv = !document.hidden;
     var timer = 0, gestartet = false, erster = true, hin = false;
     function bild(jetzt) {
       if (!laeuft) return;
@@ -102,7 +104,10 @@
       if (!intro && !zug && !s.funken.length) { ruhe(); return; }
       raf = requestAnimationFrame(bild);
     }
-    function los() { if (laeuft || !sichtbar || !aktiv) return; laeuft = true; letzte = performance.now(); raf = requestAnimationFrame(bild); }
+    function los() {
+      if (laeuft || !sichtbar || !aktiv) return;
+      if (intro && t === 0 && !genug) return; // Intro noch nicht begonnen: erst starten, wenn genug von der Szene zu sehen ist
+      laeuft = true; letzte = performance.now(); raf = requestAnimationFrame(bild); }
     function stopp() { laeuft = false; cancelAnimationFrame(raf); }
     function ruhe() { stopp(); ctx.clearRect(0, 0, s.W, s.H); clearTimeout(timer); timer = setTimeout(neuerZug, erster ? 6500 : 10000); }
     function neuerZug() {
@@ -118,12 +123,15 @@
       if (intro) { c.vorbereiten(s); los(); } else { c.ende(s); ruhe(); }
     }
     function weiter() {
-      if (!gestartet) { if (sichtbar && aktiv) bereit(start); return; }
+      if (!gestartet) { if (genug && aktiv) bereit(start); return; }
       if (intro || zug || s.funken.length) los(); else if (!timer) neuerZug();
     }
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; if (!sichtbar) stopp(); else weiter(); }, { threshold: 0.35 }).observe(el);
-    } else { sichtbar = true; weiter(); }
+      new IntersectionObserver(function (e) {
+        var x = e[0]; sichtbar = x.isIntersecting; genug = x.intersectionRatio >= 0.5 || x.intersectionRect.height >= window.innerHeight * 0.5;
+        if (!sichtbar) stopp(); else weiter();
+      }, { threshold: [0, 0.25, 0.5, 0.75, 1] }).observe(el);
+    } else { sichtbar = genug = true; weiter(); }
     document.addEventListener("visibilitychange", function () { aktiv = !document.hidden; if (!aktiv) stopp(); else weiter(); });
     var rz = 0;
     window.addEventListener("resize", function () {

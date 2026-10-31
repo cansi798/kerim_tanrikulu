@@ -6,6 +6,7 @@
 // Bewegung: Bauwelt-Kurve, gestaffelt, einmal; Scroll-Story und Parallaxe nur breit und ohne „Bewegung reduzieren“;
 // Tinten-Notizen (rough.js beim Bauen) an genau vier Stellen.
 // Signature (Can 31.10.2026 „Wow“): Sprachbrücke aus Licht im Hero (public/licht.js, Canvas 2D) – Sinnbild Übersetzen.
+// Can 31.10. 08:45: Brücke, Karten und Scroll-Hinweis starten erst, wenn sie im Bild sind (data-szene; am Handy liegen sie unter dem ersten Bildschirm).
 import Basis from "../layouts/Basis.astro";
 import Icon from "../components/Icon.astro";
 import Vertrauensband from "../components/Vertrauensband.astro";
@@ -64,7 +65,7 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
            Seiten bis zur Mitte, Hänger und Spiegelung erscheinen, dann lösen sich Lichtteilchen aus dem Wort links, wandern über die Brücke
            und setzen sich rechts zum Wort der anderen Sprache zusammen (ca. 3,5 s). Danach alle 10 s ein Lichtzug, abwechselnd hin und zurück.
            Ohne JS bzw. ruhig: genau dieses SVG als fertiges Endbild; die Wörter sind echter Text. -->
-      <div class="bruecke-ebene" data-parallax="-0.035">
+      <div class="bruecke-ebene" data-parallax="-0.035" data-szene>
         <figure class="bruecke auf" data-d="2" data-bruecke>
           <svg viewBox="0 0 440 200" aria-hidden="true" focusable="false">
             <g class="b-teil">
@@ -83,14 +84,14 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
     </div>
 
     <div class="huelle">
-      <ul class="karten">
+      <ul class="karten" data-szene>
         <li class="k0"><a href={p(lang, "uebersetzungen")}><span class="symbol"><Icon name="dokument" /></span><span class="titel">{T.hero.karten[0]}</span><Icon name="pfeil" /></a></li>
         <li class="k1"><a href={p(lang, "dolmetschen")}><span class="symbol"><Icon name="mikrofon" /></span><span class="titel">{T.hero.karten[1]}</span><Icon name="pfeil" /></a></li>
         <li class="k2"><a href={p(lang, "themen")}>
           <span class="symbol sprachen" aria-hidden="true"><svg viewBox="0 0 44 24" focusable="false"><text x="0" y="16.5">DE</text><path d="M18.5 9.5h7m-2-2.5 2.5 2.5-2.5 2.5M25.5 14.5h-7m2-2.5-2.5 2.5 2.5 2.5" /><text x="28.5" y="16.5">TR</text></svg></span>
           <span class="titel">{T.hero.karten[2]}</span><Icon name="pfeil" /></a></li>
       </ul>
-      <a class="mehr" href="#weiter"><span>{T.ui.mehrErfahren}</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" /></svg></a>
+      <a class="mehr" href="#weiter" data-szene><span>{T.ui.mehrErfahren}</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" /></svg></a>
     </div>
   </section>
 
