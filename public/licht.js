@@ -88,11 +88,13 @@
 
     var t = 0, intro = !spaet, zug = null, laeuft = false, raf = 0, letzte = 0, sichtbar = false, genug = false, aktiv = !document.hidden;
     var timer = 0, gestartet = false, erster = true, hin = false;
+    var sparen = window.innerWidth < 900; // Handy: 30 Bilder je Sekunde reichen für weiche Lichtpunkte und halbieren die Rechenzeit
     function bild(jetzt) {
       if (!laeuft) return;
+      if (sparen && jetzt - letzte < 28) { raf = requestAnimationFrame(bild); return; }
       var dt = M.min(0.05, (jetzt - letzte) / 1000 || 0.016); letzte = jetzt; t += dt;
-      // Spuren: das letzte Bild nur teilweise löschen → weiche Lichtschweife
-      ctx.globalAlpha = 1; ctx.globalCompositeOperation = "destination-out"; ctx.fillStyle = "rgba(0,0,0,0.38)"; ctx.fillRect(0, 0, s.W, s.H);
+      // Spuren: das letzte Bild nur teilweise löschen → weiche Lichtschweife (Stärke an die Bildrate angepasst)
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = "destination-out"; ctx.fillStyle = "rgba(0,0,0," + (1 - M.pow(0.62, dt * 60)).toFixed(3) + ")"; ctx.fillRect(0, 0, s.W, s.H);
       ctx.globalCompositeOperation = "source-over";
       if (intro) intro = c.intro(s, t);
       if (zug) { zug.t += dt; if (!c.zug(s, zug)) zug = null; }
