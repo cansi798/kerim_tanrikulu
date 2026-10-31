@@ -1,0 +1,80 @@
+---
+// Hero-Variante „Gespräch über den Dolmetscher“ (Jamil, Sprachnachricht Talk 31.10.2026 11:58) – nur auf /hero-variante/ zum Vergleich mit der Licht-Brücke,
+// bis Can entscheidet (die Brücke war Cans Wunsch). Zwei Menschen als Büste (Brust bis Kopf), gesichtslos, als ruhige Flächen in Tinte mit goldenem Rand,
+// dazwischen der Federkiel aus dem Logo. public/gespraech.js (Kern aus licht.js): links spricht jemand (goldene Wellen am Mund), die Worte fließen als Licht
+// zum Federkiel, werden dort verwandelt (Aufleuchten, tiefes Gold), kommen rechts am Ohr an (Wellen, Nicken, Aufleuchten), kurze Antwort zurück (ca. 4 s).
+// Wiederholung alle 14 s und beim Wiederkommen. Ohne JS / „Bewegung reduzieren“: dieses SVG als fertiges Endbild. Keine erfundenen Sätze, nur Sprachnamen.
+import type { Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+// Richtung wie die Brücke (Can 31.10. 09:43): deutsche Seiten Deutsch → Türkisch, türkische Seiten Türkçe → Almanca
+const [ERST, DANN] = lang === "tr" ? [T.ui.tuerkisch, T.ui.deutsch] : [T.ui.deutsch, T.ui.tuerkisch];
+const KIEL = "M5 62 C 9 45, 21 23, 53 2 C 51 17, 46 28, 37 38 C 30 46, 18 54, 5 62 Z";
+// Büste nach rechts gewandt (die rechte Person ist gespiegelt): Kopf als ruhige Profilfläche ohne Gesichtszüge, Hals, Schultern.
+const KOPF = "M80 132 C 68 122, 64 108, 66 92 C 64 70, 70 50, 88 41 C 104 33, 124 38, 132 54 C 136 62, 136 70, 135 78 L 139 89 L 134 92 C 135 98, 133 104, 129 108 C 126 113, 120 115, 114 115 L 113 134 Z";
+const KOERPER = "M8 218 C 10 184, 30 160, 70 150 C 76 148, 80 142, 81 128 L 113 128 C 113 142, 118 148, 128 151 C 162 160, 186 182, 190 218 Z";
+// goldener Rand als offene Linien (sonst zeigt sich am Hals die Naht zwischen Kopf und Körper)
+const RAND_KOPF = "M80.5 131 C 68 122, 64 108, 66 92 C 64 70, 70 50, 88 41 C 104 33, 124 38, 132 54 C 136 62, 136 70, 135 78 L 139 89 L 134 92 C 135 98, 133 104, 129 108 C 126 113, 120 115, 114 115 L 113.2 131";
+const RAND_KOERPER = "M8 218 C 10 184, 30 160, 70 150 C 76 148, 80 142, 80.6 132 M113.2 132 C 113.6 142, 118 148, 128 151 C 162 160, 186 182, 190 218";
+// Schallwellen als Bogenstücke um einen Punkt (Mund links bzw. Ohr rechts)
+const bogen = (cx: number, cy: number, r: number, mitte: number, w = 0.55) => {
+  const a = mitte - w, b = mitte + w, f = (x: number) => Math.round(x * 10) / 10;
+  return `M${f(cx + r * Math.cos(a))} ${f(cy + r * Math.sin(a))} A ${r} ${r} 0 0 1 ${f(cx + r * Math.cos(b))} ${f(cy + r * Math.sin(b))}`;
+};
+const MUND = [138, 100], OHR = [344, 82];
+---
+<figure class="gespraech" data-gespraech>
+  <svg viewBox="0 0 440 220" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="g-fuell" gradientUnits="userSpaceOnUse" x1="0" y1="40" x2="0" y2="218">
+        <stop offset="0" stop-color="#352a23" /><stop offset="0.56" stop-color="#43362c" /><stop offset="0.97" stop-color="#5a4a3c" stop-opacity="0" />
+      </linearGradient>
+      <linearGradient id="g-rand" gradientUnits="userSpaceOnUse" x1="0" y1="40" x2="0" y2="218">
+        <stop offset="0" stop-color="#c9a35b" /><stop offset="0.6" stop-color="#a8803c" stop-opacity="0.8" /><stop offset="1" stop-color="#a8803c" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <g class="g-teil">
+      <path class="g-bahn" d="M146 94 Q 176 64 200 74" /><path class="g-bahn" d="M240 74 Q 290 50 328 76" />
+      <path class="g-welle w1" d={bogen(MUND[0], MUND[1], 11, 0)} /><path class="g-welle w2" d={bogen(MUND[0], MUND[1], 19, 0)} /><path class="g-welle w3" d={bogen(MUND[0], MUND[1], 27, 0)} />
+      <path class="g-welle tief w1" d={bogen(OHR[0], OHR[1], 50, Math.PI, 0.42)} /><path class="g-welle tief w2" d={bogen(OHR[0], OHR[1], 59, Math.PI, 0.38)} />
+    </g>
+    <g class="g-person g-links"><path class="g-koerper" d={KOERPER} /><path class="g-rand" d={RAND_KOERPER} /><g class="g-kopf"><path d={KOPF} /><path class="g-rand" d={RAND_KOPF} /></g></g>
+    <g class="g-person g-rechts"><g transform="matrix(-1 0 0 1 440 0)"><path class="g-koerper" d={KOERPER} /><path class="g-rand" d={RAND_KOERPER} /><g class="g-kopf"><path d={KOPF} /><path class="g-rand" d={RAND_KOPF} /></g></g></g>
+    <g class="g-kiel"><g transform="translate(193.9 51.2) scale(0.9)"><path d={KIEL} /><path class="schaft" d="M5 62 L 46 11" /></g></g>
+  </svg>
+  <div class="g-namen"><span class="g-quelle">{ERST}</span><span class="g-ziel">{DANN}</span></div>
+  <span class="sr">{T.ui.bildDo}</span>
+  <figcaption class="claim">{T.fakten.claim}.</figcaption>
+</figure>
+<style>
+  .gespraech { position: relative; margin: 0; width: 100%; }
+  .gespraech svg { width: 100%; height: auto; overflow: visible; }
+  .g-person path { fill: url(#g-fuell); }
+  .g-person .g-rand { fill: none; stroke: url(#g-rand); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; stroke-opacity: 0.6; transition: stroke-opacity 0.6s ease, stroke-width 0.6s ease; }
+  .g-person:global(.g-glanz) .g-rand { stroke-opacity: 1; stroke-width: 2.4; }
+  .g-kiel path { fill: var(--logo); transition: fill 0.5s ease; }
+  .g-kiel .schaft { fill: none; stroke: var(--sand); stroke-width: 1.6; stroke-linecap: round; }
+  .g-kiel:global(.g-glanz) path:not(.schaft) { fill: #6e5020; }
+  .g-bahn { fill: none; stroke: var(--gold); stroke-width: 1.3; stroke-linecap: round; stroke-dasharray: 4 7; opacity: 0.5; }
+  .g-welle { fill: none; stroke: var(--gold); stroke-width: 1.8; stroke-linecap: round; }
+  .g-welle.tief { stroke: #c9a35b; }
+  .w1 { opacity: 0.9; } .w2 { opacity: 0.6; } .w3 { opacity: 0.35; }
+  .g-namen { position: relative; height: 1.2em; margin-top: 0.35rem; font: 600 clamp(1.3rem, 2.4vw, 1.75rem)/1 var(--serif); color: var(--text); }
+  .g-namen span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; transition: text-shadow 0.6s ease; }
+  .g-quelle { left: 21.8%; }
+  .g-ziel { left: 78.2%; }
+  .g-namen :global(.g-glanz) { text-shadow: 0 0 14px rgba(255, 244, 214, 0.95), 0 0 2px rgba(255, 244, 214, 0.9); }
+  .claim { margin: 1.2rem 0 0; text-align: center; font: italic 500 clamp(1.15rem, 2vw, 1.45rem)/1.35 var(--serif); color: var(--gold-dunkel); }
+  .gespraech :global(canvas) { position: absolute; pointer-events: none; }
+  /* Mit JS und Bewegung steuert gespraech.js das Erscheinen. Notfall: lädt das Skript nicht, erscheint alles nach 3,5 s. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .gespraech :is(.g-teil, .g-person, .g-kiel, .g-quelle, .g-ziel, .claim) { opacity: 0; }
+    :global(.js) .gespraech:not(:global(.g-bereit)) :is(.g-teil, .g-person, .g-kiel, .g-quelle, .g-ziel, .claim) { animation: g-notfall 0.6s ease 3.5s both; }
+    :global(.js) .gespraech:global(.g-fertig) :is(.g-teil, .g-person, .g-kiel, .g-quelle, .g-ziel, .claim) { opacity: 1; transition: opacity 0.5s linear; }
+    :global(.js) .gespraech:global(.g-aus) :is(.g-teil, .g-person, .g-kiel, .g-ziel, .claim, .g-quelle) { opacity: 0 !important; transition: opacity 0.6s ease !important; }
+    :global(.js) .gespraech:global(.g-bereit):not(:global(.g-fertig)) :is(.g-person, .g-kiel, .g-quelle, .g-ziel, .claim) { will-change: opacity, transform; }
+  }
+  @keyframes g-notfall { from { opacity: 0; } to { opacity: 1; } }
+</style>

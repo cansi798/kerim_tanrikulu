@@ -6,8 +6,9 @@ import Icon from "./Icon.astro";
 import { TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, mailLink } from "../daten";
 import { NAV_SEITEN, p, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
-interface Props { lang: Lang; seite: Seite | null }
-const { lang, seite } = Astro.props;
+// wechsel: eigene Ziele für den Sprachwechsel (Vergleichs-Variante /hero-variante/ bleibt in der Variante)
+interface Props { lang: Lang; seite: Seite | null; wechsel?: Record<Lang, string> }
+const { lang, seite, wechsel } = Astro.props;
 const T = t(lang);
 const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
 const sprachen: Lang[] = ["de", "tr"];
@@ -23,7 +24,7 @@ const sprachen: Lang[] = ["de", "tr"];
     <a class="anruf" href={TELEFON_LINK} title={markieren ? T.ui.telefonPruefen : undefined}><Icon name="telefon" /><span class:list={{ unbestaetigt: markieren }}>{TELEFON}</span></a>
     <nav class="sprache" aria-label={T.ui.sprache}>
       {sprachen.map((l) => (
-        <a href={p(l, seite ?? "start")} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined} title={T.ui.spracheName[l]}>
+        <a href={wechsel ? wechsel[l] : p(l, seite ?? "start")} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined} title={T.ui.spracheName[l]}>
           <span aria-hidden="true">{l.toUpperCase()}</span><span class="sr">{T.ui.spracheName[l]}</span>
         </a>
       ))}

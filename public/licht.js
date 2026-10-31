@@ -200,6 +200,9 @@
     }, { passive: true });
     el.addEventListener("pointerenter", function () { if (gestartet && !intro && !zug) neuerZug(); });
   }
+  // gemeinsamer Kern auch für weitere Szenen in eigenen Dateien (z. B. gespraech.js der Hero-Variante, Jamil 31.10.2026)
+  window.LichtKern = { Szene: Szene, GOLD: GOLD, klemm: klemm, bereich: bereich, ioc: ioc, oc: oc, buckel: buckel, qb: qb, setz: setz, frei: frei, glaenzen: glaenzen,
+    bild: function (n) { return n === "tief" ? TIEF : n === "weich" ? WEICH : HELL; } };
 
   // ---------- 1) Sprachbrücke ----------
   var fig = document.querySelector("[data-bruecke]");

@@ -24,15 +24,17 @@ interface Props {
   schema?: Record<string, unknown>[];
   /** Abschluss-Aufruf (aus auf Kontakt, Impressum, Datenschutz) */
   aufruf?: boolean;
+  /** Vergleichs-Variante der Startseite (/hero-variante/, Jamil 31.10.2026): immer noindex, canonical auf die echte Startseite, nicht in Sitemap/llms.txt */
+  variante?: boolean;
 }
-const { lang, seite, titel, beschreibung, schema = [], aufruf = true } = Astro.props;
+const { lang, seite, titel, beschreibung, schema = [], aufruf = true, variante = false } = Astro.props;
 const T = t(lang);
 const voll = titel ? `${titel} | ${TITEL_NAME}` : T.meta.titelStart;
 const text = beschreibung ?? T.meta.beschreibung;
-const kanon = new URL(Astro.url.pathname, Astro.site);
+const kanon = variante ? new URL(u(SEITEN.start[lang]), Astro.site) : new URL(Astro.url.pathname, Astro.site);
 const start = new URL(u("/"), Astro.site).href;
 const abs = (pfad: string) => new URL(u(pfad), Astro.site).href;
-const alternativen = seite ? (["de", "tr"] as Lang[]).map((l) => ({ l, href: abs(SEITEN[seite][l]) })) : [];
+const alternativen = seite && !variante ? (["de", "tr"] as Lang[]).map((l) => ({ l, href: abs(SEITEN[seite][l]) })) : [];
 const zeigeTrHinweis = lang === "tr" && !TR_GEPRUEFT;
 
 // Strukturierte Daten: nur belegte Angaben. Telefon erst nach Bestätigung.
@@ -91,12 +93,13 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
     <script is:inline src={u("/sichtbar.js")}></script>
     <!-- Licht-Szenen (Sprachbrücke, Dolmetschen; Can 31.10.2026) nur, wo sie vorkommen; defer = blockiert das Laden nicht -->
     {(seite === "start" || seite === "dolmetschen") && <script is:inline defer src={u("/licht.js")}></script>}
+    {variante && <script is:inline defer src={u("/gespraech.js")}></script>}
     <title>{voll}</title>
     <meta name="description" content={text} />
-    {VORSCHAU && <meta name="robots" content="noindex, nofollow" />}
+    {(VORSCHAU || variante) && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={kanon} />
     {alternativen.map((a) => <link rel="alternate" hreflang={a.l} href={a.href} />)}
-    {seite && <link rel="alternate" hreflang="x-default" href={abs(SEITEN[seite].de)} />}
+    {seite && !variante && <link rel="alternate" hreflang="x-default" href={abs(SEITEN[seite].de)} />}
     <meta name="theme-color" content="#ebe0cf" />
     <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
     <link rel="icon" href={u("/favicon-32.png")} sizes="32x32" type="image/png" />
@@ -128,7 +131,7 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
         <div class="huelle"><strong lang="de">{T.ui.trEntwurf.split(" (")[0]}</strong> ({T.ui.trEntwurf.split(" (")[1]}</div>
       </div>
     )}
-    <Kopf lang={lang} seite={seite} />
+    <Kopf lang={lang} seite={seite} wechsel={variante ? { de: u("/hero-variante/"), tr: u("/tr/hero-variante/") } : undefined} />
     <main id="inhalt">
       <slot />
       {aufruf && <Aufruf lang={lang} />}
