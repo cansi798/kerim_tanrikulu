@@ -1,5 +1,5 @@
 // Licht-Szenen (Can 31.10.2026: „viel krasser, Wow“) – Canvas 2D, selbst geschrieben, ohne Bibliothek, CSP-konform (eigene Datei).
-// Zwei Szenen mit gemeinsamem Kern:
+// Drei Szenen mit gemeinsamem Kern:
 //   1) Sprachbrücke im Hero der Startseite [data-bruecke] – Sinnbild Übersetzen (ca. 3,5 s):
 //      Ufer leuchten auf → der Bogen wächst aus Licht von beiden Ufern und trifft sich in der Mitte → Hänger, Innenbogen, Spiegelung →
 //      Lichtteilchen lösen sich aus dem Wort links, wandern über den Bogen und setzen sich rechts zum Wort der anderen Sprache zusammen → Leitsatz.
@@ -8,6 +8,7 @@
 //   2) Dolmetschen [data-dolmetschen] – der Ablauf eines Gesprächs (ca. 3,5 s):
 //      Deutsch „spricht“ (goldene Schallwellen) → die Worte fließen als helles Licht zum Federkiel → dort Aufleuchten, Verwandlung in tiefes Gold →
 //      sie kommen als neue Wellen bei Türkisch an → kurze Antwort zurück. Wiederholt sich wie die Brücke (alle 14 s, beim Wiederkommen).
+//   3) Ablauf „So einfach geht's“ [data-ablauf] (v5, Can 31.10.2026 10:43): Licht zieht von Schritt zu Schritt (ca. 3,3 s).
 // Ohne JS: fertiges Standbild (SVG/HTML). „Bewegung reduzieren“: dasselbe Standbild blendet beim ersten Sichtbarwerden nur sanft ein
 // (1 s, keine Bewegung, keine Wiederholung). Texte bleiben echter Text, Canvas ist aria-hidden.
 // Die Intro beginnt erst, wenn die Szene wirklich im Bild ist (mind. die Hälfte), und läuft dann ganz ab, auch beim Weiterscrollen;
@@ -16,7 +17,7 @@
 (function () {
   if (!window.requestAnimationFrame) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { // sanfte Kurzfassung: nur Einblenden, keine Bewegung
-    [["[data-bruecke]", ".b-teil, .b-ziel, .claim"], ["[data-dolmetschen]", ".links, .rechts, .kiel"]].forEach(function (z) {
+    [["[data-bruecke]", ".b-teil, .b-ziel, .claim"], ["[data-dolmetschen]", ".links, .rechts, .kiel"], ["[data-ablauf]", ".a-schritt, .a-linie"]].forEach(function (z) {
       document.querySelectorAll(z[0]).forEach(function (el) {
         var teile = el.querySelectorAll(z[1]);
         if (!teile.length || !("IntersectionObserver" in window)) return;
@@ -229,10 +230,6 @@
     function endbild() {
       fertig = true; fig.classList.add("b-fertig"); frei(ziel); frei(claim); if (quelle) quelle.classList.remove("b-glanz");
     }
-    function strichAufAnfang() { // Tintenstrich unter dem Leitsatz wieder auf Anfang (zieht sich beim nächsten Endbild neu)
-      if (!claim) return;
-      claim.querySelectorAll(".tinte path").forEach(function (p) { if (p.getAnimations) p.getAnimations().forEach(function (a) { try { a.currentTime = 0; } catch (e) {} }); });
-    }
     Szene(fig, {
       name: "b", pad: 30, spaet: 3300,
       messen: function (s) {
@@ -316,7 +313,7 @@
       ende: function () { teile = []; endbild(); },
       ausblenden: function () { fig.classList.add("b-aus"); },
       zuruecksetzen: function () {
-        fertig = false; teile = []; strichAufAnfang();
+        fertig = false; teile = [];
         fig.classList.remove("b-fertig", "b-aus"); if (ziel) ziel.style.opacity = "0"; setz(claim, 0, 12);
       },
       zug: function (s, z) { // Lichtzug: heller Kopf mit Funkenschweif, am Ziel ein kurzer Glanz auf dem Wort
@@ -417,6 +414,74 @@
         wellen(s, z.hin ? RB : RA, 1.4, z.t, 0.8);
         if (!z.an && z.t > 1.45) { z.an = true; glaenzen(z.hin ? rechts : links, "d-glanz"); }
         return zeichneStrom(s, z.t) || z.t < 2.4;
+      },
+    });
+  });
+
+  // ---------- 3) Ablauf „So einfach geht's“ (Can 31.10.2026 10:43): Licht zieht von Schritt zu Schritt ----------
+  // Schritt 1 leuchtet auf → ein Lichtpunkt zieht die goldene Linie zu Schritt 2 → Aufleuchten, Schritt 2 erscheint → weiter zu Schritt 3 →
+  // großes warmes Aufleuchten (Ergebnis) → Übergabe an die fertige Leiste (ca. 3,3 s). Wiederholung und Neustart wie bei der Brücke.
+  document.querySelectorAll("[data-ablauf]").forEach(function (el) {
+    var schritte = Array.prototype.slice.call(el.querySelectorAll(".a-schritt")), kreise = schritte.map(function (x) { return x.querySelector(".a-kreis"); });
+    if (schritte.length < 2 || kreise.some(function (k) { return !k; })) return;
+    var P = [], R = 0, fertig = false, an = {};
+    var ANK = [0.25, 1.4, 2.6]; // Ankunftszeiten des Lichts je Schritt (s)
+    function bahn(k) { // Punkt bei Anteil k (0…1) der ganzen Linie
+      var n = P.length - 1, f = klemm(k) * n, i = M.min(n - 1, f | 0), u = f - i;
+      return [P[i][0] + (P[i + 1][0] - P[i][0]) * u, P[i][1] + (P[i + 1][1] - P[i][1]) * u];
+    }
+    function strich(s, von, bis, a) { // goldene Linie von Anteil von bis Anteil bis
+      if (bis <= von || a <= 0.01) return;
+      var p = bahn(von), q = bahn(bis), ctx = s.ctx;
+      ctx.globalAlpha = a; ctx.strokeStyle = GOLD; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); ctx.stroke();
+    }
+    function aufleuchten(s, i, t0, t, gross) { // Ankunft: Licht hinter dem Kreis, feiner Ring, Funken
+      var k = bereich(t, t0, t0 + 0.9);
+      if (k <= 0 || k >= 1) return;
+      var c = P[i], e = oc(k);
+      if (gross) s.punkt(c[0], c[1], R * (2.2 + e), (1 - k) * 0.6, WEICH);
+      s.punkt(c[0], c[1], R * (0.9 + 0.7 * e), (1 - k) * 0.95);
+      s.ctx.globalAlpha = (1 - k) * 0.5; s.ctx.strokeStyle = GOLD; s.ctx.lineWidth = 1.2; s.ctx.beginPath(); s.ctx.arc(c[0], c[1], R * (1 + e * (gross ? 1.4 : 0.9)), 0, 7); s.ctx.stroke();
+    }
+    function endbild() { fertig = true; el.classList.add("a-fertig"); schritte.forEach(frei); }
+    Szene(el, {
+      name: "a", pad: 40, spaet: 3300, unten: true,
+      messen: function (s) {
+        P = kreise.map(function (k) { var r = s.rel(k); return [r.x + r.w / 2, r.y + r.h / 2]; });
+        R = s.rel(kreise[0]).w / 2;
+      },
+      vorbereiten: function () { an = {}; },
+      intro: function (s, t) {
+        var aus = 1 - bereich(t, 3.0, 3.5), n = P.length - 1;
+        // Linie wächst mit dem Lichtkopf: Kopf fährt zwischen den Ankunftszeiten von Kreis zu Kreis
+        var kopf = 0;
+        for (var i = 0; i < n; i++) { var a = ANK[i] + 0.3, b = ANK[i + 1]; if (t >= a) kopf = (i + ioc(bereich(t, a, b))) / n; }
+        strich(s, 0, kopf, aus);
+        var fahrt = false;
+        for (var j = 0; j < n; j++) if (t > ANK[j] + 0.3 && t < ANK[j + 1]) fahrt = true;
+        if (fahrt) {
+          var h = bahn(kopf); s.punkt(h[0], h[1], s.schmal ? 9 : 12, 1);
+          if (M.random() < 0.8) s.funke(h[0], h[1], 14, M.random() < 0.35 ? TIEF : HELL);
+        }
+        for (var k = 0; k < P.length; k++) {
+          aufleuchten(s, k, ANK[k], t, k === P.length - 1);
+          if (t >= ANK[k] && !an[k]) { an[k] = 1; glaenzen(kreise[k], "a-glanz"); for (var f = 0; f < (k === P.length - 1 ? 14 : 8); f++) s.funke(P[k][0], P[k][1], 40, f % 2 ? TIEF : HELL); }
+          if (!fertig) { var e = oc(bereich(t, ANK[k] - 0.15, ANK[k] + 0.4)); setz(schritte[k], e, (1 - e) * 14); }
+        }
+        if (t >= 3.3 && !fertig) endbild();
+        return t < 3.6;
+      },
+      ende: function () { endbild(); },
+      ausblenden: function () { el.classList.add("a-aus"); },
+      zuruecksetzen: function () {
+        fertig = false; an = {}; el.classList.remove("a-fertig", "a-aus");
+        schritte.forEach(function (x) { setz(x, 0, 14); });
+      },
+      zug: function (s, z) { // beim Darüberfahren: ein Lichtpunkt läuft die Linie entlang, kurzer Glanz am Ziel
+        var k = klemm(z.t / 1.6), p = bahn(z.hin ? ioc(k) : 1 - ioc(k));
+        if (k < 1) { s.punkt(p[0], p[1], s.schmal ? 8 : 11, M.min(1, k * 6)); if (M.random() < 0.7) s.funke(p[0], p[1], 10); }
+        if (k >= 1 && !z.an) { z.an = true; glaenzen(kreise[z.hin ? kreise.length - 1 : 0], "a-glanz"); }
+        return !(k >= 1 && z.t > 2.2);
       },
     });
   });
