@@ -1,0 +1,66 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import BildDolmetschen from "../components/BildDolmetschen.astro";
+import Platzhalter from "../components/Platzhalter.astro";
+import { TELEFON_LINK, mailLink } from "../daten";
+import { p, type Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+const S = T.seiten.dolmetschen;
+---
+<Basis lang={lang} seite="dolmetschen" titel={T.meta.dolmetschen.titel} beschreibung={T.meta.dolmetschen.beschreibung}>
+  <SeitenKopf titel={T.leistungen.doTitel} zeile={S.zeile}>
+    <p class="lead">{T.fakten.freude}</p>
+    <BildDolmetschen slot="bild" lang={lang} />
+  </SeitenKopf>
+
+  <section class="abschnitt" aria-labelledby="beeidigt-titel">
+    <div class="huelle raster-2">
+      <h2 id="beeidigt-titel">{S.beeidigtTitel}</h2>
+      <div><p class="lead">{T.fakten.beeidigtSatz}</p></div>
+    </div>
+  </section>
+
+  <section class="abschnitt weiss" aria-labelledby="unterschied-titel">
+    <div class="huelle raster-2">
+      <h2 id="unterschied-titel">{S.unterschiedTitel}</h2>
+      <div>
+        <p class="lead">{S.unterschiedText}</p>
+        <a class="weiter" href={p(lang, "ratgeber", "#dolmetscher-uebersetzer")}>{T.ratgeber.teaserLink}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="anfrage-titel">
+    <div class="huelle raster-2">
+      <h2 id="anfrage-titel">{T.seiten.uebersetzungen.anfrageTitel}</h2>
+      <div>
+        <p class="lead">{T.seiten.uebersetzungen.anfrageText}</p>
+        <div class="knoepfe">
+          <a class="knopf" href={mailLink(T.ui.anfrageBetreffDo)}>{T.ui.anfrage}</a>
+          <a class="knopf rahmen" href={TELEFON_LINK}>{T.ui.anrufen}</a>
+        </div>
+        <p class="honorar leise">{T.fakten.honorar}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt weiss" aria-labelledby="erfahrung-titel">
+    <div class="huelle raster-2">
+      <h2 id="erfahrung-titel">{S.erfahrungTitel}</h2>
+      <div>
+        <p>{T.fakten.erfahrungEinleitung}</p>
+        <ul class="strichliste">{T.fakten.erfahrungen.map((e) => <li>{e}</li>)}</ul>
+        <Platzhalter lang={lang}>{S.platzhalter}</Platzhalter>
+        <p class="mt"><a class="weiter" href={p(lang, "ueber")}>{S.ueberLink}</a></p>
+      </div>
+    </div>
+  </section>
+</Basis>
+<style>
+  .honorar { margin: 2rem 0 0; max-width: 46rem; }
+  .mt { margin-top: 1.5rem; }
+</style>

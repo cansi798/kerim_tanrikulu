@@ -1,5 +1,8 @@
 ---
 // Sichtbarer Platzhalter, nur in der Vorschau (R03: Hinweise an den Vorschau-Schalter gekoppelt).
 import { VORSCHAU } from "../daten";
+import type { Lang } from "../i18n";
+interface Props { lang?: Lang }
+const wort = Astro.props.lang === "tr" ? "Yer tutucu:" : "Platzhalter:";
 ---
-{VORSCHAU && <p class="platzhalter"><strong>Platzhalter:</strong> <slot /></p>}
+{VORSCHAU && <p class="platzhalter"><strong>{wort}</strong> <slot /></p>}

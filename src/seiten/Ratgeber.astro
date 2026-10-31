@@ -1,0 +1,91 @@
+---
+// Ratgeber (neu in v4, Can 31.10.2026): allgemeines Wissen, das für jeden allgemein beeidigten Dolmetscher und
+// ermächtigten Übersetzer in Deutschland gilt. Als Wissen formuliert, nicht als Leistungsversprechen; sichtbarer Hinweis
+// „keine Rechtsberatung“. Was nur Kerim beantworten kann (Preise, Fristen, Ablauf, Versand), bleibt Platzhalter (OFFENE-INFOS).
+// Je Kapitel bekommt EIN Kernbegriff einen Tintenstrich, wenn das Kapitel ins Bild kommt.
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Platzhalter from "../components/Platzhalter.astro";
+import Markiert from "../components/Markiert.astro";
+import Tinte from "../components/Tinte.astro";
+import Icon from "../components/Icon.astro";
+import { p, type Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+// Absätze in Teile zerlegen, damit der Kernbegriff (erstes Vorkommen) markiert werden kann
+const kapitel = T.ratgeber.kapitel.map((k) => {
+  let gefunden = false;
+  const absaetze = k.absaetze.map((a) => {
+    const i = gefunden ? -1 : a.indexOf(k.begriff);
+    if (i < 0) return { vor: a, begriff: "", nach: "" };
+    gefunden = true;
+    return { vor: a.slice(0, i), begriff: k.begriff, nach: a.slice(i + k.begriff.length) };
+  });
+  return { ...k, teile: absaetze };
+});
+const schema = [{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  inLanguage: lang,
+  mainEntity: T.ratgeber.kapitel.map((k) => ({ "@type": "Question", name: k.frage, acceptedAnswer: { "@type": "Answer", text: k.absaetze.join(" ") } })),
+}];
+---
+<Basis lang={lang} seite="ratgeber" titel={T.meta.ratgeber.titel} beschreibung={T.meta.ratgeber.beschreibung} schema={schema}>
+  <SeitenKopf titel={T.ratgeber.seitenTitel} zeile={T.ratgeber.eyebrow}>
+    <p class="lead">{T.ratgeber.seitenText}</p>
+  </SeitenKopf>
+
+  <section class="abschnitt" aria-label={T.ratgeber.seitenTitel}>
+    <div class="huelle rat-raster">
+      <nav class="inhalt" aria-label={T.ratgeber.inhalt}>
+        <p class="inhalt-kopf">{T.ratgeber.inhalt}</p>
+        <ol>
+          {kapitel.map((k) => <li><a href={`#${k.id}`}>{k.frage}</a></li>)}
+        </ol>
+      </nav>
+      <div class="kapitel-liste">
+        <aside class="hinweis" data-szene>
+          <span class="klammer"><Tinte art="klammer" b={18} h={120} seed={71} staerke={1.6} dauer="mittel" v={2} /></span>
+          <Icon name="frage" />
+          <p>{T.ui.rechtHinweis}</p>
+        </aside>
+        {kapitel.map((k) => (
+          <article class="kapitel reveal" id={k.id} aria-labelledby={`${k.id}-t`}>
+            <h2 id={`${k.id}-t`}>{k.frage}</h2>
+            {k.teile.map((teil) => (
+              <p>{teil.vor}{teil.begriff && <Markiert seed={k.id.length * 7} v={3}>{teil.begriff}</Markiert>}{teil.nach}</p>
+            ))}
+          </article>
+        ))}
+        <Platzhalter lang={lang}>{T.ratgeber.platzhalter}</Platzhalter>
+        <p class="weiter-links">
+          <a class="weiter" href={p(lang, "themen")}>{T.themen.teaserLink}</a>
+          <a class="weiter" href={p(lang, "fragen")}>{T.fragen.alle}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Basis>
+<style>
+  .rat-raster { display: grid; gap: 2rem; }
+  @media (min-width: 62rem) { .rat-raster { grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); gap: 4rem; align-items: start; } }
+  .inhalt { padding: 1.25rem 1.4rem; background: var(--weiss); border: 1px solid var(--linie); border-radius: 16px; }
+  @media (min-width: 62rem) { .inhalt { position: sticky; top: calc(var(--kopf-h) + 1.5rem); } }
+  .inhalt-kopf { font: 600 0.95rem/1.4 var(--sans); color: var(--gold-dunkel); margin-bottom: 0.5rem; }
+  .inhalt ol { margin: 0; padding-left: 1.2rem; font-size: 0.98rem; line-height: 1.45; }
+  .inhalt li { margin: 0.45rem 0; }
+  .inhalt a { color: var(--tinte); text-decoration: none; }
+  .inhalt a:hover { text-decoration: underline; text-decoration-color: var(--gold); }
+  .kapitel-liste { max-width: 46rem; }
+  .hinweis { position: relative; display: flex; gap: 0.75rem; align-items: flex-start; margin: 0 0 2.5rem; padding: 1rem 1.25rem 1rem 1.75rem; background: var(--weiss); border-radius: 6px; }
+  .hinweis p { margin: 0; font-weight: 500; }
+  .hinweis :global(svg.icon) { width: 1.3rem; height: 1.3rem; flex: none; margin-top: 0.2rem; color: var(--gold-dunkel); }
+  .klammer { position: absolute; left: 0.35rem; top: 0.4rem; bottom: 0.4rem; width: 12px; }
+  .klammer :global(.tinte) { inset: 0; width: 100%; height: 100%; }
+  .kapitel { padding: 2rem 0; border-top: 1px solid var(--linie); }
+  .kapitel h2 { font-size: clamp(1.45rem, 2.6vw, 1.9rem); }
+  .kapitel p { max-width: 42em; }
+  .weiter-links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 2rem; }
+</style>

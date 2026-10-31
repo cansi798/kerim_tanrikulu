@@ -3,18 +3,21 @@
 // ein klar markierter Platzhalter im selben Format (4:5), damit das Foto später 1:1 eingesetzt werden kann
 // (PORTRAIT in daten.ts setzen). Live ohne Foto: nichts anzeigen.
 import { PORTRAIT, VORSCHAU, NAME, u } from "../daten";
-interface Props { klein?: boolean }
-const { klein = false } = Astro.props;
+import type { Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { klein?: boolean; lang: Lang }
+const { klein = false, lang } = Astro.props;
+const T = t(lang);
 const zeigen = PORTRAIT || VORSCHAU;
 ---
 {zeigen && (
   <figure class:list={["portrait", { klein }]}>
     {PORTRAIT ? (
-      <img src={u(PORTRAIT)} alt={`Portrait von ${NAME}`} width="800" height="1000" loading="eager" decoding="async" />
+      <img src={u(PORTRAIT)} alt={T.ui.portraitAlt} width="800" height="1000" loading="eager" decoding="async" />
     ) : (
-      <div class="platz" role="img" aria-label="Platzhalter: Portrait von Kerim folgt">
-        <span class="hinweis">Portrait von Kerim folgt</span>
-        <span class="format">Format 4 : 5, z. B. 800 × 1000 px</span>
+      <div class="platz" role="img" aria-label={`${T.ui.platzhalter} ${T.ui.portraitFolgt}`}>
+        <span class="hinweis">{T.ui.portraitFolgt}</span>
+        <span class="format">{T.ui.portraitFormat}</span>
       </div>
     )}
     <figcaption>{NAME}</figcaption>

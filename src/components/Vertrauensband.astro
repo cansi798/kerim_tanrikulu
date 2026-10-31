@@ -2,15 +2,14 @@
 // Vertrauensleiste direkt unter dem Hero nach Bauwelt-Muster (dunkle Leiste, vier goldene Ringe; Jamil Talk 3910).
 // Nur Angaben der bestehenden Website. Ringe stehen still (kein Zeichnen), die Punkte gleiten nacheinander ein.
 import Icon from "./Icon.astro";
-import { GERICHT, SEIT } from "../daten";
-const punkte = [
-  { icon: "schild", text: "Allgemein beeidigter Dolmetscher" },
-  { icon: "dokument", text: "Ermächtigter Übersetzer" },
-  { icon: "urteil", text: GERICHT },
-  { icon: "kalender", text: `Seit ${SEIT}` },
-] as const;
+import type { Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const T = t(Astro.props.lang);
+const icons = ["schild", "dokument", "urteil", "kalender"] as const;
+const punkte = T.band.map((text, i) => ({ icon: icons[i], text }));
 ---
-<section class="band" aria-label="Qualifikation auf einen Blick" data-szene>
+<section class="band" aria-label={T.bandLabel} data-szene>
   <div class="huelle">
     <ul>
       {punkte.map((p, i) => (

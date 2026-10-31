@@ -1,0 +1,127 @@
+---
+// Themen (neu in v4, Can 31.10.2026): typische Dokumente in beide Richtungen (TR→DE, DE→TR).
+// Allgemeine Übersicht, KEIN Versprechen, dass Herr Tanrikulu jede Art übernimmt. Seine eigenen Beispiele von der bisherigen
+// Website stehen wörtlich im Kasten „Laut Herrn Tanrikulu“ (Tintenrahmen) und sind in den Listen mit Tinte unterstrichen.
+// Themenliste von Kerim bestätigen/kürzen lassen (OFFENE-INFOS).
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Tinte from "../components/Tinte.astro";
+import Markiert from "../components/Markiert.astro";
+import Richtung from "../components/Richtung.astro";
+import Icon from "../components/Icon.astro";
+import { mailLink, TELEFON_LINK } from "../daten";
+import { p, type Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+const anderer = lang === "de" ? "tr" : "de";
+const richtungen = [
+  { id: "tr-de", ...T.themen.trde },
+  { id: "de-tr", ...T.themen.detr },
+];
+---
+<Basis lang={lang} seite="themen" titel={T.meta.themen.titel} beschreibung={T.meta.themen.beschreibung}>
+  <SeitenKopf titel={T.themen.titel} zeile={T.themen.eyebrow}>
+    <p class="lead">{T.themen.text}</p>
+    <div slot="bild" class="kopf-bild" data-szene aria-hidden="true">
+      <span class="ufer-k">TR</span>
+      <span class="kopf-pfeil"><Tinte art="pfeil" farbe="gold" b={170} h={34} seed={27} staerke={1.8} v={3} dauer="lang" /></span>
+      <span class="ufer-k">DE</span>
+    </div>
+  </SeitenKopf>
+
+  <section class="abschnitt" aria-labelledby="laut-titel">
+    <div class="huelle">
+      <figure class="laut" data-szene>
+        <Tinte art="rahmen" b={900} h={210} seed={51} staerke={1.4} dauer="lang" class="laut-rahmen" />
+        <h2 id="laut-titel" class="laut-kopf">{T.themen.laut}</h2>
+        <blockquote><p>„{T.fakten.dokumenteSatz}“</p></blockquote>
+        <ul class="laut-liste">
+          {T.fakten.dokumente.map((d) => <li><Icon name={d.icon as any} />{d.text}</li>)}
+        </ul>
+      </figure>
+      <nav class="sprung" aria-label={T.themen.titel}>
+        {richtungen.map((r) => <a href={`#${r.id}`}><Richtung text={r.kopf} /></a>)}
+      </nav>
+    </div>
+  </section>
+
+  {richtungen.map((r, ri) => (
+    <section class:list={["abschnitt", ri === 0 ? "weiss" : "sand"]} id={r.id} aria-labelledby={`${r.id}-titel`}>
+      <div class="huelle">
+        <div class="section-head reveal">
+          <span class="eyebrow"><Richtung text={r.kopf} /></span>
+          <h2 id={`${r.id}-titel`} class="regel">{r.titel}</h2>
+        </div>
+        <div class="gruppen">
+          {r.gruppen.map((g, gi) => (
+            <article class="gruppe reveal">
+              <h3>{g.titel}</h3>
+              <ul data-szene>
+                {g.eintraege.map((e, i) => (
+                  <li>
+                    {e.kerim ? <Markiert szene={false} seed={60 + ri * 20 + gi * 4 + i} v={Math.min(i * 2, 6)} dauer="kurz">{e.text}</Markiert> : <span>{e.text}</span>}
+                    <span class="zweit" lang={anderer}>{e.tr}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="abschnitt" aria-label={T.ui.rechtHinweis}>
+    <div class="huelle schmal">
+      <p class="legende"><span class="legende-strich" aria-hidden="true"></span>{T.themen.legende}</p>
+      <p class="hinweis"><Icon name="frage" />{T.ui.rechtHinweis}</p>
+      <p class="lead">{T.themen.hinweisAnfrage}</p>
+      <div class="knoepfe">
+        <a class="knopf" href={mailLink(T.ui.anfrageBetreffUe)}>{T.ui.anfrage}</a>
+        <a class="knopf rahmen" href={TELEFON_LINK}>{T.ui.anrufen}</a>
+        <a class="weiter" href={p(lang, "ratgeber")}>{T.ratgeber.teaserLink}</a>
+      </div>
+    </div>
+  </section>
+</Basis>
+<style>
+  .kopf-bild { display: flex; align-items: center; justify-content: center; gap: 1rem; padding-block: 1rem; }
+  .ufer-k { display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%; border: 1px solid var(--gold); background: var(--creme); font: 600 1.35rem/1 var(--serif); color: var(--tinte); }
+  .kopf-pfeil { position: relative; width: 10rem; height: 34px; }
+  .kopf-pfeil :global(.tinte) { inset: 0; width: 100%; height: 100%; }
+
+  .laut { position: relative; margin: 0 auto; max-width: 56rem; padding: clamp(1.75rem, 4vw, 2.75rem); background: var(--weiss); border-radius: 6px; }
+  .laut :global(.laut-rahmen) { left: -8px; top: -8px; width: calc(100% + 16px); height: calc(100% + 16px); }
+  .laut-kopf { font-size: clamp(1.4rem, 2.4vw, 1.75rem); margin-bottom: 0.75rem; }
+  .laut blockquote { margin: 0 0 1.5rem; }
+  .laut blockquote p { margin: 0; font: italic 500 clamp(1.15rem, 2vw, 1.35rem)/1.55 var(--serif); color: var(--tinte); }
+  .laut-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .laut-liste li { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.9rem; border: 1px solid var(--linie); border-radius: 999px; background: var(--buetten); font-size: 0.98rem; }
+  .laut-liste :global(svg) { width: 1.15rem; height: 1.15rem; color: var(--gold-dunkel); }
+  .sprung { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 2.5rem; }
+  .sprung a { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0.5rem 1.25rem; border: 1px solid var(--gold); border-radius: 999px; color: var(--tinte); text-decoration: none; font-weight: 600; }
+  .sprung a:hover { background: var(--tinte); color: var(--weiss); }
+
+  .sand { background: var(--sand); }
+  .gruppen { display: grid; gap: 1.25rem; }
+  @media (min-width: 48rem) { .gruppen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .gruppe { background: var(--weiss); border: 1px solid var(--linie); border-radius: 16px; padding: clamp(1.4rem, 3vw, 1.9rem); }
+  .sand .gruppe { border-color: var(--tinte-3); }
+  .gruppe h3 { font-size: 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--gold); display: inline-block; }
+  .gruppe ul { list-style: none; margin: 0; padding: 0; }
+  .gruppe li { display: flex; flex-direction: column; gap: 0.1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--linie); font-weight: 500; }
+  .gruppe li:last-child { border-bottom: 0; }
+  .gruppe :global(.markiert) { align-self: flex-start; }
+  .zweit { font-size: 0.9rem; color: var(--text-leise); font-weight: 400; }
+  .gruppen > :global(.reveal:nth-child(2)) { transition-delay: 120ms; }
+  .gruppen > :global(.reveal:nth-child(3)) { transition-delay: 220ms; }
+  .gruppen > :global(.reveal:nth-child(4)) { transition-delay: 320ms; }
+
+  .legende { display: flex; align-items: center; gap: 0.75rem; color: var(--text-leise); font-size: 0.95rem; }
+  .legende-strich { flex: none; width: 2.25rem; height: 2px; border-radius: 2px; background: var(--logo); transform: rotate(-4deg); }
+  .hinweis { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.95rem; color: var(--text-leise); }
+  .hinweis :global(svg) { width: 1.2rem; height: 1.2rem; flex: none; margin-top: 0.2rem; color: var(--gold-dunkel); }
+  .knoepfe { align-items: center; gap: 0.85rem 1.25rem; }
+</style>

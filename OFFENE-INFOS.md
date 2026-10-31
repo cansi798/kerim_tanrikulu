@@ -1,6 +1,6 @@
 # Offene Infos – das brauchen wir vom Kunden
 
-Stand: 31.10.2026 (Design v3c nach Jamil Talk 3904/3907: Beige statt Violett, bisheriges Logo). Grundregel: Auf der Seite steht nur, was auf der bisherigen Website steht. In der Vorschau sind diese Stellen rot gestrichelt markiert.
+Stand: 31.10.2026 (Design v4: animierte Startseite, Deutsch/Türkisch, Themen, Ratgeber). Grundregel: Auf der Seite steht nur, was auf der bisherigen Website steht. In der Vorschau sind diese Stellen rot gestrichelt markiert.
 
 ## Vor dem Livegang nötig
 
@@ -25,11 +25,16 @@ Stand: 31.10.2026 (Design v3c nach Jamil Talk 3904/3907: Beige statt Violett, bi
 16. **Weitere häufige Fragen** mit seinen Antworten.
 17. **Eintrag im Justiz-Verzeichnis:** Darf die Seite darauf verweisen?
 18. **Google-Unternehmensprofil:** vorhanden? Sonst anlegen, mit denselben Kontaktdaten wie auf der Website.
-19. **Türkische Fassung der Website** gewünscht? (Dann auch Impressum und Datenschutz auf Türkisch.)
+19. **Türkische Fassung prüfen (v4):** Alle Seiten gibt es jetzt auch auf Türkisch unter `/tr/`. Die Texte sind ein **Entwurf**; jede türkische Seite zeigt den Hinweis „Türkische Fassung: Entwurf – bitte von Herrn Tanrikulu prüfen“. Herr Tanrikulu ist selbst Übersetzer: bitte jede Zeile prüfen, besonders die Fachbegriffe (genel yeminli tercüman, yetkili mütercim, onaylı çeviri, Schleswig Eyalet Yüksek Mahkemesi für Oberlandesgericht Schleswig) und die Übersetzung seiner eigenen Sätze. Schreibweise des Namens im Türkischen (Tanrikulu oder Tanrıkulu?) bestätigen. Nach der Freigabe in `src/i18n.ts` `TR_GEPRUEFT = true` setzen. Impressum und Datenschutz stehen auf den türkischen Seiten bewusst auf Deutsch (bindende Fassung) mit türkischem Hinweis.
 20. **Sprachrichtungen bestätigen:** Übersetzt er beide Richtungen (Türkisch → Deutsch und Deutsch → Türkisch)? Die Seite nennt wie die alte Seite nur „die türkische und deutsche Sprache“.
 21. **Kontaktformular:** Jamils Konzept nennt eines, die Vorschau hat bewusst keins (nur Telefon und E-Mail, kein Fremddienst). Wenn gewünscht: eigener Versand mit Spamschutz und Datenschutz-Abschnitt.
 
 22. **Claim bestätigen:** Auf der Startseite steht „Brücken bauen zwischen den Sprachen“ (Jamils Wortlaut, Talk 3904). Kerims eigener Satz auf der bisherigen Seite lautet: „Ich verstehe meine Arbeit als eine Form von Brückenbildung zwischen den Kulturen.“ Welchen Wortlaut möchte er?
+
+23. **Themenliste bestätigen oder kürzen (v4):** Die Seite „Themen“ zeigt typische Dokumente in beide Richtungen (türkische Dokumente für deutsche Stellen, deutsche Dokumente für türkische Stellen). Das ist eine allgemeine Übersicht, kein Versprechen. Mit Tinte unterstrichen sind nur Arten, die Kerim auf seiner Seite selbst nennt. Bitte mit ihm durchgehen: Was soll bleiben, was fehlt, was übernimmt er nicht (z. B. Führerschein, Erbschein, Vollmachten, Renten- und Arbeitsunterlagen)?
+24. **Ratgeber-Texte prüfen (v4):** Allgemeine Informationen (beglaubigte Übersetzung und Bestätigungsvermerk, Dolmetscher und Übersetzer, Original oder Kopie, Apostille, Formül A/B/C, Anerkennung in der Türkei, Namen mit türkischen Buchstaben, JVEG). Sichtbar als „Allgemeine Information, keine Rechtsberatung“ markiert. Kerim soll fachlich gegenlesen.
+25. **Was nur Kerim beantworten kann** (im Ratgeber als Platzhalter): Preise im Einzelfall, Bearbeitungszeit, Ablauf eines Auftrags, Versand von Unterlagen per Post oder E-Mail (Fernübersetzung).
+26. **„Was ihn auszeichnet“ prüfen (v4):** Startseiten-Abschnitt mit belegten Fakten (beeidigt und ermächtigt, OLG Schleswig seit Mai 2021, fünf genannte Stationen, JVEG, Studienaufenthalt in der Türkei, Hamburg/Schleswig-Holstein). Wortlaut „Mündlich und schriftlich aus einer Hand“ freigeben lassen.
 
 ## Von der Seite genommen (Talk 3904), erst nach Bestätigung wieder möglich
 

@@ -1,0 +1,21 @@
+---
+// Wort oder kurze Wendung mit Tinten-Notiz (rough.js beim Bauen, siehe Tinte.astro): Unterstrich oder Handkreis.
+// szene=true: startet selbst, sobald sichtbar. szene=false: startet mit dem umgebenden [data-szene].
+import Tinte from "./Tinte.astro";
+interface Props {
+  art?: "strich" | "kreis";
+  seed?: number;
+  farbe?: "tinte" | "gold";
+  v?: number;
+  dauer?: "kurz" | "mittel" | "lang";
+  szene?: boolean;
+  /** ungefähres Seitenverhältnis (Breite in viewBox-Einheiten) für Kreise */
+  b?: number;
+  class?: string;
+}
+const { art = "strich", seed = 5, farbe = "tinte", v = 0, dauer = "mittel", szene = true, b, class: klasse } = Astro.props;
+---
+<span class:list={["markiert", `m-${art}`, klasse]} data-szene={szene ? "" : undefined}><slot /><Tinte
+  art={art} seed={seed} farbe={farbe} v={v} dauer={dauer}
+  b={b ?? (art === "kreis" ? 160 : 200)} h={art === "kreis" ? 48 : 10} staerke={art === "kreis" ? 1.5 : 1.6}
+/></span>

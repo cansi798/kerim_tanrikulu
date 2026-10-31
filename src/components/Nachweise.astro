@@ -1,7 +1,10 @@
 ---
 // Vertrauensbereich: links Überschrift (Slot), rechts die Angaben der bestehenden Website (Zeilen erscheinen nacheinander, 1 s).
 // Bewusst kein Siegel-Motiv (Jamil Talk 3904: „Behördensiegel – nicht vorhanden“).
-import { NACHWEISE } from "../daten";
+import type { Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const NACHWEISE = t(Astro.props.lang).fakten.nachweise;
 ---
 <div class="nachweise" data-szene>
   <div class="links">

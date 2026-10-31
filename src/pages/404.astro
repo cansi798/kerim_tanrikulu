@@ -1,10 +1,19 @@
 ---
+// 404 zweisprachig (GitHub Pages liefert nur eine 404.html aus)
 import Basis from "../layouts/Basis.astro";
-import SeitenKopf from "../components/SeitenKopf.astro";
-import { u } from "../daten";
+import { p } from "../i18n";
+import { t } from "../texte";
+const D = t("de"), R = t("tr");
 ---
-<Basis titel="Seite nicht gefunden">
-  <SeitenKopf titel="Diese Seite gibt es nicht">
-    <p class="lead">Vielleicht hat sich die Adresse geändert. Zur <a href={u("/")}>Startseite</a> oder direkt zum <a href={u("/kontakt/")}>Kontakt</a>.</p>
-  </SeitenKopf>
+<Basis lang="de" seite={null} titel={D.meta.nichtGefunden.titel} beschreibung={D.meta.nichtGefunden.beschreibung}>
+  <header class="seitenkopf-404 dunkel">
+    <div class="huelle">
+      <h1>{D.seiten.nichtGefunden.titel}</h1>
+      <p class="lead">{D.seiten.nichtGefunden.text} <a href={p("de", "start")}>{D.seiten.nichtGefunden.start}</a> · <a href={p("de", "kontakt")}>{D.seiten.nichtGefunden.kontakt}</a></p>
+      <p class="lead" lang="tr"><strong>{R.seiten.nichtGefunden.titel}.</strong> {R.seiten.nichtGefunden.text} <a href={p("tr", "start")}>{R.seiten.nichtGefunden.start}</a> · <a href={p("tr", "kontakt")}>{R.seiten.nichtGefunden.kontakt}</a></p>
+    </div>
+  </header>
 </Basis>
+<style>
+  .seitenkopf-404 { padding-block: clamp(3.25rem, 8vw, 5.5rem); }
+</style>

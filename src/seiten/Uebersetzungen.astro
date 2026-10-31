@@ -1,0 +1,96 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import BildUebersetzung from "../components/BildUebersetzung.astro";
+import Platzhalter from "../components/Platzhalter.astro";
+import Icon from "../components/Icon.astro";
+import { TELEFON_LINK, mailLink } from "../daten";
+import { p, type Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+const S = T.seiten.uebersetzungen;
+---
+<Basis lang={lang} seite="uebersetzungen" titel={T.meta.uebersetzungen.titel} beschreibung={T.meta.uebersetzungen.beschreibung}>
+  <SeitenKopf titel={T.leistungen.ueTitel} zeile={S.zeile}>
+    <p class="lead">{S.lead}</p>
+    <BildUebersetzung slot="bild" lang={lang} />
+  </SeitenKopf>
+
+  <section class="abschnitt" aria-labelledby="dok-titel">
+    <div class="huelle">
+      <div class="kopfzeile">
+        <h2 id="dok-titel">{S.dokTitel}</h2>
+        <p>{S.dokZeile}</p>
+      </div>
+      <ul class="dokumente" data-szene>
+        {T.fakten.dokumente.map((d, i) => (
+          <li class={`d${i}`}><span class="symbol"><Icon name={d.icon as any} /></span><span>{d.text}</span></li>
+        ))}
+      </ul>
+      <p class="mt"><a class="weiter" href={p(lang, "themen")}>{S.themenLink}</a></p>
+    </div>
+  </section>
+
+  <section class="abschnitt weiss" aria-labelledby="was-titel">
+    <div class="huelle raster-2">
+      <h2 id="was-titel">{S.ermTitel}</h2>
+      <div>
+        <p class="lead">{T.fakten.ermaechtigtSatz}</p>
+        <Platzhalter lang={lang}>{S.ermPlatzhalter}</Platzhalter>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="wissen-titel">
+    <div class="huelle raster-2">
+      <h2 id="wissen-titel">{S.wissenTitel}</h2>
+      <div>
+        <p class="lead">{S.wissenText}</p>
+        <a class="weiter" href={p(lang, "ratgeber")}>{T.ratgeber.teaserLink}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt weiss" aria-labelledby="anfrage-titel">
+    <div class="huelle raster-2">
+      <h2 id="anfrage-titel">{S.anfrageTitel}</h2>
+      <div>
+        <p class="lead">{S.anfrageText}</p>
+        <div class="knoepfe">
+          <a class="knopf" href={mailLink(T.ui.anfrageBetreffUe)}>{T.ui.anfrage}</a>
+          <a class="knopf rahmen" href={TELEFON_LINK}>{T.ui.anrufen}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt honorar" aria-labelledby="honorar-titel">
+    <div class="huelle raster-2">
+      <h2 id="honorar-titel">{S.honorarTitel}</h2>
+      <div>
+        <p class="lead">{T.fakten.honorar}</p>
+        <a class="weiter" href={p(lang, "fragen")}>{T.nav.fragen}</a>
+      </div>
+    </div>
+  </section>
+</Basis>
+<style>
+  .dokumente { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+  @media (min-width: 40rem) { .dokumente { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .dokumente { grid-template-columns: repeat(5, 1fr); } }
+  .dokumente li {
+    display: flex; flex-direction: column; gap: 1.1rem; padding: 1.5rem; background: var(--weiss); border: 1px solid var(--linie); border-radius: 16px;
+    font: 500 1.2rem/1.3 var(--serif); color: var(--tinte); animation: rise 0.5s var(--ease) both;
+  }
+  @media (max-width: 39.99rem) { .dokumente li { flex-direction: row; align-items: center; } }
+  .symbol { display: grid; place-items: center; flex: none; width: 3.25rem; height: 3.25rem; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold-dunkel); }
+  .symbol :global(svg) { width: 1.6rem; height: 1.6rem; }
+  .dokumente .d1 { animation-delay: 0.1s; }
+  .dokumente .d2 { animation-delay: 0.2s; }
+  .dokumente .d3 { animation-delay: 0.3s; }
+  .dokumente .d4 { animation-delay: 0.4s; }
+  .honorar { border-top: 1px solid var(--linie); }
+  .mt { margin-top: 1.75rem; }
+</style>

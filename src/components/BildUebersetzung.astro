@@ -1,10 +1,14 @@
 ---
 // Ruhiges Bild „Übersetzung“ (Jamil Talk 3910: elegant statt gezeichnet): zwei Blätter als Flächen.
 // Beim Sichtbarwerden gleitet die Übersetzung sanft vor das Original (0,9 s), danach Ruhe.
+import type { Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const T = t(Astro.props.lang);
 ---
-<figure class="bild-uebersetzung" data-szene role="img" aria-label="Original und Übersetzung als zwei Blätter nebeneinander">
-  <div class="blatt original" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><em>Original</em></div>
-  <div class="blatt uebersetzung" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><em>Übersetzung</em></div>
+<figure class="bild-uebersetzung" data-szene role="img" aria-label={T.ui.bildUe}>
+  <div class="blatt original" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><em>{T.ui.original}</em></div>
+  <div class="blatt uebersetzung" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><em>{T.ui.uebersetzung}</em></div>
 </figure>
 <style>
   .bild-uebersetzung { position: relative; margin: 0; height: clamp(12rem, 24vw, 15rem); }

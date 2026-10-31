@@ -10,6 +10,7 @@ Neue Website für Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und e
 
 - `src/daten.ts` – alle Angaben an einer Stelle (Kontakt, Qualifikation, Dokumente, Erfahrungen, Fragen, Navigation, Vorschau-Schalter). Seiten, JSON-LD, `sitemap.xml`, `llms.txt` und `robots.txt` lesen von hier.
 - `src/components/Platzhalter.astro` – sichtbare Platzhalter, nur in der Vorschau. `Luecke.astro` – Pflichtangaben im Impressum/Datenschutz, immer markiert.
+- **Design v4** (31.10.2026, Can): animierte Startseite als Scroll-Erzählung (Bauwelt-Aufbau bleibt), **Deutsch und Türkisch** (`src/i18n.ts` Routen, `src/texte/de.ts` + `tr.ts` alle Texte, Seiten in `src/seiten/`, dünne Routen in `src/pages/` und `src/pages/tr/`), neue Seiten **Themen** (typische Dokumente in beide Richtungen) und **Ratgeber** (allgemeines Wissen, keine Rechtsberatung), Abschnitt „Was ihn auszeichnet“. **Tinten-Notizen mit rough.js** (`Tinte.astro`, `Markiert.astro`): rough.js läuft nur beim Bauen, im Browser liegt fertiges SVG (0 KB Skript). `public/sichtbar.js` steuert zusätzlich Scroll-Story (`data-verlauf`, `--p`), Parallaxe und Zähler. v3d gesichert als `design-v3d`/`design-v3d-main`.
 - **Design v3d** (31.10.2026, Jamil Talk 3910): Aufbau und Hero-Bewegung nach Bauwelt (Vollbild-Hero mit langsamem Zoom des Hintergrunds, gestaffeltes Aufsteigen, Scroll-Pfeil wippt einmal; dunkle Vertrauensleiste; zentrierte Abschnittsköpfe mit goldener Kurzlinie; Karten; Fragen auf der Startseite; Kopfzeile mit Hauptknopf und Fortschrittsleiste). Schriften Source Serif 4 + Open Sans. Keine gezeichneten Strich-Animationen mehr; ruhige Bilder `BildUebersetzung.astro`, `BildDolmetschen.astro`, `Vertrauensband.astro`. v3c gesichert als `design-v3c`/`design-v3c-main`.
 - **Design v3c** (31.10.2026, Jamil Talk 3907): elegantes Beige statt Violett, bisheriges Logo (Nachbau, `Logo.astro`, Schrift als Pfade), Hero ohne Portrait, Sprachbrücke groß rechts mit Lichtpunkt alle 10 s, Subheadline „Für Behörden, Gerichte und andere offizielle Stellen.“, Karten 0,15 s versetzt. v3b gesichert als `design-v3b`/`design-v3b-main`.
 - **Design v3b** (31.10.2026, Jamil Talk 3904): Startseiten-Kopf nach Jamils Hero-Konzept (Trust-Badge, Leistungs-H1, Portrait-Platz `Portrait.astro`, Sprachbrücke Deutsch–Türkisch ca. 2 s, drei Karten, Scroll-Hinweis). **Strenge Faktenregel:** nur Angaben der bisherigen Website; auch Zeichnungen behaupten nichts (keine Siegel, keine Beispielsätze). v3a gesichert als Tags `design-v3a`/`design-v3a-main`.
@@ -45,3 +46,7 @@ docker run --rm --shm-size=1g -v "$PWD/scripts":/s:ro -v "$PWD/screens":/aus \
 ```
 
 390 und 1440 px, meldet Querscrollen. `URL=` setzt eine andere Basisadresse.
+
+## Lizenz
+
+Alle Rechte vorbehalten (Waybuild UG (haftungsbeschränkt)), siehe [LICENSE](LICENSE). Die Datei liegt auch als `public/LICENSE.txt` in der gebauten Seite und als `LICENSE` im Branch `main`. Kein Open-Source-Projekt; Kopieren und Weiterverwenden nur mit schriftlicher Zustimmung. Schriften und Bibliotheken behalten ihre eigenen Lizenzen.

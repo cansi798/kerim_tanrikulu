@@ -1,0 +1,11 @@
+---
+// „Türkçe → Deutsch“ mit Pfeil als SVG statt Zeichen: das Zeichen „→“ lud zwei zusätzliche Schriftdateien
+// (Open Sans symbols/math, 78 KB) und ließ die Seite mehrfach neu setzen (Messung v4).
+const { text } = Astro.props as { text: string };
+const [von, nach] = text.split(" → ");
+---
+<span class="richtung">{von}<svg viewBox="0 0 24 12" aria-hidden="true" focusable="false"><path d="M2 6h19M16 2l5 4-5 4" /></svg><span class="sr"> – </span>{nach}</span>
+<style>
+  .richtung { display: inline-flex; align-items: center; gap: 0.4em; }
+  svg { width: 1.2em; height: 0.6em; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+</style>

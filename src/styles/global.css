@@ -157,3 +157,28 @@ a.karte:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -20px rgba(
 .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-reveal) var(--ease), transform var(--dur-reveal) var(--ease); }
 .js .reveal.an { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; } }
+
+/* ---------- v4: Tinten-Notizen mit rough.js (Can 31.10.2026) ----------
+   Feine Feder-Handschrift in Navy-Tinte (Farbe des Logos) oder Gold. Jede Notiz zieht sich EINMAL in 0,6–1,0 s,
+   wenn ihr Bereich sichtbar wird; nie flächig, nie mehrere große Notizen gleichzeitig. Pfade kommen fertig aus dem Build. */
+.tinte { position: absolute; display: block; max-width: none; overflow: visible; pointer-events: none; --tinte-farbe: var(--logo); }
+.tinte.gold { --tinte-farbe: var(--gold); }
+.tinte path {
+  fill: none; stroke: var(--tinte-farbe); stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 1; stroke-dashoffset: 0;
+  animation: tinte-zug var(--td, 0.8s) cubic-bezier(0.5, 0.05, 0.25, 1) calc(var(--ts, 0s) + var(--tn, 0s)) both;
+}
+.tinte.kurz { --td: 0.6s; } .tinte.lang { --td: 1s; }
+.tinte.v1 { --ts: 0.15s; } .tinte.v2 { --ts: 0.3s; } .tinte.v3 { --ts: 0.45s; } .tinte.v4 { --ts: 0.6s; }
+.tinte.v5 { --ts: 0.75s; } .tinte.v6 { --ts: 0.9s; } .tinte.v7 { --ts: 1.05s; } .tinte.v8 { --ts: 1.2s; }
+.tinte .t1 { --tn: 0.5s; } .tinte .t2 { --tn: 0.62s; } .tinte .t3 { --tn: 0.7s; } .tinte .t4 { --tn: 0.8s; }
+.tinte-pfeil .t1, .tinte-pfeil .t2 { animation-duration: 0.35s; }
+@keyframes tinte-zug { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+.markiert { position: relative; display: inline-block; z-index: 0; }
+.markiert > .tinte { z-index: -1; }
+.m-strich > .tinte { left: -2%; width: 104%; bottom: -0.32em; height: 0.5em; }
+.m-kreis > .tinte { left: -0.55em; right: -0.55em; top: -0.32em; bottom: -0.32em; width: calc(100% + 1.1em); height: calc(100% + 0.64em); }
+
+/* v4 Ladezeit: Abschnitte außerhalb des Bildschirms erst rendern, wenn sie in die Nähe kommen (weniger Layout beim Laden) */
+.abschnitt, .aufruf, .fuss { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+@media (max-width: 61.99rem) { .richtungen { content-visibility: auto; contain-intrinsic-size: auto 1100px; } }

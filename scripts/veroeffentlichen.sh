@@ -11,6 +11,7 @@ git -C .deploy checkout -q -B main origin/main
 find .deploy -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
 cp -r dist/. .deploy/
 touch .deploy/.nojekyll
+cp LICENSE .deploy/LICENSE   # Alle Rechte vorbehalten (Can 31.10.2026), auch im Root der gebauten Seite
 printf '# Kerim Tanrikulu – gebaute Seite\n\nGebaute Vorschau. Quellcode im Branch `quelle`.\n' > .deploy/README.md
 git -C .deploy add -A
 if git -C .deploy diff --cached --quiet; then echo "Keine Änderungen."; else
