@@ -144,6 +144,7 @@ export const tr: Texte = {
     eyebrow: "Avantajlarınız",
     titel: "Neden Sayın Tanrikulu?",
     details: "Ayrıntılar",
+    platzhalter: "Altı avantajın ifadeleri ve hizmet bölgesi (Can\u2019ın belirlediği) Sayın Tanrikulu tarafından onaylanmalı.",
     punkte: [
       { icon: "gespraech", titel: "Sözlü ve yazılı tercüme tek elden", kurz: "Belgeler ve görüşmeler için tek muhatap.", lang: "Hem genel yeminli tercüman hem de yetkili mütercimdir. Çeviri ve randevu için tek bir muhatabınız olur.", seite: "dolmetschen", anker: "#unterschied-titel" },
       { icon: "schild", titel: "Schleswig Eyalet Yüksek Mahkemesi'nden yeminli ve yetkili", kurz: "Mayıs 2021'den beri, Türkçe ve Almanca için.", lang: "Almanya'da yetkili bir mütercimin çevirisi, Alman resmî makamları ve mahkemeleri için olağan biçimdir.", seite: "ratgeber", anker: "#beglaubigt" },

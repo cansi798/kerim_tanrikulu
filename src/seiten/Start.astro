@@ -9,6 +9,7 @@ import Basis from "../layouts/Basis.astro";
 import Icon from "../components/Icon.astro";
 import Ablauf from "../components/Ablauf.astro";
 import GebietKarte from "../components/GebietKarte.astro";
+import Platzhalter from "../components/Platzhalter.astro";
 import { mailLink, TELEFON_LINK } from "../daten";
 import { p, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
@@ -119,6 +120,7 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
           <a class="gebiet-link" href={p(lang, "dolmetschen", "#gebiet-titel")}>{W.details}<Icon name="pfeil" /></a>
         </div>
       </div>
+      <div class="warum-hinweis"><Platzhalter lang={lang}>{W.platzhalter}</Platzhalter></div>
     </div>
   </section>
 
@@ -289,6 +291,8 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
   .staffel > :global(.reveal:nth-child(4)) { transition-delay: 240ms; }
   .staffel > :global(.reveal:nth-child(5)) { transition-delay: 320ms; }
   .staffel > :global(.reveal:nth-child(6)) { transition-delay: 400ms; }
+
+  .warum-hinweis :global(.platzhalter) { margin-inline: auto; }
 
   /* ---------- Gut zu wissen ---------- */
   .gut { padding-block: clamp(3rem, 7vw, 5.5rem); }

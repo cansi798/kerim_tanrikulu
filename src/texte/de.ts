@@ -147,6 +147,7 @@ export const de = {
     eyebrow: "Ihre Vorteile",
     titel: "Warum Herr Tanrikulu?",
     details: "Details",
+    platzhalter: "Wortlaute der sechs Vorteile und das Einsatzgebiet (Vorgabe von Can) bitte von Herrn Tanrikulu bestätigen lassen.",
     punkte: [
       { icon: "gespraech", titel: "Mündlich und schriftlich aus einer Hand", kurz: "Ein Ansprechpartner für Dokumente und Gespräche.", lang: "Er ist allgemein beeidigter Dolmetscher und ermächtigter Übersetzer. Für Übersetzung und Termin brauchen Sie nur einen Ansprechpartner.", seite: "dolmetschen", anker: "#unterschied-titel" },
       { icon: "schild", titel: "Beeidigt und ermächtigt vom OLG Schleswig", kurz: "Seit Mai 2021, für Türkisch und Deutsch.", lang: "Die Übersetzung eines in Deutschland ermächtigten Übersetzers ist die übliche Form für deutsche Behörden und Gerichte.", seite: "ratgeber", anker: "#beglaubigt" },
