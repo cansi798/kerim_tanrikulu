@@ -1,6 +1,19 @@
 ---
-// Vergleichs-Variante der Startseite (Jamil Talk 31.10.2026 11:58): Hero mit Gesprächs-Animation (zwei Personen) statt Licht-Brücke.
-// Nicht im Menü, noindex, nicht in Sitemap/llms.txt – bis Can entscheidet.
-import Seite from "../seiten/Start.astro";
+// Frühere Vergleichs-Seite (31.10.2026): Die Gesprächs-Animation ist seit Cans „Ja“ (12:39) auf der Startseite. Alte Links leiten weiter.
+import { u } from "../daten";
+const ziel = u("/");
 ---
-<Seite lang="de" variante />
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="refresh" content={`0; url=${ziel}`} />
+    <link rel="canonical" href={new URL(ziel, Astro.site)} />
+    <title>Kerim Tanrikulu</title>
+  </head>
+  <body>
+    <h1><a href={ziel}>Weiter zur Startseite</a></h1>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 // Licht-Szenen (Can 31.10.2026: „viel krasser, Wow“) – Canvas 2D, selbst geschrieben, ohne Bibliothek, CSP-konform (eigene Datei).
 // Drei Szenen mit gemeinsamem Kern:
-//   1) Sprachbrücke im Hero der Startseite [data-bruecke] – Sinnbild Übersetzen (ca. 3,5 s):
+//   1) Sprachbrücke [data-bruecke] – seit 31.10.2026 12:39 nicht mehr im Hero (ersetzt durch gespraech.js); Code bleibt für eine Rückkehr (Tag design-v5-bruecke):
 //      Ufer leuchten auf → der Bogen wächst aus Licht von beiden Ufern und trifft sich in der Mitte → Hänger, Innenbogen, Spiegelung →
 //      Lichtteilchen lösen sich aus dem Wort links, wandern über den Bogen und setzen sich rechts zum Wort der anderen Sprache zusammen → Leitsatz.
 //      Danach: alle 14 s läuft die ganze Intro erneut (kurz ausblenden, neu aufbauen), und jedes Mal, wenn die Szene wieder ins Bild kommt.

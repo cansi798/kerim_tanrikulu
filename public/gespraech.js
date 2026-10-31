@@ -1,4 +1,4 @@
-// Hero-Variante „Gespräch über den Dolmetscher“ (Jamil, Talk 31.10.2026 11:58) – nur auf /hero-variante/ (Vergleich mit der Licht-Brücke).
+// Hero-Animation der Startseite „Gespräch über den Dolmetscher“ (Jamil, Talk 31.10.2026 11:58/3967/3968; Can „Ja“ 12:39 – ersetzt die Licht-Brücke).
 // Nutzt den gemeinsamen Kern aus licht.js (window.LichtKern: Leinwand, Uhr, Sichtbarkeit, Funken, Wiederholung alle 14 s, iPhone-resize-sicher).
 // Ablauf (ca. 4 s): Person links erscheint und spricht (goldene Schallwellen am Mund) → die Worte fließen als helles Licht zum Federkiel →
 // dort Verwandlung (Aufleuchten, Ring, Funken, der Kiel hebt sich, tiefes Gold) → das Licht erreicht das Ohr der Person rechts
@@ -31,11 +31,15 @@
   }
   var L = window.LichtKern;
   if (!L) return; // ohne Kern: Notfall-CSS zeigt das Endbild
-  var M = Math, bereich = L.bereich, ioc = L.ioc, oc = L.oc, buckel = L.buckel, qb = L.qb, setz = L.setz, frei = L.frei, glaenzen = L.glaenzen, GOLD = L.GOLD;
+  var M = Math, bereich = L.bereich, ioc = L.ioc, oc = L.oc, buckel = L.buckel, qb = L.qb, glaenzen = L.glaenzen, GOLD = L.GOLD;
 
   // Punkte im SVG-Koordinatensystem (viewBox 440 × 220), siehe HeroGespraech.astro
   var V = { mundL: [139, 97], ohrR: [340, 86], mundR: [301, 97], ohrL: [100, 86], kiel: [220, 80], cHin: [176, 62], cAus: [286, 50], cZur: [262, 110], cZur2: [152, 118], nicken: [96, 128] };
   var P = {}, S = 1, strom = [], fertig = false, gl = {}, ring = -1;
+  // Stile nur schreiben, wenn sich der Wert ändert (sonst rechnet der Browser jedes Bild Stil und SVG neu – Ladezeit am Handy)
+  function setz(el, a, dy, extra) { if (!el) return; var k = a.toFixed(3) + "|" + dy.toFixed(1); if (el._gk === k) return; el._gk = k; L.setz(el, a, dy, extra); }
+  function frei(el) { if (el) { el._gk = ""; L.frei(el); } }
+  function deckung(el, a) { var k = a.toFixed(3); if (el._gk === k) return; el._gk = k; el.style.opacity = k; }
 
   function sprechen(s, c, t0, t, richtung, st, rein) { // Schallwellen als Bogenstücke: am Mund nach außen, am Ohr nach innen
     var ctx = s.ctx;
@@ -73,7 +77,7 @@
   }
   function kielStellen(k) { // Federkiel hebt und neigt sich kurz (SVG-Attribut, keine Inline-Stile)
     var c = V.kiel;
-    if (k <= 0.001) kiel.removeAttribute("transform");
+    if (k <= 0.001) { if (kiel.hasAttribute("transform")) kiel.removeAttribute("transform"); }
     else kiel.setAttribute("transform", "translate(" + c[0] + " " + c[1] + ") scale(" + (1 + 0.16 * k).toFixed(3) + ") rotate(" + (-8 * k).toFixed(2) + ") translate(" + -c[0] + " " + -c[1] + ")");
   }
   function kielGlanz(s, k, t) { // Verwandlung: Licht hinter dem Kiel, Ring, Funken
@@ -91,12 +95,12 @@
   }
   function nicken(k) { // leichtes Nicken der Person rechts (Drehpunkt am Hals, im gespiegelten Koordinatensystem)
     if (!kopfR) return;
-    if (k <= 0.001) kopfR.removeAttribute("transform");
+    if (k <= 0.001) { if (kopfR.hasAttribute("transform")) kopfR.removeAttribute("transform"); }
     else kopfR.setAttribute("transform", "rotate(" + (5 * k).toFixed(2) + " " + V.nicken[0] + " " + V.nicken[1] + ")");
   }
   function endbild() {
     fertig = true; el.classList.add("g-fertig");
-    [personL, personR, quelle, ziel, claim].forEach(frei); kiel.style.opacity = ""; kielStellen(0); nicken(0);
+    [personL, personR, quelle, ziel, claim].forEach(frei); kiel._gk = ""; kiel.style.opacity = ""; kielStellen(0); nicken(0);
   }
 
   L.Szene(el, {
@@ -106,7 +110,7 @@
       for (var k in V) P[k] = [r.x + V[k][0] * S, r.y + V[k][1] * S];
     },
     vorbereiten: function (s) {
-      strom = []; var n = s.schmal ? 64 : 100;
+      strom = []; var n = s.schmal ? 48 : 100;
       teilchen(n, 0.75, 0.6, 0.62, false);                 // das Gesagte
       teilchen(M.round(n * 0.4), 2.95, 0.3, 0.4, true);    // kurze Antwort zurück
     },
@@ -115,7 +119,7 @@
         var a = oc(bereich(t, 0, 0.55)), b = oc(bereich(t, 0.15, 0.7));
         setz(personL, a, (1 - a) * 16); setz(quelle, a, (1 - a) * 10, "translateX(-50%)");
         setz(personR, b, (1 - b) * 16);
-        kiel.style.opacity = oc(bereich(t, 0.25, 0.65)).toFixed(3);
+        deckung(kiel, oc(bereich(t, 0.25, 0.65)));
         var z = oc(bereich(t, 2.35, 2.9)); setz(ziel, z, (1 - z) * 10, "translateX(-50%)");   // der Sprachname rechts erscheint, wenn das Gesagte ankommt
         var cl = oc(bereich(t, 3.0, 3.6)); setz(claim, cl, (1 - cl) * 12);
       }
@@ -136,7 +140,7 @@
     zuruecksetzen: function () {
       fertig = false; strom = []; gl = {}; ring = -1; kielStellen(0); nicken(0);
       el.classList.remove("g-fertig", "g-aus");
-      setz(personL, 0, 16); setz(personR, 0, 16); setz(quelle, 0, 10, "translateX(-50%)"); setz(ziel, 0, 10, "translateX(-50%)"); setz(claim, 0, 12); kiel.style.opacity = "0";
+      setz(personL, 0, 16); setz(personR, 0, 16); setz(quelle, 0, 10, "translateX(-50%)"); setz(ziel, 0, 10, "translateX(-50%)"); setz(claim, 0, 12); deckung(kiel, 0);
     },
     zugStart: function (s, z) { strom = []; teilchen(s.schmal ? 36 : 54, 0.35, 0.4, 0.5, !z.hin); },
     zug: function (s, z) { // beim Darüberfahren: ein kurzer Wortwechsel (abwechselnd hin und zurück)

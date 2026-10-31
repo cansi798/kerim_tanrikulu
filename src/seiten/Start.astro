@@ -4,7 +4,9 @@
 // Kurze Antworten → Kontakt). Vorher (v4) 9 Blöcke, jetzt 5: Hero · Warum Herr Tanrikulu (6 Vorteile + Einsatzgebiet) · Ablauf · Gut zu wissen · Kontakt.
 // Was von der Startseite ging (Zwei Richtungen, Leistungen mit Bildern, Zahlen/Nachweise, Themen, Ratgeber), steht auf den Unterseiten;
 // jede Kurzinfo verlinkt dorthin. Fakten nur von der bisherigen Website (Talk 3904); Einsatzgebiet und Ablauf-Wortlaut zur Bestätigung (OFFENE-INFOS).
-// Hero unverändert (v4): Bauwelt-Aufbau (Jamil Talk 3910), Sprachbrücke aus Licht (public/licht.js), Karten = Wege zu den Leistungen.
+// Hero: Bauwelt-Aufbau (Jamil Talk 3910), Karten = Wege zu den Leistungen. Signature-Animation seit 31.10.2026 12:39 (Can „Ja“, Jamil 11:58/3967/3968):
+// „Gespräch über den Dolmetscher“ mit zwei männlichen Büsten und dem Federkiel aus dem Logo (HeroGespraech.astro + public/gespraech.js).
+// Die vorherige Licht-Brücke ist mit den Tags design-v5-bruecke / design-v5-bruecke-main gesichert.
 import Basis from "../layouts/Basis.astro";
 import Icon from "../components/Icon.astro";
 import Ablauf from "../components/Ablauf.astro";
@@ -14,28 +16,14 @@ import HeroGespraech from "../components/HeroGespraech.astro";
 import { mailLink, TELEFON_LINK } from "../daten";
 import { p, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
-// variante: Vergleichs-Seite /hero-variante/ (Jamil Talk 31.10.2026 11:58) – Gesprächs-Animation mit zwei Personen statt der Brücke, sonst identisch.
-interface Props { lang: Lang; variante?: boolean }
-const { lang, variante = false } = Astro.props;
+interface Props { lang: Lang }
+const { lang } = Astro.props;
 const T = t(lang);
 const KIEL = "M5 62 C 9 45, 21 23, 53 2 C 51 17, 46 28, 37 38 C 30 46, 18 54, 5 62 Z";
 const W = T.warum;
 const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
-// Richtung der Brücke (Can 31.10. 09:43): deutsche Seiten Deutsch → Türkisch, türkische Seiten Türkçe → Almanca
-const UFER = lang === "tr" ? [T.ui.tuerkisch, T.ui.deutsch] : [T.ui.deutsch, T.ui.tuerkisch];
-// Sprachbrücke: Bogen (Kubik-Kurve), feiner Innenbogen, Hänger senkrecht vom Bogen zur Fahrbahn, gedämpfte Spiegelung im Wasser
-const BOGEN = "M20 150 C 110 18, 330 18, 420 150";
-const BOGEN_INNEN = "M44 150 C 126 40, 314 40, 396 150";
-const SPIEGEL = "M20 150 C 110 205, 330 205, 420 150";
-const bez = (a: number, b: number, c: number, d: number, t: number) => (1 - t) ** 3 * a + 3 * t * (1 - t) ** 2 * b + 3 * t * t * (1 - t) * c + t ** 3 * d;
-const HAENGER = Array.from({ length: 13 }, (_, i) => {
-  const x = 70 + i * 25;
-  let lo = 0, hi = 1;
-  for (let k = 0; k < 40; k++) { const m = (lo + hi) / 2; if (bez(20, 110, 330, 420, m) < x) lo = m; else hi = m; }
-  return { x, y: Math.round(bez(150, 18, 18, 150, lo) * 10) / 10 };
-});
 ---
-<Basis lang={lang} seite="start" variante={variante}>
+<Basis lang={lang} seite="start">
   <section class="hero" aria-labelledby="hero-titel">
     <div class="hero-bg" aria-hidden="true" data-parallax="0.06">
       <svg class="kiel-gross" viewBox="0 0 58 66" focusable="false"><path d={KIEL} /></svg>
@@ -54,33 +42,11 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
         </ul>
       </div>
 
-      <!-- Sprachbrücke = Signature-Animation (Can 31.10.2026 „viel krasser, Wow“): Sinnbild Übersetzen.
-           licht.js (Canvas 2D, nur mit JS und ohne „Bewegung reduzieren“): Ufer leuchten auf, der Bogen wächst aus Licht von beiden
-           Seiten bis zur Mitte, Hänger und Spiegelung erscheinen, dann lösen sich Lichtteilchen aus dem Wort links, wandern über die Brücke
-           und setzen sich rechts zum Wort der anderen Sprache zusammen (ca. 3,5 s). Danach alle 14 s die ganze Intro erneut und jedes Mal beim Wiederkommen ins Bild.
-           Ohne JS bzw. ruhig: genau dieses SVG als fertiges Endbild; die Wörter sind echter Text. -->
-      {variante ? (
-      <div class="bruecke-ebene" data-parallax="-0.035" data-szene>
+      <!-- Signature-Animation „Gespräch über den Dolmetscher“ (ersetzt seit 31.10.2026 die Licht-Brücke, Can 12:39): links spricht jemand,
+           das Licht fließt zum Federkiel, wird verwandelt und erreicht das Ohr rechts; ca. 4 s, alle 14 s und beim Wiederkommen. -->
+      <div class="szene-ebene" data-parallax="-0.035" data-szene>
         <div class="auf" data-d="2"><HeroGespraech lang={lang} /></div>
       </div>
-      ) : (
-      <div class="bruecke-ebene" data-parallax="-0.035" data-szene>
-        <figure class="bruecke auf" data-d="2" data-bruecke>
-          <svg viewBox="0 0 440 200" aria-hidden="true" focusable="false">
-            <g class="b-teil">
-              <path class="spiegel" d={SPIEGEL} />
-              <path class="deck" d="M20 150 H420" />
-              <g class="haenger">{HAENGER.map((h) => <line x1={h.x} y1={h.y} x2={h.x} y2="150" />)}</g>
-              <path class="bogen-innen" d={BOGEN_INNEN} />
-              <path class="bogen" d={BOGEN} />
-              <circle class="ende" cx="20" cy="150" r="4.5" /><circle class="ende" cx="420" cy="150" r="4.5" />
-            </g>
-          </svg>
-          <div class="ufer"><span class="b-quelle">{UFER[0]}</span><span class="b-ziel">{UFER[1]}</span></div>
-          <figcaption class="claim">{T.fakten.claim}.</figcaption>
-        </figure>
-      </div>
-      )}
     </div>
 
     <div class="huelle">
@@ -196,31 +162,7 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
   .vertrauen li { display: inline-flex; align-items: center; gap: 0.45rem; }
   .vertrauen :global(svg) { width: 1.1rem; height: 1.1rem; color: var(--gold-dunkel); }
 
-  .bruecke-ebene { justify-self: center; width: 100%; max-width: 34rem; }
-  .bruecke { position: relative; margin: 0; width: 100%; }
-  .bruecke svg { width: 100%; height: auto; overflow: visible; }
-  .bogen { fill: none; stroke: var(--gold); stroke-width: 2.2; stroke-linecap: round; }
-  .bogen-innen { fill: none; stroke: var(--gold); stroke-width: 1; opacity: 0.45; }
-  .haenger line { stroke: var(--gold); stroke-width: 1; opacity: 0.5; }
-  .deck { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 0.7; }
-  .spiegel { fill: none; stroke: var(--gold); stroke-width: 1.3; stroke-linecap: round; stroke-dasharray: 5 7; opacity: 0.32; }
-  .ende { fill: var(--gold); }
-  .ufer { display: flex; justify-content: space-between; margin-top: -0.6rem; font: 600 clamp(1.4rem, 2.6vw, 1.9rem)/1 var(--serif); color: var(--text); }
-  .claim { margin: 1.4rem 0 0; text-align: center; font: italic 500 clamp(1.15rem, 2vw, 1.45rem)/1.35 var(--serif); color: var(--gold-dunkel); }
-  /* Canvas kommt aus bruecke.js (aria-hidden, absolut, kein Layout-Einfluss) */
-  .bruecke :global(canvas) { position: absolute; pointer-events: none; }
-  .ufer span { transition: text-shadow 0.6s ease; }
-  .ufer :global(.b-glanz) { text-shadow: 0 0 14px rgba(255, 244, 214, 0.95), 0 0 2px rgba(255, 244, 214, 0.9); }
-  /* Mit JS und Bewegung: Endbild erst nach der Intro-Choreografie. Notfall: lädt bruecke.js nicht, erscheint alles nach 3,5 s. */
-  @media (prefers-reduced-motion: no-preference) {
-    :global(.js) .bruecke .b-teil, :global(.js) .bruecke .b-ziel, :global(.js) .bruecke .claim { opacity: 0; }
-    :global(.js) .bruecke:not(.b-bereit) :is(.b-teil, .b-ziel, .claim) { animation: b-notfall 0.6s ease 3.5s both; }
-    :global(.js) .bruecke.b-fertig :is(.b-teil, .b-ziel, .claim) { opacity: 1; transition: opacity 0.5s linear; }
-    /* vor jeder Wiederholung (alle 14 s) sanft ausblenden, dann baut licht.js die Brücke neu auf */
-    :global(.js) .bruecke.b-aus :is(.b-teil, .b-ziel, .claim) { opacity: 0 !important; transition: opacity 0.6s ease !important; }
-    :global(.js) .bruecke.b-bereit:not(.b-fertig) :is(.b-ziel, .claim) { will-change: opacity, transform; } /* eigene Ebene: Einblenden ohne Neuzeichnen */
-  }
-  @keyframes b-notfall { from { opacity: 0; } to { opacity: 1; } }
+  .szene-ebene { justify-self: center; width: 100%; max-width: 34rem; }
 
   .karten { list-style: none; margin: clamp(2.5rem, 5vw, 3.25rem) 0 0; padding: 0; display: grid; gap: 1rem; }
   @media (min-width: 48rem) { .karten { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }

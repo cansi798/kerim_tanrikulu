@@ -1,6 +1,19 @@
 ---
-// Vergleichs-Variante der türkischen Startseite (Jamil Talk 31.10.2026 11:58): Gesprächs-Animation Türkçe → Almanca statt Licht-Brücke.
-// Nicht im Menü, noindex, nicht in Sitemap/llms.txt – bis Can entscheidet.
-import Seite from "../../seiten/Start.astro";
+// Frühere Vergleichs-Seite (31.10.2026): Die Gesprächs-Animation ist seit Cans „Ja“ (12:39) auf der Startseite. Alte Links leiten weiter.
+import { u } from "../../daten";
+const ziel = u("/tr/");
 ---
-<Seite lang="tr" variante />
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="refresh" content={`0; url=${ziel}`} />
+    <link rel="canonical" href={new URL(ziel, Astro.site)} />
+    <title>Kerim Tanrikulu</title>
+  </head>
+  <body>
+    <h1><a href={ziel}>Ana sayfaya git</a></h1>
+  </body>
+</html>
