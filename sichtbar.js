@@ -1,4 +1,4 @@
-// Einziges Skript der Seite (CSP: nur eigene Dateien, kein Inline-JS). Ohne JavaScript ist alles sichtbar und lesbar.
+// Grundskript jeder Seite (CSP: nur eigene Dateien, kein Inline-JS; dazu licht.js auf Start- und Dolmetschen-Seite). Ohne JavaScript ist alles sichtbar und lesbar.
 // 1) Markiert <html> mit „js“, damit Szenen und .reveal-Blöcke erst beim Sichtbarwerden starten.
 // 2) Startet jede Szene [data-szene] und jeden .reveal-Block genau einmal (Klasse „an“).
 // 3) Kopfzeile wie Bauwelt: beim Scrollen nur Schatten und goldene Fortschrittsleiste (transform: scaleX).
