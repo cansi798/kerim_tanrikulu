@@ -7,6 +7,7 @@
 //    Nur am breiten Bildschirm und ohne „Bewegung reduzieren“, sonst starten sie beim Sichtbarwerden.
 // 5) Sanfte Parallaxe [data-parallax="0.08"] (nur breit, nur transform).
 // 6) Zähler [data-zahl]: zählen einmal bis zum Endwert hoch (0,9 s). Der Endwert steht schon im HTML.
+// 8) „Nach oben“-Knopf [data-hoch] (Can Talk 3964): erscheint nach ca. 1,5 Bildschirmhöhen, führt sanft zum Seitenanfang.
 // Alles läuft nur beim Scrollen bzw. einmal beim Sichtbarwerden, nichts beim Laden (Ladezeit).
 document.documentElement.classList.add("js");
 document.addEventListener("DOMContentLoaded", function () {
@@ -72,12 +73,22 @@ document.addEventListener("DOMContentLoaded", function () {
   var kopf = document.querySelector(".kopf");
   var balken = document.querySelector(".kopf-balken span");
   var an = false, geplant = false;
+  // 8) „Nach oben“ (Can Talk 3964): ab ca. 1,5 Bildschirmhöhen sichtbar; Klick → sanft nach oben (ruhig: sofort),
+  //    danach Fokus an den Seitenanfang (Tastatur: Sprunglink, sonst Logo – ohne sichtbaren Rahmen beim Tippen).
+  var hoch = document.querySelector("[data-hoch]"), hochAn = false;
+  if (hoch) hoch.addEventListener("click", function (e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: ruhig ? "auto" : "smooth" });
+    var ziel = e.detail === 0 ? document.querySelector(".skip") : document.querySelector(".kopf .marke");
+    if (ziel) try { ziel.focus({ preventScroll: true }); } catch (x) { ziel.focus(); }
+  });
 
   var pruefen = function () {
     geplant = false;
     var y = window.scrollY, vh = window.innerHeight;
     var jetzt = y > 8;
     if (kopf && jetzt !== an) { an = jetzt; kopf.classList.toggle("gescrollt", an); }
+    if (hoch && (y > vh * 1.5) !== hochAn) { hochAn = !hochAn; hoch.classList.toggle("zeigen", hochAn); }
     if (balken) {
       var max = document.documentElement.scrollHeight - vh;
       balken.style.transform = "scaleX(" + (max > 0 ? Math.min(1, y / max) : 0) + ")";
