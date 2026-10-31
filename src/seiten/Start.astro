@@ -63,7 +63,7 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
       <!-- Sprachbrücke = Signature-Animation (Can 31.10.2026 „viel krasser, Wow“): Sinnbild Übersetzen.
            licht.js (Canvas 2D, nur mit JS und ohne „Bewegung reduzieren“): Ufer leuchten auf, der Bogen wächst aus Licht von beiden
            Seiten bis zur Mitte, Hänger und Spiegelung erscheinen, dann lösen sich Lichtteilchen aus dem Wort links, wandern über die Brücke
-           und setzen sich rechts zum Wort der anderen Sprache zusammen (ca. 3,5 s). Danach alle 10 s ein Lichtzug, abwechselnd hin und zurück.
+           und setzen sich rechts zum Wort der anderen Sprache zusammen (ca. 3,5 s). Danach alle 14 s die ganze Intro erneut und jedes Mal beim Wiederkommen ins Bild.
            Ohne JS bzw. ruhig: genau dieses SVG als fertiges Endbild; die Wörter sind echter Text. -->
       <div class="bruecke-ebene" data-parallax="-0.035" data-szene>
         <figure class="bruecke auf" data-d="2" data-bruecke>
@@ -329,6 +329,8 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
     :global(.js) .bruecke .b-teil, :global(.js) .bruecke .b-ziel, :global(.js) .bruecke .claim { opacity: 0; }
     :global(.js) .bruecke:not(.b-bereit) :is(.b-teil, .b-ziel, .claim) { animation: b-notfall 0.6s ease 3.5s both; }
     :global(.js) .bruecke.b-fertig :is(.b-teil, .b-ziel, .claim) { opacity: 1; transition: opacity 0.5s linear; }
+    /* vor jeder Wiederholung (alle 14 s) sanft ausblenden, dann baut licht.js die Brücke neu auf */
+    :global(.js) .bruecke.b-aus :is(.b-teil, .b-ziel, .claim) { opacity: 0 !important; transition: opacity 0.6s ease !important; }
     :global(.js) .bruecke.b-bereit:not(.b-fertig) .claim :global(.tinte path) { animation-play-state: paused; }
     :global(.js) .bruecke.b-bereit:not(.b-fertig) :is(.b-ziel, .claim) { will-change: opacity, transform; } /* eigene Ebene: Einblenden ohne Neuzeichnen */
   }
