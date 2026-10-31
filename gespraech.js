@@ -106,8 +106,8 @@
   L.Szene(el, {
     name: "g", pad: 30, spaet: 3300,
     messen: function (s) {
-      var r = s.rel(svg); S = r.w / 440;
-      for (var k in V) P[k] = [r.x + V[k][0] * S, r.y + V[k][1] * S];
+      var r = s.rel(svg), vb = svg.viewBox.baseVal; S = r.w / vb.width; // viewBox kann oben beschnitten sein (y > 0)
+      for (var k in V) P[k] = [r.x + (V[k][0] - vb.x) * S, r.y + (V[k][1] - vb.y) * S];
     },
     vorbereiten: function (s) {
       strom = []; var n = s.schmal ? 48 : 100;
