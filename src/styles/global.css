@@ -5,7 +5,9 @@
 :root {
   /* v3c (Jamil Talk 3907): elegantes Beige statt Violett. Namen bleiben, Werte sind die helle Fassung:
      „tinte“ = warme dunkle Schrift, „hell“ = Schrift auf der Beige-Bühne, „tinte-2/-3/-tief“ = Beige-Flächen und Linien. */
-  --tinte: #2b241f;
+  /* Jamil Talk 3984 (31.10.2026): Logo-Dunkelblau #1c2b4b für alle Schriften, Knöpfe und dunklen Flächen statt Tinte/Siegelrot – harmonischer mit dem Logo.
+     Kontrast auf Beige #ebe0cf 10,7:1, leise Schrift #4a5570 5,7:1. Rot nur noch für die Vorschau-/Platzhalter-Markierungen. */
+  --tinte: #1c2b4b;
   --tinte-2: #efe5d6;
   --tinte-3: #d8c9b2;
   --tinte-tief: #e6dac7;
@@ -14,14 +16,14 @@
   --gold: #a8803c;
   --gold-hell: #6e5020;
   --gold-dunkel: #6e5020;
-  --rot: #8e2a2f;
-  --rot-hover: #a3343a;
+  --rot: #1c2b4b;       /* Name bleibt (Hauptknopf), Wert = Logo-Dunkelblau (Jamil 3984) */
+  --rot-hover: #2b4170;
   --buetten: #f6f1e8;
   --weiss: #fffdf9;
-  --text: #2b241f;
-  --text-leise: #5f5349;
-  --hell: #2b241f;
-  --hell-leise: #5f5349;
+  --text: #1c2b4b;
+  --text-leise: #4a5570;
+  --hell: #1c2b4b;
+  --hell-leise: #4a5570;
   --linie: #e2d6c4;
   --logo: #1c2b4b;
   --logo-grund: #fbf7f0;

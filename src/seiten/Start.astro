@@ -29,23 +29,17 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
       <svg class="kiel-gross" viewBox="0 0 58 66" focusable="false"><path d={KIEL} /></svg>
     </div>
     <div class="huelle hero-inhalt">
-      <div class="text">
-        <p class="badge auf" data-d="0"><Icon name="schild" /><span>{T.hero.badge}</span></p>
-        <h1 id="hero-titel" class="auf" data-d="1">{T.hero.h1}</h1>
-        <p class="sub auf" data-d="2">{T.hero.sub}</p>
-        <div class="knoepfe auf" data-d="3">
-          <a class="knopf haupt" href={mailLink(T.ui.anfrageBetreff)}>{T.ui.anfrage}</a>
-          <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />{T.ui.anrufen}</a>
-        </div>
-        <ul class="vertrauen auf" data-d="4" aria-label={T.ui.aufEinenBlick}>
-          {T.hero.vertrauen.map((v) => <li><Icon name="haken" />{v}</li>)}
-        </ul>
-      </div>
-
+      <!-- Jamil Talk 3980–3982: Badge und Häkchen-Leiste entfernt; Animation im ersten Bildschirm (Handy: zwischen Unterzeile und Knöpfen, breit: rechts daneben) -->
+      <h1 id="hero-titel" class="h-titel auf" data-d="1">{T.hero.h1}</h1>
+      <p class="sub auf" data-d="2">{T.hero.sub}</p>
       <!-- Signature-Animation „Gespräch über den Dolmetscher“ (ersetzt seit 31.10.2026 die Licht-Brücke, Can 12:39): links spricht jemand,
-           das Licht fließt zum Federkiel, wird verwandelt und erreicht das Ohr rechts; ca. 4 s, alle 14 s und beim Wiederkommen. -->
+           das Licht fließt zum Federkiel, wird verwandelt und erreicht das Ohr rechts; ca. 4 s ab dem Laden, alle 14 s und beim Wiederkommen. -->
       <div class="szene-ebene" data-parallax="-0.035" data-szene>
         <div class="auf" data-d="2"><HeroGespraech lang={lang} /></div>
+      </div>
+      <div class="knoepfe auf" data-d="3">
+        <a class="knopf haupt" href={mailLink(T.ui.anfrageBetreff)}>{T.ui.anfrage}</a>
+        <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />{T.ui.anrufen}</a>
       </div>
     </div>
 
@@ -129,7 +123,7 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
   /* ---------- Hero (Bauwelt-Aufbau, Beige statt Foto) ---------- */
   .hero {
     position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center;
-    min-height: calc(100svh - var(--kopf-h)); padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 3vw, 2rem);
+    min-height: calc(100svh - var(--kopf-h)); padding-block: clamp(1.25rem, 5vw, 4.5rem) clamp(1.25rem, 3vw, 2rem);
     background: linear-gradient(168deg, #e6d9c5 0%, #eee4d5 50%, #f5eee3 100%);
   }
   .hero-bg { position: absolute; inset: -4% 0; pointer-events: none; }
@@ -140,29 +134,30 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
   .kiel-gross { position: absolute; right: -4rem; bottom: -6rem; width: clamp(18rem, 34vw, 30rem); fill: var(--logo); opacity: 0.045; animation: kenburns 22s ease-in-out 1 forwards; will-change: transform; }
   @keyframes kenburns { from { transform: scale(1) translateX(0); } to { transform: scale(1.08) translateX(-1.5%); } }
 
-  .hero-inhalt { position: relative; display: grid; gap: 2.5rem; align-items: center; }
-  @media (min-width: 62rem) { .hero-inhalt { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 4rem; } }
+  /* Raster mit Bereichen (Jamil 3982): Handy Titel → Unterzeile → Animation → Knöpfe, alles im ersten Bildschirm; breit Text links, Animation rechts */
+  .hero-inhalt { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "titel" "sub" "szene" "knoepfe"; align-items: center; }
+  .h-titel { grid-area: titel; }
+  .sub { grid-area: sub; }
+  .szene-ebene { grid-area: szene; justify-self: center; width: 100%; max-width: 21rem; margin: 0 0 0.8rem; }
+  .knoepfe { grid-area: knoepfe; }
+  @media (min-width: 40rem) { .szene-ebene { max-width: 28rem; } }
+  @media (min-width: 62rem) {
+    .hero-inhalt { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); grid-template-rows: 1fr auto auto auto 1fr; grid-template-areas: ". szene" "titel szene" "sub szene" "knoepfe szene" ". szene"; column-gap: 4rem; }
+    .szene-ebene { max-width: 34rem; margin: 0; align-self: center; }
+  }
   .auf { animation: rise var(--dur-reveal) var(--ease) both; }
   .auf[data-d="1"] { animation-delay: 120ms; }
   .auf[data-d="2"] { animation-delay: 220ms; }
   .auf[data-d="3"] { animation-delay: 360ms; }
-  .auf[data-d="4"] { animation-delay: 440ms; }
-  .badge.auf { animation-duration: 0.8s; }
 
-  .badge {
-    display: inline-flex; align-items: center; gap: 0.6rem; margin: 0 0 1.5rem; padding: 0.5rem 1rem 0.5rem 0.75rem;
-    border: 1px solid var(--gold); border-radius: 999px; color: var(--text); font-size: 0.95rem; line-height: 1.35;
-  }
-  .badge :global(svg) { width: 1.2rem; height: 1.2rem; color: var(--gold-dunkel); flex: none; }
-  .hero h1 { font-size: clamp(2.05rem, 3.9vw, 3.25rem); line-height: 1.15; max-width: 16em; margin-bottom: 1rem; }
-  .sub { font-size: clamp(1.15rem, 1.7vw, 1.3rem); color: var(--text-leise); max-width: 34em; margin-bottom: 1.9rem; }
+  /* H1: am Handy kleiner und ohne automatische Silbentrennung (Jamil 3982: „Überset-zungen … Tür-kisch“), nur die vorgesehene Trennstelle in „Dolmetscher­dienstleistungen“ */
+  .hero h1 { font-size: clamp(1.6rem, 0.9rem + 2.6vw, 3.1rem); line-height: 1.15; max-width: 16em; margin-bottom: 0.7rem; hyphens: manual; -webkit-hyphens: manual; overflow-wrap: normal; }
+  .sub { font-size: clamp(1.05rem, 1.7vw, 1.3rem); line-height: 1.55; color: var(--text-leise); max-width: 34em; margin-bottom: 0.8rem; }
+  @media (min-width: 62rem) { .hero h1 { margin-bottom: 1rem; } .sub { margin-bottom: 1.9rem; } }
+  .knoepfe { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  @media (max-width: 26rem) { .knoepfe .knopf { padding-inline: 1.2rem; } }
   .haupt { transition: background-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease); }
   .haupt:hover { background: var(--rot-hover); transform: scale(1.02); }
-  .vertrauen { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem; margin: 1.5rem 0 0; padding: 0; color: var(--text); font-weight: 600; font-size: 1rem; }
-  .vertrauen li { display: inline-flex; align-items: center; gap: 0.45rem; }
-  .vertrauen :global(svg) { width: 1.1rem; height: 1.1rem; color: var(--gold-dunkel); }
-
-  .szene-ebene { justify-self: center; width: 100%; max-width: 34rem; }
 
   .karten { list-style: none; margin: clamp(2.5rem, 5vw, 3.25rem) 0 0; padding: 0; display: grid; gap: 1rem; }
   @media (min-width: 48rem) { .karten { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
@@ -202,12 +197,12 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
   .usp { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
   @media (min-width: 48rem) { .usp { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2.5rem; } }
   @media (min-width: 66rem) { .usp { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem 2.5rem; } }
-  /* Linienfarbe als Vollton (Gold 28 % auf Tinte) – halbtransparente Ränder flimmerten beim Einblenden */
-  .usp-punkt { position: relative; display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid #57482f; }
+  /* Linienfarbe als Vollton (auf Dunkelblau, Jamil 3984) – halbtransparente Ränder flimmerten beim Einblenden */
+  .usp-punkt { position: relative; display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid #3c4d70; }
   .usp-punkt:last-child { border-bottom: 0; }
-  @media (min-width: 48rem) { .usp-punkt { gap: 1.1rem; padding: 1.4rem 1.4rem 1.25rem; border: 1px solid #57482f; border-radius: 16px; background: #2f2722; transition: border-color var(--dur-fast) ease, background-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease); }
-    .usp-punkt:last-child { border-bottom: 1px solid #57482f; }
-    .usp-punkt:hover { border-color: #c9a35b; background: #352c25; transform: translateY(-3px); } }
+  @media (min-width: 48rem) { .usp-punkt { gap: 1.1rem; padding: 1.4rem 1.4rem 1.25rem; border: 1px solid #3c4d70; border-radius: 16px; background: #233559; transition: border-color var(--dur-fast) ease, background-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease); }
+    .usp-punkt:last-child { border-bottom: 1px solid #3c4d70; }
+    .usp-punkt:hover { border-color: #c9a35b; background: #2a3e66; transform: translateY(-3px); } }
   .ring { display: grid; place-items: center; flex: none; width: 2.9rem; height: 2.9rem; border-radius: 50%; border: 1.5px solid #c9a35b; color: #d9bd85; }
   .ring :global(svg) { width: 1.35rem; height: 1.35rem; }
   @media (min-width: 48rem) { .ring { width: 3.25rem; height: 3.25rem; } .ring :global(svg) { width: 1.5rem; height: 1.5rem; } }
@@ -226,7 +221,7 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
   .usp-punkt:hover .details :global(svg) { transform: translateX(3px); transition: transform var(--dur-fast) var(--ease); }
 
   /* Einsatzgebiet: Skizzen-Karte (Can 11:29) – schmal über dem Text, breit daneben */
-  .gebiet { display: grid; justify-items: center; text-align: center; gap: 1rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: clamp(1.25rem, 3vw, 2rem); border-top: 1px solid #57482f; }
+  .gebiet { display: grid; justify-items: center; text-align: center; gap: 1rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: clamp(1.25rem, 3vw, 2rem); border-top: 1px solid #3c4d70; }
   .gebiet :global(.rkarte) { width: min(100%, 17rem); }
   @media (min-width: 48rem) { .gebiet { grid-template-columns: auto minmax(0, 30rem); justify-content: center; justify-items: start; text-align: left; gap: 3rem; align-items: center; }
     .gebiet :global(.rkarte) { width: 19rem; } }
