@@ -1,6 +1,6 @@
 // Grundskript jeder Seite (CSP: nur eigene Dateien, kein Inline-JS; dazu licht.js auf Start- und Dolmetschen-Seite). Ohne JavaScript ist alles sichtbar und lesbar.
 // 1) Markiert <html> mit „js“, damit Szenen und .reveal-Blöcke erst beim Sichtbarwerden starten.
-// 2) Startet jede Szene [data-szene] und jeden .reveal-Block genau einmal (Klasse „an“).
+// 2) Startet jede Szene [data-szene] und jeden .reveal-Block genau einmal (Klasse „an“), sobald er wirklich im Bild ist (≥ 35 %).
 // 3) Kopfzeile wie Bauwelt: beim Scrollen nur Schatten und goldene Fortschrittsleiste (transform: scaleX).
 // v4 (Can 31.10.2026, animierte Landingpage):
 // 4) Scroll-Story [data-verlauf]: setzt --p (0…1) beim Durchscrollen; Kinder mit data-ab="0.4" starten ab diesem Wert.
@@ -41,11 +41,12 @@ document.addEventListener("DOMContentLoaded", function () {
   ziele.forEach(function (el) { if (!(story && el.hasAttribute("data-ab"))) beobachtet.push(el); });
   if (!("IntersectionObserver" in window)) { ziele.forEach(starten); }
   else {
+    // Start erst, wenn der Bereich wirklich im Bild ist (Can 31.10. 08:45): mind. 35 % von ihm oder 35 % der Bildschirmhöhe
     var io = new IntersectionObserver(function (eintraege) {
       eintraege.forEach(function (e) {
-        if (e.isIntersecting) { starten(e.target); io.unobserve(e.target); }
+        if (e.isIntersecting && (e.intersectionRatio >= 0.35 || e.intersectionRect.height >= window.innerHeight * 0.35)) { starten(e.target); io.unobserve(e.target); }
       });
-    }, { threshold: 0.2 });
+    }, { threshold: [0, 0.1, 0.2, 0.35, 0.5, 0.75, 1] });
     beobachtet.forEach(function (el) { io.observe(el); });
   }
 
