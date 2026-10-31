@@ -24,9 +24,14 @@
     var g = c.getContext("2d"), r = g.createRadialGradient(h, h, 0, h, h, h);
     stops.forEach(function (s) { r.addColorStop(s[0], s[1]); }); g.fillStyle = r; g.fillRect(0, 0, gr, gr); return c;
   }
-  var HELL = sprite([[0, "rgba(255,253,246,1)"], [0.2, "rgba(255,244,214,0.95)"], [0.42, "rgba(220,178,100,0.45)"], [1, "rgba(168,128,60,0)"]]);
-  var WEICH = sprite([[0, "rgba(255,250,236,0.9)"], [0.25, "rgba(255,240,206,0.62)"], [0.5, "rgba(236,206,150,0.3)"], [0.75, "rgba(214,176,108,0.1)"], [1, "rgba(214,176,108,0)"]], 256);
-  var TIEF = sprite([[0, "rgba(255,238,196,1)"], [0.18, "rgba(206,152,62,0.95)"], [0.45, "rgba(170,120,46,0.4)"], [1, "rgba(150,105,40,0)"]]);
+  // erst beim ersten Start zeichnen (nicht beim Laden der Seite: spart Rechenzeit, wenn keine Szene im Bild ist)
+  var HELL, WEICH, TIEF;
+  function farben() {
+    if (HELL) return;
+    HELL = sprite([[0, "rgba(255,253,246,1)"], [0.2, "rgba(255,244,214,0.95)"], [0.42, "rgba(220,178,100,0.45)"], [1, "rgba(168,128,60,0)"]]);
+    WEICH = sprite([[0, "rgba(255,250,236,0.9)"], [0.25, "rgba(255,240,206,0.62)"], [0.5, "rgba(236,206,150,0.3)"], [0.75, "rgba(214,176,108,0.1)"], [1, "rgba(214,176,108,0)"]], 256);
+    TIEF = sprite([[0, "rgba(255,238,196,1)"], [0.18, "rgba(206,152,62,0.95)"], [0.45, "rgba(170,120,46,0.4)"], [1, "rgba(150,105,40,0)"]]);
+  }
 
   function proben(svg, sel, n, abb) {
     var el = svg.querySelector(sel), l = el.getTotalLength(), out = [];
@@ -52,14 +57,10 @@
 
   // ---------- gemeinsamer Kern: Leinwand, Uhr, Sichtbarkeit, Funken, Leerlauf ----------
   function Szene(el, c) {
-    var cv = document.createElement("canvas"), ctx = cv.getContext("2d");
-    if (!ctx) return;
-    var s = { el: el, ctx: ctx, W: 0, H: 0, PAD: c.pad, funken: [], schmal: false };
+    var cv, ctx, s = { el: el, ctx: null, W: 0, H: 0, PAD: c.pad, funken: [], schmal: false };
     var breit = window.innerWidth >= 900;
     var spaet = performance.now() > c.spaet; // Notfall-Endbild ist schon zu sehen → keine Intro
     el.classList.add(c.name + "-bereit");
-    cv.setAttribute("aria-hidden", "true");
-    el.appendChild(cv);
     s.punkt = function (x, y, r, a, bild) { if (a <= 0.01 || (bild === WEICH && !breit)) return; ctx.globalAlpha = a > 1 ? 1 : a; ctx.drawImage(bild || HELL, x - r, y - r, 2 * r, 2 * r); };
     s.funke = function (x, y, st, bild) { s.funken.push({ x: x, y: y, vx: (M.random() * 2 - 1) * st, vy: (M.random() * 2 - 1.3) * st, t: 0, l: 0.45 + M.random() * 0.45, r: 1.2 + M.random() * 1.8, b: bild }); };
     s.linie = function (liste, von, bis, breite, a) {
@@ -110,7 +111,10 @@
       hin = erster ? true : !hin; erster = false; zug = { t: 0, hin: hin, an: false }; c.zugStart && c.zugStart(s, zug); los();
     }
     function start() {
-      if (gestartet) return; gestartet = true; messen();
+      if (gestartet) return;
+      cv = document.createElement("canvas"); ctx = s.ctx = cv.getContext("2d");
+      if (!ctx) { intro = false; c.ende(s); return; }
+      gestartet = true; farben(); cv.setAttribute("aria-hidden", "true"); el.appendChild(cv); messen();
       if (intro) { c.vorbereiten(s); los(); } else { c.ende(s); ruhe(); }
     }
     function weiter() {
