@@ -31,13 +31,20 @@
   function farben() {
     if (HELL) return;
     HELL = sprite([[0, "rgba(255,253,246,1)"], [0.2, "rgba(255,244,214,0.95)"], [0.42, "rgba(220,178,100,0.45)"], [1, "rgba(168,128,60,0)"]]);
-    WEICH = sprite([[0, "rgba(255,250,236,0.9)"], [0.25, "rgba(255,240,206,0.62)"], [0.5, "rgba(236,206,150,0.3)"], [0.75, "rgba(214,176,108,0.1)"], [1, "rgba(214,176,108,0)"]], 256);
+    if (!handy.matches) WEICH = sprite([[0, "rgba(255,250,236,0.9)"], [0.25, "rgba(255,240,206,0.62)"], [0.5, "rgba(236,206,150,0.3)"], [0.75, "rgba(214,176,108,0.1)"], [1, "rgba(214,176,108,0)"]], 160); else WEICH = null; // großes weiches Licht nur breit (am Handy zu teuer)
     TIEF = sprite([[0, "rgba(255,238,196,1)"], [0.18, "rgba(206,152,62,0.95)"], [0.45, "rgba(170,120,46,0.4)"], [1, "rgba(150,105,40,0)"]]);
   }
 
-  function proben(svg, sel, n, abb) {
-    var el = svg.querySelector(sel), l = el.getTotalLength(), out = [];
-    for (var i = 0; i < n; i++) { var p = el.getPointAtLength((l * i) / (n - 1)); out.push(abb(p.x, p.y)); }
+  function proben(svg, sel, n, abb) { // Punkte gleichmäßig nach Länge entlang einer Kubik-Kurve „M x y C …“ (rechnerisch – getPointAtLength ist langsam)
+    var z = svg.querySelector(sel).getAttribute("d").match(/-?[\d.]+/g).map(Number), roh = [], len = [0], i;
+    var bz = function (a, b, c, d, t) { var m = 1 - t; return m * m * m * a + 3 * m * m * t * b + 3 * m * t * t * c + t * t * t * d; };
+    for (i = 0; i <= 200; i++) { var t = i / 200; roh.push([bz(z[0], z[2], z[4], z[6], t), bz(z[1], z[3], z[5], z[7], t)]); if (i) len.push(len[i - 1] + M.hypot(roh[i][0] - roh[i - 1][0], roh[i][1] - roh[i - 1][1])); }
+    var out = [], k = 0, L = len[200];
+    for (i = 0; i < n; i++) {
+      var ziel = (L * i) / (n - 1); while (k < 199 && len[k + 1] < ziel) k++;
+      var f = (ziel - len[k]) / ((len[k + 1] - len[k]) || 1);
+      out.push(abb(roh[k][0] + (roh[k + 1][0] - roh[k][0]) * f, roh[k][1] + (roh[k + 1][1] - roh[k][1]) * f));
+    }
     return out;
   }
   function auf(liste, u) { // Punkt bei Anteil u entlang einer Probenliste (gleichmäßig nach Länge)
@@ -61,10 +68,9 @@
   var handy = window.matchMedia("(max-width: 899px)"); // statt innerWidth: erzwingt beim Laden keine Layout-Berechnung
   function Szene(el, c) {
     var cv, ctx, s = { el: el, ctx: null, W: 0, H: 0, PAD: c.pad, funken: [], schmal: false };
-    var breit = !handy.matches;
     var spaet = performance.now() > c.spaet; // Notfall-Endbild ist schon zu sehen → keine Intro
     el.classList.add(c.name + "-bereit");
-    s.punkt = function (x, y, r, a, bild) { if (a <= 0.01 || (bild === WEICH && !breit)) return; ctx.globalAlpha = a > 1 ? 1 : a; ctx.drawImage(bild || HELL, x - r, y - r, 2 * r, 2 * r); };
+    s.punkt = function (x, y, r, a, bild) { if (a <= 0.01 || bild === null) return; ctx.globalAlpha = a > 1 ? 1 : a; ctx.drawImage(bild || HELL, x - r, y - r, 2 * r, 2 * r); };
     s.funke = function (x, y, st, bild) { s.funken.push({ x: x, y: y, vx: (M.random() * 2 - 1) * st, vy: (M.random() * 2 - 1.3) * st, t: 0, l: 0.45 + M.random() * 0.45, r: 1.2 + M.random() * 1.8, b: bild }); };
     s.linie = function (liste, von, bis, breite, a) {
       if (bis <= von || a <= 0.01) return;
