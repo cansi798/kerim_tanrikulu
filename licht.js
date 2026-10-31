@@ -3,16 +3,39 @@
 //   1) Sprachbrücke im Hero der Startseite [data-bruecke] – Sinnbild Übersetzen (ca. 3,5 s):
 //      Ufer leuchten auf → der Bogen wächst aus Licht von beiden Ufern und trifft sich in der Mitte → Hänger, Innenbogen, Spiegelung →
 //      Lichtteilchen lösen sich aus dem Wort links, wandern über den Bogen und setzen sich rechts zum Wort der anderen Sprache zusammen → Leitsatz.
-//      Leerlauf: alle 10 s ein Lichtzug über den Bogen, abwechselnd hin und zurück (auch beim Darüberfahren mit der Maus).
+//      Danach: alle 14 s läuft die ganze Intro erneut (kurz ausblenden, neu aufbauen), und jedes Mal, wenn die Szene wieder ins Bild kommt.
+//      Beim Darüberfahren mit der Maus zieht ein kleiner Lichtzug über den Bogen.
 //   2) Dolmetschen [data-dolmetschen] – der Ablauf eines Gesprächs (ca. 3,5 s):
 //      Deutsch „spricht“ (goldene Schallwellen) → die Worte fließen als helles Licht zum Federkiel → dort Aufleuchten, Verwandlung in tiefes Gold →
-//      sie kommen als neue Wellen bei Türkisch an → kurze Antwort zurück. Leerlauf: alle 10 s ein Wortwechsel, abwechselnd die Richtung.
-// Nur mit JS und ohne „Bewegung reduzieren“; sonst bleibt das fertige Standbild (SVG/HTML). Texte bleiben echter Text, Canvas ist aria-hidden.
-// Rechnet nur, solange die Szene im Bild und der Tab sichtbar ist (IntersectionObserver, visibilitychange, kein rAF im Leerlauf).
-// Can 31.10. 08:45: Die Intro beginnt erst, wenn die Szene wirklich im Bild ist (mind. die Hälfte), und läuft dann ganz ab –
-// auch beim Weiterscrollen (Pause nur, wenn sie ganz aus dem Bild ist). Nichts läuft vorher außerhalb des Bildes ab.
+//      sie kommen als neue Wellen bei Türkisch an → kurze Antwort zurück. Wiederholt sich wie die Brücke (alle 14 s, beim Wiederkommen).
+// Ohne JS: fertiges Standbild (SVG/HTML). „Bewegung reduzieren“: dasselbe Standbild blendet beim ersten Sichtbarwerden nur sanft ein
+// (1 s, keine Bewegung, keine Wiederholung). Texte bleiben echter Text, Canvas ist aria-hidden.
+// Die Intro beginnt erst, wenn die Szene wirklich im Bild ist (mind. die Hälfte), und läuft dann ganz ab, auch beim Weiterscrollen;
+// gerechnet wird nur, solange die Szene im Bild und der Tab sichtbar ist (IntersectionObserver, visibilitychange).
+// Safari-tauglich: nur Canvas-2D-Grundfunktionen (kein ctx.filter, kein roundRect, kein OffscreenCanvas), requestIdleCallback mit Ersatz.
 (function () {
-  if (!window.requestAnimationFrame || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!window.requestAnimationFrame) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { // sanfte Kurzfassung: nur Einblenden, keine Bewegung
+    [["[data-bruecke]", ".b-teil, .b-ziel, .claim"], ["[data-dolmetschen]", ".links, .rechts, .kiel"]].forEach(function (z) {
+      document.querySelectorAll(z[0]).forEach(function (el) {
+        var teile = el.querySelectorAll(z[1]);
+        if (!teile.length || !("IntersectionObserver" in window)) return;
+        teile.forEach(function (x) { x.style.opacity = "0"; });
+        var io = new IntersectionObserver(function (e) {
+          if (!e[0].isIntersecting || e[0].intersectionRatio < 0.5) return;
+          io.disconnect();
+          var t0 = performance.now();
+          (function schritt(jetzt) {
+            var k = Math.min(1, (jetzt - t0) / 1000);
+            teile.forEach(function (x) { x.style.opacity = k < 1 ? k.toFixed(3) : ""; });
+            if (k < 1) requestAnimationFrame(schritt);
+          })(t0);
+        }, { threshold: [0, 0.5, 1] });
+        io.observe(el);
+      });
+    });
+    return;
+  }
   var M = Math, GOLD = "#a8803c";
   var klemm = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   var bereich = function (t, a, b) { return klemm((t - a) / (b - a)); };
@@ -93,13 +116,17 @@
       c.messen(s);
     }
 
+    // Ablauf (Can 31.10. 09:26/3945): Die volle Intro läuft, sobald die Szene ins Bild kommt (mind. die Hälfte sichtbar),
+    // wiederholt sich alle 14 s, solange sie im Bild ist (kurz ausblenden, neu aufbauen), und startet neu,
+    // wann immer sie nach dem Verlassen wieder ins Bild kommt. Die Uhr läuft in echter Zeit: auch bei langsamen Bildern
+    // (z. B. Safari ohne Grafikbeschleunigung) ist die Intro nach ca. 3,5 s fertig, statt in Zeitlupe stehen zu bleiben.
     var t = 0, intro = !spaet, zug = null, laeuft = false, raf = 0, letzte = 0, sichtbar = false, genug = false, aktiv = !document.hidden;
-    var timer = 0, gestartet = false, erster = true, hin = false;
+    var timer = 0, gestartet = false, hin = false, verlassen = false, WIEDER = 14000;
     var sparen = handy.matches; // Handy: 30 Bilder je Sekunde reichen für weiche Lichtpunkte und halbieren die Rechenzeit
     function bild(jetzt) {
       if (!laeuft) return;
       if (sparen && jetzt - letzte < 28) { raf = requestAnimationFrame(bild); return; }
-      var dt = M.min(0.05, (jetzt - letzte) / 1000 || 0.016); letzte = jetzt; t += dt;
+      var dt = M.min(0.25, (jetzt - letzte) / 1000 || 0.016); letzte = jetzt; t += dt;
       // Spuren: das letzte Bild nur teilweise löschen → weiche Lichtschweife (Stärke an die Bildrate angepasst)
       ctx.globalAlpha = 1; ctx.globalCompositeOperation = "destination-out"; ctx.fillStyle = "rgba(0,0,0," + (1 - M.pow(0.62, dt * 60)).toFixed(3) + ")"; ctx.fillRect(0, 0, s.W, s.H);
       ctx.globalCompositeOperation = "source-over";
@@ -118,11 +145,23 @@
       if (intro && t === 0 && !genug) return; // Intro noch nicht begonnen: erst starten, wenn genug von der Szene zu sehen ist
       laeuft = true; letzte = performance.now(); raf = requestAnimationFrame(bild); }
     function stopp() { laeuft = false; cancelAnimationFrame(raf); }
-    function ruhe() { stopp(); ctx.clearRect(0, 0, s.W, s.H); clearTimeout(timer); timer = setTimeout(neuerZug, erster ? 6500 : 10000); }
-    function neuerZug() {
+    function ruhe() { stopp(); ctx.clearRect(0, 0, s.W, s.H); clearTimeout(timer); timer = setTimeout(wiederholen, WIEDER); }
+    function zuruecksetzen() { // Szene auf den Anfang der Intro stellen (Endbild weg, Teilchen neu)
+      stopp(); clearTimeout(timer); timer = 0; zug = null; s.funken.length = 0; t = 0; intro = true;
+      if (ctx) ctx.clearRect(0, 0, s.W, s.H);
+      c.zuruecksetzen(s);
+    }
+    function neuStart() { if (!gestartet) return; zuruecksetzen(); messen(); c.vorbereiten(s); los(); }
+    function wiederholen() { // alle 14 s: sanft ausblenden, dann neu aufbauen
       timer = 0;
-      if (zug || intro || !sichtbar || !aktiv) return; // wird beim Wiedersichtbarwerden nachgeholt
-      hin = erster ? true : !hin; erster = false; zug = { t: 0, hin: hin, an: false }; c.zugStart && c.zugStart(s, zug); los();
+      if (intro) return;
+      if (!sichtbar || !aktiv) { verlassen = true; return; } // beim nächsten Sichtbarwerden
+      c.ausblenden(s);
+      timer = setTimeout(function () { timer = 0; if (sichtbar && aktiv) neuStart(); else { zuruecksetzen(); verlassen = true; } }, 700);
+    }
+    function neuerZug() { // kleiner Lichtzug beim Darüberfahren mit der Maus (nur im fertigen Zustand)
+      if (zug || intro || !sichtbar || !aktiv) return;
+      hin = !hin; zug = { t: 0, hin: hin, an: false }; c.zugStart && c.zugStart(s, zug); los();
     }
     function start() {
       if (gestartet) return;
@@ -133,20 +172,32 @@
     }
     function weiter() {
       if (!gestartet) { if (genug && aktiv) bereit(start); return; }
-      if (intro || zug || s.funken.length) los(); else if (!timer) neuerZug();
+      if (verlassen) { if (genug && aktiv) { verlassen = false; neuStart(); } return; }
+      if (intro || zug || s.funken.length) los(); else if (!timer) timer = setTimeout(wiederholen, WIEDER);
     }
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (e) {
         var x = e[0]; sichtbar = x.isIntersecting; genug = x.intersectionRatio >= 0.5 || x.intersectionRect.height >= window.innerHeight * 0.5;
-        if (!sichtbar) stopp(); else weiter();
+        if (!sichtbar) {
+          stopp();
+          // ganz aus dem Bild: zurück auf Anfang, damit sie beim Wiederkommen neu aufgebaut wird
+          if (gestartet && !verlassen) { zuruecksetzen(); verlassen = true; }
+        } else weiter();
       }, { threshold: [0, 0.25, 0.5, 0.75, 1] }).observe(el);
     } else { sichtbar = genug = true; weiter(); }
     document.addEventListener("visibilitychange", function () { aktiv = !document.hidden; if (!aktiv) stopp(); else weiter(); });
-    var rz = 0;
+    // Größenänderung: Am iPhone feuert Safari „resize“, sobald beim Scrollen die Adressleiste ein- oder ausfährt (nur die Höhe ändert sich).
+    // Früher sprang die Intro dabei sofort ans Ende („sofort fertig“, Can 3944). Jetzt: Höhe allein → nichts tun;
+    // neue Breite (Drehen) → während der Intro neu beginnen, sonst nur neu vermessen.
+    var rz = 0, breiteAlt = window.innerWidth;
     window.addEventListener("resize", function () {
-      clearTimeout(rz); rz = setTimeout(function () { if (!gestartet) return; if (intro) { intro = false; c.ende(s); } messen(); }, 200);
+      clearTimeout(rz); rz = setTimeout(function () {
+        if (!gestartet || window.innerWidth === breiteAlt) return;
+        breiteAlt = window.innerWidth;
+        if (intro && t > 0) neuStart(); else messen();
+      }, 200);
     }, { passive: true });
-    el.addEventListener("pointerenter", function () { if (gestartet && !intro && !zug) { clearTimeout(timer); neuerZug(); } });
+    el.addEventListener("pointerenter", function () { if (gestartet && !intro && !zug) neuerZug(); });
   }
 
   // ---------- 1) Sprachbrücke ----------
@@ -177,6 +228,10 @@
     }
     function endbild() {
       fertig = true; fig.classList.add("b-fertig"); frei(ziel); frei(claim); if (quelle) quelle.classList.remove("b-glanz");
+    }
+    function strichAufAnfang() { // Tintenstrich unter dem Leitsatz wieder auf Anfang (zieht sich beim nächsten Endbild neu)
+      if (!claim) return;
+      claim.querySelectorAll(".tinte path").forEach(function (p) { if (p.getAnimations) p.getAnimations().forEach(function (a) { try { a.currentTime = 0; } catch (e) {} }); });
     }
     Szene(fig, {
       name: "b", pad: 30, spaet: 3300,
@@ -259,6 +314,11 @@
         return t < 4.0;
       },
       ende: function () { teile = []; endbild(); },
+      ausblenden: function () { fig.classList.add("b-aus"); },
+      zuruecksetzen: function () {
+        fertig = false; teile = []; strichAufAnfang();
+        fig.classList.remove("b-fertig", "b-aus"); if (ziel) ziel.style.opacity = "0"; setz(claim, 0, 12);
+      },
       zug: function (s, z) { // Lichtzug: heller Kopf mit Funkenschweif, am Ziel ein kurzer Glanz auf dem Wort
         var k = klemm(z.t / 1.9), p = auf(bogen, z.hin ? ioc(k) : 1 - ioc(k));
         if (k < 1) { s.punkt(p[0], p[1], s.schmal ? 9 : 12, M.min(1, k * 6)); if (M.random() < 0.8) s.funke(p[0], p[1], 10, M.random() < 0.4 ? TIEF : HELL); }
@@ -345,6 +405,11 @@
         return lebt || t < 3.9;
       },
       ende: function () { strom = []; endbild(); },
+      ausblenden: function () { el.classList.add("d-aus"); },
+      zuruecksetzen: function () {
+        fertig = false; strom = []; gl = {}; kiel.style.transform = "";
+        el.classList.remove("d-fertig", "d-aus"); setz(links, 0, 18); setz(rechts, 0, 18); kiel.style.opacity = "0";
+      },
       zugStart: function (s, z) { strom = []; teilchen(s.schmal ? 36 : 54, 0.35, 0.4, 0.5, z.hin); },
       zug: function (s, z) {
         wellen(s, z.hin ? RA : RB, 0, z.t, 0.8);
