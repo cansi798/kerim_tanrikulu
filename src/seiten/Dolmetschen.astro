@@ -3,7 +3,7 @@ import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import BildDolmetschen from "../components/BildDolmetschen.astro";
 import Platzhalter from "../components/Platzhalter.astro";
-import GebietKarte from "../components/GebietKarte.astro";
+import RoughKarte from "../components/RoughKarte.astro";
 import { TELEFON_LINK, mailLink } from "../daten";
 import { p, type Lang } from "../i18n";
 import { t } from "../texte";
@@ -30,7 +30,7 @@ const S = T.seiten.dolmetschen;
     <div class="huelle raster-2">
       <h2 id="gebiet-titel">{T.gebiet.titel}</h2>
       <div class="gebiet-inhalt">
-        <GebietKarte lang={lang} />
+        <RoughKarte lang={lang} />
         <div>
           <p class="lead">{T.gebiet.satz}.</p>
           <p class="leise">{T.gebiet.zusatz}</p>
@@ -79,8 +79,9 @@ const S = T.seiten.dolmetschen;
   .honorar { margin: 2rem 0 0; max-width: 46rem; }
   .mt { margin-top: 1.5rem; }
   .sand { background: var(--sand); }
-  .gebiet-inhalt { display: flex; align-items: center; gap: clamp(1.25rem, 4vw, 2.5rem); }
-  .gebiet-inhalt :global(.gebiet-karte) { flex: none; width: clamp(6.5rem, 18vw, 10rem); }
+  .gebiet-inhalt { display: grid; gap: 1.25rem; align-items: center; }
+  .gebiet-inhalt :global(.rkarte) { width: min(100%, 17rem); }
+  @media (min-width: 40rem) { .gebiet-inhalt { grid-template-columns: auto minmax(0, 1fr); gap: 2.5rem; } .gebiet-inhalt :global(.rkarte) { width: 16rem; } }
   .gebiet-inhalt .lead { margin-bottom: 0.5rem; }
   .gebiet-inhalt .leise { margin: 0; }
 </style>

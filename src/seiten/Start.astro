@@ -8,7 +8,7 @@
 import Basis from "../layouts/Basis.astro";
 import Icon from "../components/Icon.astro";
 import Ablauf from "../components/Ablauf.astro";
-import GebietKarte from "../components/GebietKarte.astro";
+import RoughKarte from "../components/RoughKarte.astro";
 import Platzhalter from "../components/Platzhalter.astro";
 import { mailLink, TELEFON_LINK } from "../daten";
 import { p, type Lang, type Seite } from "../i18n";
@@ -112,7 +112,7 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
         ))}
       </ul>
       <div class="gebiet reveal">
-        <GebietKarte lang={lang} dunkel />
+        <RoughKarte lang={lang} dunkel />
         <div class="gebiet-text">
           <h3>{T.gebiet.titel}</h3>
           <p class="gebiet-satz">{T.gebiet.satz}</p>
@@ -275,10 +275,11 @@ const HAENGER = Array.from({ length: 13 }, (_, i) => {
   @media (min-width: 48rem) { .details { position: static; margin-top: auto; padding-top: 0.9rem; } .details .wort { display: inline; } }
   .usp-punkt:hover .details :global(svg) { transform: translateX(3px); transition: transform var(--dur-fast) var(--ease); }
 
-  .gebiet { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.5rem); margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: clamp(1.25rem, 3vw, 2rem); border-top: 1px solid #57482f; }
-  @media (min-width: 48rem) { .gebiet { justify-content: center; } }
-  .gebiet :global(.gebiet-karte) { flex: none; width: 6.5rem; }
-  @media (min-width: 48rem) { .gebiet :global(.gebiet-karte) { width: 9.5rem; } }
+  /* Einsatzgebiet: Skizzen-Karte (Can 11:29) – schmal über dem Text, breit daneben */
+  .gebiet { display: grid; justify-items: center; text-align: center; gap: 1rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: clamp(1.25rem, 3vw, 2rem); border-top: 1px solid #57482f; }
+  .gebiet :global(.rkarte) { width: min(100%, 17rem); }
+  @media (min-width: 48rem) { .gebiet { grid-template-columns: auto minmax(0, 30rem); justify-content: center; justify-items: start; text-align: left; gap: 3rem; align-items: center; }
+    .gebiet :global(.rkarte) { width: 19rem; } }
   .gebiet-text h3 { font: 600 0.82rem/1.5 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: #e3c88f; margin: 0 0 0.3rem; }
   .gebiet-satz { font: 600 clamp(1.1rem, 1.9vw, 1.4rem)/1.35 var(--serif); color: #fbf7f0; margin: 0 0 0.35rem; }
   .lang-zeile { display: none; margin: 0 0 0.5rem; color: #ddd2c3; font-size: 1rem; }
