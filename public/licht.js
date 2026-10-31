@@ -58,9 +58,10 @@
   }
 
   // ---------- gemeinsamer Kern: Leinwand, Uhr, Sichtbarkeit, Funken, Leerlauf ----------
+  var handy = window.matchMedia("(max-width: 899px)"); // statt innerWidth: erzwingt beim Laden keine Layout-Berechnung
   function Szene(el, c) {
     var cv, ctx, s = { el: el, ctx: null, W: 0, H: 0, PAD: c.pad, funken: [], schmal: false };
-    var breit = window.innerWidth >= 900;
+    var breit = !handy.matches;
     var spaet = performance.now() > c.spaet; // Notfall-Endbild ist schon zu sehen → keine Intro
     el.classList.add(c.name + "-bereit");
     s.punkt = function (x, y, r, a, bild) { if (a <= 0.01 || (bild === WEICH && !breit)) return; ctx.globalAlpha = a > 1 ? 1 : a; ctx.drawImage(bild || HELL, x - r, y - r, 2 * r, 2 * r); };
@@ -79,7 +80,7 @@
     function messen() {
       var r = el.getBoundingClientRect();
       // Auflösung: am Handy 1:1 (weiche Lichtpunkte brauchen keine Retina-Schärfe; spart ~2/3 der Pixel und damit Rechenzeit), breit höchstens 1,5
-      var dpr = window.innerWidth < 900 ? 1 : M.min(1.5, window.devicePixelRatio || 1);
+      var dpr = handy.matches ? 1 : M.min(1.5, window.devicePixelRatio || 1);
       s.W = r.width + 2 * s.PAD; s.H = r.height + 2 * s.PAD; s.schmal = r.width < 420;
       cv.style.cssText = "position:absolute;pointer-events:none;left:" + -s.PAD + "px;top:" + -s.PAD + "px;width:" + s.W + "px;height:" + s.H + "px" + (c.unten ? ";z-index:0" : "");
       cv.width = M.round(s.W * dpr); cv.height = M.round(s.H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -88,7 +89,7 @@
 
     var t = 0, intro = !spaet, zug = null, laeuft = false, raf = 0, letzte = 0, sichtbar = false, genug = false, aktiv = !document.hidden;
     var timer = 0, gestartet = false, erster = true, hin = false;
-    var sparen = window.innerWidth < 900; // Handy: 30 Bilder je Sekunde reichen für weiche Lichtpunkte und halbieren die Rechenzeit
+    var sparen = handy.matches; // Handy: 30 Bilder je Sekunde reichen für weiche Lichtpunkte und halbieren die Rechenzeit
     function bild(jetzt) {
       if (!laeuft) return;
       if (sparen && jetzt - letzte < 28) { raf = requestAnimationFrame(bild); return; }
