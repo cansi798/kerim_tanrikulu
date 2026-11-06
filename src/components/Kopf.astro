@@ -1,5 +1,5 @@
 ---
-// Kopfzeile nach Bauwelt-Muster (Jamil Talk 3910): Logo links, Navigation, Telefon, Hauptknopf, goldene Fortschrittsleiste.
+// Kopfzeile nach Bauwelt-Muster (Jamil Talk 3910): Logo links, Navigation, Telefon, Hauptknopf, feine Fortschrittsleiste.
 // v4: Sprachwahl DE | TR (auch mobil sichtbar), führt auf die entsprechende Seite der anderen Sprache. Menü am Handy ohne JS (<details>).
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
@@ -45,10 +45,12 @@ const sprachen: Lang[] = ["de", "tr"];
 </header>
 <style>
   .kopf {
-    position: sticky; top: 0; z-index: 50; background: var(--creme); color: var(--text); --logo-grund: var(--creme);
-    border-bottom: 1px solid var(--tinte-3); transition: box-shadow 0.3s ease;
+    position: sticky; top: 0; z-index: 50; /* Kopf in Primär (Jamil 06.11.2026): helle Schrift und helles Logo, Gold nur am Hauptknopf */
+    background: var(--primaer); color: var(--auf-dunkel); --logo: var(--auf-dunkel); --logo-grund: var(--primaer);
+    --hell: var(--auf-dunkel); --text: var(--auf-dunkel); --tinte-2: var(--primaer-hell); --tinte-3: var(--linie-dunkel);
+    border-bottom: 1px solid var(--linie-dunkel); transition: box-shadow 0.3s ease;
   }
-  .kopf.gescrollt { box-shadow: 0 10px 28px -16px rgba(43, 36, 31, 0.35); }
+  .kopf.gescrollt { box-shadow: 0 10px 28px -16px rgba(10, 20, 40, 0.45); }
   .kopf-innen { display: flex; align-items: center; gap: 0.9rem; height: var(--kopf-h); }
   .marke { display: block; margin-right: auto; color: var(--hell); flex: none; }
   .marke :global(.logo) { width: 9.5rem; height: auto; }
@@ -62,37 +64,37 @@ const sprachen: Lang[] = ["de", "tr"];
     text-decoration: none; font-size: 0.95rem; white-space: nowrap;
   }
   .nav-breit a::after {
-    content: ""; position: absolute; left: 0.5rem; right: 0.5rem; bottom: 0.3rem; height: 1px; background: var(--gold);
+    content: ""; position: absolute; left: 0.5rem; right: 0.5rem; bottom: 0.3rem; height: 1px; background: var(--sekundaer);
     transform: scaleX(0); transform-origin: left; transition: transform 0.35s var(--sanft);
   }
   /* aktuelle Seite: Farbe + Gewicht statt dauerhafter Linie (v5, Jamil 3957); Linie nur beim Darüberfahren */
   .nav-breit a:hover::after { transform: scaleX(1); }
-  .nav-breit a[aria-current="page"] { color: var(--gold-hell); font-weight: 600; }
+  .nav-breit a[aria-current="page"] { color: var(--sekundaer); font-weight: 700; }
 
   /* Sprachwahl: zwei kleine Felder, aktive Sprache dunkel hinterlegt */
-  .sprache { display: flex; flex: none; border: 1px solid var(--gold); border-radius: 999px; padding: 2px; }
+  .sprache { display: flex; flex: none; border: 1px solid rgba(239, 230, 214, 0.55); border-radius: 999px; padding: 2px; }
   .sprache a {
     display: grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; padding: 0 0.55rem; border-radius: 999px;
     color: var(--text); text-decoration: none; font: 600 0.85rem/1 var(--sans); letter-spacing: 0.06em;
   }
   .sprache a:hover { background: var(--tinte-2); }
-  .sprache a[aria-current="true"] { background: var(--tinte); color: var(--weiss); }
+  .sprache a[aria-current="true"] { background: var(--sekundaer); color: var(--primaer); }
 
   .anruf { display: none; align-items: center; gap: 0.5rem; color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.98rem; white-space: nowrap; }
-  .anruf :global(svg) { width: 1.15rem; height: 1.15rem; color: var(--gold-dunkel); }
-  .wa-kopf { display: none; place-items: center; flex: none; width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold-dunkel); }
+  .anruf :global(svg) { width: 1.15rem; height: 1.15rem; color: var(--sekundaer); }
+  .wa-kopf { display: none; place-items: center; flex: none; width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid rgba(239, 230, 214, 0.55); color: var(--sekundaer); }
   .wa-kopf:hover { background: var(--tinte-2); }
   .wa-kopf :global(svg) { width: 1.3rem; height: 1.3rem; }
   .kopf-cta { display: none; min-height: 2.75rem; padding: 0.55rem 1.2rem; font-size: 0.92rem; white-space: nowrap; }
   .kopf-balken { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; overflow: hidden; }
-  .kopf-balken span { display: block; height: 100%; background: var(--gold); transform: scaleX(0); transform-origin: left center; }
+  .kopf-balken span { display: block; height: 100%; background: var(--deko); transform: scaleX(0); transform-origin: left center; }
   @media (min-width: 80rem) { .nav-breit { display: block; } .nav-schmal { display: none; } .kopf-cta { display: inline-flex; } }
   @media (min-width: 100rem) { .anruf { display: inline-flex; } }
   @media (min-width: 80rem) { .wa-kopf { display: grid; } }
 
   .nav-schmal summary {
     display: flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.4rem 0.85rem;
-    border: 1px solid var(--gold); border-radius: 999px; cursor: pointer; list-style: none; font-size: 0.98rem;
+    border: 1px solid rgba(239, 230, 214, 0.55); border-radius: 999px; cursor: pointer; list-style: none; font-size: 0.98rem;
   }
   .nav-schmal summary::-webkit-details-marker { display: none; }
   .nav-schmal summary :global(svg) { width: 1.2rem; height: 1.2rem; }
@@ -100,15 +102,15 @@ const sprachen: Lang[] = ["de", "tr"];
   .nav-schmal .auf, .nav-schmal[open] .zu { display: none; }
   .nav-schmal[open] .auf { display: inline; }
   .nav-schmal nav {
-    position: absolute; left: 0; right: 0; top: 100%; background: var(--creme); border-bottom: 1px solid var(--tinte-3);
-    box-shadow: 0 24px 40px -24px rgba(43, 36, 31, 0.35); max-height: calc(100svh - var(--kopf-h)); overflow-y: auto;
+    position: absolute; left: 0; right: 0; top: 100%; background: var(--primaer); border-bottom: 1px solid var(--linie-dunkel);
+    box-shadow: 0 24px 40px -24px rgba(10, 20, 40, 0.45); max-height: calc(100svh - var(--kopf-h)); overflow-y: auto;
   }
   .nav-schmal ul { list-style: none; margin: 0; padding: 0.5rem var(--rand) 1.25rem; }
   .nav-schmal li a {
     display: block; padding: 0.8rem 0; border-bottom: 1px solid var(--tinte-3); color: var(--hell);
     text-decoration: none; font: 500 1.3rem/1.3 var(--serif);
   }
-  .nav-schmal li a[aria-current="page"] { color: var(--gold-hell); }
+  .nav-schmal li a[aria-current="page"] { color: var(--sekundaer); font-weight: 700; }
   @media (prefers-reduced-motion: no-preference) {
     .nav-schmal[open] nav { animation: einblenden 0.25s ease both; }
   }

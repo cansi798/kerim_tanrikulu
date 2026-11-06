@@ -2,7 +2,7 @@
 // „So einfach geht's“ (Can 31.10.2026 10:41/10:43): Ablauf als kompakte Schritt-Leiste mit Licht-Animation.
 // Inhalt seit Kerims Feedback (Talk 3990, 31.10.2026) bestätigt: Schritt 2 = Dokumente als Foto/Scan schicken → Kostenvoranschlag.
 // Schritt 1 nennt Telefon, WhatsApp und E-Mail (Talk 3993/3994). Kein Platzhalter mehr.
-// Bewegung (public/licht.js, Szene „a“): Schritt 1 leuchtet auf, ein Lichtpunkt zieht die goldene Linie zu Schritt 2 und 3,
+// Bewegung (public/licht.js, Szene „a“): Schritt 1 leuchtet auf, ein Lichtpunkt zieht die feine Linie zu Schritt 2 und 3,
 // jeder Schritt erscheint, wenn das Licht ankommt (ca. 3,3 s). Start erst, wenn die Leiste zur Hälfte im Bild ist; danach alle 14 s
 // und beim Wiederkommen erneut; nie Sprung ans Ende beim Scrollen; iPhone-resize-sicher (gemeinsamer Kern in licht.js).
 // Ohne JS: fertige Leiste. „Bewegung reduzieren“: fertige Leiste blendet einmal sanft ein.
@@ -52,7 +52,7 @@ const A = T.ablauf;
   .a-schritt { display: flex; flex-direction: column; align-items: center; }
   .a-kreis {
     position: relative; display: grid; place-items: center; width: var(--kreis); height: var(--kreis); border-radius: 50%;
-    background: var(--weiss); border: 1.5px solid var(--gold); color: var(--gold-dunkel); margin-bottom: 0.9rem;
+    background: var(--weiss); border: 1.5px solid var(--deko); color: var(--primaer-leise); margin-bottom: 0.9rem;
     transition: box-shadow 0.6s ease, background-color 0.6s ease;
   }
   .a-kreis :global(svg) { width: 44%; height: 44%; }
@@ -66,10 +66,10 @@ const A = T.ablauf;
   /* Verbindungslinie durch die Mitten der Kreise (Spalten gleich breit → Mitten bei 1/6, 3/6, 5/6) */
   .a-linie {
     position: absolute; left: calc(100% / 6); right: calc(100% / 6); top: calc(var(--kreis) / 2 - 1px); height: 2px; border-radius: 2px;
-    background: linear-gradient(90deg, var(--gold), #c9a35b 50%, var(--gold));
+    background: linear-gradient(90deg, var(--deko), var(--primaer-hell) 50%, var(--deko));
   }
   .a-buehne :global(canvas) { pointer-events: none; }
-  .a-kreis:global(.a-glanz) { box-shadow: 0 0 0 6px rgba(201, 163, 91, 0.18), 0 0 26px 6px rgba(255, 236, 196, 0.9); background: #fffaf0; }
+  .a-kreis:global(.a-glanz) { box-shadow: 0 0 0 6px rgba(29, 49, 90, 0.12), 0 0 26px 6px rgba(239, 230, 214, 0.95); background: #fffdf9; }
   .a-knoepfe { justify-content: center; margin-top: clamp(1.75rem, 3.5vw, 2.5rem); }
   /* schmal gibt es unten die feste Leiste „Anrufen | WhatsApp | E-Mail“ → hier keine doppelten Knöpfe (weniger scrollen) */
   @media (max-width: 65.99rem) { .a-knoepfe { display: none; } }

@@ -70,10 +70,11 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
     border-radius: 4px; text-decoration: none; color: var(--text); background: var(--sand); border: 1px solid var(--tinte-3);
   }
   .wege a { transition: transform 0.35s var(--sanft), box-shadow 0.35s var(--sanft); }
-  .wege a:hover { transform: translateY(-3px); box-shadow: 0 22px 36px -26px rgba(43, 36, 31, 0.45); border-color: var(--gold); }
+  .wege a:hover { transform: translateY(-3px); box-shadow: 0 22px 36px -26px rgba(29, 49, 90, 0.4); border-color: var(--akzent); }
   .wege .w3 div { background: var(--weiss); color: var(--tinte); border: 1px solid var(--linie); }
-  .symbol { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold-dunkel); margin-bottom: 1rem; }
-  .w3 .symbol { color: var(--gold-dunkel); border-color: var(--gold); }
+  .symbol { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 50%; border: 1px solid var(--akzent); background: var(--akzent); color: var(--primaer); margin-bottom: 1rem; }
+  /* Gold nur an den Kontaktwegen (Conversion, Jamil 06.11.2026); Standort ist kein Kontaktweg → ohne Gold */
+  .w3 .symbol { background: transparent; color: var(--primaer-leise); border-color: var(--deko); }
   .symbol :global(svg) { width: 1.5rem; height: 1.5rem; }
   .art { font-size: 0.95rem; color: var(--hell-leise); }
   .w3 .art { color: var(--text-leise); }

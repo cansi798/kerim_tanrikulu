@@ -50,8 +50,8 @@ type Teil = { d: string; art: "s" | "f"; t: number; dauer?: number; farbe: strin
  *  (public/sichtbar.js) wird dieser Block entfernt – dann gelten die Farben der Seite (RoughKarte.astro). */
 const DATEI_STIL = (dunkel: boolean) =>
   "<style data-datei=\"\">svg{" + (dunkel
-    ? "--k-linie:#d9bd85;--k-schraffur:rgba(217,189,133,.36);--k-gold:#c9a35b;--k-punkt-rand:#fbf7f0;--k-fluss:rgba(243,237,228,.24);--k-text:#fbf7f0;--k-leise:#ddd2c3;--k-meer:#c9bdad;--k-hof:#2b241f"
-    : "--k-linie:#6e5020;--k-schraffur:rgba(168,128,60,.42);--k-gold:#c9a35b;--k-punkt-rand:#2b241f;--k-fluss:rgba(43,36,31,.13);--k-text:#2b241f;--k-leise:#5f5349;--k-meer:#5f5349;--k-hof:#ebe0cf") +
+    ? "--k-linie:#c3cbda;--k-schraffur:rgba(195,203,218,.26);--k-gold:#efe6d6;--k-punkt-rand:#fbf7f0;--k-fluss:rgba(243,237,228,.24);--k-text:#fbf7f0;--k-leise:#dde2ea;--k-meer:#c3cbda;--k-hof:#1d315a"
+    : "--k-linie:#1d315a;--k-schraffur:rgba(29,49,90,.2);--k-gold:#1d315a;--k-punkt-rand:#fbf7f0;--k-fluss:rgba(29,49,90,.13);--k-text:#1d315a;--k-leise:#4a5570;--k-meer:#4a5570;--k-hof:#efe6d6") +
   "}.rk-x{stroke:var(--k-hof);stroke-width:6px;paint-order:stroke;stroke-linejoin:round}.rk-p{fill:var(--k-text)}" +
   ".rk-land{font:600 28px Georgia,serif;fill:var(--k-text)}.rk-stadt{font:700 26px Arial,sans-serif;fill:var(--k-text)}.rk-gross{font-size:28px}" +
   ".rk-klein{font:600 20px Arial,sans-serif;fill:var(--k-leise)}.rk-meer{font:italic 500 21px Georgia,serif;fill:var(--k-meer)}</style>";

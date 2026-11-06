@@ -86,20 +86,20 @@ const richtungen = [
 </Basis>
 <style>
   .kopf-bild { display: flex; align-items: center; justify-content: center; gap: 1rem; padding-block: 1rem; }
-  .ufer-k { display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%; border: 1px solid var(--gold); background: var(--creme); font: 600 1.35rem/1 var(--serif); color: var(--tinte); }
+  .ufer-k { display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%; border: 1px solid var(--deko); background: var(--creme); font: 600 1.35rem/1 var(--serif); color: var(--tinte); }
   .kopf-pfeil { position: relative; width: 10rem; height: 34px; }
-  .kopf-pfeil { fill: none; stroke: var(--gold); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+  .kopf-pfeil { fill: none; stroke: var(--deko); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
 
   .laut { position: relative; margin: 0 auto; max-width: 56rem; padding: clamp(1.75rem, 4vw, 2.75rem); background: var(--weiss); border-radius: 6px; }
-  .laut { border: 1px solid var(--gold); border-radius: 16px; }
+  .laut { border: 1px solid var(--deko); border-radius: 16px; }
   .laut-kopf { font-size: clamp(1.4rem, 2.4vw, 1.75rem); margin-bottom: 0.75rem; }
   .laut blockquote { margin: 0 0 1.5rem; }
   .laut blockquote p { margin: 0; font: italic 500 clamp(1.15rem, 2vw, 1.35rem)/1.55 var(--serif); color: var(--tinte); }
   .laut-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
   .laut-liste li { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.9rem; border: 1px solid var(--linie); border-radius: 999px; background: var(--buetten); font-size: 0.98rem; }
-  .laut-liste :global(svg) { width: 1.15rem; height: 1.15rem; color: var(--gold-dunkel); }
+  .laut-liste :global(svg) { width: 1.15rem; height: 1.15rem; color: var(--primaer-leise); }
   .sprung { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 2.5rem; }
-  .sprung a { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0.5rem 1.25rem; border: 1px solid var(--gold); border-radius: 999px; color: var(--tinte); text-decoration: none; font-weight: 600; }
+  .sprung a { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0.5rem 1.25rem; border: 1px solid var(--deko); border-radius: 999px; color: var(--tinte); text-decoration: none; font-weight: 600; }
   .sprung a:hover { background: var(--tinte); color: var(--weiss); }
 
   .sand { background: var(--sand); }
@@ -112,16 +112,16 @@ const richtungen = [
   .gruppe li { display: flex; flex-direction: column; gap: 0.1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--linie); font-weight: 500; }
   .gruppe li:last-child { border-bottom: 0; }
   .kerim { display: inline-flex; align-items: flex-start; gap: 0.45rem; font-weight: 600; }
-  .kerim :global(svg) { width: 1.1rem; height: 1.1rem; flex: none; margin-top: 0.3em; color: var(--gold-dunkel); }
+  .kerim :global(svg) { width: 1.1rem; height: 1.1rem; flex: none; margin-top: 0.3em; color: var(--primaer-leise); }
   .zweit { font-size: 0.9rem; color: var(--text-leise); font-weight: 400; }
   .gruppen > :global(.reveal:nth-child(2)) { transition-delay: 120ms; }
   .gruppen > :global(.reveal:nth-child(3)) { transition-delay: 220ms; }
   .gruppen > :global(.reveal:nth-child(4)) { transition-delay: 320ms; }
 
   .legende { display: flex; align-items: center; gap: 0.75rem; color: var(--text-leise); font-size: 0.95rem; }
-  .legende-zeichen { display: grid; place-items: center; flex: none; color: var(--gold-dunkel); }
+  .legende-zeichen { display: grid; place-items: center; flex: none; color: var(--primaer-leise); }
   .legende-zeichen :global(svg) { width: 1.2rem; height: 1.2rem; }
   .hinweis { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.95rem; color: var(--text-leise); }
-  .hinweis :global(svg) { width: 1.2rem; height: 1.2rem; flex: none; margin-top: 0.2rem; color: var(--gold-dunkel); }
+  .hinweis :global(svg) { width: 1.2rem; height: 1.2rem; flex: none; margin-top: 0.2rem; color: var(--primaer-leise); }
   .knoepfe { align-items: center; gap: 0.85rem 1.25rem; }
 </style>

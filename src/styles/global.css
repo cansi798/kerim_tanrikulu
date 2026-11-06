@@ -3,30 +3,38 @@
    v3d (Jamil Talk 3910): Aufbau und Hero-Bewegung wie Bauwelt, Schriften Source Serif 4 + Open Sans, ruhige Animationen ohne Zeichnen. */
 
 :root {
-  /* v3c (Jamil Talk 3907): elegantes Beige statt Violett. Namen bleiben, Werte sind die helle Fassung:
-     „tinte“ = warme dunkle Schrift, „hell“ = Schrift auf der Beige-Bühne, „tinte-2/-3/-tief“ = Beige-Flächen und Linien. */
-  /* Jamil Talk 3984 (31.10.2026): Logo-Dunkelblau #1c2b4b für alle Schriften, Knöpfe und dunklen Flächen statt Tinte/Siegelrot – harmonischer mit dem Logo.
-     Kontrast auf Beige #ebe0cf 10,7:1, leise Schrift #4a5570 5,7:1. Rot nur noch für die Vorschau-/Platzhalter-Markierungen. */
-  --tinte: #1c2b4b;
-  --tinte-2: #efe5d6;
-  --tinte-3: #d8c9b2;
-  --tinte-tief: #e6dac7;
-  --sand: #ebe0cf;
-  --creme: #fbf7f0;
-  --gold: #a8803c;
-  --gold-hell: #6e5020;
-  --gold-dunkel: #6e5020;
-  --rot: #1c2b4b;       /* Name bleibt (Hauptknopf), Wert = Logo-Dunkelblau (Jamil 3984) */
-  --rot-hover: #2b4170;
-  --buetten: #f6f1e8;
+  /* Farbkonzept Jamil (Talk 06.11.2026 20:26): Primär #1D315A (Vertrauen, Kompetenz, Behördennähe) für Schrift, Überschriften,
+     Kopf, dunkle Flächen und Fuß · Sekundär #EFE6D6 (Ruhe, Wertigkeit) als ruhige Fläche und Wechselsektion ·
+     Akzent Gold #C89B3C AUSSCHLIESSLICH für Conversion (Hauptknöpfe, Kontaktwege) und den einen Vertrauensanker (OLG-Siegel).
+     Kontrast (WCAG): Primär auf Sekundär 10,4:1 · Primär auf Gold 5,0:1 (AA) → Knopfschrift auf Gold ist Primär, nicht Weiß
+     (Weiß auf Gold nur 2,6:1) · leise Schrift #4a5570 auf Sekundär 6,0:1 · helle Schrift #fbf7f0 auf Primär 12,6:1. */
+  --primaer: #1d315a;
+  --primaer-hell: #2c4677;   /* Hover/Flächen auf Dunkel */
+  --primaer-leise: #4a5570;  /* leise Schrift, Symbole, Augenbrauen-Zeilen */
+  --sekundaer: #efe6d6;
+  --akzent: #c89b3c;         /* nur Conversion */
+  --akzent-hover: #d4ab52;   /* heller statt dunkler: Primär darauf 6,1:1 */
+  --deko: #8a95ad;           /* feine Linien, Ringe, Striche (früher Gold) */
+  --auf-dunkel: #fbf7f0;
+  --auf-dunkel-leise: #c3cbda; /* 7,9:1 auf Primär */
+  --linie-dunkel: #3a5080;
+  --flaeche-dunkel: #24396a;
+
+  /* bisherige Namen, auf das neue System gelegt */
+  --tinte: var(--primaer);
+  --tinte-2: var(--sekundaer);
+  --tinte-3: #d9ccb6;
+  --sand: var(--sekundaer);
+  --creme: #fbf8f2;
+  --buetten: #faf6ef;
   --weiss: #fffdf9;
-  --text: #1c2b4b;
-  --text-leise: #4a5570;
-  --hell: #1c2b4b;
-  --hell-leise: #4a5570;
-  --linie: #e2d6c4;
-  --logo: #1c2b4b;
-  --logo-grund: #fbf7f0;
+  --text: var(--primaer);
+  --text-leise: var(--primaer-leise);
+  --hell: var(--primaer);
+  --hell-leise: var(--primaer-leise);
+  --linie: #e4d9c7;
+  --logo: var(--primaer);
+  --logo-grund: #fbf8f2;
 
   --serif: "Source Serif 4 Variable", Georgia, "Times New Roman", serif;
   --sans: "Open Sans Variable", "Segoe UI", Arial, sans-serif;
@@ -53,7 +61,7 @@ img, svg { display: block; max-width: 100%; }
 /* v5 (Jamil Talk 3957): keine unterstrichenen Texte. Links ohne Unterstrich; im Fließtext fett + dunkles Gold (nicht nur Farbe),
    Unterstrich nur beim Darüberfahren und beim Tastatur-Fokus. */
 a { color: inherit; text-decoration: none; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
-main p > a:not([class]) { font-weight: 600; color: var(--gold-dunkel); }
+main p > a:not([class]) { font-weight: 600; color: var(--primaer); }
 main p > a:not([class]):is(:hover, :focus-visible) { text-decoration: underline; }
 p { margin: 0 0 1.25rem; }
 ul { margin: 0 0 1.25rem; }
@@ -67,8 +75,8 @@ h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
 h2 { font-size: clamp(1.75rem, 3.4vw, 2.5rem); }
 h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
-.dunkel :focus-visible, .kopf :focus-visible { outline-color: var(--gold-hell); }
+:focus-visible { outline: 2px solid var(--primaer); outline-offset: 3px; border-radius: 2px; }
+.kopf :focus-visible, .fuss :focus-visible { outline-color: var(--sekundaer); }
 
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip { position: absolute; left: 1rem; top: -4rem; z-index: 100; padding: 0.6rem 1rem; background: var(--weiss); color: var(--tinte); }
@@ -88,30 +96,30 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 .kopfzeile p { color: var(--text-leise); font-size: 1.12rem; }
 .dunkel .kopfzeile p { color: var(--hell-leise); }
 
-/* Knöpfe: ein Hauptknopf (Siegelrot), ein Nebenknopf (Rahmen) */
+/* Knöpfe: Hauptknopf = Gold (Conversion, Jamil 06.11.) mit Primär-Schrift; Nebenknopf = Primär-Rahmen */
 .knoepfe { display: flex; flex-wrap: wrap; gap: 0.85rem; }
 .knopf {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; min-height: 3.25rem;
-  padding: 0.8rem 1.6rem; border: 1px solid var(--rot); border-radius: 999px;
-  background: var(--rot); color: var(--weiss); font: 500 1.02rem/1.2 var(--sans); letter-spacing: 0.01em;
+  padding: 0.8rem 1.6rem; border: 1px solid var(--akzent); border-radius: 999px;
+  background: var(--akzent); color: var(--primaer); font: 600 1.02rem/1.2 var(--sans); letter-spacing: 0.01em;
   text-decoration: none; transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s var(--sanft);
 }
-.knopf:hover { background: var(--rot-hover); border-color: var(--rot-hover); transform: translateY(-1px); }
+.knopf:hover { background: var(--akzent-hover); border-color: var(--akzent-hover); transform: translateY(-1px); }
 .knopf svg { width: 1.15rem; height: 1.15rem; flex: none; }
 .knopf.rahmen { background: transparent; color: var(--tinte); border-color: var(--tinte); }
 .knopf.rahmen:hover { background: var(--tinte); color: var(--weiss); }
-.dunkel .knopf { color: var(--weiss); }
-.dunkel .knopf.rahmen, .kopf .knopf.rahmen { color: var(--tinte); border-color: var(--gold); }
+.dunkel .knopf { color: var(--primaer); }
+.dunkel .knopf.rahmen, .kopf .knopf.rahmen { color: var(--tinte); border-color: var(--tinte); }
 .dunkel .knopf.rahmen:hover, .kopf .knopf.rahmen:hover { background: var(--tinte); border-color: var(--tinte); color: var(--weiss); }
 
 /* Textlink (v5, Jamil 3957): ohne Unterstrich – fett, mit geradem Pfeil; Unterstrich nur bei Hover/Fokus */
 .weiter { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 600; color: var(--tinte); text-decoration: none; padding-block: 0.15rem; }
 .weiter::after {
-  content: ""; flex: none; width: 1em; height: 1em; background: var(--gold-dunkel); transition: transform var(--dur-fast) var(--ease);
+  content: ""; flex: none; width: 1em; height: 1em; background: var(--primaer); transition: transform var(--dur-fast) var(--ease);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15M14 7l5 5-5 5'/%3E%3C/svg%3E") center / contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15M14 7l5 5-5 5'/%3E%3C/svg%3E") center / contain no-repeat;
 }
-.weiter:is(:hover, :focus-visible) { text-decoration: underline; text-decoration-color: var(--gold); }
+.weiter:is(:hover, :focus-visible) { text-decoration: underline; text-decoration-color: var(--primaer); }
 .weiter:hover::after { transform: translateX(3px); }
 .dunkel .weiter { color: var(--hell); }
 
@@ -119,7 +127,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 .strichliste { list-style: none; padding: 0; }
 .strichliste li { position: relative; padding: 0.55rem 0 0.55rem 1.75rem; border-bottom: 1px solid var(--linie); }
 .strichliste li:last-child { border-bottom: 0; }
-.strichliste li::before { content: ""; position: absolute; left: 0; top: 1.35em; width: 1rem; height: 1px; background: var(--gold); }
+.strichliste li::before { content: ""; position: absolute; left: 0; top: 1.35em; width: 1rem; height: 1px; background: var(--deko); }
 .dunkel .strichliste li { border-bottom-color: var(--tinte-3); }
 
 /* Zweispaltiges Raster: Überschrift links, Inhalt rechts */
@@ -136,7 +144,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 .recht h2 { font-size: clamp(1.35rem, 2.4vw, 1.7rem); margin-top: 2.5rem; }
 .recht h2:first-child { margin-top: 0; }
 .recht p, .recht li { max-width: 46rem; }
-.recht .hinweis { padding: 1rem 1.2rem; border-left: 2px solid var(--gold); background: var(--weiss); }
+.recht .hinweis { padding: 1rem 1.2rem; border-left: 2px solid var(--deko); background: var(--weiss); }
 
 /* ---------- Animationen ----------
    Regel (CI): einmal beim ersten Sichtbarwerden, je Szene höchstens 1,5 s, Endbild bleibt stehen.
@@ -158,12 +166,12 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 @keyframes nudge { 0%, 100% { transform: translateY(0); opacity: 0.9; } 50% { transform: translateY(8px); opacity: 0.5; } }
 .section-head { max-width: 46rem; margin: 0 auto clamp(2.25rem, 4vw, 3rem); text-align: center; }
 .section-head p { color: var(--text-leise); margin-inline: auto; }
-.eyebrow { display: block; font: 600 0.82rem/1.5 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dunkel); margin: 0 0 0.75rem; }
-.regel::after { content: ""; display: block; width: 64px; height: 3px; background: var(--gold); margin: 1rem auto 0; border-radius: 2px; }
+.eyebrow { display: block; font: 600 0.82rem/1.5 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--primaer-leise); margin: 0 0 0.75rem; }
+.regel::after { content: ""; display: block; width: 64px; height: 3px; background: var(--primaer); margin: 1rem auto 0; border-radius: 2px; }
 .links-buendig .regel::after { margin-left: 0; }
 .karte { background: var(--weiss); border: 1px solid var(--linie); border-radius: 16px; padding: clamp(1.5rem, 3vw, 2rem); }
 a.karte { color: inherit; text-decoration: none; transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), border-color var(--dur-fast) ease; }
-a.karte:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -20px rgba(43, 36, 31, 0.4); border-color: var(--gold); }
+a.karte:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -20px rgba(29, 49, 90, 0.35); border-color: var(--deko); }
 /* Einblenden beim Scrollen wie Bauwelt (.reveal): nur mit JS, ohne JS ist alles sichtbar */
 .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-reveal) var(--ease), transform var(--dur-reveal) var(--ease); }
 .js .reveal.an { opacity: 1; transform: none; }

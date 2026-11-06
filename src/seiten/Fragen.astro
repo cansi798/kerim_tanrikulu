@@ -41,13 +41,13 @@ const schema = [{
     font: 500 clamp(1.2rem, 2vw, 1.45rem)/1.35 var(--serif); color: var(--tinte);
   }
   summary::-webkit-details-marker { display: none; }
-  summary:hover { color: var(--gold-dunkel); }
-  .zeichen { position: relative; flex: none; width: 2.25rem; height: 2.25rem; border: 1px solid var(--gold); border-radius: 50%; }
+  summary:hover { color: var(--primaer-leise); }
+  .zeichen { position: relative; flex: none; width: 2.25rem; height: 2.25rem; border: 1px solid var(--deko); border-radius: 50%; }
   .zeichen::before, .zeichen::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.85rem; height: 1px; background: var(--tinte); transform: translate(-50%, -50%); transition: transform 0.3s var(--sanft); }
   .zeichen::after { transform: translate(-50%, -50%) rotate(90deg); }
   details[open] .zeichen::after { transform: translate(-50%, -50%) rotate(0deg); }
   details[open] .zeichen { background: var(--tinte); }
-  details[open] .zeichen::before, details[open] .zeichen::after { background: var(--gold); }
+  details[open] .zeichen::before, details[open] .zeichen::after { background: var(--deko); }
   .antwort { padding: 0 3.5rem 1.5rem 0; color: var(--text); }
   .antwort p { max-width: 42em; }
   .mehr-wissen { margin: 0 0 1rem; }

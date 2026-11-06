@@ -22,13 +22,13 @@ const datei = u(`/karte/karte-${lang}-${dunkel ? "dunkel" : "hell"}.svg`);
 </figure>
 <style is:global>
   .rkarte {
-    --k-linie: var(--gold-dunkel); --k-schraffur: rgba(168, 128, 60, 0.42); --k-gold: #c9a35b; --k-punkt-rand: var(--tinte);
-    --k-fluss: rgba(43, 36, 31, 0.13); --k-text: var(--tinte); --k-leise: var(--text-leise); --k-meer: var(--text-leise); --k-hof: var(--sand);
+    --k-linie: var(--primaer-leise); --k-schraffur: rgba(29, 49, 90, 0.2); --k-gold: var(--primaer); --k-punkt-rand: var(--weiss);
+    --k-fluss: rgba(29, 49, 90, 0.13); --k-text: var(--tinte); --k-leise: var(--text-leise); --k-meer: var(--text-leise); --k-hof: var(--sand);
     margin: 0; width: 100%;
   }
   .rkarte-dunkel {
-    --k-linie: #d9bd85; --k-schraffur: rgba(217, 189, 133, 0.36); --k-gold: #c9a35b; --k-punkt-rand: #fbf7f0;
-    --k-fluss: rgba(243, 237, 228, 0.24); --k-text: #fbf7f0; --k-leise: #ddd2c3; --k-meer: #c9bdad; --k-hof: var(--tinte);
+    --k-linie: #c3cbda; --k-schraffur: rgba(195, 203, 218, 0.26); --k-gold: #efe6d6; --k-punkt-rand: #fbf7f0;
+    --k-fluss: rgba(243, 237, 228, 0.24); --k-text: #fbf7f0; --k-leise: #dde2ea; --k-meer: #c3cbda; --k-hof: var(--tinte);
   }
   .rk-svg { display: block; width: 100%; height: auto; overflow: visible; }
   .rkarte-platz { aspect-ratio: 800 / 640; } /* = KARTE_MASSE (CSP: keine style-Attribute) */
