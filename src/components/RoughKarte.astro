@@ -23,7 +23,7 @@ const datei = u(`/karte/karte-${lang}-${dunkel ? "dunkel" : "hell"}.svg`);
 <style is:global>
   .rkarte {
     --k-linie: var(--primaer-leise); --k-schraffur: rgba(29, 49, 90, 0.2); --k-gold: var(--primaer); --k-punkt-rand: var(--weiss);
-    --k-fluss: rgba(29, 49, 90, 0.13); --k-text: var(--tinte); --k-leise: var(--text-leise); --k-meer: var(--text-leise); --k-hof: var(--sand);
+    --k-fluss: rgba(29, 49, 90, 0.13); --k-text: var(--tinte); --k-leise: var(--text-leise); --k-meer: var(--text-leise); --k-hof: var(--abschnitt-grund, var(--sand));
     margin: 0; width: 100%;
   }
   .rkarte-dunkel {

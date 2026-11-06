@@ -26,8 +26,8 @@
   --tinte-3: #d9ccb6;
   --sand: var(--sekundaer);
   --creme: #fbf8f2;
-  --buetten: #faf6ef;
-  --weiss: #fffdf9;
+  --buetten: #ffffff;
+  --weiss: #ffffff;
   --text: var(--primaer);
   --text-leise: var(--primaer-leise);
   --hell: var(--primaer);
@@ -81,6 +81,13 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip { position: absolute; left: 1rem; top: -4rem; z-index: 100; padding: 0.6rem 1rem; background: var(--weiss); color: var(--tinte); }
 .skip:focus { top: 1rem; }
+
+/* Abschnitts-Wechsel (Jamil Talk #4801, 06.11.2026 20:46): Kopf und Fuß blau, alle Abschnitte dazwischen streng abwechselnd
+   Creme #EFE6D6 und Weiß #FFFFFF – auf jeder Seite, der erste Abschnitt (Hero/Seitenkopf) ist Creme.
+   Zählt alle direkten <section>/<header> in <main> (auch den Abschluss-Aufruf). Die ID-Spezifität schlägt die Farben der Komponenten.
+   --abschnitt-grund: Hintergrund für Elemente, die die Fläche „ausstanzen“ müssen (Beschriftungs-Hof der Karte). */
+#inhalt > :nth-child(odd of section, header) { background: var(--sekundaer); --abschnitt-grund: var(--sekundaer); }
+#inhalt > :nth-child(even of section, header) { background: #ffffff; --abschnitt-grund: #ffffff; }
 
 .huelle { width: min(100% - 2 * var(--rand), var(--breite)); margin-inline: auto; }
 .abschnitt { padding-block: clamp(4rem, 9vw, 7rem); }
