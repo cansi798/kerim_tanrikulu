@@ -47,7 +47,7 @@
       var k = bereich(t, t0 + i * 0.17, t0 + i * 0.17 + 0.85);
       if (k <= 0 || k >= 1) continue;
       var e = oc(k), r = (rein ? 56 - 44 * e : 8 + 34 * e) * S;
-      ctx.globalAlpha = (rein ? M.sin(M.PI * k) : 1 - k) * 0.9 * (st || 1); ctx.strokeStyle = rein ? "#c9a35b" : GOLD; ctx.lineWidth = (2.2 - k) * M.max(0.8, S);
+      ctx.globalAlpha = (rein ? M.sin(M.PI * k) : 1 - k) * 0.9 * (st || 1); ctx.strokeStyle = rein ? "#8a95ad" : GOLD; ctx.lineWidth = (2.2 - k) * M.max(0.8, S);
       ctx.beginPath(); ctx.arc(c[0], c[1], r, richtung - 0.55, richtung + 0.55); ctx.stroke();
     }
   }

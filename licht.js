@@ -37,7 +37,7 @@
     });
     return;
   }
-  var M = Math, GOLD = "#a8803c";
+  var M = Math, GOLD = "#4a5570"; // Farbkonzept Jamil 06.11.2026: Linien in leisem Primär, Licht creme-weiß statt Gold
   var klemm = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   var bereich = function (t, a, b) { return klemm((t - a) / (b - a)); };
   var ioc = function (x) { return x < 0.5 ? 4 * x * x * x : 1 - M.pow(-2 * x + 2, 3) / 2; };
@@ -54,9 +54,9 @@
   var HELL, WEICH, TIEF;
   function farben() {
     if (HELL) return;
-    HELL = sprite([[0, "rgba(255,253,246,1)"], [0.2, "rgba(255,244,214,0.95)"], [0.42, "rgba(220,178,100,0.45)"], [1, "rgba(168,128,60,0)"]]);
-    if (!handy.matches) WEICH = sprite([[0, "rgba(255,250,236,0.9)"], [0.25, "rgba(255,240,206,0.62)"], [0.5, "rgba(236,206,150,0.3)"], [0.75, "rgba(214,176,108,0.1)"], [1, "rgba(214,176,108,0)"]], 160); else WEICH = null; // großes weiches Licht nur breit (am Handy zu teuer)
-    TIEF = sprite([[0, "rgba(255,238,196,1)"], [0.18, "rgba(206,152,62,0.95)"], [0.45, "rgba(170,120,46,0.4)"], [1, "rgba(150,105,40,0)"]]);
+    HELL = sprite([[0, "rgba(255,253,249,1)"], [0.2, "rgba(239,230,214,0.95)"], [0.42, "rgba(138,149,173,0.45)"], [1, "rgba(29,49,90,0)"]]);
+    if (!handy.matches) WEICH = sprite([[0, "rgba(255,253,249,0.9)"], [0.25, "rgba(239,230,214,0.62)"], [0.5, "rgba(195,203,218,0.3)"], [0.75, "rgba(138,149,173,0.1)"], [1, "rgba(138,149,173,0)"]], 160); else WEICH = null; // großes weiches Licht nur breit (am Handy zu teuer)
+    TIEF = sprite([[0, "rgba(239,230,214,1)"], [0.18, "rgba(44,70,119,0.95)"], [0.45, "rgba(29,49,90,0.4)"], [1, "rgba(29,49,90,0)"]]);
   }
 
   function proben(svg, sel, n, abb) { // Punkte gleichmäßig nach Länge entlang einer Kubik-Kurve „M x y C …“ (rechnerisch – getPointAtLength ist langsam)
