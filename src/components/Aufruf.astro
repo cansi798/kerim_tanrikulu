@@ -19,7 +19,7 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
     <div class="frage">
       <h2 id="aufruf-titel">{T.aufruf.titel}</h2>
       <p>{T.aufruf.text}</p>
-      <a class="knopf" href={zumFormular ? "#anfrage-titel" : p(lang, "kontakt")}>{zumFormular ? "Zum Anfrageformular" : T.aufruf.knopf}</a>
+      <a class="knopf" href={zumFormular ? "#anfrage-titel" : p(lang, "kontakt")}>{zumFormular ? T.anfrage.zumFormular : T.aufruf.knopf}</a>
     </div>
     <ul class="wege">
       <li><a href={TELEFON_LINK}><Icon name="telefon" /><span class="art">{T.ui.telefon}</span><span class:list={["wert", { unbestaetigt: markieren }]}>{TELEFON}</span></a></li>

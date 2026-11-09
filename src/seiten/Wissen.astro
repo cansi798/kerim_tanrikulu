@@ -1,0 +1,138 @@
+---
+// „Gut zu wissen“ (Jamil Talk xidc8qvq #5318, 09.11.2026: „ratgeber und häufige fragen zusammenfügen mit einer passenden überschrift“):
+// eine Seite, ein Menüpunkt. Zuerst der Ratgeber (allgemeines Wissen, sichtbarer Hinweis „keine Rechtsberatung“, je Kapitel EIN
+// Kernbegriff fett – Jamil Talk 3957), darunter die häufigen Fragen zum Aufklappen. Ein FAQPage-Eintrag für beide Teile.
+// Frühere Adressen /ratgeber/ und /fragen/ (TR /tr/rehber/, /tr/sss/) leiten hierher (#ratgeber bzw. #fragen, Kapitel-Anker bleiben).
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Platzhalter from "../components/Platzhalter.astro";
+import Icon from "../components/Icon.astro";
+import type { Lang } from "../i18n";
+import { t } from "../texte";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+// Absätze in Teile zerlegen, damit der Kernbegriff (erstes Vorkommen) markiert werden kann
+const kapitel = T.ratgeber.kapitel.map((k) => {
+  let gefunden = false;
+  const absaetze = k.absaetze.map((a) => {
+    const i = gefunden ? -1 : a.indexOf(k.begriff);
+    if (i < 0) return { vor: a, begriff: "", nach: "" };
+    gefunden = true;
+    return { vor: a.slice(0, i), begriff: k.begriff, nach: a.slice(i + k.begriff.length) };
+  });
+  return { ...k, teile: absaetze };
+});
+const schema = [{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  inLanguage: lang,
+  mainEntity: [
+    ...T.ratgeber.kapitel.map((k) => ({ "@type": "Question", name: k.frage, acceptedAnswer: { "@type": "Answer", text: k.absaetze.join(" ") } })),
+    ...T.fragen.liste.map((f) => ({ "@type": "Question", name: f.frage, acceptedAnswer: { "@type": "Answer", text: f.antwort.join(" ") } })),
+  ],
+}];
+---
+<Basis lang={lang} seite="wissen" titel={T.meta.wissen.titel} beschreibung={T.meta.wissen.beschreibung} schema={schema}>
+  <SeitenKopf titel={T.wissen.titel}>
+    <p class="lead">{T.wissen.lead}</p>
+    <p class="sprung"><a class="weiter" href="#ratgeber">{T.ratgeber.seitenTitel}</a><a class="weiter" href="#fragen">{T.fragen.eyebrow}</a></p>
+  </SeitenKopf>
+
+  <section class="abschnitt" id="ratgeber" aria-labelledby="ratgeber-titel">
+    <div class="huelle">
+      <div class="teil-kopf">
+        <h2 id="ratgeber-titel">{T.ratgeber.seitenTitel}</h2>
+        <p class="lead">{T.ratgeber.seitenText}</p>
+      </div>
+      <div class="rat-raster">
+        <nav class="inhalt" aria-label={T.ratgeber.inhalt}>
+          <p class="inhalt-kopf">{T.ratgeber.inhalt}</p>
+          <ol>
+            {kapitel.map((k) => <li><a href={`#${k.id}`}>{k.frage}</a></li>)}
+          </ol>
+        </nav>
+        <div class="kapitel-liste">
+          <aside class="hinweis" data-szene>
+            <Icon name="frage" />
+            <p>{T.ui.rechtHinweis}</p>
+          </aside>
+          {kapitel.map((k) => (
+            <article class="kapitel reveal" id={k.id} aria-labelledby={`${k.id}-t`}>
+              <h3 id={`${k.id}-t`}>{k.frage}</h3>
+              {k.teile.map((teil) => (
+                <p>{teil.vor}{teil.begriff && <strong class="begriff">{teil.begriff}</strong>}{teil.nach}</p>
+              ))}
+            </article>
+          ))}
+          <Platzhalter lang={lang}>{T.ratgeber.platzhalter}</Platzhalter>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" id="fragen" aria-labelledby="fragen-titel">
+    <div class="huelle">
+      <div class="teil-kopf">
+        <h2 id="fragen-titel">{T.fragen.eyebrow}</h2>
+        <p class="lead">{T.fragen.seitenText}</p>
+      </div>
+      <div class="fragen">
+        {T.fragen.liste.map((f) => (
+          <details>
+            <summary><span>{f.frage}</span><span class="zeichen" aria-hidden="true"></span></summary>
+            <div class="antwort">{f.antwort.map((a) => <p>{a}</p>)}</div>
+          </details>
+        ))}
+      </div>
+      <Platzhalter lang={lang}>{T.fragen.platzhalter}</Platzhalter>
+    </div>
+  </section>
+</Basis>
+<style>
+  .sprung { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin: 1rem 0 0; }
+  .sprung .weiter { min-height: 2.75rem; }
+  .teil-kopf { max-width: 46rem; margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem); }
+  .teil-kopf .lead { margin: 0; color: var(--text-leise); }
+  /* Ratgeber */
+  .rat-raster { display: grid; gap: 2rem; }
+  @media (min-width: 62rem) { .rat-raster { grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); gap: 4rem; align-items: start; } }
+  .inhalt { padding: 1.25rem 1.4rem; background: var(--sekundaer); border: 1px solid var(--linie); border-radius: 16px; }
+  @media (min-width: 62rem) { .inhalt { position: sticky; top: calc(var(--kopf-h) + 1.5rem); } }
+  .inhalt-kopf { font: 600 0.95rem/1.4 var(--sans); color: var(--primaer-leise); margin-bottom: 0.5rem; }
+  .inhalt ol { margin: 0; padding-left: 1.2rem; font-size: 0.98rem; line-height: 1.45; }
+  .inhalt li { margin: 0.45rem 0; }
+  .inhalt a { color: var(--tinte); text-decoration: none; }
+  .inhalt a:hover { text-decoration: underline; text-decoration-color: var(--deko); }
+  .kapitel-liste { max-width: 46rem; }
+  .hinweis { position: relative; display: flex; gap: 0.75rem; align-items: flex-start; margin: 0 0 2.5rem; padding: 1rem 1.25rem; background: var(--sekundaer); border-radius: 6px; border-left: 2px solid var(--deko); }
+  .begriff { font-weight: 650; color: var(--tinte); }
+  .hinweis p { margin: 0; font-weight: 500; }
+  .hinweis :global(svg.icon) { width: 1.3rem; height: 1.3rem; flex: none; margin-top: 0.2rem; color: var(--primaer-leise); }
+  .kapitel { padding: 2rem 0; border-top: 1px solid var(--linie); }
+  .kapitel h3 { font-size: clamp(1.45rem, 2.6vw, 1.9rem); }
+  .kapitel p { max-width: 42em; }
+  /* Häufige Fragen */
+  .fragen { max-width: 52rem; margin-bottom: 2rem; border-top: 1px solid var(--linie); }
+  details { border-bottom: 1px solid var(--linie); }
+  summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.4rem 0; cursor: pointer; list-style: none;
+    font: 500 clamp(1.2rem, 2vw, 1.45rem)/1.35 var(--serif); color: var(--tinte);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--primaer-leise); }
+  .zeichen { position: relative; flex: none; width: 2.25rem; height: 2.25rem; border: 1px solid var(--deko); border-radius: 50%; }
+  .zeichen::before, .zeichen::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.85rem; height: 1px; background: var(--tinte); transform: translate(-50%, -50%); transition: transform 0.3s var(--sanft); }
+  .zeichen::after { transform: translate(-50%, -50%) rotate(90deg); }
+  details[open] .zeichen::after { transform: translate(-50%, -50%) rotate(0deg); }
+  details[open] .zeichen { background: var(--tinte); }
+  details[open] .zeichen::before, details[open] .zeichen::after { background: var(--deko); }
+  .antwort { padding: 0 3.5rem 1.5rem 0; color: var(--text); }
+  @media (max-width: 40rem) { .antwort { padding-right: 0; } }
+  .antwort p { max-width: 42em; }
+  @media (prefers-reduced-motion: no-preference) { details[open] .antwort { animation: auftauchen 0.35s var(--sanft) both; } }
+  /* Abschnitt Fragen: Schätzhöhe für content-visibility */
+  #fragen { --h-schaetz: 900px; }
+  #ratgeber { --h-schaetz: 3200px; }
+  @media (min-width: 62rem) { #fragen { --h-schaetz: 820px; } #ratgeber { --h-schaetz: 2600px; } }
+</style>

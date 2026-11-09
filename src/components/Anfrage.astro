@@ -12,16 +12,20 @@
 import Icon from "./Icon.astro";
 import { THEMEN } from "../daten/dokumente";
 import { MAIL, WHATSAPP_LINK } from "../daten";
-import { p } from "../i18n";
+import { p, type Lang } from "../i18n";
+import { FT, themaTitel } from "../lib/anfrage-texte";
 interface Props {
   /** id der Überschrift über dem Formular (Ziel der Links „Anfrage senden“) */
   titelId?: string;
   /** Sprungziel der Kontaktwege (Telefon, WhatsApp, E-Mail) auf dieser Seite */
   direkt?: string;
-  /** wo die Kontaktwege stehen, für den Hinweis ohne JavaScript */
-  wegeOrt?: string;
+  /** wo die Kontaktwege stehen, für den Hinweis ohne JavaScript: gleich darunter (Kontaktseite) oder am Seitenende (Startseite) */
+  wege?: "unten" | "ende";
+  /** Sprache (seit Jamil Talk xidc8qvq #5314 auch Türkisch) */
+  lang?: Lang;
 }
-const { titelId = "anfrage-titel", direkt = "#direkt", wegeOrt = "gleich unter diesem Abschnitt" } = Astro.props;
+const { titelId = "anfrage-titel", direkt = "#direkt", wege = "unten", lang = "de" } = Astro.props;
+const F = FT[lang];
 
 // Linien-Symbole der 9 Themen (24er-Raster, 1,4 px, runde Enden) – passend zu Icon.astro
 const SYMBOLE: Record<string, string> = {
@@ -35,34 +39,34 @@ const SYMBOLE: Record<string, string> = {
   unternehmen: "M4.5 20.5V4.5h10v16 M14.5 9.5h5v11 M2.5 20.5h19 M7.5 8h1.5 M10.5 8H12 M7.5 11.5h1.5 M10.5 11.5H12 M7.5 15h1.5 M10.5 15H12 M17 13h.01 M17 16.5h.01",
   fahrzeug: "M3.5 16.5v-4l2-5h13l2 5v4z M3.5 12.5h17 M6 16.5v2 M18 16.5v2 M7 14.5h.01 M17 14.5h.01",
 };
-const datenschutz = p("de", "datenschutz");
+const datenschutz = p(lang, "datenschutz");
 ---
 <div class="anfrage-rahmen" data-anfrage-rahmen>
   <div class="anfrage-laedt">
-    <p class="laedt-zeile"><span class="laedt-punkt" aria-hidden="true"></span>Das Anfrage-Formular lädt …</p>
-    <p class="laedt-notfall">Lädt das Formular nicht? Bitte laden Sie die Seite einmal neu – oder melden Sie sich direkt per <a href={direkt}>Telefon, WhatsApp oder E-Mail</a>.</p>
+    <p class="laedt-zeile"><span class="laedt-punkt" aria-hidden="true"></span>{F.laedt}</p>
+    <p class="laedt-notfall">{F.notfallVor}<a href={direkt}>{F.notfallLink}</a>{F.notfallNach}</p>
   </div>
   <noscript>
-    <p class="ohne-js">Das Anfrageformular braucht JavaScript. Sie erreichen Herrn Tanrikulu direkt per Telefon, WhatsApp oder E-Mail – die Kontaktwege finden Sie {wegeOrt}.</p>
+    <p class="ohne-js">{F.ohneJs(wege === "ende" ? F.wegeEnde : F.wegeUnten)}</p>
   </noscript>
-  <form class="anfrage" id="anfrage" novalidate data-mail={MAIL} data-wa={WHATSAPP_LINK} aria-labelledby={titelId}>
+  <form class="anfrage" id="anfrage" novalidate data-mail={MAIL} data-wa={WHATSAPP_LINK} data-lang={lang} aria-labelledby={titelId}>
     <div class="fortschritt">
-      <p class="stand" aria-hidden="true">Schritt <span data-nr>1</span> von <span data-von>7</span></p>
+      <p class="stand" aria-hidden="true">{F.schritt} <span data-nr>1</span> {F.von} <span data-von>7</span></p>
       <div class="balken" aria-hidden="true"><span data-balken></span></div>
     </div>
     <p class="sr" aria-live="polite" data-ansage></p>
 
     <!-- 1 Leistung -->
     <fieldset class="schritt" data-schritt="leistung">
-      <legend><h3 tabindex="-1">Worum geht es?</h3></legend>
+      <legend><h3 tabindex="-1">{F.leistungFrage}</h3></legend>
       <div class="wahlen zwei">
         <label class="wahl">
           <input type="radio" name="leistung" value="uebersetzung" />
-          <span class="innen"><span class="sym"><Icon name="dokument" /></span><span class="text"><span class="titel">Übersetzung</span><span class="unter">Ein Dokument schriftlich übersetzen lassen</span></span><span class="punkt" aria-hidden="true"></span></span>
+          <span class="innen"><span class="sym"><Icon name="dokument" /></span><span class="text"><span class="titel">{F.uebersetzung}</span><span class="unter">{F.uebersetzungUnter}</span></span><span class="punkt" aria-hidden="true"></span></span>
         </label>
         <label class="wahl">
           <input type="radio" name="leistung" value="dolmetschen" />
-          <span class="innen"><span class="sym"><Icon name="gespraech" /></span><span class="text"><span class="titel">Dolmetschen</span><span class="unter">Ein Gespräch oder einen Termin dolmetschen lassen – vor Ort, per Video oder Telefon</span></span><span class="punkt" aria-hidden="true"></span></span>
+          <span class="innen"><span class="sym"><Icon name="gespraech" /></span><span class="text"><span class="titel">{F.dolmetschen}</span><span class="unter">{F.dolmetschenUnter}</span></span><span class="punkt" aria-hidden="true"></span></span>
         </label>
       </div>
       <p class="fehler" data-fehler hidden></p>
@@ -70,45 +74,43 @@ const datenschutz = p("de", "datenschutz");
 
     <!-- 2 Sprachrichtung (nur Übersetzung) -->
     <fieldset class="schritt" data-schritt="richtung" hidden>
-      <legend><h3 tabindex="-1">In welche Richtung soll übersetzt werden?</h3></legend>
+      <legend><h3 tabindex="-1">{F.richtungFrage}</h3></legend>
       <div class="wahlen zwei">
-        <label class="wahl">
-          <input type="radio" name="richtung" value="tr-de" />
-          <span class="innen"><span class="text"><span class="titel">Türkisch <span aria-hidden="true">→</span><span class="sr">nach</span> Deutsch</span><span class="unter">Das Dokument ist auf Türkisch</span></span><span class="punkt" aria-hidden="true"></span></span>
-        </label>
-        <label class="wahl">
-          <input type="radio" name="richtung" value="de-tr" />
-          <span class="innen"><span class="text"><span class="titel">Deutsch <span aria-hidden="true">→</span><span class="sr">nach</span> Türkisch</span><span class="unter">Das Dokument ist auf Deutsch</span></span><span class="punkt" aria-hidden="true"></span></span>
-        </label>
+        {[["tr-de", F.trde], ["de-tr", F.detr]].map(([wert, r]: any) => (
+          <label class="wahl">
+            <input type="radio" name="richtung" value={wert} />
+            <span class="innen"><span class="text"><span class="titel"><span aria-hidden="true">{r.sicht}</span><span class="sr">{r.sr}</span></span><span class="unter">{r.unter}</span></span><span class="punkt" aria-hidden="true"></span></span>
+          </label>
+        ))}
       </div>
       <p class="fehler" data-fehler hidden></p>
     </fieldset>
 
     <!-- 3 Thema -->
     <fieldset class="schritt" data-schritt="thema" hidden>
-      <legend><h3 tabindex="-1">Zu welchem Thema gehört Ihr Dokument?</h3></legend>
+      <legend><h3 tabindex="-1">{F.themaFrage}</h3></legend>
       <div class="wahlen themen">
         {THEMEN.map((t) => (
           <label class="wahl kompakt">
             <input type="radio" name="thema" value={t.id} />
             <span class="innen">
               <span class="sym"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={SYMBOLE[t.icon] ?? SYMBOLE.ausweis} /></svg></span>
-              <span class="text"><span class="titel">{t.titel}</span></span>
+              <span class="text"><span class="titel">{themaTitel(t, lang)}</span></span>
               <span class="punkt" aria-hidden="true"></span>
             </span>
           </label>
         ))}
       </div>
       <p class="fehler" data-fehler hidden></p>
-      <p class="nebenweg"><button type="button" class="textknopf" data-ohne-thema>Nicht sicher? Direkt nach dem Dokument suchen</button></p>
+      <p class="nebenweg"><button type="button" class="textknopf" data-ohne-thema>{F.ohneThema}</button></p>
     </fieldset>
 
     <!-- 4 Dokument -->
     <fieldset class="schritt" data-schritt="dokument" hidden>
-      <legend><h3 tabindex="-1">Um welches Dokument geht es?</h3></legend>
+      <legend><h3 tabindex="-1">{F.dokFrage}</h3></legend>
       <div class="feld">
-        <label for="dok-suche">Dokument suchen <span class="opt">(in allen Themen)</span></label>
-        <input id="dok-suche" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" placeholder="Dokument suchen, z. B. Geburtsurkunde" aria-describedby="dok-treffer" data-suche />
+        <label for="dok-suche">{F.sucheLabel} <span class="opt">{F.sucheOpt}</span></label>
+        <input id="dok-suche" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" placeholder={F.suchePlatzhalter} aria-describedby="dok-treffer" data-suche />
       </div>
       <p class="sr" id="dok-treffer" aria-live="polite" data-treffer></p>
       <p class="listenkopf" data-listenkopf></p>
@@ -116,10 +118,10 @@ const datenschutz = p("de", "datenschutz");
       <ul class="dokliste" data-dokliste></ul>
       <label class="wahl zeile anderes">
         <input type="radio" name="dokument" value="anderes" />
-        <span class="innen"><span class="text"><span class="titel">Anderes Dokument</span><span class="unter">Mein Dokument ist nicht dabei</span></span><span class="punkt" aria-hidden="true"></span></span>
+        <span class="innen"><span class="text"><span class="titel">{F.anderes}</span><span class="unter">{F.anderesUnter}</span></span><span class="punkt" aria-hidden="true"></span></span>
       </label>
       <div class="feld" data-anderes-feld hidden>
-        <label for="dok-anderes">Welches Dokument ist es?</label>
+        <label for="dok-anderes">{F.anderesFrage}</label>
         <input id="dok-anderes" name="anderes" type="text" maxlength="120" autocomplete="off" />
       </div>
       <p class="fehler" data-fehler hidden></p>
@@ -127,18 +129,18 @@ const datenschutz = p("de", "datenschutz");
 
     <!-- 5 Umfang + Wunschtermin -->
     <fieldset class="schritt" data-schritt="umfang" hidden>
-      <legend><h3 tabindex="-1" data-umfang-titel>Wie viele Seiten, und bis wann?</h3></legend>
+      <legend><h3 tabindex="-1" data-umfang-titel>{F.umfangFrage}</h3></legend>
       <div class="feld" data-seiten-feld>
-        <label for="seiten">Seiten der fertigen Übersetzung <span class="opt">(ca.)</span></label>
+        <label for="seiten">{F.seitenLabel} <span class="opt">{F.ca}</span></label>
         <div class="zahl">
-          <button type="button" class="zahlknopf" data-minus aria-label="Eine Seite weniger">−</button>
+          <button type="button" class="zahlknopf" data-minus aria-label={F.weniger}>−</button>
           <input id="seiten" name="seiten" type="number" inputmode="numeric" min="1" max="500" step="1" value="1" aria-describedby="seiten-hilfe" />
-          <button type="button" class="zahlknopf" data-plus aria-label="Eine Seite mehr">+</button>
+          <button type="button" class="zahlknopf" data-plus aria-label={F.mehr}>+</button>
         </div>
-        <p class="hilfe" id="seiten-hilfe">Eine Schätzung genügt.</p>
+        <p class="hilfe" id="seiten-hilfe">{F.schaetzung}</p>
       </div>
       <div class="feld">
-        <label for="wunsch">Wunschtermin <span class="opt">(optional)</span></label>
+        <label for="wunsch">{F.wunsch} <span class="opt">{F.optional}</span></label>
         <input id="wunsch" name="wunsch" type="date" data-ab-heute />
       </div>
       <p class="fehler" data-fehler hidden></p>
@@ -146,48 +148,48 @@ const datenschutz = p("de", "datenschutz");
 
     <!-- Dolmetschen: Termin -->
     <fieldset class="schritt" data-schritt="termin" hidden>
-      <legend><h3 tabindex="-1">Wann ist der Termin?</h3></legend>
+      <legend><h3 tabindex="-1">{F.terminFrage}</h3></legend>
       <div class="reihe">
         <div class="feld">
-          <label for="d-datum">Datum</label>
+          <label for="d-datum">{F.datum}</label>
           <input id="d-datum" name="datum" type="date" aria-describedby="d-datum-hilfe" data-ab-heute />
         </div>
         <div class="feld">
-          <label for="d-zeit">Uhrzeit <span class="opt">(optional)</span></label>
+          <label for="d-zeit">{F.uhrzeit} <span class="opt">{F.optional}</span></label>
           <input id="d-zeit" name="uhrzeit" type="time" />
         </div>
       </div>
-      <p class="hilfe" id="d-datum-hilfe">Steht der Termin noch nicht fest, lassen Sie die Felder einfach leer.</p>
+      <p class="hilfe" id="d-datum-hilfe">{F.terminHilfe}</p>
       <p class="fehler" data-fehler hidden></p>
     </fieldset>
 
     <!-- Dolmetschen: Art -->
     <fieldset class="schritt" data-schritt="art" hidden>
-      <legend><h3 tabindex="-1">Wie soll gedolmetscht werden?</h3></legend>
+      <legend><h3 tabindex="-1">{F.artFrage}</h3></legend>
       <div class="wahlen drei">
-        <label class="wahl kompakt"><input type="radio" name="art" value="vor-ort" /><span class="innen"><span class="sym"><Icon name="ort" /></span><span class="text"><span class="titel">Vor Ort</span></span><span class="punkt" aria-hidden="true"></span></span></label>
-        <label class="wahl kompakt"><input type="radio" name="art" value="video" /><span class="innen"><span class="sym"><Icon name="video" /></span><span class="text"><span class="titel">Per Video</span></span><span class="punkt" aria-hidden="true"></span></span></label>
-        <label class="wahl kompakt"><input type="radio" name="art" value="telefon" /><span class="innen"><span class="sym"><Icon name="telefon" /></span><span class="text"><span class="titel">Per Telefon</span></span><span class="punkt" aria-hidden="true"></span></span></label>
+        <label class="wahl kompakt"><input type="radio" name="art" value="vor-ort" /><span class="innen"><span class="sym"><Icon name="ort" /></span><span class="text"><span class="titel">{F.art["vor-ort"]}</span></span><span class="punkt" aria-hidden="true"></span></span></label>
+        <label class="wahl kompakt"><input type="radio" name="art" value="video" /><span class="innen"><span class="sym"><Icon name="video" /></span><span class="text"><span class="titel">{F.art.video}</span></span><span class="punkt" aria-hidden="true"></span></span></label>
+        <label class="wahl kompakt"><input type="radio" name="art" value="telefon" /><span class="innen"><span class="sym"><Icon name="telefon" /></span><span class="text"><span class="titel">{F.art.telefon}</span></span><span class="punkt" aria-hidden="true"></span></span></label>
       </div>
       <p class="fehler" data-fehler hidden></p>
     </fieldset>
 
     <!-- Dolmetschen: Ort (nur vor Ort) -->
     <fieldset class="schritt" data-schritt="ort" hidden>
-      <legend><h3 tabindex="-1">Wo findet der Termin statt?</h3></legend>
+      <legend><h3 tabindex="-1">{F.ortFrage}</h3></legend>
       <div class="feld">
-        <label for="d-ort">Ort oder Adresse</label>
-        <input id="d-ort" name="ort" type="text" maxlength="160" autocomplete="off" placeholder="z. B. Amtsgericht Hamburg" />
+        <label for="d-ort">{F.ortLabel}</label>
+        <input id="d-ort" name="ort" type="text" maxlength="160" autocomplete="off" placeholder={F.ortPlatzhalter} />
       </div>
       <p class="fehler" data-fehler hidden></p>
     </fieldset>
 
     <!-- Dolmetschen: Dauer -->
     <fieldset class="schritt" data-schritt="dauer" hidden>
-      <legend><h3 tabindex="-1">Wie lange dauert der Termin ungefähr?</h3></legend>
+      <legend><h3 tabindex="-1">{F.dauerFrage}</h3></legend>
       <div class="wahlen zwei">
-        {["bis 1 Stunde", "1 bis 2 Stunden", "2 bis 4 Stunden", "mehr als 4 Stunden", "weiß ich noch nicht"].map((d) => (
-          <label class="wahl kompakt"><input type="radio" name="dauer" value={d} /><span class="innen"><span class="text"><span class="titel">{d.charAt(0).toUpperCase() + d.slice(1)}</span></span><span class="punkt" aria-hidden="true"></span></span></label>
+        {F.dauer.map((d) => (
+          <label class="wahl kompakt"><input type="radio" name="dauer" value={d} /><span class="innen"><span class="text"><span class="titel">{d}</span></span><span class="punkt" aria-hidden="true"></span></span></label>
         ))}
       </div>
       <p class="fehler" data-fehler hidden></p>
@@ -195,48 +197,48 @@ const datenschutz = p("de", "datenschutz");
 
     <!-- 6 Kontaktdaten -->
     <fieldset class="schritt" data-schritt="kontakt" hidden>
-      <legend><h3 tabindex="-1">Wie erreicht Herr Tanrikulu Sie?</h3></legend>
+      <legend><h3 tabindex="-1">{F.kontaktFrage}</h3></legend>
       <div class="feld">
-        <label for="k-name">Name</label>
+        <label for="k-name">{F.name}</label>
         <input id="k-name" name="name" type="text" autocomplete="name" maxlength="100" />
       </div>
       <div class="feld">
-        <label for="k-mail">E-Mail</label>
+        <label for="k-mail">{F.email}</label>
         <input id="k-mail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="120" spellcheck="false" />
       </div>
       <div class="feld">
-        <label for="k-tel">Telefon <span class="opt">(optional)</span></label>
+        <label for="k-tel">{F.telefon} <span class="opt">{F.optional}</span></label>
         <input id="k-tel" name="tel" type="tel" autocomplete="tel" maxlength="40" />
       </div>
       <div class="feld">
-        <label for="k-text">Nachricht <span class="opt">(optional)</span></label>
+        <label for="k-text">{F.nachricht} <span class="opt">{F.optional}</span></label>
         <textarea id="k-text" name="nachricht" rows="4" maxlength="800"></textarea>
       </div>
-      <p class="datenschutz-hinweis">Ihre Angaben bleiben in Ihrem Browser. Übertragen werden sie erst, wenn Sie die Anfrage im letzten Schritt selbst per E-Mail oder WhatsApp absenden. Mehr dazu in der <a href={datenschutz}>Datenschutzerklärung</a>.</p>
+      <p class="datenschutz-hinweis">{F.datenschutzVor}<a href={datenschutz}>{F.datenschutzLink}</a>{F.datenschutzNach}</p>
       <p class="fehler" data-fehler hidden></p>
     </fieldset>
 
     <!-- 7 Zusammenfassung (hier und nur hier der Richtwert) -->
     <fieldset class="schritt" data-schritt="zusammenfassung" hidden>
-      <legend><h3 tabindex="-1">Ihre Anfrage im Überblick</h3></legend>
+      <legend><h3 tabindex="-1">{F.uebersichtFrage}</h3></legend>
       <dl class="uebersicht" data-uebersicht></dl>
       <div class="preis" data-preis hidden>
-        <p class="preis-zeile"><span data-preis-titel>Unverbindlicher Richtwert:</span> <strong data-preis-wert></strong></p>
+        <p class="preis-zeile"><span data-preis-titel>{F.richtwertTitel}</span> <strong data-preis-wert></strong></p>
         <p class="preis-hinweis" data-preis-hinweis></p>
       </div>
       <p class="preis ohne" data-ohne-preis hidden></p>
-      <p class="foto-hinweis" data-foto hidden>Ein Foto oder Scan des Dokuments schicken Sie bitte erst nach unserer Rückmeldung.</p>
+      <p class="foto-hinweis" data-foto hidden>{F.foto}</p>
       <div class="senden">
-        <a class="knopf" href={`mailto:${MAIL}`} data-senden-mail><Icon name="mail" />Anfrage senden</a>
-        <a class="knopf rahmen" href={WHATSAPP_LINK} rel="noopener" data-senden-wa><Icon name="whatsapp" />Per WhatsApp senden</a>
+        <a class="knopf" href={`mailto:${MAIL}`} data-senden-mail><Icon name="mail" />{F.senden}</a>
+        <a class="knopf rahmen" href={WHATSAPP_LINK} rel="noopener" data-senden-wa><Icon name="whatsapp" />{F.sendenWa}</a>
       </div>
-      <p class="senden-hinweis">Es öffnet sich Ihr E-Mail-Programm oder WhatsApp mit dem fertigen Text. Erst wenn Sie dort auf „Senden“ tippen, geht Ihre Anfrage an Herrn Tanrikulu.</p>
+      <p class="senden-hinweis">{F.sendenHinweis}</p>
       <p class="gesendet" role="status" data-gesendet></p>
     </fieldset>
 
     <div class="steuerung">
-      <button type="button" class="knopf rahmen zurueck" data-zurueck hidden>Zurück</button>
-      <button type="submit" class="knopf vor" data-weiter>Weiter</button>
+      <button type="button" class="knopf rahmen zurueck" data-zurueck hidden>{F.zurueck}</button>
+      <button type="submit" class="knopf vor" data-weiter>{F.weiter}</button>
     </div>
   </form>
 </div>
@@ -246,6 +248,17 @@ const datenschutz = p("de", "datenschutz");
   // JS-Datei) wird erst nachgeladen, wenn das Formular in die Nähe des Bildschirms kommt oder jemand einen Link dorthin antippt –
   // so konkurriert sie nicht mit dem ersten Bildschirm. Sichtbar wie bisher erst nach fehlerfreiem Start (data-bereit);
   // der Notfall-Hinweis zählt ab Ladebeginn (data-laedt), bei einem Ladefehler erscheint er sofort (data-fehler).
+  import cssUrl from "../lib/anfrage-formular.css?url";
+
+  // Formular-CSS als eigene Datei erst beim Laden einhängen (blockiert so den ersten Bildschirm nicht; CSP: style-src 'self')
+  const cssLaden = () => new Promise<void>((ok, nein) => {
+    const l = document.createElement("link");
+    l.rel = "stylesheet";
+    l.href = cssUrl;
+    l.onload = () => ok();
+    l.onerror = () => nein(new Error("CSS " + cssUrl));
+    document.head.append(l);
+  });
   const rahmen = document.querySelector<HTMLElement>("[data-anfrage-rahmen]");
   const form = rahmen?.querySelector<HTMLFormElement>("form.anfrage");
   if (rahmen && form) {
@@ -257,8 +270,8 @@ const datenschutz = p("de", "datenschutz");
       los = true;
       io?.disconnect();
       rahmen.dataset.laedt = "";
-      import("../lib/anfrage-formular")
-        .then(({ starten }) => {
+      Promise.all([import("../lib/anfrage-formular"), cssLaden()])
+        .then(([{ starten }]) => {
           starten(form);
           form.dataset.bereit = "";
           rahmen.dataset.bereit = "";
@@ -304,139 +317,3 @@ const datenschutz = p("de", "datenschutz");
     }
   }
 </script>
-
-<style is:global>
-  .anfrage-rahmen { max-width: 52rem; margin-inline: auto; }
-  .anfrage-rahmen .ohne-js { padding: 1rem 1.2rem; border-left: 3px solid var(--primaer); background: var(--sekundaer); margin: 0; }
-  /* Formular erst zeigen, wenn das Skript es eingerichtet hat (auch ohne JS verborgen) */
-  .anfrage-rahmen:not([data-bereit]) .anfrage { display: none; }
-  .anfrage-laedt { display: none; }
-  html.js .anfrage-rahmen:not([data-bereit]) .anfrage-laedt { display: block; padding: 1.1rem 1.25rem; border: 1px solid var(--linie); border-radius: 16px; background: #fff; }
-  .anfrage-laedt p { margin: 0; }
-  .anfrage-laedt .laedt-zeile { display: flex; align-items: center; gap: 0.7rem; font-weight: 600; color: var(--primaer); }
-  .anfrage-laedt .laedt-punkt { flex: none; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--primaer); animation: laedt-puls 1.2s ease-in-out infinite; }
-  /* Notfall-Hinweis erst nach 6 s (reines CSS – greift auch, wenn das Skript gar nicht lädt) */
-  .anfrage-laedt .laedt-notfall { margin-top: 0.6rem; color: var(--primaer-leise); animation: laedt-spaet 0s linear 6s both; }
-  .anfrage-laedt .laedt-notfall a { font-weight: 600; color: var(--primaer); }
-  @keyframes laedt-puls { 50% { opacity: 0.25; } }
-  @keyframes laedt-spaet { from { visibility: hidden; } to { visibility: visible; } }
-  /* Mit Lader (Skript läuft, Formular wird erst später nachgeladen): Uhr startet erst beim Laden, bei einem Ladefehler sofort */
-  .anfrage-rahmen[data-wartet]:not([data-laedt]) .anfrage-laedt .laedt-notfall { animation: none; visibility: hidden; }
-  .anfrage-rahmen[data-laedt] .anfrage-laedt .laedt-notfall { animation: laedt-spaet2 0s linear 6s both; }
-  .anfrage-rahmen[data-fehler] .anfrage-laedt .laedt-notfall { animation: none; visibility: visible; }
-  @keyframes laedt-spaet2 { from { visibility: hidden; } to { visibility: visible; } }
-  @media (prefers-reduced-motion: reduce) { .anfrage-laedt .laedt-punkt { animation: none; } }
-
-  .anfrage { background: #fff; border: 1px solid var(--linie); border-radius: 16px; padding: clamp(1.1rem, 4vw, 2.5rem); box-shadow: 0 24px 48px -36px rgba(29, 49, 90, 0.35); }
-  .anfrage .fortschritt { margin-bottom: clamp(1.25rem, 3vw, 1.75rem); }
-  .anfrage .stand { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--primaer-leise); font-weight: 600; letter-spacing: 0.01em; }
-  .anfrage .balken { height: 6px; border-radius: 3px; background: var(--sekundaer); overflow: hidden; }
-  .anfrage .balken span { display: block; height: 100%; background: var(--primaer); transform-origin: left center; transform: scaleX(0.14); transition: transform var(--dur-reveal) var(--ease); }
-
-  .anfrage fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
-  .anfrage .schritt[hidden] { display: none; }
-  .anfrage .schritt { animation: einblenden 0.3s var(--ease) both; }
-  .anfrage legend { padding: 0; margin: 0 0 1.25rem; width: 100%; }
-  .anfrage legend h3 { margin: 0; font-size: clamp(1.4rem, 3vw, 1.9rem); }
-  .anfrage legend h3:focus { outline: none; }
-  .anfrage legend h3:focus-visible { outline: 2px solid var(--primaer); outline-offset: 4px; }
-
-  /* Auswahlkarten: echte Radio-Knöpfe, optisch als Karten */
-  .anfrage .wahlen { display: grid; gap: 0.75rem; }
-  @media (min-width: 36rem) { .anfrage .wahlen.zwei { grid-template-columns: repeat(2, minmax(0, 1fr)); } .anfrage .wahlen.drei { grid-template-columns: repeat(3, minmax(0, 1fr)); } .anfrage .wahlen.themen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (min-width: 52rem) { .anfrage .wahlen.themen { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  .anfrage .wahl { position: relative; display: block; cursor: pointer; }
-  .anfrage .wahl input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
-  .anfrage .innen {
-    display: flex; align-items: center; gap: 0.9rem; height: 100%; min-height: 3.5rem; padding: 1rem 1.1rem;
-    border: 1px solid var(--tinte-3); border-radius: 12px; background: #fff; color: var(--primaer);
-    transition: border-color var(--dur-fast) ease, background-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
-  }
-  .anfrage .wahl:hover .innen { border-color: var(--primaer); }
-  .anfrage .wahl input:checked + .innen { border-color: var(--primaer); box-shadow: inset 0 0 0 1px var(--primaer); background: #f8f3ea; }
-  .anfrage .wahl input:focus-visible + .innen { outline: 2px solid var(--primaer); outline-offset: 3px; }
-  .anfrage .sym { flex: none; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid var(--deko); color: var(--primaer-leise); }
-  .anfrage .sym svg { width: 1.4rem; height: 1.4rem; }
-  .anfrage .text { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; min-width: 0; }
-  .anfrage .titel { font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; hyphens: auto; }
-  .anfrage .unter { font-size: 0.95rem; line-height: 1.45; color: var(--primaer-leise); }
-  .anfrage .punkt { flex: none; width: 1.25rem; height: 1.25rem; border-radius: 50%; border: 1.5px solid var(--deko); display: grid; place-items: center; }
-  .anfrage .punkt::after { content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--primaer); transform: scale(0); transition: transform var(--dur-fast) var(--ease); }
-  .anfrage .wahl input:checked + .innen .punkt { border-color: var(--primaer); }
-  .anfrage .wahl input:checked + .innen .punkt::after { transform: scale(1); }
-  .anfrage .kompakt .innen { padding-block: 0.8rem; }
-  .anfrage .zeile .innen { min-height: 3rem; padding: 0.7rem 1rem; border-radius: 10px; }
-
-  .anfrage .dokliste { list-style: none; padding: 0; margin: 0 0 0.75rem; display: grid; gap: 0.5rem; }
-  @media (min-width: 44rem) { .anfrage .dokliste { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .anfrage .dokliste .leer { padding: 0.9rem 1rem; background: var(--sekundaer); border-radius: 10px; }
-  .anfrage .listenkopf { margin: 1.25rem 0 0.6rem; font-size: 0.98rem; color: var(--primaer-leise); }
-  .anfrage .listenkopf:empty { display: none; }
-  .anfrage .auswahl { margin: 0 0 0.6rem; font-weight: 600; }
-  .anfrage .anderes { margin-top: 0.25rem; }
-  .anfrage .anderes .innen { border-style: dashed; }
-
-  /* Felder */
-  .anfrage .feld { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.1rem; }
-  .anfrage .feld[hidden] { display: none; }
-  .anfrage .feld label { font-weight: 600; }
-  .anfrage .opt { font-weight: 400; color: var(--primaer-leise); }
-  .anfrage input[type="text"], .anfrage input[type="email"], .anfrage input[type="tel"], .anfrage input[type="search"], .anfrage input[type="number"], .anfrage input[type="date"], .anfrage input[type="time"], .anfrage textarea {
-    font: inherit; font-size: max(1rem, 16px); color: var(--primaer); width: 100%; min-height: 3.1rem; padding: 0.65rem 0.9rem;
-    border: 1px solid #b9ab92; border-radius: 10px; background: #fff; margin: 0;
-  }
-  .anfrage input[type="date"], .anfrage input[type="time"] { display: block; -webkit-appearance: none; appearance: none; line-height: 1.6; min-width: 0; }
-  .anfrage input::-webkit-date-and-time-value { text-align: left; }
-  .anfrage textarea { min-height: 7.5rem; resize: vertical; line-height: 1.6; }
-  .anfrage input:focus-visible, .anfrage textarea:focus-visible { outline: 2px solid var(--primaer); outline-offset: 2px; border-color: var(--primaer); }
-  .anfrage [aria-invalid="true"] { border-color: #9b2335 !important; }
-  .anfrage ::placeholder { color: #6b7286; opacity: 1; }
-  .anfrage .hilfe { margin: 0; font-size: 0.95rem; color: var(--primaer-leise); }
-  .anfrage .reihe { display: grid; gap: 0 1rem; }
-  @media (min-width: 34rem) { .anfrage .reihe { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
-  .anfrage .zahl { display: flex; gap: 0.5rem; align-items: stretch; max-width: 16rem; }
-  .anfrage .zahl input { text-align: center; -moz-appearance: textfield; }
-  .anfrage .zahl input::-webkit-inner-spin-button, .anfrage .zahl input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-  .anfrage .zahlknopf { flex: none; width: 3.1rem; min-height: 3.1rem; border-radius: 10px; border: 1px solid var(--primaer); background: #fff; color: var(--primaer); font: 600 1.35rem/1 var(--sans); cursor: pointer; }
-  .anfrage .zahlknopf:hover { background: var(--sekundaer); }
-
-  .anfrage .fehler { margin: 1rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid #9b2335; background: #fbf0f0; color: #5b1520; font-size: 0.98rem; }
-  .anfrage .fehler[hidden] { display: none; }
-  .anfrage .textknopf { font: inherit; font-weight: 600; color: var(--primaer); background: none; border: 0; padding: 0.35rem 0; cursor: pointer; text-align: left; }
-  .anfrage .textknopf:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.22em; }
-  .anfrage .nebenweg { margin: 1.1rem 0 0; }
-  .anfrage .datenschutz-hinweis { font-size: 0.95rem; color: var(--primaer-leise); margin: 0.5rem 0 0; }
-  .anfrage .datenschutz-hinweis a { font-weight: 600; color: var(--primaer); }
-  .anfrage .datenschutz-hinweis a:is(:hover, :focus-visible) { text-decoration: underline; }
-
-  /* Steuerung: Weiter in Primär (Gold bleibt der Conversion „Anfrage senden“ vorbehalten) */
-  .anfrage .steuerung { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: space-between; margin-top: clamp(1.5rem, 3vw, 2rem); padding-top: 1.25rem; border-top: 1px solid var(--linie); }
-  .anfrage .steuerung [hidden] { display: none; }
-  .anfrage .vor { margin-left: auto; background: var(--primaer); border-color: var(--primaer); color: #fff; min-width: 9rem; cursor: pointer; }
-  .anfrage .vor:hover { background: var(--primaer-hell); border-color: var(--primaer-hell); }
-  .anfrage .zurueck { cursor: pointer; }
-  .anfrage .knopf.rahmen:hover { color: #fff; }
-  /* Touch: kein „klebendes“ Hover, wenn nach einem Schrittwechsel ein anderer Knopf unter dem Finger liegt */
-  @media (hover: none) { .anfrage .knopf.rahmen:hover { background: transparent; color: var(--tinte); border-color: var(--tinte); transform: none; } .anfrage .vor:hover { background: var(--primaer); border-color: var(--primaer); } }
-
-  /* Zusammenfassung */
-  .anfrage .uebersicht { margin: 0 0 1.5rem; display: grid; gap: 0; border-top: 1px solid var(--linie); }
-  .anfrage .uebersicht div { display: grid; gap: 0.1rem 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--linie); }
-  @media (min-width: 36rem) { .anfrage .uebersicht div { grid-template-columns: 10rem minmax(0, 1fr); } }
-  .anfrage .uebersicht dt { color: var(--primaer-leise); font-size: 0.98rem; }
-  .anfrage .uebersicht dd { margin: 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; font-weight: 600; overflow-wrap: anywhere; }
-  .anfrage .uebersicht .lang dd span { font-weight: 400; white-space: pre-line; }
-  .anfrage .uebersicht .aendern { font-size: 0.92rem; padding: 0; }
-  .anfrage .preis { margin: 0 0 1rem; padding: 1.1rem 1.25rem; border-radius: 12px; background: var(--sekundaer); border-left: 4px solid var(--primaer); }
-  .anfrage .preis[hidden], .anfrage .foto-hinweis[hidden] { display: none; }
-  .anfrage .preis-zeile { margin: 0 0 0.35rem; font-size: 1.1rem; }
-  .anfrage .preis-zeile strong { display: inline-block; font: 600 clamp(1.45rem, 3.5vw, 1.8rem)/1.25 var(--serif); }
-  .anfrage .preis-hinweis { margin: 0; font-size: 0.95rem; color: var(--primaer-leise); }
-  .anfrage p.preis.ohne { font-weight: 600; }
-  .anfrage .foto-hinweis { margin: 0 0 1.5rem; padding-left: 1rem; border-left: 2px solid var(--deko); }
-  .anfrage .senden { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.9rem; }
-  @media (max-width: 30rem) { .anfrage .senden .knopf { width: 100%; } .anfrage .steuerung .knopf { flex: 1 1 8rem; } }
-  .anfrage .senden-hinweis { font-size: 0.95rem; color: var(--primaer-leise); margin: 0; }
-  .anfrage .gesendet { margin: 0.75rem 0 0; font-weight: 600; }
-  .anfrage .gesendet:empty { display: none; }
-</style>

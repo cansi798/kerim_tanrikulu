@@ -1,0 +1,27 @@
+---
+// Weiterleitung früherer Adressen (Jamil Talk xidc8qvq #5317/#5318, 09.11.2026): Themen → Startseite der Sprache,
+// Ratgeber und Häufige Fragen → „Gut zu wissen“ (passender Abschnitt). Ein Sprungziel aus dem alten Link (z. B. /ratgeber/#apostille)
+// übernimmt weiter.js, sonst greift meta refresh; der Link bleibt für alle Fälle sichtbar. Nicht in Sitemap/llms.txt, noindex.
+import { u } from "../daten";
+import { ALTE_SEITEN, SEITEN, type Lang } from "../i18n";
+interface Props { alt: keyof typeof ALTE_SEITEN; lang: Lang }
+const { alt, lang } = Astro.props;
+const a = ALTE_SEITEN[alt];
+const ziel = u(SEITEN[a.ziel][lang]) + a.anker;
+const text = a.ziel === "start" ? (lang === "tr" ? "Ana sayfaya git" : "Weiter zur Startseite") : lang === "tr" ? "„Bilmeniz gerekenler“ sayfasına git" : "Weiter zu „Gut zu wissen“";
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, follow" />
+    <script is:inline src={u("/weiter.js")} data-ziel={ziel}></script>
+    <meta http-equiv="refresh" content={`0; url=${ziel}`} />
+    <link rel="canonical" href={new URL(ziel, Astro.site)} />
+    <title>Kerim Tanrikulu</title>
+  </head>
+  <body>
+    <h1><a href={ziel}>{text}</a></h1>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 // Logik des mehrstufigen Anfrageformulars (aus Anfrage.astro ausgelagert, 09.11.2026, Jamil Talk xidc8qvq #5312): wird erst geladen,
 // wenn das Formular in die Nähe des Bildschirms kommt (dynamischer Import, eigene JS-Datei) – so bremst es die Startseite nicht.
 import { finden, thema as themaVon, suchen, richtwert, spanne, datumDe, MINDESTPREIS, type Eintrag } from "./anfrage";
+import { FT, themaTitel, dokName, type FormLang } from "./anfrage-texte";
 
 const ENDPOINT: string = import.meta.env.PUBLIC_FORM_ENDPOINT || "";
 
@@ -11,6 +12,9 @@ export function starten(form: HTMLFormElement) {
   const wert = (name: string) => ((feld(name) as HTMLInputElement | RadioNodeList | null)?.value ?? "").trim();
   const MAIL = form.dataset.mail!;
   const WA = form.dataset.wa!;
+  const lang: FormLang = form.dataset.lang === "tr" ? "tr" : "de";
+  const F = FT[lang];
+  const name = (e: Eintrag) => dokName(e.dok, lang);
 
   let aktuell = "leistung";
   let vonUebersicht = false;
@@ -36,26 +40,26 @@ export function starten(form: HTMLFormElement) {
   type Fehler = { el: HTMLElement; text: string } | null;
   const erstesRadio = (name: string) => form.querySelector<HTMLInputElement>(`[data-schritt] input[name="${name}"]`)!;
   function pruefen(id: string): Fehler {
-    const wahl = "Bitte wählen Sie eine Möglichkeit.";
+    const wahl = F.fWahl;
     switch (id) {
       case "leistung": case "richtung": case "art": case "dauer":
         return wert(id) ? null : { el: erstesRadio(id), text: wahl };
       case "thema":
         return wert("thema") || ohneThema ? null : { el: erstesRadio("thema"), text: wahl };
       case "dokument":
-        if (!dokId) return { el: (form.querySelector<HTMLInputElement>('.dokliste input') ?? $<HTMLInputElement>('input[value="anderes"]')), text: "Bitte wählen Sie ein Dokument oder „Anderes Dokument“." };
-        if (dokId === "anderes" && !wert("anderes")) return { el: $("#dok-anderes"), text: "Bitte schreiben Sie kurz, um welches Dokument es geht." };
+        if (!dokId) return { el: (form.querySelector<HTMLInputElement>('.dokliste input') ?? $<HTMLInputElement>('input[value="anderes"]')), text: F.fDok };
+        if (dokId === "anderes" && !wert("anderes")) return { el: $("#dok-anderes"), text: F.fAnderes };
         return null;
       case "umfang": {
         if (!seitenZaehlen()) return null;
         const n = Number(wert("seiten"));
-        return Number.isInteger(n) && n >= 1 && n <= 500 ? null : { el: $("#seiten"), text: "Bitte geben Sie eine Seitenzahl zwischen 1 und 500 an." };
+        return Number.isInteger(n) && n >= 1 && n <= 500 ? null : { el: $("#seiten"), text: F.fSeiten };
       }
       case "ort":
-        return wert("ort") ? null : { el: $("#d-ort"), text: "Bitte geben Sie den Ort des Termins an." };
+        return wert("ort") ? null : { el: $("#d-ort"), text: F.fOrt };
       case "kontakt":
-        if (!wert("name")) return { el: $("#k-name"), text: "Bitte geben Sie Ihren Namen an." };
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email"))) return { el: $("#k-mail"), text: "Bitte geben Sie eine gültige E-Mail-Adresse an, damit Herr Tanrikulu Ihnen antworten kann." };
+        if (!wert("name")) return { el: $("#k-name"), text: F.fName };
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email"))) return { el: $("#k-mail"), text: F.fMail };
         return null;
       default:
         return null;
@@ -96,7 +100,7 @@ export function starten(form: HTMLFormElement) {
     $<HTMLButtonElement>("[data-zurueck]").hidden = nr <= 1;
     $<HTMLButtonElement>("[data-weiter]").hidden = id === "zusammenfassung";
     const h = $<HTMLHeadingElement>("h3", schritte.get(id)!);
-    $("[data-ansage]").textContent = `Schritt ${nr} von ${weg.length}: ${h.textContent}`;
+    $("[data-ansage]").textContent = F.ansage(nr, weg.length, h.textContent ?? "");
     if (fokus) h.focus();
   }
 
@@ -105,7 +109,7 @@ export function starten(form: HTMLFormElement) {
     if (id === "umfang") {
       const mit = seitenZaehlen();
       $("[data-seiten-feld]").hidden = !mit;
-      $("[data-umfang-titel]").textContent = mit ? "Wie viele Seiten, und bis wann?" : "Bis wann brauchen Sie die Übersetzung?";
+      $("[data-umfang-titel]").textContent = mit ? F.umfangFrage : F.umfangFrageOhne;
     }
     if (id === "zusammenfassung") uebersicht();
   }
@@ -168,7 +172,7 @@ export function starten(form: HTMLFormElement) {
     const z = $("[data-auswahl]");
     const e = gewaehlt();
     z.hidden = !e;
-    z.textContent = e ? `Ihre Auswahl: ${e.dok.name}` : "";
+    z.textContent = e ? F.auswahl(name(e)) : "";
   }
 
   function liste() {
@@ -178,14 +182,12 @@ export function starten(form: HTMLFormElement) {
     let eintraege: Eintrag[];
     if (q) {
       eintraege = suchen(q);
-      $("[data-treffer]").textContent = eintraege.length ? `${eintraege.length} ${eintraege.length === 1 ? "Dokument" : "Dokumente"} gefunden` : "Kein Dokument gefunden";
-      $("[data-listenkopf]").textContent = eintraege.length ? "Treffer aus allen Themen" : "";
+      $("[data-treffer]").textContent = F.treffer(eintraege.length);
+      $("[data-listenkopf]").textContent = eintraege.length ? F.trefferKopf : "";
     } else {
       eintraege = t ? t.dokumente.map((dok) => ({ dok, thema: t })) : [];
       $("[data-treffer]").textContent = "";
-      $("[data-listenkopf]").textContent = t
-        ? `${t.dokumente.length} Dokumente im Thema „${t.titel}“, von A bis Z. Schneller geht es mit der Suche oben. Nicht dabei? Ganz unten „Anderes Dokument“ wählen.`
-        : "Geben Sie oben ein, wie Ihr Dokument heißt – oder wählen Sie „Anderes Dokument“.";
+      $("[data-listenkopf]").textContent = t ? F.themaKopf(t.dokumente.length, themaTitel(t, lang)) : F.ohneThemaKopf;
     }
     const kinder = eintraege.map(({ dok, thema }) => {
       const li = document.createElement("li");
@@ -202,12 +204,12 @@ export function starten(form: HTMLFormElement) {
       text.className = "text";
       const titel = document.createElement("span");
       titel.className = "titel";
-      titel.textContent = dok.name;
+      titel.textContent = dokName(dok, lang);
       text.append(titel);
       if (q) {
         const unter = document.createElement("span");
         unter.className = "unter";
-        unter.textContent = thema.titel;
+        unter.textContent = themaTitel(thema, lang);
         text.append(unter);
       }
       const punkt = document.createElement("span");
@@ -221,7 +223,7 @@ export function starten(form: HTMLFormElement) {
     if (q && !eintraege.length) {
       const li = document.createElement("li");
       li.className = "leer";
-      li.textContent = "Kein passendes Dokument gefunden. Wählen Sie unten „Anderes Dokument“ und schreiben Sie, worum es geht.";
+      li.textContent = F.leer;
       kinder.push(li);
     }
     ul.replaceChildren(...kinder);
@@ -236,44 +238,42 @@ export function starten(form: HTMLFormElement) {
   $("[data-plus]").addEventListener("click", () => { seitenFeld.value = String(Math.min(500, seiten() + 1)); });
 
   // ---------- Zusammenfassung, Text, Versand ----------
-  const RICHTUNG: Record<string, string> = { "tr-de": "Türkisch → Deutsch", "de-tr": "Deutsch → Türkisch" };
-  const ART: Record<string, string> = { "vor-ort": "Vor Ort", video: "Per Video", telefon: "Per Telefon" };
+  const RICHTUNG: Record<string, string> = { "tr-de": F.trde.sicht, "de-tr": F.detr.sicht };
+  const ART = F.art;
 
   function zeilen(): [string, string, string][] {
     const z: [string, string, string][] = [];
     if (wert("leistung") === "dolmetschen") {
-      z.push(["Leistung", "Dolmetschen", "leistung"]);
-      const termin = wert("datum") ? datumDe(wert("datum")) + (wert("uhrzeit") ? `, ${wert("uhrzeit")} Uhr` : "") : "noch offen";
-      z.push(["Termin", termin, "termin"]);
-      z.push(["Art", ART[wert("art")] ?? "", "art"]);
-      if (wert("art") === "vor-ort") z.push(["Ort", wert("ort"), "ort"]);
-      z.push(["Dauer ca.", wert("dauer"), "dauer"]);
+      z.push([F.zLeistung, F.dolmetschen, "leistung"]);
+      const termin = wert("datum") ? datumDe(wert("datum")) + (wert("uhrzeit") ? F.uhr(wert("uhrzeit")) : "") : F.terminOffen;
+      z.push([F.zTermin, termin, "termin"]);
+      z.push([F.zArt, ART[wert("art")] ?? "", "art"]);
+      if (wert("art") === "vor-ort") z.push([F.zOrt, wert("ort"), "ort"]);
+      z.push([F.zDauer, wert("dauer"), "dauer"]);
     } else {
-      z.push(["Leistung", "Übersetzung", "leistung"]);
-      z.push(["Sprachrichtung", RICHTUNG[wert("richtung")] ?? "", "richtung"]);
+      z.push([F.zLeistung, F.uebersetzung, "leistung"]);
+      z.push([F.zRichtung, RICHTUNG[wert("richtung")] ?? "", "richtung"]);
       const e = gewaehlt();
       const t = e?.thema ?? themaVon(wert("thema"));
-      if (t) z.push(["Thema", t.titel, "thema"]);
-      z.push(["Dokument", e ? e.dok.name : `Anderes Dokument: ${wert("anderes")}`, "dokument"]);
-      if (seitenZaehlen()) z.push(["Seiten ca.", String(seiten()), "umfang"]);
-      z.push(["Wunschtermin", wert("wunsch") ? datumDe(wert("wunsch")) : "keiner angegeben", "umfang"]);
+      if (t) z.push([F.zThema, themaTitel(t, lang), "thema"]);
+      z.push([F.zDokument, e ? name(e) : F.zAnderes(wert("anderes")), "dokument"]);
+      if (seitenZaehlen()) z.push([F.zSeiten, String(seiten()), "umfang"]);
+      z.push([F.zWunsch, wert("wunsch") ? datumDe(wert("wunsch")) : F.keinWunsch, "umfang"]);
     }
-    z.push(["Name", wert("name"), "kontakt"]);
-    z.push(["E-Mail", wert("email"), "kontakt"]);
-    if (wert("tel")) z.push(["Telefon", wert("tel"), "kontakt"]);
+    z.push([F.name, wert("name"), "kontakt"]);
+    z.push([F.email, wert("email"), "kontakt"]);
+    if (wert("tel")) z.push([F.telefon, wert("tel"), "kontakt"]);
     return z;
   }
 
   function preis() {
     // Dolmetschen: bewusst kein Richtwert – der Hinweis steht aber genauso deutlich im Kasten wie sonst der Preis (Jamil #5237)
-    if (wert("leistung") === "dolmetschen") return { titel: "Honorar:", wert: "nach individueller Absprache", hinweis: "Herr Tanrikulu nennt Ihnen das Honorar nach Ihrer Anfrage – je nach Termin, Art und Dauer.", ohne: "" };
+    if (wert("leistung") === "dolmetschen") return { titel: F.honorarTitel, wert: F.honorarWert, hinweis: F.honorarHinweis, ohne: "" };
     const e = gewaehlt();
-    if (!e) return { titel: "", wert: "", hinweis: "", ohne: "Preis nach Sichtung des Dokuments." };
+    if (!e) return { titel: "", wert: "", hinweis: "", ohne: F.ohnePreis };
     const n = seiten();
-    const basis = e.dok.einheit === "seite"
-      ? `Berechnet für ca. ${n} ${n === 1 ? "Seite" : "Seiten"}, pro Seite der fertigen Übersetzung, Mindestpreis ${MINDESTPREIS} €.`
-      : `Pro Dokument, Mindestpreis ${MINDESTPREIS} €.`;
-    return { titel: "Unverbindlicher Richtwert:", wert: spanne(richtwert(e.dok, n)), hinweis: `${basis} Verbindlich ist erst der Kostenvoranschlag nach Sichtung des Dokuments.`, ohne: "" };
+    const basis = e.dok.einheit === "seite" ? F.basisSeite(n, MINDESTPREIS) : F.basisDok(MINDESTPREIS);
+    return { titel: F.richtwertTitel, wert: spanne(richtwert(e.dok, n), F.ca2), hinweis: `${basis} ${F.verbindlich}`, ohne: "" };
   }
 
   function uebersicht() {
@@ -289,7 +289,10 @@ export function starten(form: HTMLFormElement) {
       b.type = "button";
       b.className = "textknopf aendern";
       b.dataset.gehe = schritt;
-      b.innerHTML = 'Ändern<span class="sr"></span>';
+      b.textContent = F.aendern;
+      const sr = document.createElement("span");
+      sr.className = "sr";
+      b.append(sr);
       b.querySelector(".sr")!.textContent = `: ${k}`;
       dd.append(span, b);
       div.append(dt, dd);
@@ -299,7 +302,7 @@ export function starten(form: HTMLFormElement) {
       const div = document.createElement("div");
       div.className = "lang";
       const dt = document.createElement("dt");
-      dt.textContent = "Nachricht";
+      dt.textContent = F.nachricht;
       const dd = document.createElement("dd");
       const span = document.createElement("span");
       span.textContent = wert("nachricht");
@@ -307,7 +310,11 @@ export function starten(form: HTMLFormElement) {
       b.type = "button";
       b.className = "textknopf aendern";
       b.dataset.gehe = "kontakt";
-      b.innerHTML = 'Ändern<span class="sr">: Nachricht</span>';
+      b.textContent = F.aendern;
+      const sr = document.createElement("span");
+      sr.className = "sr";
+      sr.textContent = `: ${F.nachricht}`;
+      b.append(sr);
       dd.append(span, b);
       div.append(dt, dd);
       reihen.push(div);
@@ -333,18 +340,16 @@ export function starten(form: HTMLFormElement) {
   function nachricht() {
     const dolm = wert("leistung") === "dolmetschen";
     const e = gewaehlt();
-    const betreff = dolm
-      ? `Anfrage Dolmetschen – ${wert("datum") ? datumDe(wert("datum")) : "Termin offen"}`
-      : `Anfrage Übersetzung – ${e ? e.dok.name : wert("anderes") || "Anderes Dokument"}`;
+    const betreff = dolm ? F.betreffDo(wert("datum") ? datumDe(wert("datum")) : "") : F.betreffUe(e ? name(e) : wert("anderes"));
     const pr = preis();
     const bau = (notiz: string) => {
-      const t = ["Guten Tag Herr Tanrikulu,", "", "ich möchte folgende Anfrage stellen:", ""];
+      const t = [F.anrede, "", F.einleitung, ""];
       zeilen().forEach(([k, v]) => t.push(`${k}: ${v}`));
-      if (notiz) t.push("", `Nachricht: ${notiz}`);
-      if (pr.wert && !dolm) t.push("", `Unverbindlicher Richtwert laut Website: ${pr.wert}`);
-      else if (!dolm) t.push("", "Preis: nach Sichtung des Dokuments");
-      if (!dolm) t.push("", "Ein Foto oder Scan des Dokuments schicke ich nach Ihrer Rückmeldung.");
-      t.push("", "Viele Grüße", wert("name"));
+      if (notiz) t.push("", `${F.nachricht}: ${notiz}`);
+      if (pr.wert && !dolm) t.push("", F.mRichtwert(pr.wert));
+      else if (!dolm) t.push("", F.mOhnePreis);
+      if (!dolm) t.push("", F.mFoto);
+      t.push("", F.gruss, wert("name"));
       return t.join("\n");
     };
     // WhatsApp-/mailto-Links kurz halten (unter ca. 1800 Zeichen): notfalls nur die freie Nachricht kürzen
@@ -372,15 +377,15 @@ export function starten(form: HTMLFormElement) {
       fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ betreff, text, email: wert("email"), name: wert("name") }) })
         .then((r) => {
           if (!r.ok) throw new Error(String(r.status));
-          gesendet.textContent = "Vielen Dank, Ihre Anfrage ist angekommen. Herr Tanrikulu meldet sich bei Ihnen.";
+          gesendet.textContent = F.angekommen;
         })
         .catch(() => { location.href = a.href; });
       return;
     }
-    gesendet.textContent = `Ihr E-Mail-Programm öffnet sich mit der fertigen Anfrage. Falls nicht, schreiben Sie bitte direkt an ${MAIL} oder nutzen Sie WhatsApp.`;
+    gesendet.textContent = F.gesendetMail(MAIL);
   });
   $<HTMLAnchorElement>("[data-senden-wa]").addEventListener("click", () => {
-    gesendet.textContent = "WhatsApp öffnet sich mit der fertigen Anfrage. Tippen Sie dort auf „Senden“.";
+    gesendet.textContent = F.gesendetWa;
   });
 
   zeigen("leistung", false);

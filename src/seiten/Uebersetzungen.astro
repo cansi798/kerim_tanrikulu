@@ -29,7 +29,6 @@ const S = T.seiten.uebersetzungen;
           <li class={`d${i}`}><span class="symbol"><Icon name={d.icon as any} /></span><span>{d.text}</span></li>
         ))}
       </ul>
-      <p class="mt"><a class="weiter" href={p(lang, "themen")}>{S.themenLink}</a></p>
     </div>
   </section>
 
@@ -48,7 +47,7 @@ const S = T.seiten.uebersetzungen;
       <h2 id="wissen-titel">{S.wissenTitel}</h2>
       <div>
         <p class="lead">{S.wissenText}</p>
-        <a class="weiter" href={p(lang, "ratgeber")}>{T.ratgeber.teaserLink}</a>
+        <a class="weiter" href={p(lang, "wissen", "#ratgeber")}>{T.ratgeber.teaserLink}</a>
       </div>
     </div>
   </section>
@@ -73,7 +72,7 @@ const S = T.seiten.uebersetzungen;
       <div>
         <p class="lead">{T.fakten.honorar}</p>
         <p class="beispiel leise">{T.fakten.honorarBeispiel}</p>
-        <a class="weiter" href={p(lang, "fragen")}>{T.nav.fragen}</a>
+        <a class="weiter" href={p(lang, "wissen", "#fragen")}>{T.fragen.eyebrow}</a>
       </div>
     </div>
   </section>
@@ -94,6 +93,5 @@ const S = T.seiten.uebersetzungen;
   .dokumente .d3 { animation-delay: 0.3s; }
   .dokumente .d4 { animation-delay: 0.4s; }
   .honorar { border-top: 1px solid var(--linie); }
-  .mt { margin-top: 1.75rem; }
   .beispiel { max-width: 46rem; margin: -0.5rem 0 1.25rem; }
 </style>

@@ -13,9 +13,9 @@ const { lang } = Astro.props;
 const T = t(lang);
 const S = T.seiten.kontakt;
 const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
-// Anfrageformular nur auf der deutschen Seite (Jamil Talk xidc8qvq #5217, 09.11.2026). /tr/iletisim/ bleibt vorerst unverändert,
-// bis Kerim die Dokumentnamen und die türkischen Texte geprüft hat.
-const mitFormular = lang === "de";
+// Anfrageformular (Jamil Talk xidc8qvq #5217, 09.11.2026), seit #5314 auch auf /tr/iletisim/ (türkische Texte und Dokumentnamen:
+// Entwurf, von Kerim prüfen lassen – OFFENE-INFOS).
+const mitFormular = true;
 ---
 <Basis lang={lang} seite="kontakt" titel={T.meta.kontakt.titel} beschreibung={T.meta.kontakt.beschreibung} aufruf={false}>
   <SeitenKopf titel={T.nav.kontakt}>
@@ -26,18 +26,18 @@ const mitFormular = lang === "de";
     <section class="abschnitt anfrage-abschnitt" aria-labelledby="anfrage-titel">
       <div class="huelle">
         <div class="anfrage-kopf">
-          <h2 id="anfrage-titel">Anfrage stellen</h2>
-          <p>In wenigen Schritten zu Ihrer Anfrage. Ihre Angaben gehen erst an Herrn Tanrikulu, wenn Sie sie am Ende selbst absenden.</p>
-          <p><a class="weiter" href="#direkt">Lieber direkt: Telefon, WhatsApp oder E-Mail</a></p>
+          <h2 id="anfrage-titel" tabindex="-1">{T.anfrage.kontaktTitel}</h2>
+          <p>{T.anfrage.kontaktZeile}</p>
+          <p><a class="weiter" href="#direkt">{T.anfrage.direktLink}</a></p>
         </div>
-        <Anfrage />
+        <Anfrage lang={lang} />
       </div>
     </section>
   )}
 
   <section class:list={["abschnitt", { "auf-creme": mitFormular }]} id="direkt" aria-label={mitFormular ? undefined : S.wegeLabel} aria-labelledby={mitFormular ? "direkt-titel" : undefined}>
     <div class="huelle">
-      {mitFormular && <h2 id="direkt-titel" class="direkt-titel">Lieber direkt sprechen oder schreiben?</h2>}
+      {mitFormular && <h2 id="direkt-titel" class="direkt-titel">{T.anfrage.direktTitel}</h2>}
       <ul class="wege" data-szene>
         <li class="w0">
           <a href={TELEFON_LINK}>

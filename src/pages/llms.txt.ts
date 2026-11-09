@@ -45,7 +45,7 @@ export const GET: APIRoute = ({ site }) => {
     ...D.fragen.liste.map((f) => `- ${f.frage} ${f.antwort.join(" ")}`),
     "",
     "## Ratgeber (allgemeine Information, keine Rechtsberatung)",
-    ...D.ratgeber.kapitel.map((k) => `- ${k.frage} ${k.kurz} ${url(SEITEN.ratgeber.de)}#${k.id}`),
+    ...D.ratgeber.kapitel.map((k) => `- ${k.frage} ${k.kurz} ${url(SEITEN.wissen.de)}#${k.id}`),
     "",
     "## Seiten (Deutsch)",
     ...OEFFENTLICH.map((s) => `- [${D.nav[s]}](${url(SEITEN[s].de)})`),

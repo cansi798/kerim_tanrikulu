@@ -193,7 +193,6 @@ a.karte:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -20px rgba(
 .fuss { --h-schaetz: 890px; }
 .ablauf { --h-schaetz: 235px; }
 .gut { --h-schaetz: 700px; }
-#tr-de, #de-tr { --h-schaetz: 1450px; } /* Themen: lange Listen je Richtung */
 #direkt { --h-schaetz: 900px; } /* Kontakt: Kontaktwege */
 @media (min-width: 62rem) {
   .abschnitt { --h-schaetz: 330px; }
@@ -201,9 +200,36 @@ a.karte:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -20px rgba(
   .fuss { --h-schaetz: 295px; }
   .ablauf { --h-schaetz: 480px; }
   .gut { --h-schaetz: 580px; }
-  #tr-de, #de-tr { --h-schaetz: 930px; }
   #direkt { --h-schaetz: 340px; }
 }
 /* v5: Vorteile-Band liegt direkt unter dem Hero – ebenfalls erst in der Nähe rendern (Ladezeit) */
 .warum { content-visibility: auto; contain-intrinsic-size: auto 1680px; }
 @media (max-width: 61.99rem) { .richtungen { content-visibility: auto; contain-intrinsic-size: auto 1100px; } }
+
+/* Anfrageformular – nur das Nötige für den Ladezustand (Jamil #5312, 09.11.2026). Das übrige Formular-CSS lädt erst mit der
+   Formular-Logik (src/lib/anfrage-formular.css, dynamischer Import) und blockiert so den ersten Bildschirm nicht. */
+.anfrage-rahmen { max-width: 52rem; margin-inline: auto; }
+.anfrage-rahmen .ohne-js { padding: 1rem 1.2rem; border-left: 3px solid var(--primaer); background: var(--sekundaer); margin: 0; }
+/* Formular erst zeigen, wenn das Skript es eingerichtet hat (auch ohne JS verborgen) */
+.anfrage-rahmen:not([data-bereit]) .anfrage { display: none; }
+.anfrage-laedt { display: none; }
+html.js .anfrage-rahmen:not([data-bereit]) .anfrage-laedt { display: block; padding: 1.1rem 1.25rem; border: 1px solid var(--linie); border-radius: 16px; background: #fff; }
+.anfrage-laedt p { margin: 0; }
+.anfrage-laedt .laedt-zeile { display: flex; align-items: center; gap: 0.7rem; font-weight: 600; color: var(--primaer); }
+.anfrage-laedt .laedt-punkt { flex: none; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--primaer); animation: laedt-puls 1.2s ease-in-out infinite; }
+/* Notfall-Hinweis erst nach 6 s (reines CSS – greift auch, wenn das Skript gar nicht lädt) */
+.anfrage-laedt .laedt-notfall { margin-top: 0.6rem; color: var(--primaer-leise); animation: laedt-spaet 0s linear 6s both; }
+.anfrage-laedt .laedt-notfall a { font-weight: 600; color: var(--primaer); }
+@keyframes laedt-puls { 50% { opacity: 0.25; } }
+@keyframes laedt-spaet { from { visibility: hidden; } to { visibility: visible; } }
+/* Mit Lader (Skript läuft, Formular wird erst später nachgeladen): Uhr startet erst beim Laden, bei einem Ladefehler sofort */
+.anfrage-rahmen[data-wartet]:not([data-laedt]) .anfrage-laedt .laedt-notfall { animation: none; visibility: hidden; }
+.anfrage-rahmen[data-laedt] .anfrage-laedt .laedt-notfall { animation: laedt-spaet2 0s linear 6s both; }
+.anfrage-rahmen[data-fehler] .anfrage-laedt .laedt-notfall { animation: none; visibility: visible; }
+@keyframes laedt-spaet2 { from { visibility: hidden; } to { visibility: visible; } }
+@media (prefers-reduced-motion: reduce) { .anfrage-laedt .laedt-punkt { animation: none; } }
+/* Platz für das Formular freihalten, bis es bereit ist (gemessen 320/360/390/768/1440 px: 643/553/509/422/441 px) – sonst rutscht
+   der Inhalt darunter beim Nachladen um bis zu 400 px (z. B. die Ablauf-Grafik aus dem Bild) */
+html.js .anfrage-rahmen:not([data-bereit]) { min-height: 31rem; }
+@media (max-width: 23.99rem) { html.js .anfrage-rahmen:not([data-bereit]) { min-height: 38rem; } }
+@media (min-width: 36rem) { html.js .anfrage-rahmen:not([data-bereit]) { min-height: 26rem; } }

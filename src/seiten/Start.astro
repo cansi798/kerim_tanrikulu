@@ -34,7 +34,8 @@ const formular = mitFormular(lang, "start");
     <div class="huelle hero-inhalt">
       <!-- Jamil Talk 3980–3982: Badge und Häkchen-Leiste entfernt; Animation im ersten Bildschirm (Handy: zwischen Unterzeile und Knöpfen, breit: rechts daneben) -->
       <h1 id="hero-titel" class="h-titel auf" data-d="1">{T.hero.h1}</h1>
-      <p class="sub auf" data-d="2">{T.hero.sub}</p>
+      <!-- „↔“ in Systemschrift: sonst lädt der Browser für dieses eine Zeichen zwei weitere Open-Sans-Dateien (ca. 80 KB, Lighthouse 09.11.) -->
+      <p class="sub auf" data-d="2">{T.hero.sub.split("↔").map((teil, i) => <>{i > 0 && <span class="zeichen-sys">↔</span>}{teil}</>)}</p>
       <!-- Signature-Animation „Gespräch über den Dolmetscher“ (ersetzt seit 31.10.2026 die Licht-Brücke, Can 12:39): links spricht jemand,
            das Licht fließt zum Federkiel, wird verwandelt und erreicht das Ohr rechts; ca. 4 s ab dem Laden, alle 14 s und beim Wiederkommen. -->
       <div class="szene-ebene" data-parallax="-0.035" data-szene>
@@ -52,7 +53,7 @@ const formular = mitFormular(lang, "start");
       <ul class="karten" data-szene>
         <li class="k0"><a href={p(lang, "uebersetzungen")}><span class="symbol"><Icon name="dokument" /></span><span class="text"><span class="titel">{T.hero.karten[0]}</span><span class="k-kurz">{T.hero.kartenKurz[0]}</span></span><Icon name="pfeil" /></a></li>
         <li class="k1"><a href={p(lang, "dolmetschen")}><span class="symbol"><Icon name="mikrofon" /></span><span class="text"><span class="titel">{T.hero.karten[1]}</span><span class="k-kurz">{T.hero.kartenKurz[1]}</span></span><Icon name="pfeil" /></a></li>
-        <li class="k2"><a href={p(lang, "themen")}>
+        <li class="k2"><a href={p(lang, "uebersetzungen", "#dok-titel")}>
           <span class="symbol sprachen" aria-hidden="true"><svg viewBox="0 0 44 24" focusable="false"><text x="0" y="16.5">DE</text><path d="M18.5 9.5h7m-2-2.5 2.5 2.5-2.5 2.5M25.5 14.5h-7m2-2.5-2.5 2.5 2.5 2.5" /><text x="28.5" y="16.5">TR</text></svg></span>
           <span class="text"><span class="titel">{T.hero.karten[2]}</span><span class="k-kurz">{T.hero.kartenKurz[2]}</span></span><Icon name="pfeil" /></a></li>
       </ul>
@@ -102,17 +103,17 @@ const formular = mitFormular(lang, "start");
   <!-- Anfrageformular direkt nach „Warum Herr Tanrikulu?“ (Jamil Talk xidc8qvq #5312, 09.11.2026, „ohne ok“): dieselbe Komponente wie
        auf /kontakt/, eigener Abschnitt (Creme/Weiß-Wechsel). Der Hauptknopf oben, der Kopf-Knopf und der Abschluss-Aufruf springen hierher.
        Die Formular-Logik lädt erst, wenn der Abschnitt näher kommt (Lader in Anfrage.astro) – der erste Bildschirm bleibt schnell.
-       Nur deutsch; die türkische Startseite bleibt unverändert (E-Mail). -->
+       Seit Jamil #5314 auch auf der türkischen Startseite (gleich gestaltet, Texte in src/lib/anfrage-texte.ts). -->
   {formular && (
     <section class="abschnitt anfrage-start" aria-labelledby="anfrage-titel">
       <div class="huelle">
         <div class="section-head anfrage-kopf">
-          <span class="eyebrow">Anfrage</span>
-          <h2 id="anfrage-titel" class="regel" tabindex="-1">Anfrage in wenigen Schritten</h2>
-          <p>Eine Frage pro Schritt, am Ende sehen Sie alles im Überblick. Ihre Angaben gehen erst an Herrn Tanrikulu, wenn Sie selbst per E-Mail oder WhatsApp absenden.</p>
-          <p class="direkt-link"><a class="weiter" href="#aufruf-titel">Lieber direkt: Telefon, WhatsApp oder E-Mail</a></p>
+          <span class="eyebrow">{T.anfrage.eyebrow}</span>
+          <h2 id="anfrage-titel" class="regel" tabindex="-1">{T.anfrage.startTitel}</h2>
+          <p>{T.anfrage.startZeile}</p>
+          <p class="direkt-link"><a class="weiter" href="#aufruf-titel">{T.anfrage.direktLink}</a></p>
         </div>
-        <Anfrage direkt="#aufruf-titel" wegeOrt="am Ende dieser Seite" />
+        <Anfrage lang={lang} direkt="#aufruf-titel" wege="ende" />
       </div>
     </section>
   )}
@@ -135,10 +136,9 @@ const formular = mitFormular(lang, "start");
           </details>
         ))}
       </div>
+      <!-- Ratgeber und Häufige Fragen sind seit Jamil #5318 eine Seite „Gut zu wissen“; Themen entfällt (#5317) -->
       <ul class="weitere">
-        <li><a class="weiter" href={p(lang, "fragen")}>{T.fragen.alle}</a></li>
-        <li><a class="weiter" href={p(lang, "ratgeber")}>{T.ratgeber.teaserLink}</a></li>
-        <li><a class="weiter" href={p(lang, "themen")}>{T.themen.teaserLink}</a></li>
+        <li><a class="weiter" href={p(lang, "wissen")}>{T.wissen.alle}</a></li>
       </ul>
     </div>
   </section>
@@ -174,10 +174,11 @@ const formular = mitFormular(lang, "start");
   .auf[data-d="2"] { animation-delay: 220ms; }
   .auf[data-d="3"] { animation-delay: 360ms; }
 
-  /* H1: am Handy kleiner und ohne automatische Silbentrennung (Jamil 3982: „Überset-zungen … Tür-kisch“), nur die vorgesehene Trennstelle in „Dolmetscher­dienstleistungen“ */
+  /* H1: am Handy kleiner und ohne automatische Silbentrennung (Jamil 3982: „Überset-zungen … Tür-kisch“), seit Jamil #5332 kurze Frage als H1 */
   .hero h1 { font-size: clamp(1.6rem, 0.9rem + 2.6vw, 3.1rem); line-height: 1.15; max-width: 16em; margin-bottom: 0.7rem; hyphens: manual; -webkit-hyphens: manual; overflow-wrap: normal; }
   .sub { font-size: clamp(1.05rem, 1.7vw, 1.3rem); line-height: 1.55; color: var(--text-leise); max-width: 34em; margin-bottom: 0.8rem; }
   @media (min-width: 62rem) { .hero h1 { margin-bottom: 1rem; } .sub { margin-bottom: 1.9rem; } }
+  .zeichen-sys { font-family: Arial, Helvetica, "Liberation Sans", sans-serif; }
   .knoepfe { display: flex; flex-wrap: wrap; gap: 0.75rem; }
   @media (max-width: 26rem) { .knoepfe { gap: 0.5rem; } .knoepfe .knopf { padding-inline: 0.9rem; } }
   .knoepfe .rund { width: 3.25rem; padding: 0 !important; flex: none; }

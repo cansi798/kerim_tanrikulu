@@ -1,0 +1,114 @@
+/* Anfrageformular (Jamil Talk xidc8qvq #5217/#5312/#5314): lädt zusammen mit anfrage-formular.ts, erst wenn das Formular näher kommt.
+   Global (nicht scoped), weil die Dokumentliste per JS gebaut wird. Ladezustand + Verbergen stehen in global.css. */
+.anfrage { background: #fff; border: 1px solid var(--linie); border-radius: 16px; padding: clamp(1.1rem, 4vw, 2.5rem); box-shadow: 0 24px 48px -36px rgba(29, 49, 90, 0.35); }
+.anfrage .fortschritt { margin-bottom: clamp(1.25rem, 3vw, 1.75rem); }
+.anfrage .stand { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--primaer-leise); font-weight: 600; letter-spacing: 0.01em; }
+.anfrage .balken { height: 6px; border-radius: 3px; background: var(--sekundaer); overflow: hidden; }
+.anfrage .balken span { display: block; height: 100%; background: var(--primaer); transform-origin: left center; transform: scaleX(0.14); transition: transform var(--dur-reveal) var(--ease); }
+
+.anfrage fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.anfrage .schritt[hidden] { display: none; }
+.anfrage .schritt { animation: einblenden 0.3s var(--ease) both; }
+.anfrage legend { padding: 0; margin: 0 0 1.25rem; width: 100%; }
+.anfrage legend h3 { margin: 0; font-size: clamp(1.4rem, 3vw, 1.9rem); }
+.anfrage legend h3:focus { outline: none; }
+.anfrage legend h3:focus-visible { outline: 2px solid var(--primaer); outline-offset: 4px; }
+
+/* Auswahlkarten: echte Radio-Knöpfe, optisch als Karten */
+.anfrage .wahlen { display: grid; gap: 0.75rem; }
+@media (min-width: 36rem) { .anfrage .wahlen.zwei { grid-template-columns: repeat(2, minmax(0, 1fr)); } .anfrage .wahlen.drei { grid-template-columns: repeat(3, minmax(0, 1fr)); } .anfrage .wahlen.themen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 52rem) { .anfrage .wahlen.themen { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.anfrage .wahl { position: relative; display: block; cursor: pointer; }
+.anfrage .wahl input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+.anfrage .innen {
+  display: flex; align-items: center; gap: 0.9rem; height: 100%; min-height: 3.5rem; padding: 1rem 1.1rem;
+  border: 1px solid var(--tinte-3); border-radius: 12px; background: #fff; color: var(--primaer);
+  transition: border-color var(--dur-fast) ease, background-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+.anfrage .wahl:hover .innen { border-color: var(--primaer); }
+.anfrage .wahl input:checked + .innen { border-color: var(--primaer); box-shadow: inset 0 0 0 1px var(--primaer); background: #f8f3ea; }
+.anfrage .wahl input:focus-visible + .innen { outline: 2px solid var(--primaer); outline-offset: 3px; }
+.anfrage .sym { flex: none; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid var(--deko); color: var(--primaer-leise); }
+.anfrage .sym svg { width: 1.4rem; height: 1.4rem; }
+.anfrage .text { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; min-width: 0; }
+.anfrage .titel { font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; hyphens: auto; }
+.anfrage .unter { font-size: 0.95rem; line-height: 1.45; color: var(--primaer-leise); }
+.anfrage .punkt { flex: none; width: 1.25rem; height: 1.25rem; border-radius: 50%; border: 1.5px solid var(--deko); display: grid; place-items: center; }
+.anfrage .punkt::after { content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--primaer); transform: scale(0); transition: transform var(--dur-fast) var(--ease); }
+.anfrage .wahl input:checked + .innen .punkt { border-color: var(--primaer); }
+.anfrage .wahl input:checked + .innen .punkt::after { transform: scale(1); }
+.anfrage .kompakt .innen { padding-block: 0.8rem; }
+.anfrage .zeile .innen { min-height: 3rem; padding: 0.7rem 1rem; border-radius: 10px; }
+
+.anfrage .dokliste { list-style: none; padding: 0; margin: 0 0 0.75rem; display: grid; gap: 0.5rem; }
+@media (min-width: 44rem) { .anfrage .dokliste { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.anfrage .dokliste .leer { padding: 0.9rem 1rem; background: var(--sekundaer); border-radius: 10px; }
+.anfrage .listenkopf { margin: 1.25rem 0 0.6rem; font-size: 0.98rem; color: var(--primaer-leise); }
+.anfrage .listenkopf:empty { display: none; }
+.anfrage .auswahl { margin: 0 0 0.6rem; font-weight: 600; }
+.anfrage .anderes { margin-top: 0.25rem; }
+.anfrage .anderes .innen { border-style: dashed; }
+
+/* Felder */
+.anfrage .feld { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.1rem; }
+.anfrage .feld[hidden] { display: none; }
+.anfrage .feld label { font-weight: 600; }
+.anfrage .opt { font-weight: 400; color: var(--primaer-leise); }
+.anfrage input[type="text"], .anfrage input[type="email"], .anfrage input[type="tel"], .anfrage input[type="search"], .anfrage input[type="number"], .anfrage input[type="date"], .anfrage input[type="time"], .anfrage textarea {
+  font: inherit; font-size: max(1rem, 16px); color: var(--primaer); width: 100%; min-height: 3.1rem; padding: 0.65rem 0.9rem;
+  border: 1px solid #b9ab92; border-radius: 10px; background: #fff; margin: 0;
+}
+.anfrage input[type="date"], .anfrage input[type="time"] { display: block; -webkit-appearance: none; appearance: none; line-height: 1.6; min-width: 0; }
+.anfrage input::-webkit-date-and-time-value { text-align: left; }
+.anfrage textarea { min-height: 7.5rem; resize: vertical; line-height: 1.6; }
+.anfrage input:focus-visible, .anfrage textarea:focus-visible { outline: 2px solid var(--primaer); outline-offset: 2px; border-color: var(--primaer); }
+.anfrage [aria-invalid="true"] { border-color: #9b2335 !important; }
+.anfrage ::placeholder { color: #6b7286; opacity: 1; }
+.anfrage .hilfe { margin: 0; font-size: 0.95rem; color: var(--primaer-leise); }
+.anfrage .reihe { display: grid; gap: 0 1rem; }
+@media (min-width: 34rem) { .anfrage .reihe { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
+.anfrage .zahl { display: flex; gap: 0.5rem; align-items: stretch; max-width: 16rem; }
+.anfrage .zahl input { text-align: center; -moz-appearance: textfield; }
+.anfrage .zahl input::-webkit-inner-spin-button, .anfrage .zahl input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.anfrage .zahlknopf { flex: none; width: 3.1rem; min-height: 3.1rem; border-radius: 10px; border: 1px solid var(--primaer); background: #fff; color: var(--primaer); font: 600 1.35rem/1 var(--sans); cursor: pointer; }
+.anfrage .zahlknopf:hover { background: var(--sekundaer); }
+
+.anfrage .fehler { margin: 1rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid #9b2335; background: #fbf0f0; color: #5b1520; font-size: 0.98rem; }
+.anfrage .fehler[hidden] { display: none; }
+.anfrage .textknopf { font: inherit; font-weight: 600; color: var(--primaer); background: none; border: 0; padding: 0.35rem 0; cursor: pointer; text-align: left; }
+.anfrage .textknopf:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.22em; }
+.anfrage .nebenweg { margin: 1.1rem 0 0; }
+.anfrage .datenschutz-hinweis { font-size: 0.95rem; color: var(--primaer-leise); margin: 0.5rem 0 0; }
+.anfrage .datenschutz-hinweis a { font-weight: 600; color: var(--primaer); }
+.anfrage .datenschutz-hinweis a:is(:hover, :focus-visible) { text-decoration: underline; }
+
+/* Steuerung: Weiter in Primär (Gold bleibt der Conversion „Anfrage senden“ vorbehalten) */
+.anfrage .steuerung { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: space-between; margin-top: clamp(1.5rem, 3vw, 2rem); padding-top: 1.25rem; border-top: 1px solid var(--linie); }
+.anfrage .steuerung [hidden] { display: none; }
+.anfrage .vor { margin-left: auto; background: var(--primaer); border-color: var(--primaer); color: #fff; min-width: 9rem; cursor: pointer; }
+.anfrage .vor:hover { background: var(--primaer-hell); border-color: var(--primaer-hell); }
+.anfrage .zurueck { cursor: pointer; }
+.anfrage .knopf.rahmen:hover { color: #fff; }
+/* Touch: kein „klebendes“ Hover, wenn nach einem Schrittwechsel ein anderer Knopf unter dem Finger liegt */
+@media (hover: none) { .anfrage .knopf.rahmen:hover { background: transparent; color: var(--tinte); border-color: var(--tinte); transform: none; } .anfrage .vor:hover { background: var(--primaer); border-color: var(--primaer); } }
+
+/* Zusammenfassung */
+.anfrage .uebersicht { margin: 0 0 1.5rem; display: grid; gap: 0; border-top: 1px solid var(--linie); }
+.anfrage .uebersicht div { display: grid; gap: 0.1rem 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--linie); }
+@media (min-width: 36rem) { .anfrage .uebersicht div { grid-template-columns: 10rem minmax(0, 1fr); } }
+.anfrage .uebersicht dt { color: var(--primaer-leise); font-size: 0.98rem; }
+.anfrage .uebersicht dd { margin: 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; font-weight: 600; overflow-wrap: anywhere; }
+.anfrage .uebersicht .lang dd span { font-weight: 400; white-space: pre-line; }
+.anfrage .uebersicht .aendern { font-size: 0.92rem; padding: 0; }
+.anfrage .preis { margin: 0 0 1rem; padding: 1.1rem 1.25rem; border-radius: 12px; background: var(--sekundaer); border-left: 4px solid var(--primaer); }
+.anfrage .preis[hidden], .anfrage .foto-hinweis[hidden] { display: none; }
+.anfrage .preis-zeile { margin: 0 0 0.35rem; font-size: 1.1rem; }
+.anfrage .preis-zeile strong { display: inline-block; font: 600 clamp(1.45rem, 3.5vw, 1.8rem)/1.25 var(--serif); }
+.anfrage .preis-hinweis { margin: 0; font-size: 0.95rem; color: var(--primaer-leise); }
+.anfrage p.preis.ohne { font-weight: 600; }
+.anfrage .foto-hinweis { margin: 0 0 1.5rem; padding-left: 1rem; border-left: 2px solid var(--deko); }
+.anfrage .senden { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.9rem; }
+@media (max-width: 30rem) { .anfrage .senden .knopf { width: 100%; } .anfrage .steuerung .knopf { flex: 1 1 8rem; } }
+.anfrage .senden-hinweis { font-size: 0.95rem; color: var(--primaer-leise); margin: 0; }
+.anfrage .gesendet { margin: 0.75rem 0 0; font-weight: 600; }
+.anfrage .gesendet:empty { display: none; }

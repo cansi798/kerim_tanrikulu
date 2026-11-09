@@ -65,10 +65,9 @@ export const de = {
     start: "Startseite",
     uebersetzungen: "Übersetzungen",
     dolmetschen: "Dolmetschen",
-    themen: "Themen",
-    ratgeber: "Ratgeber",
+    leistungen: "Leistungen",
+    wissen: "Gut zu wissen",
     ueber: "Über mich",
-    fragen: "Häufige Fragen",
     kontakt: "Kontakt",
     impressum: "Impressum",
     datenschutz: "Datenschutz",
@@ -81,10 +80,8 @@ export const de = {
       "Beglaubigte Übersetzungen und Dolmetschen Türkisch–Deutsch: Kerim Tanrikulu, beeidigt und ermächtigt vom OLG Schleswig. Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen, Niedersachsen.",
     uebersetzungen: { titel: "Beglaubigte Übersetzungen Türkisch–Deutsch in Hamburg", beschreibung: "Beglaubigte Übersetzungen Türkisch und Deutsch vom ermächtigten Übersetzer Kerim Mikael Tanrikulu in Hamburg: Urteile, Zeugnisse, Ausweise, medizinische Unterlagen, Urkunden. Vorab ein individuelles Angebot." },
     dolmetschen: { titel: "Dolmetscher Türkisch in Hamburg und Norddeutschland, auch per Video", beschreibung: "Allgemein beeidigter Dolmetscher für Türkisch und Deutsch (OLG Schleswig, seit Mai 2021). Vor Ort in Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen und Niedersachsen, dazu Video- und Telefondolmetschen." },
-    themen: { titel: "Typische Dokumente Türkisch und Deutsch", beschreibung: "Welche türkischen Dokumente deutsche Stellen und welche deutschen Dokumente türkische Stellen häufig übersetzt verlangen: Personenstand, Urteile, Zeugnisse, Ausweise, medizinische Unterlagen." },
-    ratgeber: { titel: "Ratgeber beglaubigte Übersetzung und Apostille", beschreibung: "Allgemeine Informationen: Was ist eine beglaubigte Übersetzung, was unterscheidet Dolmetscher und Übersetzer, Original oder Kopie, Apostille zwischen Deutschland und der Türkei, mehrsprachige Auszüge, JVEG." },
+    wissen: { titel: "Gut zu wissen: Ratgeber und häufige Fragen", beschreibung: "Allgemeine Informationen und Antworten: beglaubigte Übersetzung, Dolmetscher oder Übersetzer, Original oder Kopie, Apostille zwischen Deutschland und der Türkei, welche Dokumente übersetzt werden, Honorar, Anfrage." },
     ueber: { titel: "Über mich", beschreibung: "Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische und deutsche Sprache durch das Oberlandesgericht Schleswig seit Mai 2021, Bachelor of Arts in Philosophie und Germanistik." },
-    fragen: { titel: "Häufige Fragen", beschreibung: "Antworten zu beglaubigten Übersetzungen und Dolmetschen Türkisch und Deutsch: was eine beglaubigte Übersetzung ist, welche Dokumente übersetzt werden, Honorar, Anfrage." },
     kontakt: { titel: "Kontakt", beschreibung: "Kontakt zu Kerim Mikael Tanrikulu, Dolmetscher und Übersetzer für Türkisch und Deutsch in Hamburg: Anfrageformular, Telefon, WhatsApp und E-Mail." },
     impressum: { titel: "Impressum", beschreibung: "Impressum der Website von Kerim Mikael Tanrikulu." },
     datenschutz: { titel: "Datenschutz", beschreibung: "Datenschutzerklärung der Website von Kerim Mikael Tanrikulu." },
@@ -146,8 +143,9 @@ export const de = {
 
   hero: {
     badge: "Allgemein beeidigter Dolmetscher und ermächtigter Übersetzer",
-    h1: "Beglaubigte Übersetzungen und Dolmetscher­dienstleistungen für Deutsch und Türkisch",
-    sub: "Für Behörden, Gerichte und andere offizielle Stellen.",
+    // Jamil Talk xidc8qvq #5332 (09.11.2026, „ohne ok“); bewusst „in der Regel“ statt „rechtssicher“ (keine Garantie der Anerkennung)
+    h1: "Ihre Dokumente müssen offiziell anerkannt werden?",
+    sub: "Beglaubigte Übersetzungen Deutsch ↔ Türkisch für Behörden, Gerichte, Universitäten und Einbürgerungsverfahren. Schnell, sorgfältig und in der Regel bundesweit anerkannt.",
     vertrauen: ["Dolmetscher", "Übersetzer", "Deutsch und Türkisch"],
     karten: ["Beglaubigte Übersetzungen", "Dolmetschen", "Deutsch und Türkisch"],
     kartenKurz: ["Urkunden, Urteile, Zeugnisse und mehr", "Vor Ort, per Video oder Telefon", "Typische Dokumente in beide Richtungen"],
@@ -167,7 +165,7 @@ export const de = {
     platzhalter: "Wortlaute der sechs Vorteile bitte von Herrn Tanrikulu freigeben lassen (Einsatzgebiet, Honorar und Erfahrungen sind seit seinem Feedback vom 31.10. bestätigt).",
     punkte: [
       { icon: "gespraech", titel: "Mündlich und schriftlich aus einer Hand", kurz: "Ein Ansprechpartner für Dokumente und Gespräche.", lang: "Er ist allgemein beeidigter Dolmetscher und ermächtigter Übersetzer. Er dolmetscht vor Ort, per Video oder am Telefon, und Sie brauchen nur einen Ansprechpartner.", seite: "dolmetschen", anker: "#unterschied-titel" },
-      { icon: "schild", titel: "Beeidigt und ermächtigt vom OLG Schleswig", kurz: "Seit Mai 2021, für Türkisch und Deutsch.", lang: "Die Übersetzung eines in Deutschland ermächtigten Übersetzers ist die übliche Form für deutsche Behörden und Gerichte. Dazu kommt ein Studium: Bachelor of Arts in Philosophie und Germanistik (2021).", seite: "ratgeber", anker: "#beglaubigt" },
+      { icon: "schild", titel: "Beeidigt und ermächtigt vom OLG Schleswig", kurz: "Seit Mai 2021, für Türkisch und Deutsch.", lang: "Die Übersetzung eines in Deutschland ermächtigten Übersetzers ist die übliche Form für deutsche Behörden und Gerichte. Dazu kommt ein Studium: Bachelor of Arts in Philosophie und Germanistik (2021).", seite: "wissen", anker: "#beglaubigt" },
       { icon: "urteil", titel: "Erfahrung mit Gerichten, Behörden und Kliniken", kurz: "Gerichte, Konsulat, BAMF, Standesamt, Krankenhäuser und mehr.", lang: "Unter anderem Amtsgerichte in Schleswig-Holstein, das Türkische Konsulat in Hamburg, das BAMF, das IQSH, Hamburger Schulen, Standesamt, Krankenhäuser und Untersuchungshaftanstalten.", seite: "ueber", anker: "#erfahrung-titel" },
       { icon: "dokument", titel: "Honorar nach Absprache", kurz: "Vorab ein individuelles Angebot.", lang: "Das Honorar richtet sich nach Art, Umfang und Schwierigkeitsgrad des Auftrags. Bei Gerichten und Behörden wird, soweit anwendbar, nach dem JVEG abgerechnet.", seite: "uebersetzungen", anker: "#honorar-titel" },
       { icon: "telefon", titel: "Unkompliziert erreichbar", kurz: "Direkt per Telefon, WhatsApp, E-Mail oder Anfrageformular.", lang: "Keine Umwege: Sie sprechen oder schreiben direkt mit Herrn Tanrikulu.", seite: "kontakt", anker: "" },
@@ -201,70 +199,32 @@ export const de = {
     titel: "Kurze Antworten",
     mehr: "Mehr dazu",
     fragen: [
-      { frage: "Brauche ich eine beglaubigte Übersetzung?", antwort: "Behörden, Gerichte und andere offizielle Stellen können sie für fremdsprachige Dokumente verlangen. Ob Sie eine brauchen, sagt Ihnen die Stelle, bei der Sie das Dokument einreichen.", seite: "ratgeber", anker: "#beglaubigt" },
-      { frage: "Welche Dokumente werden übersetzt?", antwort: "Dokumente aller Art, zum Beispiel Gerichtsurteile (auch Scheidungsurteile), Zeugnisse, Personalausweise, medizinische Unterlagen und Urkunden.", seite: "themen", anker: "" },
-      { frage: "Dolmetscher oder Übersetzer?", antwort: "Ein Dolmetscher überträgt das gesprochene Wort, ein Übersetzer das geschriebene. Herr Tanrikulu ist für beides zugelassen.", seite: "ratgeber", anker: "#dolmetscher-uebersetzer" },
+      { frage: "Brauche ich eine beglaubigte Übersetzung?", antwort: "Behörden, Gerichte und andere offizielle Stellen können sie für fremdsprachige Dokumente verlangen. Ob Sie eine brauchen, sagt Ihnen die Stelle, bei der Sie das Dokument einreichen.", seite: "wissen", anker: "#beglaubigt" },
+      { frage: "Welche Dokumente werden übersetzt?", antwort: "Dokumente aller Art, zum Beispiel Gerichtsurteile (auch Scheidungsurteile), Zeugnisse, Personalausweise, medizinische Unterlagen und Urkunden.", seite: "uebersetzungen", anker: "#dok-titel" },
+      { frage: "Dolmetscher oder Übersetzer?", antwort: "Ein Dolmetscher überträgt das gesprochene Wort, ein Übersetzer das geschriebene. Herr Tanrikulu ist für beides zugelassen.", seite: "wissen", anker: "#dolmetscher-uebersetzer" },
       { frage: "Was kostet es?", antwort: "Das Honorar wird individuell abgesprochen, nach Art, Umfang und Schwierigkeitsgrad des Auftrags. Für private Aufträge erhalten Sie vorab ein Angebot.", seite: "uebersetzungen", anker: "#honorar-titel" },
       { frage: "In welchen Regionen dolmetscht Herr Tanrikulu?", antwort: "Vor Ort in Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen und Niedersachsen. Sein Standort ist Hamburg. Er dolmetscht auch per Video oder Telefon.", seite: "dolmetschen", anker: "#gebiet-titel" },
-      { frage: "Brauche ich eine Apostille?", antwort: "Die Apostille bestätigt, dass eine öffentliche Urkunde echt ist. Ob sie nötig ist, hängt von der Urkunde und von der Stelle ab, die sie verlangt.", seite: "ratgeber", anker: "#apostille" },
+      { frage: "Brauche ich eine Apostille?", antwort: "Die Apostille bestätigt, dass eine öffentliche Urkunde echt ist. Ob sie nötig ist, hängt von der Urkunde und von der Stelle ab, die sie verlangt.", seite: "wissen", anker: "#apostille" },
     ],
   },
 
-  themen: {
-    eyebrow: "Themen",
-    titel: "Typische Dokumente in beide Richtungen",
-    text: "Für diese Dokumente verlangen Behörden, Gerichte und andere Stellen häufig eine beglaubigte Übersetzung. Die Übersicht ist allgemein. Welche Aufträge Herr Tanrikulu übernimmt, klären Sie bitte direkt mit ihm.",
-    legende: "Mit Häkchen markiert: Dokumentarten, die Herr Tanrikulu auf seiner Website selbst als Beispiele nennt.",
-    laut: "Laut Herrn Tanrikulu",
-    trde: {
-      kopf: "Türkçe → Deutsch",
-      titel: "Türkische Dokumente für deutsche Stellen",
-      gruppen: [
-        { titel: "Personenstand und Familie", eintraege: [
-          { text: "Auszug aus dem Personenstandsregister", tr: "Nüfus kayıt örneği", kerim: false },
-          { text: "Geburtsurkunde", tr: "Doğum belgesi", kerim: true },
-          { text: "Heiratsurkunde und Familienheft", tr: "Evlenme cüzdanı", kerim: true },
-          { text: "Erbschein", tr: "Veraset ilamı", kerim: false },
-        ] },
-        { titel: "Gerichte und Behörden", eintraege: [
-          { text: "Gerichtsurteile", tr: "Mahkeme kararları", kerim: true },
-          { text: "Scheidungsurteile, oft mit Rechtskraftvermerk", tr: "Boşanma kararı, kesinleşme şerhi", kerim: true },
-          { text: "Schreiben von Gerichten und Behörden", tr: "Resmî yazılar", kerim: false },
-        ] },
-        { titel: "Schule, Studium, Beruf", eintraege: [
-          { text: "Zeugnisse und Diplome, zum Beispiel für die Anerkennung", tr: "Diploma, transkript", kerim: true },
-        ] },
-        { titel: "Ausweis, Führerschein, Gesundheit", eintraege: [
-          { text: "Personalausweis", tr: "Kimlik kartı", kerim: true },
-          { text: "Führerschein", tr: "Sürücü belgesi", kerim: false },
-          { text: "Medizinische Unterlagen", tr: "Sağlık raporu, epikriz", kerim: true },
-        ] },
-      ],
-    },
-    detr: {
-      kopf: "Deutsch → Türkçe",
-      titel: "Deutsche Dokumente für türkische Stellen",
-      gruppen: [
-        { titel: "Personenstand und Familie", eintraege: [
-          { text: "Geburts-, Heirats- und Sterbeurkunden", tr: "Doğum, evlenme ve ölüm belgeleri", kerim: true },
-        ] },
-        { titel: "Gerichte und Notare", eintraege: [
-          { text: "Urteile deutscher Gerichte", tr: "Alman mahkeme kararları", kerim: true },
-          { text: "Scheidungsurteile, etwa für die Anerkennung in der Türkei", tr: "Boşanma kararı, tanıma", kerim: true },
-          { text: "Vollmachten und notarielle Urkunden", tr: "Vekâletname, noter belgeleri", kerim: false },
-        ] },
-        { titel: "Schule, Studium, Beruf", eintraege: [
-          { text: "Zeugnisse und Ausbildungsnachweise", tr: "Diploma, denklik", kerim: true },
-          { text: "Arbeits- und Rentenunterlagen", tr: "Çalışma ve emeklilik belgeleri", kerim: false },
-        ] },
-        { titel: "Ausweis und Gesundheit", eintraege: [
-          { text: "Personalausweis", tr: "Kimlik kartı", kerim: true },
-          { text: "Arztbriefe und Befunde", tr: "Doktor raporları", kerim: true },
-        ] },
-      ],
-    },
-    teaserLink: "Alle Themen ansehen",
-    hinweisAnfrage: "Ihr Dokument ist nicht dabei? Fragen Sie einfach nach.",
+  // Anfrageformular: Überschriften auf Startseite und Kontaktseite (Jamil #5312/#5314)
+  anfrage: {
+    eyebrow: "Anfrage",
+    startTitel: "Anfrage in wenigen Schritten",
+    startZeile: "Eine Frage pro Schritt, am Ende sehen Sie alles im Überblick. Ihre Angaben gehen erst an Herrn Tanrikulu, wenn Sie selbst per E-Mail oder WhatsApp absenden.",
+    kontaktTitel: "Anfrage stellen",
+    kontaktZeile: "In wenigen Schritten zu Ihrer Anfrage. Ihre Angaben gehen erst an Herrn Tanrikulu, wenn Sie sie am Ende selbst absenden.",
+    direktLink: "Lieber direkt: Telefon, WhatsApp oder E-Mail",
+    direktTitel: "Lieber direkt sprechen oder schreiben?",
+    zumFormular: "Zum Anfrageformular",
+  },
+
+  // Seite „Gut zu wissen“ = Ratgeber + Häufige Fragen (Jamil Talk xidc8qvq #5318, 09.11.2026)
+  wissen: {
+    titel: "Gut zu wissen",
+    lead: "Allgemeine Antworten rund um beglaubigte Übersetzungen und Dolmetschen zwischen Deutschland und der Türkei: zuerst der Ratgeber, darunter die häufigen Fragen.",
+    alle: "Mehr unter „Gut zu wissen“",
   },
 
   ratgeber: {
@@ -396,7 +356,6 @@ export const de = {
       ermPlatzhalter: "Wortlaut zur Ermächtigung und Beglaubigung bitte vom Kunden bestätigen lassen (z. B. wie der Bestätigungsvermerk aussieht).",
       wissenTitel: "Gut zu wissen",
       wissenText: "Was ein Bestätigungsvermerk ist, ob eine Kopie genügt und wann eine Apostille gebraucht wird, steht im Ratgeber.",
-      themenLink: "Typische Dokumente in beide Richtungen",
       anfrageTitel: "Anfrage",
       anfrageText: "Nutzen Sie das Anfrageformular, rufen Sie mich an oder schreiben Sie mir per WhatsApp oder E-Mail. Schicken Sie Ihre Dokumente als Foto oder Scan, dann erhalten Sie einen Kostenvoranschlag.",
       honorarTitel: HONORAR_TITEL,

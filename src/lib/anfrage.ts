@@ -1,8 +1,9 @@
-// Logik des mehrstufigen Anfrageformulars auf /kontakt/ (Jamil Talk xidc8qvq #5217, 09.11.2026).
+// Logik des mehrstufigen Anfrageformulars (Kontaktseite und Startseite, DE und TR) (Jamil Talk xidc8qvq #5217, 09.11.2026).
 // Läuft nur im Browser des Besuchers. Nichts wird gespeichert oder an die Website übertragen:
 // Die fertige Anfrage schickt der Besucher selbst per E-Mail-Programm (mailto) oder WhatsApp (wa.me).
 // Preise kommen nur aus src/daten/dokumente.ts und erscheinen erst in der Zusammenfassung.
 import { THEMEN, MINDESTPREIS, type Dokument, type Thema } from "../daten/dokumente";
+import { DOK_TR } from "../daten/dokumente-tr";
 
 export { THEMEN, MINDESTPREIS };
 export type { Dokument, Thema };
@@ -21,7 +22,7 @@ export const normal = (s: string) =>
 
 export type Eintrag = { dok: Dokument; thema: Thema };
 const ALLE = THEMEN.flatMap((thema) =>
-  thema.dokumente.map((dok) => ({ dok, thema, name: normal(dok.name), schluessel: normal([dok.name, ...(dok.aliase ?? [])].join(" ")) })),
+  thema.dokumente.map((dok) => ({ dok, thema, name: normal(dok.name), schluessel: normal([dok.name, ...(dok.aliase ?? []), DOK_TR[dok.id] ?? ""].join(" ")) })), // auch türkische Bezeichnung (#5314)
 );
 
 export const finden = (id: string): Eintrag | undefined => ALLE.find((e) => e.dok.id === id);
@@ -49,7 +50,7 @@ export function richtwert(dok: Dokument, seiten: number) {
 }
 
 export const euro = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 0 });
-export const spanne = (r: { von: number; bis: number }) => (r.von === r.bis ? `ca. ${euro(r.von)} €` : `ca. ${euro(r.von)}–${euro(r.bis)} €`);
+export const spanne = (r: { von: number; bis: number }, ca = "ca.") => (r.von === r.bis ? `${ca} ${euro(r.von)} €` : `${ca} ${euro(r.von)}–${euro(r.bis)} €`);
 
 /** 2026-11-20 → 20.11.2026 */
 export const datumDe = (iso: string) => {
