@@ -6,4 +6,4 @@ cd "$(dirname "$0")/.."
 SITE="${SITE:-https://cansi798.github.io}"; BASE="${BASE:-/kerim_tanrikulu}"; VORSCHAU="${VORSCHAU:-true}"
 sudo -n docker run --rm --cpus=2 -u "$(id -u):$(id -g)" -e HOME=/tmp -e npm_config_cache=/tmp/npmc -e ASTRO_TELEMETRY_DISABLED=1 \
   -e SITE="$SITE" -e BASE="$BASE" -e VORSCHAU="$VORSCHAU" -v "$PWD":/app -w /app node:22 \
-  sh -c 'npm ci --ignore-scripts --no-audit --no-fund >/dev/null && node node_modules/astro/bin/astro.mjs build && node scripts/links.mjs'
+  sh -c 'npm ci --ignore-scripts --no-audit --no-fund >/dev/null && node node_modules/astro/bin/astro.mjs build && node scripts/klein.mjs && node scripts/links.mjs'

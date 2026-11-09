@@ -7,7 +7,7 @@
 //    Nur am breiten Bildschirm und ohne „Bewegung reduzieren“, sonst starten sie beim Sichtbarwerden.
 // 5) Sanfte Parallaxe [data-parallax="0.08"] (nur breit, nur transform).
 // 6) Zähler [data-zahl]: zählen einmal bis zum Endwert hoch (0,9 s). Der Endwert steht schon im HTML.
-// 8) „Nach oben“-Knopf [data-hoch] (Can Talk 3964): erscheint nach ca. 1,5 Bildschirmhöhen, führt sanft zum Seitenanfang.
+// 8) „Nach oben“-Knopf [data-hoch] (Can Talk 3964): erscheint nach ca. 1,5 Bildschirmhöhen (am Handy nur beim Hochscrollen), führt sanft zum Seitenanfang.
 // Alles läuft nur beim Scrollen bzw. einmal beim Sichtbarwerden, nichts beim Laden (Ladezeit).
 document.documentElement.classList.add("js");
 document.addEventListener("DOMContentLoaded", function () {
@@ -75,7 +75,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var an = false, geplant = false;
   // 8) „Nach oben“ (Can Talk 3964): ab ca. 1,5 Bildschirmhöhen sichtbar; Klick → sanft nach oben (ruhig: sofort),
   //    danach Fokus an den Seitenanfang (Tastatur: Sprunglink, sonst Logo – ohne sichtbaren Rahmen beim Tippen).
-  var hoch = document.querySelector("[data-hoch]"), hochAn = false;
+  // Handy (Audit 09.11.2026, N1): Dort liegt der Knopf über dem Fließtext direkt oberhalb der Kontaktleiste. Deshalb erscheint er am Handy
+  //    nur, während man nach oben scrollt (wer zurück will, scrollt meist erst ein Stück hoch), und verschwindet beim Weiterlesen nach unten
+  //    bzw. 2,5 s nach dem letzten Scrollen – beim Lesen verdeckt er so keinen Text. Breit (ab 66rem, Knopf im Seitenrand) unverändert.
+  var hoch = document.querySelector("[data-hoch]"), hochAn = false, schmalHoch = window.matchMedia("(max-width: 65.99rem)"), yAlt = -1, hochRuhe = 0, hochWeg = 0, hochN = 0;
+  var hochZeigen = function (z) { if (z !== hochAn) { hochAn = z; hoch.classList.toggle("zeigen", z); } };
   if (hoch) hoch.addEventListener("click", function (e) {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: ruhig ? "auto" : "smooth" });
@@ -88,7 +92,21 @@ document.addEventListener("DOMContentLoaded", function () {
     var y = window.scrollY, vh = window.innerHeight;
     var jetzt = y > 8;
     if (kopf && jetzt !== an) { an = jetzt; kopf.classList.toggle("gescrollt", an); }
-    if (hoch && (y > vh * 1.5) !== hochAn) { hochAn = !hochAn; hoch.classList.toggle("zeigen", hochAn); }
+    if (hoch) {
+      if (!schmalHoch.matches) hochZeigen(y > vh * 1.5);
+      else if (y <= vh * 1.5) { hochZeigen(false); hochWeg = 0; }
+      else if (yAlt >= 0 && y !== yAlt) {
+        // Richtung über eine Strecke sammeln: kleine Sprünge (z. B. Scroll-Verankerung beim Nachrendern) schalten nicht um
+        //   und erst nach mehreren Scroll-Schritten nach oben (die Verankerung springt in einem Schritt, ein Finger scrollt in vielen)
+        var d = y - yAlt, gleich = (hochWeg < 0) === (d < 0);
+        hochWeg = gleich ? hochWeg + d : d; hochN = gleich ? hochN + 1 : 1;
+        if (hochWeg < -40 && hochN >= 3) {
+          hochZeigen(true); clearTimeout(hochRuhe);
+          hochRuhe = setTimeout(function () { if (document.activeElement !== hoch) hochZeigen(false); }, 2500);
+        } else if (hochWeg > 120 && document.activeElement !== hoch) hochZeigen(false);
+      }
+      yAlt = y;
+    }
     if (balken) {
       var max = document.documentElement.scrollHeight - vh;
       balken.style.transform = "scaleX(" + (max > 0 ? Math.min(1, y / max) : 0) + ")";

@@ -47,7 +47,8 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
   <a class="wa" href={WHATSAPP_LINK} rel="noopener" aria-label={T.ui.whatsappLabel}><Icon name="whatsapp" /><span>{T.ui.whatsapp}</span></a>
   <a href={mailLink(T.ui.mailBetreff)} aria-label={T.ui.mailSchreiben}><Icon name="mail" /><span>{T.ui.mailKurz}</span></a>
 </nav>
-<!-- „Nach oben“ (Can Talk 3964): erscheint nach ca. 1,5 Bildschirmhöhen Scrollen, rechts unten über der Kontaktleiste; Steuerung in sichtbar.js.
+<!-- „Nach oben“ (Can Talk 3964): erscheint nach ca. 1,5 Bildschirmhöhen Scrollen, rechts unten über der Kontaktleiste; am Handy nur beim Hochscrollen,
+     damit er beim Lesen keinen Text verdeckt (Audit 09.11.2026, N1). Steuerung in sichtbar.js.
      Ohne JS unsichtbar (dann wäre er nur ein Sprung ohne Anzeige-Logik). -->
 <a class="hoch" href="#" data-hoch aria-label={T.ui.nachOben} title={T.ui.nachOben}><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 15l6-6 6 6" /></svg></a>
 <style>

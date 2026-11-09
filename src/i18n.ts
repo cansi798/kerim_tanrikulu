@@ -1,6 +1,6 @@
 // Zweisprachigkeit Deutsch/Türkisch (Can 31.10.2026): Routen je Sprache, Sprachwechsel bleibt auf der entsprechenden Seite.
 // Deutsche Seiten liegen wie bisher unter /, türkische unter /tr/.
-import { u } from "./daten";
+import { u, mailLink } from "./daten";
 
 export type Lang = "de" | "tr";
 export const SPRACHEN_LISTE: Lang[] = ["de", "tr"];
@@ -24,6 +24,10 @@ export type Seite = keyof typeof SEITEN;
 
 /** Pfad mit Base-Präfix für eine Seite in einer Sprache, z. B. p("tr", "themen") → /kerim_tanrikulu/tr/konular/ */
 export const p = (lang: Lang, seite: Seite, anker = "") => u(SEITEN[seite][lang]) + anker;
+
+/** Ziel des goldenen Hauptknopfs „Anfrage senden“ (Audit 09.11.2026, H1): deutsch → Anfrageformular auf /kontakt/,
+ *  türkisch vorerst E-Mail (dort gibt es noch kein Formular). */
+export const anfrageLink = (lang: Lang, betreff?: string) => (lang === "de" ? p("de", "kontakt", "#anfrage-titel") : mailLink(betreff));
 
 /** Hauptnavigation (Startseite über das Logo) */
 export const NAV_SEITEN: Seite[] = ["uebersetzungen", "dolmetschen", "themen", "ratgeber", "ueber", "fragen", "kontakt"];

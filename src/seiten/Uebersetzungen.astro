@@ -4,8 +4,8 @@ import SeitenKopf from "../components/SeitenKopf.astro";
 import BildUebersetzung from "../components/BildUebersetzung.astro";
 import Platzhalter from "../components/Platzhalter.astro";
 import Icon from "../components/Icon.astro";
-import { TELEFON_LINK, WHATSAPP_LINK, mailLink } from "../daten";
-import { p, type Lang } from "../i18n";
+import { TELEFON_LINK, WHATSAPP_LINK } from "../daten";
+import { p, anfrageLink, type Lang } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -59,7 +59,7 @@ const S = T.seiten.uebersetzungen;
       <div>
         <p class="lead">{S.anfrageText}</p>
         <div class="knoepfe">
-          <a class="knopf" href={mailLink(T.ui.anfrageBetreffUe)}>{T.ui.anfrage}</a>
+          <a class="knopf" href={anfrageLink(lang, T.ui.anfrageBetreffUe)}>{T.ui.anfrage}</a>
           <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />{T.ui.anrufen}</a>
           <a class="knopf rahmen" href={WHATSAPP_LINK} rel="noopener"><Icon name="whatsapp" />{T.ui.whatsapp}</a>
         </div>

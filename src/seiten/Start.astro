@@ -14,8 +14,8 @@ import RoughKarte from "../components/RoughKarte.astro";
 import Platzhalter from "../components/Platzhalter.astro";
 import Portrait from "../components/Portrait.astro";
 import HeroGespraech from "../components/HeroGespraech.astro";
-import { mailLink, TELEFON_LINK, WHATSAPP_LINK, PORTRAIT } from "../daten";
-import { p, type Lang, type Seite } from "../i18n";
+import { TELEFON_LINK, WHATSAPP_LINK, PORTRAIT } from "../daten";
+import { p, anfrageLink, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -39,7 +39,7 @@ const ziel = (seite: string, anker: string) => p(lang, seite as Seite, anker);
         <div class="auf" data-d="2"><HeroGespraech lang={lang} /></div>
       </div>
       <div class="knoepfe auf" data-d="3">
-        <a class="knopf haupt" href={mailLink(T.ui.anfrageBetreff)}>{T.ui.anfrage}</a>
+        <a class="knopf haupt" href={anfrageLink(lang, T.ui.anfrageBetreff)}>{T.ui.anfrage}</a>
         <a class="knopf rahmen ruf-k" href={TELEFON_LINK}><Icon name="telefon" /><span class="k-text">{T.ui.anrufen}</span></a>
         <!-- WhatsApp (Kerim Talk 3993, Jamil 3994): runder Symbol-Knopf, damit die Knöpfe am Handy in einer Zeile im ersten Bildschirm bleiben -->
         <a class="knopf rahmen rund" href={WHATSAPP_LINK} rel="noopener" aria-label={T.ui.whatsappLabel} title={T.ui.whatsappLang}><Icon name="whatsapp" /></a>

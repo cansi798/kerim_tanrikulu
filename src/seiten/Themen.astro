@@ -7,8 +7,8 @@ import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import Richtung from "../components/Richtung.astro";
 import Icon from "../components/Icon.astro";
-import { mailLink, TELEFON_LINK, WHATSAPP_LINK } from "../daten";
-import { p, type Lang } from "../i18n";
+import { TELEFON_LINK, WHATSAPP_LINK } from "../daten";
+import { p, anfrageLink, type Lang } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -76,7 +76,7 @@ const richtungen = [
       <p class="hinweis"><Icon name="frage" />{T.ui.rechtHinweis}</p>
       <p class="lead">{T.themen.hinweisAnfrage}</p>
       <div class="knoepfe">
-        <a class="knopf" href={mailLink(T.ui.anfrageBetreffUe)}>{T.ui.anfrage}</a>
+        <a class="knopf" href={anfrageLink(lang, T.ui.anfrageBetreffUe)}>{T.ui.anfrage}</a>
         <a class="knopf rahmen" href={TELEFON_LINK}><Icon name="telefon" />{T.ui.anrufen}</a>
         <a class="knopf rahmen" href={WHATSAPP_LINK} rel="noopener"><Icon name="whatsapp" />{T.ui.whatsapp}</a>
         <a class="weiter" href={p(lang, "ratgeber")}>{T.ratgeber.teaserLink}</a>

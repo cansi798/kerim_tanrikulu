@@ -3,8 +3,8 @@
 // v4: Sprachwahl DE | TR (auch mobil sichtbar), führt auf die entsprechende Seite der anderen Sprache. Menü am Handy ohne JS (<details>).
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
-import { TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, WHATSAPP_LINK, mailLink } from "../daten";
-import { NAV_SEITEN, p, type Lang, type Seite } from "../i18n";
+import { TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, WHATSAPP_LINK } from "../daten";
+import { NAV_SEITEN, p, anfrageLink, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
 interface Props { lang: Lang; seite: Seite | null }
 const { lang, seite } = Astro.props;
@@ -30,7 +30,7 @@ const sprachen: Lang[] = ["de", "tr"];
         </a>
       ))}
     </nav>
-    <a class="knopf kopf-cta" href={mailLink(T.ui.anfrageBetreff)}>{T.ui.anfrage}</a>
+    <a class="knopf kopf-cta" href={anfrageLink(lang, T.ui.anfrageBetreff)}>{T.ui.anfrage}</a>
     <details class="nav-schmal">
       <summary><span class="zu"><Icon name="menue" /></span><span class="auf"><Icon name="schliessen" /></span><span>{T.ui.menue}</span></summary>
       <nav aria-label={T.ui.hauptnavMobil}>
@@ -56,7 +56,6 @@ const sprachen: Lang[] = ["de", "tr"];
   .marke :global(.logo) { width: 9.5rem; height: auto; }
   @media (min-width: 26rem) { .marke :global(.logo) { width: 10.5rem; } }
   /* 320 px (Formular-Prüfung 09.11.2026): Kopf war 4 px zu breit → etwas engere Abstände und kleineres Logo, kein Querscrollen */
-  @media (max-width: 22.49rem) { .kopf-innen { gap: 0.55rem; } .marke :global(.logo) { width: 8.75rem; } }
   @media (min-width: 90rem) { .marke :global(.logo) { width: 11.5rem; } }
 
   .nav-breit { display: none; }
@@ -99,7 +98,10 @@ const sprachen: Lang[] = ["de", "tr"];
     border: 1px solid rgba(239, 230, 214, 0.55); border-radius: 999px; cursor: pointer; list-style: none; font-size: 0.98rem;
   }
   .nav-schmal summary::-webkit-details-marker { display: none; }
-  .nav-schmal summary :global(svg) { width: 1.2rem; height: 1.2rem; }
+  /* Audit 09.11.2026 (M1): Knopf und Symbol dürfen nicht schrumpfen – bei 320/360 px war das Menü-Symbol 0/16 px breit */
+  .nav-schmal { flex: none; }
+  .nav-schmal summary > .zu, .nav-schmal summary > .auf { flex: none; line-height: 0; }
+  .nav-schmal summary :global(svg) { width: 1.2rem; height: 1.2rem; flex: none; }
   @media (max-width: 25.99rem) { .nav-schmal summary > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
   .nav-schmal .auf, .nav-schmal[open] .zu { display: none; }
   .nav-schmal[open] .auf { display: inline; }
@@ -115,5 +117,11 @@ const sprachen: Lang[] = ["de", "tr"];
   .nav-schmal li a[aria-current="page"] { color: var(--sekundaer); font-weight: 700; }
   @media (prefers-reduced-motion: no-preference) {
     .nav-schmal[open] nav { animation: einblenden 0.25s ease both; }
+  }
+  /* Audit 09.11.2026 (M1): mit nicht schrumpfendem Menü-Symbol enger setzen (am Ende, damit es die Grundregeln oben überschreibt) – 360 px: kleinere Abstände; 320 px: Logo 8,25rem, Sprachfelder je 40 px */
+  @media (max-width: 25.99rem) { .kopf-innen { gap: 0.6rem; } .nav-schmal summary { padding-inline: 0.7rem; } }
+  @media (max-width: 22.49rem) {
+    .kopf-innen { gap: 0.45rem; } .marke :global(.logo) { width: 8.25rem; }
+    .sprache a { min-width: 2.5rem; padding-inline: 0.4rem; } .nav-schmal summary { padding-inline: 0.6rem; }
   }
 </style>

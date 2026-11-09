@@ -1,14 +1,10 @@
 // Licht-Szenen (Can 31.10.2026: „viel krasser, Wow“) – Canvas 2D, selbst geschrieben, ohne Bibliothek, CSP-konform (eigene Datei).
-// Drei Szenen mit gemeinsamem Kern:
-//   1) Sprachbrücke [data-bruecke] – seit 31.10.2026 12:39 nicht mehr im Hero (ersetzt durch gespraech.js); Code bleibt für eine Rückkehr (Tag design-v5-bruecke):
-//      Ufer leuchten auf → der Bogen wächst aus Licht von beiden Ufern und trifft sich in der Mitte → Hänger, Innenbogen, Spiegelung →
-//      Lichtteilchen lösen sich aus dem Wort links, wandern über den Bogen und setzen sich rechts zum Wort der anderen Sprache zusammen → Leitsatz.
-//      Danach: alle 14 s läuft die ganze Intro erneut (kurz ausblenden, neu aufbauen), und jedes Mal, wenn die Szene wieder ins Bild kommt.
-//      Beim Darüberfahren mit der Maus zieht ein kleiner Lichtzug über den Bogen.
-//   2) Dolmetschen [data-dolmetschen] – der Ablauf eines Gesprächs (ca. 3,5 s):
+// Zwei Szenen mit gemeinsamem Kern (die frühere Sprachbrücke [data-bruecke] ist seit 31.10.2026 nicht mehr auf der Seite; ihr Code wurde am
+// 09.11.2026 entfernt – Audit M5, Ladezeit. Zurückholen über Tag design-v5-bruecke):
+//   1) Dolmetschen [data-dolmetschen] – der Ablauf eines Gesprächs (ca. 3,5 s):
 //      Deutsch „spricht“ (goldene Schallwellen) → die Worte fließen als helles Licht zum Federkiel → dort Aufleuchten, Verwandlung in tiefes Gold →
-//      sie kommen als neue Wellen bei Türkisch an → kurze Antwort zurück. Wiederholt sich wie die Brücke (alle 14 s, beim Wiederkommen).
-//   3) Ablauf „So einfach geht's“ [data-ablauf] (v5, Can 31.10.2026 10:43): Licht zieht von Schritt zu Schritt (ca. 3,3 s).
+//      sie kommen als neue Wellen bei Türkisch an → kurze Antwort zurück. Wiederholt sich alle 14 s und beim Wiederkommen.
+//   2) Ablauf „So einfach geht's“ [data-ablauf] (v5, Can 31.10.2026 10:43): Licht zieht von Schritt zu Schritt (ca. 3,3 s).
 // Ohne JS: fertiges Standbild (SVG/HTML). „Bewegung reduzieren“: dasselbe Standbild blendet beim ersten Sichtbarwerden nur sanft ein
 // (1 s, keine Bewegung, keine Wiederholung). Texte bleiben echter Text, Canvas ist aria-hidden.
 // Die Intro beginnt erst, wenn die Szene wirklich im Bild ist (mind. die Hälfte), und läuft dann ganz ab, auch beim Weiterscrollen;
@@ -17,7 +13,7 @@
 (function () {
   if (!window.requestAnimationFrame) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { // sanfte Kurzfassung: nur Einblenden, keine Bewegung
-    [["[data-bruecke]", ".b-teil, .b-ziel, .claim"], ["[data-dolmetschen]", ".links, .rechts, .kiel"], ["[data-ablauf]", ".a-schritt, .a-linie"]].forEach(function (z) {
+    [["[data-dolmetschen]", ".links, .rechts, .kiel"], ["[data-ablauf]", ".a-schritt, .a-linie"]].forEach(function (z) {
       document.querySelectorAll(z[0]).forEach(function (el) {
         var teile = el.querySelectorAll(z[1]);
         if (!teile.length || !("IntersectionObserver" in window)) return;
@@ -59,22 +55,6 @@
     TIEF = sprite([[0, "rgba(239,230,214,1)"], [0.18, "rgba(44,70,119,0.95)"], [0.45, "rgba(29,49,90,0.4)"], [1, "rgba(29,49,90,0)"]]);
   }
 
-  function proben(svg, sel, n, abb) { // Punkte gleichmäßig nach Länge entlang einer Kubik-Kurve „M x y C …“ (rechnerisch – getPointAtLength ist langsam)
-    var z = svg.querySelector(sel).getAttribute("d").match(/-?[\d.]+/g).map(Number), roh = [], len = [0], i;
-    var bz = function (a, b, c, d, t) { var m = 1 - t; return m * m * m * a + 3 * m * m * t * b + 3 * m * t * t * c + t * t * t * d; };
-    for (i = 0; i <= 200; i++) { var t = i / 200; roh.push([bz(z[0], z[2], z[4], z[6], t), bz(z[1], z[3], z[5], z[7], t)]); if (i) len.push(len[i - 1] + M.hypot(roh[i][0] - roh[i - 1][0], roh[i][1] - roh[i - 1][1])); }
-    var out = [], k = 0, L = len[200];
-    for (i = 0; i < n; i++) {
-      var ziel = (L * i) / (n - 1); while (k < 199 && len[k + 1] < ziel) k++;
-      var f = (ziel - len[k]) / ((len[k + 1] - len[k]) || 1);
-      out.push(abb(roh[k][0] + (roh[k + 1][0] - roh[k][0]) * f, roh[k][1] + (roh[k + 1][1] - roh[k][1]) * f));
-    }
-    return out;
-  }
-  function auf(liste, u) { // Punkt bei Anteil u entlang einer Probenliste (gleichmäßig nach Länge)
-    var f = klemm(u) * (liste.length - 1), i = M.min(liste.length - 2, f | 0), k = f - i;
-    return [liste[i][0] + (liste[i + 1][0] - liste[i][0]) * k, liste[i][1] + (liste[i + 1][1] - liste[i][1]) * k];
-  }
   function qb(a, c, b, k) { var m = 1 - k; return [m * m * a[0] + 2 * m * k * c[0] + k * k * b[0], m * m * a[1] + 2 * m * k * c[1] + k * k * b[1]]; }
   function setz(el, a, dy, extra) { if (!el) return; el.style.opacity = a.toFixed(3); el.style.transform = (extra || "") + " translateY(" + dy.toFixed(1) + "px)"; }
   function frei(el) { if (el) { el.style.opacity = ""; el.style.transform = ""; } }
@@ -96,13 +76,6 @@
     el.classList.add(c.name + "-bereit");
     s.punkt = function (x, y, r, a, bild) { if (a <= 0.01 || bild === null) return; ctx.globalAlpha = a > 1 ? 1 : a; ctx.drawImage(bild || HELL, x - r, y - r, 2 * r, 2 * r); };
     s.funke = function (x, y, st, bild) { s.funken.push({ x: x, y: y, vx: (M.random() * 2 - 1) * st, vy: (M.random() * 2 - 1.3) * st, t: 0, l: 0.45 + M.random() * 0.45, r: 1.2 + M.random() * 1.8, b: bild }); };
-    s.linie = function (liste, von, bis, breite, a) {
-      if (bis <= von || a <= 0.01) return;
-      var n = liste.length - 1, p = auf(liste, von);
-      ctx.globalAlpha = a; ctx.strokeStyle = GOLD; ctx.lineWidth = breite; ctx.beginPath(); ctx.moveTo(p[0], p[1]);
-      for (var i = M.floor(von * n) + 1; i < M.ceil(bis * n); i++) ctx.lineTo(liste[i][0], liste[i][1]);
-      p = auf(liste, bis); ctx.lineTo(p[0], p[1]); ctx.stroke();
-    };
     s.rel = function (node) { // Rechteck eines Elements in Leinwand-Koordinaten
       var r = node.getBoundingClientRect(), f = el.getBoundingClientRect();
       return { x: r.left - f.left + s.PAD, y: r.top - f.top + s.PAD, w: r.width, h: r.height };
@@ -204,131 +177,7 @@
   window.LichtKern = { Szene: Szene, GOLD: GOLD, klemm: klemm, bereich: bereich, ioc: ioc, oc: oc, buckel: buckel, qb: qb, setz: setz, frei: frei, glaenzen: glaenzen,
     bild: function (n) { return n === "tief" ? TIEF : n === "weich" ? WEICH : HELL; } };
 
-  // ---------- 1) Sprachbrücke ----------
-  var fig = document.querySelector("[data-bruecke]");
-  if (fig && fig.querySelector("svg")) (function () {
-    var svg = fig.querySelector("svg"), quelle = fig.querySelector(".b-quelle"), ziel = fig.querySelector(".b-ziel"), claim = fig.querySelector(".claim");
-    var bogen, innen, spiegel, haenger, teile = [], S = 1, OY = 0, fertig = false;
-    function wortPunkte(s, span, n) { // Pixel der echten Schrift abtasten → Start- bzw. Zielpunkte der Lichtteilchen
-      var r = s.rel(span), cs = getComputedStyle(span), w = M.ceil(r.w) + 4, h = M.ceil(r.h) + 4, c = document.createElement("canvas");
-      c.width = w; c.height = h;
-      var g = c.getContext("2d", { willReadFrequently: true }); g.font = cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
-      var m = g.measureText(span.textContent), as = m.fontBoundingBoxAscent || parseFloat(cs.fontSize) * 0.9, de = m.fontBoundingBoxDescent || 0;
-      g.fillText(span.textContent, 2, 2 + (r.h - as - de) / 2 + as);
-      var d = g.getImageData(0, 0, w, h).data, alle = [], out = [];
-      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) if (d[(y * w + x) * 4 + 3] > 140) alle.push([r.x - 2 + x, r.y - 2 + y]);
-      for (var i = 0; i < n && alle.length; i++) out.push(alle[(M.random() * alle.length) | 0]);
-      return out.sort(function (a, b) { return a[0] - b[0]; });
-    }
-    function bahn(p, q) { // Wort links → hinauf zum Bogen → über den Bogen → hinab ins Wort rechts; gleichmäßig nach Weglänge
-      var d = ioc(q) * p.L, k;
-      if (d < p.l1) { k = d / p.l1; return [p.s[0] + (p.ein[0] - p.s[0]) * oc(k), p.s[1] + (p.ein[1] - p.s[1]) * k]; }
-      if (d < p.l1 + p.l2) {
-        var v = (d - p.l1) / p.l2, u = 0.05 + 0.9 * v, a = auf(bogen, u), b = auf(bogen, u + 0.01);
-        var nx = a[1] - b[1], ny = b[0] - a[0], nl = M.hypot(nx, ny) || 1, w = M.sin(M.PI * v) * p.o;
-        return [a[0] + (nx / nl) * w, a[1] + (ny / nl) * w];
-      }
-      k = (d - p.l1 - p.l2) / p.l3; return [p.aus[0] + (p.z[0] - p.aus[0]) * k, p.aus[1] + (p.z[1] - p.aus[1]) * (1 - (1 - k) * (1 - k))];
-    }
-    function endbild() {
-      fertig = true; fig.classList.add("b-fertig"); frei(ziel); frei(claim); if (quelle) quelle.classList.remove("b-glanz");
-    }
-    Szene(fig, {
-      name: "b", pad: 30, spaet: 3300,
-      messen: function (s) {
-        var o = s.rel(svg), vb = svg.viewBox.baseVal; S = o.w / vb.width; OY = o.y;
-        var abb = function (x, y) { return [o.x + x * S, o.y + y * S]; };
-        bogen = proben(svg, ".bogen", 180, abb); innen = proben(svg, ".bogen-innen", 120, abb); spiegel = proben(svg, ".spiegel", 120, abb);
-        haenger = Array.prototype.map.call(svg.querySelectorAll(".haenger line"), function (l) {
-          return [o.x + l.x1.baseVal.value * S, o.y + l.y1.baseVal.value * S, o.y + l.y2.baseVal.value * S];
-        });
-      },
-      vorbereiten: function (s) { // Paare: Pixel im Wort links → Pixel im Wort rechts, linke Buchstaben starten zuerst
-        var n = M.round(M.max(240, M.min(620, s.W * 1.05))), A = wortPunkte(s, quelle, n), B = wortPunkte(s, ziel, n);
-        var minX = A.length ? A[0][0] : 0, maxX = A.length ? A[A.length - 1][0] : 1, bl = 0;
-        for (var i = 1; i < bogen.length; i++) bl += M.hypot(bogen[i][0] - bogen[i - 1][0], bogen[i][1] - bogen[i - 1][1]);
-        var ein = auf(bogen, 0.05), aus = auf(bogen, 0.95);
-        teile = [];
-        for (var j = 0; j < M.min(A.length, B.length); j++) {
-          var a = A[j], z = B[j], l1 = M.hypot(ein[0] - a[0], ein[1] - a[1]) * 1.15, l2 = bl * 0.9, l3 = M.hypot(aus[0] - z[0], aus[1] - z[1]) * 1.15;
-          teile.push({ s: a, z: z, ein: ein, aus: aus, l1: l1, l2: l2, l3: l3, L: l1 + l2 + l3,
-            d: 1.35 + ((a[0] - minX) / (maxX - minX || 1)) * 0.55 + M.random() * 0.18, D: 1.05 + M.random() * 0.3,
-            o: (M.random() * 2 - 1) * (s.schmal ? 4 : 6) * S, r: (s.schmal ? 1.7 : 2.1) * (0.6 + M.random() * 0.8), tief: M.random() < 0.35 });
-        }
-      },
-      intro: function (s, t) {
-        var ctx = s.ctx, a = bogen[0], b = bogen[bogen.length - 1], y = OY + 150 * S, uf = oc(bereich(t, 0, 0.5));
-        var aus = 1 - bereich(t, 3.5, 4.0); // Übergabe an das SVG-Endbild (blendet gleichzeitig ein)
-        // warmes Licht hinter der Brücke, solange sie entsteht
-        var mi = auf(bogen, 0.5), hg = oc(bereich(t, 0.6, 1.6)) * (1 - ioc(bereich(t, 2.4, 3.9)));
-        var cy = (mi[1] + y) / 2; s.punkt(mi[0], cy, M.min((b[0] - a[0]) * 0.5, cy, s.H - cy), 0.42 * hg, WEICH); // ganz innerhalb der Leinwand
-        // Fahrbahn von beiden Seiten
-        var dk = ioc(bereich(t, 0.15, 0.95)) * 0.5;
-        ctx.globalAlpha = 0.7 * aus; ctx.strokeStyle = GOLD; ctx.lineWidth = 1.2 * S; ctx.beginPath();
-        ctx.moveTo(a[0], y); ctx.lineTo(a[0] + (b[0] - a[0]) * dk, y); ctx.moveTo(b[0], y); ctx.lineTo(b[0] - (b[0] - a[0]) * dk, y); ctx.stroke();
-        var sp = bereich(t, 1.5, 2.3);
-        if (sp > 0) { ctx.setLineDash([5 * S, 7 * S]); s.linie(spiegel, 0, 1, 1.3 * S, 0.32 * sp * aus); ctx.setLineDash([]); }
-        // Hänger von der Mitte nach außen
-        var mitte = (haenger.length - 1) / 2;
-        for (var i = 0; i < haenger.length; i++) {
-          var h = haenger[i], v = M.abs(i - mitte) * 0.06, k = oc(bereich(t, 1.3 + v, 1.6 + v));
-          if (k <= 0) continue;
-          ctx.globalAlpha = 0.5 * aus; ctx.lineWidth = S; ctx.beginPath(); ctx.moveTo(h[0], h[1]); ctx.lineTo(h[0], h[1] + (h[2] - h[1]) * k); ctx.stroke();
-          if (k < 1) s.punkt(h[0], h[1] + (h[2] - h[1]) * k, 4, 0.9 * (1 - k));
-        }
-        s.linie(innen, 0, 1, S, 0.45 * bereich(t, 1.3, 1.9) * aus);
-        // Bogen wächst von beiden Ufern zur Mitte
-        var g = ioc(bereich(t, 0.25, 1.25)) * 0.5;
-        s.linie(bogen, 0, g, 2.2 * S, aus); s.linie(bogen, 1 - g, 1, 2.2 * S, aus);
-        if (t > 0.25 && t < 1.28) {
-          var kl = auf(bogen, g), kr = auf(bogen, 1 - g), gr = s.schmal ? 9 : 12;
-          s.punkt(kl[0], kl[1], gr, 1); s.punkt(kr[0], kr[1], gr, 1);
-          if (M.random() < 0.8) { s.funke(kl[0], kl[1], 16); s.funke(kr[0], kr[1], 16); }
-        }
-        // Ufer
-        ctx.globalAlpha = aus; ctx.fillStyle = GOLD; ctx.beginPath();
-        ctx.arc(a[0], y, 4.5 * S * uf, 0, 7); ctx.moveTo(b[0], y); ctx.arc(b[0], y, 4.5 * S * uf, 0, 7); ctx.fill();
-        var ug = (1 - bereich(t, 0.5, 1.6)) * uf; s.punkt(a[0], y, 18 * ug + 4, ug); s.punkt(b[0], y, 18 * ug + 4, ug);
-        // Treffen in der Mitte: Aufleuchten und ein feiner Ring
-        var bl = bereich(t, 1.22, 1.95);
-        if (bl > 0 && bl < 1) {
-          var e = oc(bl), m = auf(bogen, 0.5);
-          s.punkt(m[0], m[1], (s.schmal ? 22 : 32) * (0.5 + e), (1 - bl) * 0.95);
-          ctx.globalAlpha = (1 - bl) * 0.4; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(m[0], m[1], 6 + e * (s.schmal ? 36 : 58), 0, 7); ctx.stroke();
-          if (bl < 0.06) for (var f = 0; f < 8; f++) s.funke(m[0], m[1], 50);
-        }
-        // Wort-Teilchen
-        for (var j = 0; j < teile.length; j++) {
-          var p = teile[j], q = (t - p.d) / p.D, bi = p.tief ? TIEF : HELL;
-          if (q <= 0) continue;
-          if (q < 1) { var pos = bahn(p, q); s.punkt(pos[0], pos[1], p.r * (1 + 0.6 * M.sin(M.PI * q)), M.min(1, q * 8), bi); }
-          else { var nach = (t - p.d - p.D) / 0.45; if (nach < 1) s.punkt(p.z[0], p.z[1], p.r * (1 - nach * 0.4), 1 - nach, bi); }
-        }
-        // echte Texte über dieselbe Uhr: Ziel-Wort, Leitsatz, kurzer Glanz auf dem Ausgangswort
-        if (!fertig) {
-          if (ziel) ziel.style.opacity = bereich(t, 2.45, 3.3).toFixed(3);
-          var cl = oc(bereich(t, 2.9, 3.5)); setz(claim, cl, (1 - cl) * 12);
-          if (quelle) quelle.classList.toggle("b-glanz", t > 1.2 && t < 2.1);
-          if (t >= 3.5) endbild();
-        }
-        return t < 4.0;
-      },
-      ende: function () { teile = []; endbild(); },
-      ausblenden: function () { fig.classList.add("b-aus"); },
-      zuruecksetzen: function () {
-        fertig = false; teile = [];
-        fig.classList.remove("b-fertig", "b-aus"); if (ziel) ziel.style.opacity = "0"; setz(claim, 0, 12);
-      },
-      zug: function (s, z) { // Lichtzug: heller Kopf mit Funkenschweif, am Ziel ein kurzer Glanz auf dem Wort
-        var k = klemm(z.t / 1.9), p = auf(bogen, z.hin ? ioc(k) : 1 - ioc(k));
-        if (k < 1) { s.punkt(p[0], p[1], s.schmal ? 9 : 12, M.min(1, k * 6)); if (M.random() < 0.8) s.funke(p[0], p[1], 10, M.random() < 0.4 ? TIEF : HELL); }
-        if (k >= 1 && !z.an) { z.an = true; for (var i = 0; i < 12; i++) s.funke(p[0], p[1], 36); glaenzen(z.hin ? ziel : quelle, "b-glanz"); }
-        return !(k >= 1 && z.t > 2.6);
-      },
-    });
-  })();
-
-  // ---------- 2) Dolmetschen: ein Gespräch in beide Richtungen ----------
+  // ---------- 1) Dolmetschen: ein Gespräch in beide Richtungen ----------
   document.querySelectorAll("[data-dolmetschen]").forEach(function (el) {
     var links = el.querySelector(".links"), rechts = el.querySelector(".rechts"), kiel = el.querySelector(".kiel");
     if (!links || !rechts || !kiel) return;
@@ -421,9 +270,9 @@
     });
   });
 
-  // ---------- 3) Ablauf „So einfach geht's“ (Can 31.10.2026 10:43): Licht zieht von Schritt zu Schritt ----------
+  // ---------- 2) Ablauf „So einfach geht's“ (Can 31.10.2026 10:43): Licht zieht von Schritt zu Schritt ----------
   // Schritt 1 leuchtet auf → ein Lichtpunkt zieht die goldene Linie zu Schritt 2 → Aufleuchten, Schritt 2 erscheint → weiter zu Schritt 3 →
-  // großes warmes Aufleuchten (Ergebnis) → Übergabe an die fertige Leiste (ca. 3,3 s). Wiederholung und Neustart wie bei der Brücke.
+  // großes warmes Aufleuchten (Ergebnis) → Übergabe an die fertige Leiste (ca. 3,3 s). Wiederholung alle 14 s und Neustart beim Wiederkommen.
   document.querySelectorAll("[data-ablauf]").forEach(function (el) {
     var schritte = Array.prototype.slice.call(el.querySelectorAll(".a-schritt")), kreise = schritte.map(function (x) { return x.querySelector(".a-kreis"); });
     if (schritte.length < 2 || kreise.some(function (k) { return !k; })) return;

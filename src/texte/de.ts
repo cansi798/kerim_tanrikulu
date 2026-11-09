@@ -169,7 +169,7 @@ export const de = {
       { icon: "gespraech", titel: "Mündlich und schriftlich aus einer Hand", kurz: "Ein Ansprechpartner für Dokumente und Gespräche.", lang: "Er ist allgemein beeidigter Dolmetscher und ermächtigter Übersetzer. Er dolmetscht vor Ort, per Video oder am Telefon, und Sie brauchen nur einen Ansprechpartner.", seite: "dolmetschen", anker: "#unterschied-titel" },
       { icon: "schild", titel: "Beeidigt und ermächtigt vom OLG Schleswig", kurz: "Seit Mai 2021, für Türkisch und Deutsch.", lang: "Die Übersetzung eines in Deutschland ermächtigten Übersetzers ist die übliche Form für deutsche Behörden und Gerichte. Dazu kommt ein Studium: Bachelor of Arts in Philosophie und Germanistik (2021).", seite: "ratgeber", anker: "#beglaubigt" },
       { icon: "urteil", titel: "Erfahrung mit Gerichten, Behörden und Kliniken", kurz: "Gerichte, Konsulat, BAMF, Standesamt, Krankenhäuser und mehr.", lang: "Unter anderem Amtsgerichte in Schleswig-Holstein, das Türkische Konsulat in Hamburg, das BAMF, das IQSH, Hamburger Schulen, Standesamt, Krankenhäuser und Untersuchungshaftanstalten.", seite: "ueber", anker: "#erfahrung-titel" },
-      { icon: "dokument", titel: "Faire, transparente Vergütung", kurz: "Vorab ein individuelles Angebot.", lang: "Das Honorar richtet sich nach Art, Umfang und Schwierigkeitsgrad des Auftrags. Bei Gerichten und Behörden wird, soweit anwendbar, nach dem JVEG abgerechnet.", seite: "uebersetzungen", anker: "#honorar-titel" },
+      { icon: "dokument", titel: "Honorar nach Absprache", kurz: "Vorab ein individuelles Angebot.", lang: "Das Honorar richtet sich nach Art, Umfang und Schwierigkeitsgrad des Auftrags. Bei Gerichten und Behörden wird, soweit anwendbar, nach dem JVEG abgerechnet.", seite: "uebersetzungen", anker: "#honorar-titel" },
       { icon: "telefon", titel: "Unkompliziert erreichbar", kurz: "Direkt per Telefon, WhatsApp, E-Mail oder Anfrageformular.", lang: "Keine Umwege: Sie sprechen oder schreiben direkt mit Herrn Tanrikulu.", seite: "kontakt", anker: "" },
       { icon: "bruecke", titel: "Persönlicher Bezug zu beiden Kulturen", kurz: "Seine Begeisterung fürs Übersetzen begann in der Türkei.", lang: "Entdeckt hat er sie bei einem Studienaufenthalt in der Türkei. Seine Arbeit versteht er als „Brückenbildung zwischen den Kulturen“.", seite: "ueber", anker: "" },
     ],
@@ -190,7 +190,7 @@ export const de = {
     text: "In drei Schritten zu Ihrer Übersetzung oder Ihrem Termin.",
     aria: "Ablauf in drei Schritten",
     schritte: [
-      { icon: "telefon", titel: "Kontakt aufnehmen", kurz: "Anrufen, per WhatsApp oder per E\u2011Mail." },
+      { icon: "telefon", titel: "Kontakt aufnehmen", kurz: "Anrufen, per WhatsApp, per E\u2011Mail oder über das Anfrageformular." },
       { icon: "gespraech", titel: "Anliegen besprechen", kurz: "Sie schicken Ihre Dokumente als Foto oder Scan und erhalten einen Kostenvoranschlag." },
       { icon: "dokument", titel: "Übersetzung oder Termin", kurz: "Sie erhalten Ihre beglaubigte Übersetzung, oder er dolmetscht bei Ihrem Termin." },
     ],
@@ -376,7 +376,7 @@ export const de = {
       { frage: "Was kostet eine Übersetzung oder ein Dolmetscheinsatz?", antwort: [`${HONORAR_TITEL}. ${HONORAR}`, HONORAR_BEISPIEL] },
       { frage: "In welchen Regionen dolmetschen Sie?", antwort: ["Vor Ort in Hamburg, Schleswig-Holstein, Mecklenburg-Vorpommern, Bremen und Niedersachsen. Mein Standort ist Hamburg."] },
       { frage: "Dolmetschen Sie auch per Video oder Telefon?", antwort: ["Ja. Neben Einsätzen vor Ort dolmetsche ich auch per Video oder am Telefon."] },
-      { frage: "Wie kann ich eine Anfrage senden?", antwort: [`Rufen Sie mich an unter ${TELEFON}, schreiben Sie mir per WhatsApp oder eine E-Mail an ${MAIL}. Schicken Sie mir Ihre Dokumente als Foto oder Scan, dann erhalten Sie einen Kostenvoranschlag.`] },
+      { frage: "Wie kann ich eine Anfrage senden?", antwort: [`Am einfachsten über das Anfrageformular auf der Kontaktseite. Sie können mich auch anrufen unter ${TELEFON}, per WhatsApp schreiben oder eine E-Mail an ${MAIL} senden. Schicken Sie mir Ihre Dokumente als Foto oder Scan, dann erhalten Sie einen Kostenvoranschlag.`] },
     ],
   },
 
@@ -398,7 +398,7 @@ export const de = {
       wissenText: "Was ein Bestätigungsvermerk ist, ob eine Kopie genügt und wann eine Apostille gebraucht wird, steht im Ratgeber.",
       themenLink: "Typische Dokumente in beide Richtungen",
       anfrageTitel: "Anfrage",
-      anfrageText: "Rufen Sie mich an oder schreiben Sie mir per WhatsApp oder E-Mail. Schicken Sie Ihre Dokumente als Foto oder Scan, dann erhalten Sie einen Kostenvoranschlag.",
+      anfrageText: "Nutzen Sie das Anfrageformular, rufen Sie mich an oder schreiben Sie mir per WhatsApp oder E-Mail. Schicken Sie Ihre Dokumente als Foto oder Scan, dann erhalten Sie einen Kostenvoranschlag.",
       honorarTitel: HONORAR_TITEL,
     },
     dolmetschen: {

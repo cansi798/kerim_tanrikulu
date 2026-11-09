@@ -185,7 +185,25 @@ a.karte:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -20px rgba(
 @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; } }
 
 /* v4 Ladezeit: Abschnitte außerhalb des Bildschirms erst rendern, wenn sie in die Nähe kommen (weniger Layout beim Laden) */
-.abschnitt, .aufruf, .fuss { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+/* Audit 09.11.2026 (N2): Schätzhöhen je Abschnitt aus echten Messungen (320/390/1440 px) statt pauschal 900 px –
+   vorher schrumpfte die Startseite beim Scrollen von ca. 6 850 auf 5 700 px und die Scrollleiste sprang.
+   Die Werte gelten für den Inhalt ohne Innenabstand (padding kommt beim Schätzen dazu). */
+.abschnitt, .aufruf, .fuss { content-visibility: auto; contain-intrinsic-size: auto var(--h-schaetz, 460px); }
+.aufruf { --h-schaetz: 630px; }
+.fuss { --h-schaetz: 890px; }
+.ablauf { --h-schaetz: 235px; }
+.gut { --h-schaetz: 700px; }
+#tr-de, #de-tr { --h-schaetz: 1450px; } /* Themen: lange Listen je Richtung */
+#direkt { --h-schaetz: 900px; } /* Kontakt: Kontaktwege */
+@media (min-width: 62rem) {
+  .abschnitt { --h-schaetz: 330px; }
+  .aufruf { --h-schaetz: 330px; }
+  .fuss { --h-schaetz: 295px; }
+  .ablauf { --h-schaetz: 480px; }
+  .gut { --h-schaetz: 580px; }
+  #tr-de, #de-tr { --h-schaetz: 930px; }
+  #direkt { --h-schaetz: 340px; }
+}
 /* v5: Vorteile-Band liegt direkt unter dem Hero – ebenfalls erst in der Nähe rendern (Ladezeit) */
-.warum { content-visibility: auto; contain-intrinsic-size: auto 1300px; }
+.warum { content-visibility: auto; contain-intrinsic-size: auto 1680px; }
 @media (max-width: 61.99rem) { .richtungen { content-visibility: auto; contain-intrinsic-size: auto 1100px; } }
