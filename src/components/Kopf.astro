@@ -30,7 +30,7 @@ const sprachen: Lang[] = ["de", "tr"];
         </a>
       ))}
     </nav>
-    <a class="knopf kopf-cta" href={anfrageLink(lang, T.ui.anfrageBetreff)}>{T.ui.anfrage}</a>
+    <a class="knopf kopf-cta" href={anfrageLink(lang, T.ui.anfrageBetreff, seite)}>{T.ui.anfrage}</a>
     <details class="nav-schmal">
       <summary><span class="zu"><Icon name="menue" /></span><span class="auf"><Icon name="schliessen" /></span><span>{T.ui.menue}</span></summary>
       <nav aria-label={T.ui.hauptnavMobil}>

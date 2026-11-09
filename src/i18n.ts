@@ -25,9 +25,12 @@ export type Seite = keyof typeof SEITEN;
 /** Pfad mit Base-Präfix für eine Seite in einer Sprache, z. B. p("tr", "themen") → /kerim_tanrikulu/tr/konular/ */
 export const p = (lang: Lang, seite: Seite, anker = "") => u(SEITEN[seite][lang]) + anker;
 
-/** Ziel des goldenen Hauptknopfs „Anfrage senden“ (Audit 09.11.2026, H1): deutsch → Anfrageformular auf /kontakt/,
- *  türkisch vorerst E-Mail (dort gibt es noch kein Formular). */
-export const anfrageLink = (lang: Lang, betreff?: string) => (lang === "de" ? p("de", "kontakt", "#anfrage-titel") : mailLink(betreff));
+/** Seiten, auf denen das Anfrageformular selbst steht (deutsch): /kontakt/ und seit Jamil Talk xidc8qvq #5312 (09.11.2026) die Startseite */
+export const mitFormular = (lang: Lang, seite: Seite | null | undefined) => lang === "de" && (seite === "start" || seite === "kontakt");
+/** Ziel des goldenen Hauptknopfs „Anfrage senden“ (Audit 09.11.2026, H1): deutsch → Anfrageformular (auf der Startseite das
+ *  eingebettete Formular derselben Seite, sonst /kontakt/), türkisch vorerst E-Mail (dort gibt es noch kein Formular). */
+export const anfrageLink = (lang: Lang, betreff?: string, seite?: Seite | null) =>
+  lang !== "de" ? mailLink(betreff) : mitFormular(lang, seite) ? "#anfrage-titel" : p("de", "kontakt", "#anfrage-titel");
 
 /** Hauptnavigation (Startseite über das Logo) */
 export const NAV_SEITEN: Seite[] = ["uebersetzungen", "dolmetschen", "themen", "ratgeber", "ueber", "fragen", "kontakt"];

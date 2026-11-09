@@ -3,10 +3,13 @@
 // Überschrift steigt beim Sichtbarwerden ruhig auf (Bauwelt-Bewegung).
 import Icon from "./Icon.astro";
 import { TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, WHATSAPP_LINK, mailLink } from "../daten";
-import { p, type Lang } from "../i18n";
+import { p, mitFormular, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
-interface Props { lang: Lang }
-const { lang } = Astro.props;
+interface Props { lang: Lang; seite?: Seite | null }
+const { lang, seite } = Astro.props;
+// Steht das Anfrageformular schon auf dieser Seite (deutsche Startseite, Jamil Talk xidc8qvq #5312), führt der Knopf dorthin
+// statt auf /kontakt/ – kein zweiter, abweichender Weg; Telefon, WhatsApp und E-Mail bleiben daneben die direkten Alternativen.
+const zumFormular = mitFormular(lang, seite);
 const T = t(lang);
 const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
 ---
@@ -16,7 +19,7 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
     <div class="frage">
       <h2 id="aufruf-titel">{T.aufruf.titel}</h2>
       <p>{T.aufruf.text}</p>
-      <a class="knopf" href={p(lang, "kontakt")}>{T.aufruf.knopf}</a>
+      <a class="knopf" href={zumFormular ? "#anfrage-titel" : p(lang, "kontakt")}>{zumFormular ? "Zum Anfrageformular" : T.aufruf.knopf}</a>
     </div>
     <ul class="wege">
       <li><a href={TELEFON_LINK}><Icon name="telefon" /><span class="art">{T.ui.telefon}</span><span class:list={["wert", { unbestaetigt: markieren }]}>{TELEFON}</span></a></li>
