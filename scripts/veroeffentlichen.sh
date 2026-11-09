@@ -8,8 +8,18 @@ QUELLE="$(git rev-parse --short HEAD)"
 git fetch -q origin main
 rm -rf .deploy && git worktree add -q .deploy origin/main
 git -C .deploy checkout -q -B main origin/main
+# Gehashte Dateien (_astro/*) der bisher veröffentlichten Fassung behalten: Der GitHub-Zwischenspeicher liefert eine alte
+# HTML-Seite bis zu 10 Minuten weiter aus – sie muss ihre eigenen Skripte/Styles dann noch finden (Jamil Talk #5237, 09.11.2026).
+# Nur die Vorgängerfassung wird behalten (von deren HTML/CSS/JS referenziert), ältere fallen weg.
+ALT="$(mktemp -d)"
+if [ -d .deploy/_astro ]; then
+  grep -rhoE '[A-Za-z0-9_@.-]+\.[A-Za-z0-9_-]{8}\.(js|css|woff2?|webp|avif|png|jpe?g|svg)' .deploy --include='*.html' --include='*.css' --include='*.js' 2>/dev/null \
+    | sort -u | while read -r f; do [ -f ".deploy/_astro/$f" ] && cp ".deploy/_astro/$f" "$ALT/"; done
+fi
 find .deploy -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
 cp -r dist/. .deploy/
+mkdir -p .deploy/_astro && cp -n "$ALT"/* .deploy/_astro/ 2>/dev/null || true
+rm -rf "$ALT"
 touch .deploy/.nojekyll
 cp LICENSE .deploy/LICENSE   # Alle Rechte vorbehalten (Can 31.10.2026), auch im Root der gebauten Seite
 printf '# Kerim Tanrikulu – gebaute Seite\n\nGebaute Vorschau. Quellcode im Branch `quelle`.\n' > .deploy/README.md

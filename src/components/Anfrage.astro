@@ -4,6 +4,9 @@
 // Versand ohne Fremddienst: „Anfrage senden“ öffnet das eigene E-Mail-Programm (mailto), „Per WhatsApp senden“ öffnet wa.me –
 // jeweils mit dem fertigen Text. Optional später ein eigener Empfang über PUBLIC_FORM_ENDPOINT (leer = mailto; entscheidet Can).
 // Kein Datei-Upload (sensible Dokumente). Ohne JavaScript bleibt das Formular verborgen, die Kontaktwege darunter gelten.
+// Robustheit (Jamil Talk xidc8qvq #5237, 09.11.2026): Das Formular ist sichtbar erst, wenn das Skript es fertig eingerichtet hat
+// (data-bereit am Rahmen). Bis dahin steht „Das Anfrage-Formular lädt …“; lädt das Skript nicht, erscheint nach einigen Sekunden
+// ein Hinweis auf Neuladen bzw. die Kontaktwege. So gibt es nie Karten, die anklickbar aussehen, aber nichts tun.
 // Preise stehen NICHT im HTML: die Dokumentlisten baut das Skript aus src/daten/dokumente.ts (gebündelte JS-Datei).
 import Icon from "./Icon.astro";
 import { THEMEN } from "../daten/dokumente";
@@ -24,7 +27,11 @@ const SYMBOLE: Record<string, string> = {
 };
 const datenschutz = p("de", "datenschutz");
 ---
-<div class="anfrage-rahmen">
+<div class="anfrage-rahmen" data-anfrage-rahmen>
+  <div class="anfrage-laedt">
+    <p class="laedt-zeile"><span class="laedt-punkt" aria-hidden="true"></span>Das Anfrage-Formular lädt …</p>
+    <p class="laedt-notfall">Lädt das Formular nicht? Bitte laden Sie die Seite einmal neu – oder melden Sie sich direkt per <a href="#direkt">Telefon, WhatsApp oder E-Mail</a>.</p>
+  </div>
   <noscript>
     <p class="ohne-js">Das Anfrageformular braucht JavaScript. Sie erreichen Herrn Tanrikulu direkt per Telefon, WhatsApp oder E-Mail – die Kontaktwege finden Sie gleich unter diesem Abschnitt.</p>
   </noscript>
@@ -91,7 +98,7 @@ const datenschutz = p("de", "datenschutz");
       <legend><h3 tabindex="-1">Um welches Dokument geht es?</h3></legend>
       <div class="feld">
         <label for="dok-suche">Dokument suchen <span class="opt">(in allen Themen)</span></label>
-        <input id="dok-suche" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" placeholder="z. B. Geburtsurkunde" aria-describedby="dok-treffer" data-suche />
+        <input id="dok-suche" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" placeholder="Dokument suchen, z. B. Geburtsurkunde" aria-describedby="dok-treffer" data-suche />
       </div>
       <p class="sr" id="dok-treffer" aria-live="polite" data-treffer></p>
       <p class="listenkopf" data-listenkopf></p>
@@ -204,7 +211,7 @@ const datenschutz = p("de", "datenschutz");
       <legend><h3 tabindex="-1">Ihre Anfrage im Überblick</h3></legend>
       <dl class="uebersicht" data-uebersicht></dl>
       <div class="preis" data-preis hidden>
-        <p class="preis-zeile">Unverbindlicher Richtwert: <strong data-preis-wert></strong></p>
+        <p class="preis-zeile"><span data-preis-titel>Unverbindlicher Richtwert:</span> <strong data-preis-wert></strong></p>
         <p class="preis-hinweis" data-preis-hinweis></p>
       </div>
       <p class="preis ohne" data-ohne-preis hidden></p>
@@ -229,7 +236,16 @@ const datenschutz = p("de", "datenschutz");
 
   const ENDPOINT: string = import.meta.env.PUBLIC_FORM_ENDPOINT || "";
   const form = document.querySelector<HTMLFormElement>("#anfrage");
-  if (form) starten(form);
+  if (form) {
+    // Erst nach vollständigem Einrichten sichtbar schalten; bei einem Fehler bleiben Ladehinweis + Kontaktwege
+    try {
+      starten(form);
+      form.dataset.bereit = "";
+      form.closest<HTMLElement>("[data-anfrage-rahmen]")!.dataset.bereit = "";
+    } catch (e) {
+      console.error("Anfrageformular:", e);
+    }
+  }
 
   function starten(form: HTMLFormElement) {
     const $ = <T extends Element = HTMLElement>(s: string, w: ParentNode = form) => w.querySelector<T>(s)!;
@@ -410,7 +426,9 @@ const datenschutz = p("de", "datenschutz");
       } else {
         eintraege = t ? t.dokumente.map((dok) => ({ dok, thema: t })) : [];
         $("[data-treffer]").textContent = "";
-        $("[data-listenkopf]").textContent = t ? `Häufige Dokumente im Thema „${t.titel}“` : "Geben Sie oben ein, wie Ihr Dokument heißt – oder wählen Sie „Anderes Dokument“.";
+        $("[data-listenkopf]").textContent = t
+          ? `${t.dokumente.length} Dokumente im Thema „${t.titel}“, von A bis Z. Schneller geht es mit der Suche oben. Nicht dabei? Ganz unten „Anderes Dokument“ wählen.`
+          : "Geben Sie oben ein, wie Ihr Dokument heißt – oder wählen Sie „Anderes Dokument“.";
       }
       const kinder = eintraege.map(({ dok, thema }) => {
         const li = document.createElement("li");
@@ -490,14 +508,15 @@ const datenschutz = p("de", "datenschutz");
     }
 
     function preis() {
-      if (wert("leistung") === "dolmetschen") return { wert: "", hinweis: "", ohne: "Das Honorar nennt Ihnen Herr Tanrikulu nach individueller Absprache." };
+      // Dolmetschen: bewusst kein Richtwert – der Hinweis steht aber genauso deutlich im Kasten wie sonst der Preis (Jamil #5237)
+      if (wert("leistung") === "dolmetschen") return { titel: "Honorar:", wert: "nach individueller Absprache", hinweis: "Herr Tanrikulu nennt Ihnen das Honorar nach Ihrer Anfrage – je nach Termin, Art und Dauer.", ohne: "" };
       const e = gewaehlt();
-      if (!e) return { wert: "", hinweis: "", ohne: "Preis nach Sichtung des Dokuments." };
+      if (!e) return { titel: "", wert: "", hinweis: "", ohne: "Preis nach Sichtung des Dokuments." };
       const n = seiten();
       const basis = e.dok.einheit === "seite"
         ? `Berechnet für ca. ${n} ${n === 1 ? "Seite" : "Seiten"}, pro Seite der fertigen Übersetzung, Mindestpreis ${MINDESTPREIS} €.`
         : `Pro Dokument, Mindestpreis ${MINDESTPREIS} €.`;
-      return { wert: spanne(richtwert(e.dok, n)), hinweis: `${basis} Verbindlich ist erst der Kostenvoranschlag nach Sichtung des Dokuments.`, ohne: "" };
+      return { titel: "Unverbindlicher Richtwert:", wert: spanne(richtwert(e.dok, n)), hinweis: `${basis} Verbindlich ist erst der Kostenvoranschlag nach Sichtung des Dokuments.`, ohne: "" };
     }
 
     function uebersicht() {
@@ -540,6 +559,7 @@ const datenschutz = p("de", "datenschutz");
 
       const pr = preis();
       $("[data-preis]").hidden = !pr.wert;
+      $("[data-preis-titel]").textContent = pr.titel;
       $("[data-preis-wert]").textContent = pr.wert;
       $("[data-preis-hinweis]").textContent = pr.hinweis;
       $("[data-ohne-preis]").hidden = !pr.ohne;
@@ -564,7 +584,7 @@ const datenschutz = p("de", "datenschutz");
         const t = ["Guten Tag Herr Tanrikulu,", "", "ich möchte folgende Anfrage stellen:", ""];
         zeilen().forEach(([k, v]) => t.push(`${k}: ${v}`));
         if (notiz) t.push("", `Nachricht: ${notiz}`);
-        if (pr.wert) t.push("", `Unverbindlicher Richtwert laut Website: ${pr.wert}`);
+        if (pr.wert && !dolm) t.push("", `Unverbindlicher Richtwert laut Website: ${pr.wert}`);
         else if (!dolm) t.push("", "Preis: nach Sichtung des Dokuments");
         if (!dolm) t.push("", "Ein Foto oder Scan des Dokuments schicke ich nach Ihrer Rückmeldung.");
         t.push("", "Viele Grüße", wert("name"));
@@ -613,7 +633,19 @@ const datenschutz = p("de", "datenschutz");
 <style is:global>
   .anfrage-rahmen { max-width: 52rem; margin-inline: auto; }
   .anfrage-rahmen .ohne-js { padding: 1rem 1.2rem; border-left: 3px solid var(--primaer); background: var(--sekundaer); margin: 0; }
-  html:not(.js) .anfrage { display: none; }
+  /* Formular erst zeigen, wenn das Skript es eingerichtet hat (auch ohne JS verborgen) */
+  .anfrage-rahmen:not([data-bereit]) .anfrage { display: none; }
+  .anfrage-laedt { display: none; }
+  html.js .anfrage-rahmen:not([data-bereit]) .anfrage-laedt { display: block; padding: 1.1rem 1.25rem; border: 1px solid var(--linie); border-radius: 16px; background: #fff; }
+  .anfrage-laedt p { margin: 0; }
+  .anfrage-laedt .laedt-zeile { display: flex; align-items: center; gap: 0.7rem; font-weight: 600; color: var(--primaer); }
+  .anfrage-laedt .laedt-punkt { flex: none; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--primaer); animation: laedt-puls 1.2s ease-in-out infinite; }
+  /* Notfall-Hinweis erst nach 6 s (reines CSS – greift auch, wenn das Skript gar nicht lädt) */
+  .anfrage-laedt .laedt-notfall { margin-top: 0.6rem; color: var(--primaer-leise); animation: laedt-spaet 0s linear 6s both; }
+  .anfrage-laedt .laedt-notfall a { font-weight: 600; color: var(--primaer); }
+  @keyframes laedt-puls { 50% { opacity: 0.25; } }
+  @keyframes laedt-spaet { from { visibility: hidden; } to { visibility: visible; } }
+  @media (prefers-reduced-motion: reduce) { .anfrage-laedt .laedt-punkt { animation: none; } }
 
   .anfrage { background: #fff; border: 1px solid var(--linie); border-radius: 16px; padding: clamp(1.1rem, 4vw, 2.5rem); box-shadow: 0 24px 48px -36px rgba(29, 49, 90, 0.35); }
   .anfrage .fortschritt { margin-bottom: clamp(1.25rem, 3vw, 1.75rem); }
