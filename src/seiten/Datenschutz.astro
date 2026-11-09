@@ -6,7 +6,7 @@ import { type Lang } from "../i18n";
 import { t } from "../texte";
 import { NAME, TELEFON, MAIL } from "../daten";
 // Gerüst nach der Vorlage aus datenschutz_impressium, nur Module für tatsächliche Datenflüsse:
-// statische Seite, keine Cookies, kein Tracking, keine Formulare, Schriften lokal, Kontakt per E-Mail/Telefon.
+// statische Seite, keine Cookies, kein Tracking, Anfrageformular nur im Browser (Versand per eigenem E-Mail-Programm/WhatsApp), Schriften lokal, Kontakt per E-Mail/Telefon.
 // Hosting-Abschnitt beim Umzug auf die eigene Domain neu schreiben (R04).
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -36,14 +36,19 @@ const T = t(lang);
       <p>E-Mail-Anbieter: <Luecke>WEB.DE (1&amp;1 Mail &amp; Media GmbH), bitte bestätigen</Luecke>.</p>
       <p>Speicherdauer: Ich lösche Ihre Daten, sobald die Anfrage abgeschlossen ist und keine gesetzlichen Aufbewahrungsfristen entgegenstehen. <Luecke>Frist und Umgang mit Dokumenten nach Auftragsende vom Kunden</Luecke></p>
 
+      <!-- Anfrageformular (09.11.2026, Jamil Talk xidc8qvq #5217): läuft nur im Browser, kein eigener Versanddienst. Bei Einbau eines Formular-Dienstes (PUBLIC_FORM_ENDPOINT) Abschnitt neu schreiben. -->
+      <h2>6. Anfrageformular</h2>
+      <p>Auf der Kontaktseite können Sie Ihre Anfrage Schritt für Schritt zusammenstellen. Ihre Eingaben werden dabei nur in Ihrem Browser verarbeitet. Die Website speichert sie nicht und überträgt sie nicht an mich oder an Dritte.</p>
+      <p>Erst wenn Sie am Ende „Anfrage senden“ oder „Per WhatsApp senden“ wählen, öffnet sich Ihr eigenes E-Mail-Programm oder WhatsApp mit dem fertigen Text. Die Anfrage geht erst an mich, wenn Sie sie dort selbst absenden. Für die weitere Verarbeitung gelten die Abschnitte 5 (E-Mail) und 7 (WhatsApp).</p>
+
       <!-- ENTWURF (31.10.2026, Kerim Talk 3993 / Jamil 3994): WhatsApp nur als Link, kein Widget, kein Skript. Keine Rechtsberatung, vor dem Livegang prüfen lassen. -->
-      <h2>6. Kontakt über WhatsApp</h2>
+      <h2>7. Kontakt über WhatsApp</h2>
       <p>Sie können mich auch über WhatsApp erreichen. Auf dieser Website ist WhatsApp nur verlinkt: Erst wenn Sie auf einen WhatsApp-Link tippen, öffnet sich WhatsApp. Vorher werden keine Daten an WhatsApp übertragen.</p>
       <p>Anbieter von WhatsApp ist die WhatsApp Ireland Limited, Merrion Road, Dublin 4, D04 X2K5, Irland, ein Unternehmen der Meta-Gruppe. Wenn Sie mir über WhatsApp schreiben, verarbeiten WhatsApp und ich Ihre Telefonnummer, Ihren Profilnamen, den Inhalt Ihrer Nachrichten und mitgeschickte Dateien sowie Metadaten (zum Beispiel Zeitpunkt der Nachricht). Die Nachrichteninhalte sind nach Angaben von WhatsApp Ende-zu-Ende-verschlüsselt; Metadaten kann WhatsApp verarbeiten. Dabei können Daten auch an Meta-Unternehmen in Drittländern außerhalb der EU, insbesondere in die USA, übermittelt werden. Für die USA besteht ein Angemessenheitsbeschluss der EU-Kommission (EU-US Data Privacy Framework), soweit der Empfänger danach zertifiziert ist; im Übrigen stützt WhatsApp die Übermittlung nach eigenen Angaben auf Standardvertragsklauseln.</p>
       <p>Die Nutzung von WhatsApp ist freiwillig. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung oder Durchführung eines Auftrags), bei allgemeinen Anfragen Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse liegt darin, auf dem Weg erreichbar zu sein, den viele Kunden bevorzugen. Bitte schicken Sie besonders sensible Unterlagen, zum Beispiel medizinische Dokumente, nur dann über WhatsApp, wenn Sie damit einverstanden sind. Sie können mich jederzeit auch per Telefon oder E-Mail erreichen.</p>
       <p>Ich lösche Chatverläufe und Dateien, sobald sie für die Anfrage oder den Auftrag nicht mehr nötig sind und keine gesetzlichen Aufbewahrungsfristen entgegenstehen. Mehr zur Datenverarbeitung durch WhatsApp: <a href="https://www.whatsapp.com/legal/privacy-policy-eea" rel="noopener">www.whatsapp.com/legal/privacy-policy-eea</a>. <Luecke>Abschnitt als Entwurf, keine Rechtsberatung; vor dem Livegang prüfen lassen (u. a. WhatsApp-Business-Konto ja/nein, Speicherdauer)</Luecke></p>
 
-      <h2>7. Ihre Rechte</h2>
+      <h2>8. Ihre Rechte</h2>
       <p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und Datenübertragbarkeit (Art. 20). Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3). Eine formlose Nachricht an <a href={`mailto:${MAIL}`}>{MAIL}</a> genügt.</p>
       <div class="hinweis">
         <h3>Widerspruchsrecht nach Art. 21 DSGVO</h3>
@@ -51,10 +56,10 @@ const T = t(lang);
       </div>
       <p>Sie können sich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der für mich zuständigen Behörde: <Luecke>Der Hamburgische Beauftragte für Datenschutz und Informationsfreiheit, je nach Sitz bestätigen</Luecke>.</p>
 
-      <h2>8. Datensicherheit</h2>
+      <h2>9. Datensicherheit</h2>
       <p>Die Website wird verschlüsselt (TLS) übertragen.</p>
 
-      <h2>9. Automatisierte Entscheidungen</h2>
+      <h2>10. Automatisierte Entscheidungen</h2>
       <p>Eine automatisierte Entscheidungsfindung einschließlich Profiling nach Art. 22 DSGVO findet nicht statt.</p>
 
       <p class="leise">Stand: <Luecke>Datum beim Livegang</Luecke></p>

@@ -4,6 +4,7 @@ import SeitenKopf from "../components/SeitenKopf.astro";
 import Platzhalter from "../components/Platzhalter.astro";
 import Luecke from "../components/Luecke.astro";
 import Icon from "../components/Icon.astro";
+import Anfrage from "../components/Anfrage.astro";
 import { TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, WHATSAPP_LINK, mailLink } from "../daten";
 import type { Lang } from "../i18n";
 import { t } from "../texte";
@@ -12,14 +13,31 @@ const { lang } = Astro.props;
 const T = t(lang);
 const S = T.seiten.kontakt;
 const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
+// Anfrageformular nur auf der deutschen Seite (Jamil Talk xidc8qvq #5217, 09.11.2026). /tr/iletisim/ bleibt vorerst unverändert,
+// bis Kerim die Dokumentnamen und die türkischen Texte geprüft hat.
+const mitFormular = lang === "de";
 ---
 <Basis lang={lang} seite="kontakt" titel={T.meta.kontakt.titel} beschreibung={T.meta.kontakt.beschreibung} aufruf={false}>
   <SeitenKopf titel={T.nav.kontakt}>
     <p class="lead">{S.lead}</p>
   </SeitenKopf>
 
-  <section class="abschnitt" aria-label={S.wegeLabel}>
+  {mitFormular && (
+    <section class="abschnitt anfrage-abschnitt" aria-labelledby="anfrage-titel">
+      <div class="huelle">
+        <div class="anfrage-kopf">
+          <h2 id="anfrage-titel">Anfrage stellen</h2>
+          <p>In wenigen Schritten zu Ihrer Anfrage. Ihre Angaben gehen erst an Herrn Tanrikulu, wenn Sie sie am Ende selbst absenden.</p>
+          <p><a class="weiter" href="#direkt">Lieber direkt: Telefon, WhatsApp oder E-Mail</a></p>
+        </div>
+        <Anfrage />
+      </div>
+    </section>
+  )}
+
+  <section class:list={["abschnitt", { "auf-creme": mitFormular }]} id="direkt" aria-label={mitFormular ? undefined : S.wegeLabel} aria-labelledby={mitFormular ? "direkt-titel" : undefined}>
     <div class="huelle">
+      {mitFormular && <h2 id="direkt-titel" class="direkt-titel">Lieber direkt sprechen oder schreiben?</h2>}
       <ul class="wege" data-szene>
         <li class="w0">
           <a href={TELEFON_LINK}>
@@ -57,7 +75,7 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
   <section class="abschnitt weiss" aria-label={S.hinweisLabel}>
     <div class="huelle">
       <p class="lead schluss">{S.schluss}</p>
-      <Platzhalter lang={lang}>{S.platzhalter}</Platzhalter>
+      {!mitFormular && <Platzhalter lang={lang}>{S.platzhalter}</Platzhalter>}
     </div>
   </section>
 </Basis>
@@ -85,4 +103,9 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
   .wege .w2 { animation-delay: 0.24s; }
   .wege .w3 { animation-delay: 0.36s; }
   .schluss { margin: 0; max-width: 46rem; }
+  .anfrage-kopf { max-width: 52rem; margin: 0 auto clamp(1.5rem, 4vw, 2.25rem); }
+  .anfrage-kopf p { color: var(--text-leise); margin-bottom: 0.6rem; }
+  .direkt-titel { margin-bottom: clamp(1.5rem, 4vw, 2.25rem); }
+  /* Mit Formular liegen die Kontaktwege auf Creme: Karten weiß, damit sie sich abheben */
+  .auf-creme .wege a { background: var(--weiss); }
 </style>

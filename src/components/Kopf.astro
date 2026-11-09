@@ -55,6 +55,8 @@ const sprachen: Lang[] = ["de", "tr"];
   .marke { display: block; margin-right: auto; color: var(--hell); flex: none; }
   .marke :global(.logo) { width: 9.5rem; height: auto; }
   @media (min-width: 26rem) { .marke :global(.logo) { width: 10.5rem; } }
+  /* 320 px (Formular-Prüfung 09.11.2026): Kopf war 4 px zu breit → etwas engere Abstände und kleineres Logo, kein Querscrollen */
+  @media (max-width: 22.49rem) { .kopf-innen { gap: 0.55rem; } .marke :global(.logo) { width: 8.75rem; } }
   @media (min-width: 90rem) { .marke :global(.logo) { width: 11.5rem; } }
 
   .nav-breit { display: none; }

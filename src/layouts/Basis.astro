@@ -83,6 +83,9 @@ const jsonLd = [
   ...schema,
 ];
 // „<“ maskieren, damit kein Text das Skript-Element beenden kann
+// Optionaler eigener Formular-Empfang (PUBLIC_FORM_ENDPOINT, entscheidet Can): nur dann darf die Seite dorthin senden. Leer = mailto.
+const ENDPOINT = import.meta.env.PUBLIC_FORM_ENDPOINT || "";
+const connect = ENDPOINT ? `'self' ${new URL(ENDPOINT).origin}` : "'self'";
 const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
 ---
 <!doctype html>
@@ -90,7 +93,7 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'" />
+    <meta http-equiv="Content-Security-Policy" content={`default-src 'self'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src ${connect}; base-uri 'self'; form-action 'none'; object-src 'none'`} />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
