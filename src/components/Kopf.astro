@@ -66,34 +66,7 @@ const PFEIL = "M6 9l6 6 6-6";
   </div>
   <div class="kopf-balken" aria-hidden="true"><span></span></div>
 </header>
-<script>
-  // Aufklappmenü „Leistungen“ (Jamil #5315): Zustand nur über aria-expanded / data-offen
-  document.querySelectorAll<HTMLElement>("[data-nav-gruppe]").forEach((gruppe) => {
-    const knopf = gruppe.querySelector<HTMLButtonElement>(".gruppe-knopf")!;
-    const links = () => [...gruppe.querySelectorAll<HTMLAnchorElement>(".unter a")];
-    let zu: number | undefined;
-    const setzen = (offen: boolean) => {
-      clearTimeout(zu);
-      knopf.setAttribute("aria-expanded", String(offen));
-      offen ? (gruppe.dataset.offen = "") : delete gruppe.dataset.offen;
-    };
-    let perMaus = false; // per Darüberfahren geöffnet: der folgende Klick soll es nicht gleich wieder schließen
-    knopf.addEventListener("click", () => { if (perMaus) { perMaus = false; setzen(true); } else setzen(knopf.getAttribute("aria-expanded") !== "true"); });
-    knopf.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowDown") { e.preventDefault(); setzen(true); links()[0]?.focus(); }
-    });
-    gruppe.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && gruppe.hasAttribute("data-offen")) { e.preventDefault(); setzen(false); knopf.focus(); }
-      const l = links(), i = l.indexOf(e.target as HTMLAnchorElement); // nur Tasten auf den Links selbst (nicht auf dem Knopf)
-      if (i >= 0 && (e.key === "ArrowDown" || e.key === "ArrowUp")) { e.preventDefault(); l[(i + (e.key === "ArrowDown" ? 1 : l.length - 1)) % l.length].focus(); }
-    });
-    gruppe.addEventListener("focusout", (e) => { if (!gruppe.contains(e.relatedTarget as Node | null)) setzen(false); });
-    // Maus: öffnet beim Darüberfahren, schließt kurz nach dem Verlassen (Finger/Stift nutzen den Klick)
-    gruppe.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse" && !gruppe.hasAttribute("data-offen")) { perMaus = true; setzen(true); } else clearTimeout(zu); });
-    gruppe.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { clearTimeout(zu); zu = window.setTimeout(() => { perMaus = false; setzen(false); }, 180); } });
-    document.addEventListener("click", (e) => { if (!gruppe.contains(e.target as Node)) setzen(false); });
-  });
-</script>
+<!-- Aufklappmenü-Logik steht in public/sichtbar.js (Abschnitt 9) – kein zusätzliches Modul-Skript im Kopf (Ladezeit) -->
 <style>
   .kopf {
     position: sticky; top: 0; z-index: 50; /* Kopf in Primär (Jamil 06.11.2026): helle Schrift und helles Logo, Gold nur am Hauptknopf */

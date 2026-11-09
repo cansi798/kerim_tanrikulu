@@ -8,6 +8,8 @@
 // 5) Sanfte Parallaxe [data-parallax="0.08"] (nur breit, nur transform).
 // 6) Zähler [data-zahl]: zählen einmal bis zum Endwert hoch (0,9 s). Der Endwert steht schon im HTML.
 // 8) „Nach oben“-Knopf [data-hoch] (Can Talk 3964): erscheint nach ca. 1,5 Bildschirmhöhen (am Handy nur beim Hochscrollen), führt sanft zum Seitenanfang.
+// 9) Kopf: Aufklappmenü „Leistungen“ [data-nav-gruppe] (Jamil Talk xidc8qvq #5315, 09.11.2026): Maus, Klick, Enter/Leertaste,
+//    Pfeil runter in die Liste, Pfeiltasten in der Liste, Escape schließt; Zustand über aria-expanded + data-offen.
 // Alles läuft nur beim Scrollen bzw. einmal beim Sichtbarwerden, nichts beim Laden (Ladezeit).
 document.documentElement.classList.add("js");
 document.addEventListener("DOMContentLoaded", function () {
@@ -134,4 +136,32 @@ document.addEventListener("DOMContentLoaded", function () {
   // Erste Messung erst nach dem ersten Bild (sonst erzwingt sie beim Laden eine zusätzliche Layout-Runde)
   // (auch scrollY nicht beim Start lesen – das erzwingt ebenfalls ein Layout)
   window.addEventListener("load", function () { setTimeout(function () { requestAnimationFrame(pruefen); }, 0); });
+});
+
+// 9) Aufklappmenü „Leistungen“ im Kopf
+document.addEventListener("DOMContentLoaded", function () {
+  [].forEach.call(document.querySelectorAll("[data-nav-gruppe]"), function (gruppe) {
+    var knopf = gruppe.querySelector(".gruppe-knopf");
+    if (!knopf) return;
+    var links = function () { return [].slice.call(gruppe.querySelectorAll(".unter a")); };
+    var zu, perMaus = false; // per Darüberfahren geöffnet: der folgende Klick soll es nicht gleich wieder schließen
+    var setzen = function (offen) {
+      clearTimeout(zu);
+      knopf.setAttribute("aria-expanded", String(offen));
+      if (offen) gruppe.setAttribute("data-offen", ""); else gruppe.removeAttribute("data-offen");
+    };
+    knopf.addEventListener("click", function () { if (perMaus) { perMaus = false; setzen(true); } else setzen(knopf.getAttribute("aria-expanded") !== "true"); });
+    knopf.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") { e.preventDefault(); setzen(true); var l = links(); if (l[0]) l[0].focus(); }
+    });
+    gruppe.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && gruppe.hasAttribute("data-offen")) { e.preventDefault(); setzen(false); knopf.focus(); return; }
+      var l = links(), i = l.indexOf(e.target); // nur Tasten auf den Links selbst (nicht auf dem Knopf)
+      if (i >= 0 && (e.key === "ArrowDown" || e.key === "ArrowUp")) { e.preventDefault(); l[(i + (e.key === "ArrowDown" ? 1 : l.length - 1)) % l.length].focus(); }
+    });
+    gruppe.addEventListener("focusout", function (e) { if (!gruppe.contains(e.relatedTarget)) setzen(false); });
+    gruppe.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse" && !gruppe.hasAttribute("data-offen")) { perMaus = true; setzen(true); } else clearTimeout(zu); });
+    gruppe.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") { clearTimeout(zu); zu = setTimeout(function () { perMaus = false; setzen(false); }, 180); } });
+    document.addEventListener("click", function (e) { if (!gruppe.contains(e.target)) setzen(false); });
+  });
 });

@@ -251,12 +251,14 @@ const datenschutz = p(lang, "datenschutz");
   import cssUrl from "../lib/anfrage-formular.css?url";
 
   // Formular-CSS als eigene Datei erst beim Laden einhängen (blockiert so den ersten Bildschirm nicht; CSP: style-src 'self')
-  const cssLaden = () => new Promise<void>((ok, nein) => {
+  // Schlägt das Laden fehl (Netz, abgebrochene Seite), einmal neu versuchen und danach trotzdem weiter: ein schlichtes, aber
+  // bedienbares Formular ist besser als keines.
+  const cssLaden = (nochmal = true): Promise<void> => new Promise<void>((ok) => {
     const l = document.createElement("link");
     l.rel = "stylesheet";
-    l.href = cssUrl;
+    l.href = nochmal ? cssUrl : cssUrl + "?neu";
     l.onload = () => ok();
-    l.onerror = () => nein(new Error("CSS " + cssUrl));
+    l.onerror = () => { l.remove(); nochmal ? cssLaden(false).then(ok) : ok(); };
     document.head.append(l);
   });
   const rahmen = document.querySelector<HTMLElement>("[data-anfrage-rahmen]");
