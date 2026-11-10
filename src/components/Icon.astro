@@ -2,7 +2,7 @@
 // Linien-Symbole (1,4 px, runde Enden), statisch.
 type Name =
   | "telefon" | "mail" | "ort" | "menue" | "schliessen" | "dokument" | "gespraech" | "frage"
-  | "urteil" | "zeugnis" | "ausweis" | "medizin" | "urkunde" | "kalender" | "uhr" | "termin" | "pfeil" | "schild" | "mikrofon" | "haken" | "bruecke" | "whatsapp" | "video";
+  | "urteil" | "zeugnis" | "ausweis" | "medizin" | "urkunde" | "kalender" | "uhr" | "termin" | "pfeil" | "schild" | "mikrofon" | "haken" | "bruecke" | "whatsapp" | "video" | "preis";
 interface Props { name: Name }
 const { name } = Astro.props;
 const pfade: Record<Name, string> = {
@@ -28,6 +28,8 @@ const pfade: Record<Name, string> = {
   uhr: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M12 7v5l3.5 2",
   termin: "M4 20.5v-1a4 4 0 0 1 4-4h2 M9 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M14 15.5h6.5 M14 18.5h4.5",
   pfeil: "M4 12h15 M14 7l5 5-5 5",
+  // Preisanfrage (Handy-Leiste, Jamil #5377): Euro-Zeichen
+  preis: "M17.6 7.3A6.8 6.8 0 1 0 17.6 16.7 M4.2 10.3h8.8 M4.2 13.7h8.8",
   // Schild (Trust-Badge, Jamil Talk 3904) – bewusst ohne Wappen oder Siegel
   schild: "M12 2.8 4.5 5.6v6c0 4.6 3.2 8.3 7.5 9.6 4.3-1.3 7.5-5 7.5-9.6v-6Z M8.8 12.2l2.3 2.3 4.3-4.6",
   mikrofon: "M12 3a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3Z M6 11.5a6 6 0 0 0 12 0 M12 17.5V21 M8.5 21h7",

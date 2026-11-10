@@ -2,10 +2,10 @@
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
 import { NAME, TELEFON, TELEFON_LINK, TELEFON_BESTAETIGT, VORSCHAU, MAIL, WHATSAPP_LINK, mailLink } from "../daten";
-import { NAV_SEITEN, p, type Lang } from "../i18n";
+import { NAV_SEITEN, p, anfrageLink, type Lang, type Seite } from "../i18n";
 import { t } from "../texte";
-interface Props { lang: Lang }
-const { lang } = Astro.props;
+interface Props { lang: Lang; seite?: Seite | null }
+const { lang, seite = null } = Astro.props;
 const T = t(lang);
 const jahr = new Date().getFullYear();
 const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
@@ -41,11 +41,13 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
     </ul>
   </div>
 </footer>
-<!-- Handy: Anrufen · WhatsApp · E-Mail immer erreichbar (Jamils Konzept; WhatsApp: Kerim Talk 3993, Jamil 3994). Drei gleich breite Felder, je ≥ 56 px hoch. -->
+<!-- Handy: Anrufen · WhatsApp · Preisanfrage immer erreichbar (Jamils Konzept; WhatsApp: Kerim Talk 3993, Jamil 3994). Drei gleich breite Felder, je ≥ 56 px hoch.
+     „Preisanfrage“ statt „E-Mail“ (Jamil Talk xidc8qvq #5377, 10.11.2026): führt zum Anfrageformular – auf Start- und Kontaktseite zum Formular
+     derselben Seite (sanfter Sprung + Fokus wie der Hauptknopf, Klick-Logik in Anfrage.astro), sonst zur Kontaktseite der Sprache. E-Mail bleibt im Fuß. -->
 <nav class="schnell" aria-label={T.ui.schnellkontakt}>
   <a class="ruf" href={TELEFON_LINK}><Icon name="telefon" /><span>{T.ui.anrufen}</span></a>
   <a class="wa" href={WHATSAPP_LINK} rel="noopener" aria-label={T.ui.whatsappLabel}><Icon name="whatsapp" /><span>{T.ui.whatsapp}</span></a>
-  <a href={mailLink(T.ui.mailBetreff)} aria-label={T.ui.mailSchreiben}><Icon name="mail" /><span>{T.ui.mailKurz}</span></a>
+  <a class="preis" href={anfrageLink(lang, T.ui.anfrageBetreff, seite)} aria-label={T.ui.preisanfrageLabel}><Icon name="preis" /><span>{T.ui.preisanfrage}</span></a>
 </nav>
 <!-- „Nach oben“ (Can Talk 3964): erscheint nach ca. 1,5 Bildschirmhöhen Scrollen, rechts unten über der Kontaktleiste; am Handy nur beim Hochscrollen,
      damit er beim Lesen keinen Text verdeckt (Audit 09.11.2026, N1). Steuerung in sichtbar.js.
@@ -103,7 +105,10 @@ const markieren = VORSCHAU && !TELEFON_BESTAETIGT;
   .schnell .wa :global(svg) { color: var(--primaer-leise); }
   .schnell a:not(.ruf):hover { background: var(--tinte-2); }
   .schnell :global(svg) { width: 1.2rem; height: 1.2rem; flex: none; }
-  @media (max-width: 22rem) { .schnell a { font-size: 0.88rem; gap: 0.35rem; } }
+  /* „Preisanfrage“ (Jamil #5377) ist länger als „E-Mail“: bis 376 px (320/360/375) Symbol über der Beschriftung – nebeneinander
+     gemessen 10 px zu breit; so bleibt die Schrift gut lesbar und die Leiste 56 px hoch. Bis 416 px (390/414) Lücke etwas enger. */
+  @media (max-width: 26rem) { .schnell a { gap: 0.35rem; } }
+  @media (max-width: 23.5rem) { .schnell a { flex-direction: column; gap: 0.15rem; font-size: 0.85rem; line-height: 1.2; padding-inline: 0.2rem; } }
   @media (min-width: 66rem) { .schnell { display: none; } }
   @media (max-width: 65.99rem) { :global(body) { padding-bottom: 3.5rem; } }
 </style>

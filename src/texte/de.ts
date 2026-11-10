@@ -33,6 +33,8 @@ export const de = {
     anrufen: "Anrufen",
     mailSchreiben: "E-Mail schreiben",
     mailKurz: "E-Mail",
+    preisanfrage: "Preisanfrage",
+    preisanfrageLabel: "Preisanfrage: zum Anfrageformular",
     whatsapp: "WhatsApp",
     whatsappLang: "Nachricht per WhatsApp",
     whatsappLabel: "Per WhatsApp schreiben (öffnet WhatsApp)",

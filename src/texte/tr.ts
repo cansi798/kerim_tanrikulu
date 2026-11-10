@@ -34,6 +34,8 @@ export const tr: Texte = {
     anrufen: "Arayın",
     mailSchreiben: "E-posta yazın",
     mailKurz: "E-posta",
+    preisanfrage: "Fiyat talebi",
+    preisanfrageLabel: "Fiyat talebi: talep formuna git",
     whatsapp: "WhatsApp",
     whatsappLang: "WhatsApp ile mesaj",
     whatsappLabel: "WhatsApp ile yazın (WhatsApp açılır)",

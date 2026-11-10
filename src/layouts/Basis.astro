@@ -146,7 +146,7 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
       <slot />
       {aufruf && <Aufruf lang={lang} seite={seite} />}
     </main>
-    <Fuss lang={lang} />
+    <Fuss lang={lang} seite={seite} />
   </body>
 </html>
 <style>

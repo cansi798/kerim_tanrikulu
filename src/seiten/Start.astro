@@ -185,6 +185,9 @@ const formular = mitFormular(lang, "start");
   .knoepfe .rund :global(svg) { width: 1.35rem; height: 1.35rem; }
   /* sehr schmal (360 px): „Anrufen“ nur als Symbol (Name bleibt für Screenreader), damit drei Knöpfe in eine Zeile passen */
   @media (max-width: 23.5rem) { .ruf-k { width: 3.25rem; padding: 0 !important; } .ruf-k .k-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
+  /* Handy (unter 48rem): die drei Hero-Knöpfe entfallen (Jamil Talk xidc8qvq #5376, 10.11.2026) – die feste Leiste unten bietet
+     Anrufen · WhatsApp · Preisanfrage. Tablet und Desktop unverändert. */
+  @media (max-width: 47.99rem) { .knoepfe { display: none; } }
   .haupt { transition: background-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease); }
   .haupt:hover { background: var(--akzent-hover); transform: scale(1.02); }
 
