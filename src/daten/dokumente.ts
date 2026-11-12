@@ -21,6 +21,10 @@ export const MINDESTPREIS = 60;
  *  Bewusst KEIN Steuer-Hinweis (keine Aussage zu § 19 UStG o. ä.) auf der Seite.
  *  Nur das Formular nennt den Satz (Zusammenfassung + Schritt „Dauer“); die übrigen Seiten sagen noch „nach individueller Absprache“. */
 export const STUNDENSATZ_DOLMETSCHEN = 93;
+/** Anfahrt nur bei Einsätzen vor Ort, PAUSCHAL (Jamil Talk xidc8qvq #5559/#5561, 12.11.2026): in der Regel 46,50 €, bei Schulen und Gerichten 93 €.
+ *  Video und Telefon: gleicher Stundensatz, keine Anfahrt (#5559). */
+export const ANFAHRT_PAUSCHAL = 46.5;
+export const ANFAHRT_PAUSCHAL_SCHULE_GERICHT = 93;
 
 export const THEMEN: Thema[] = [
   {

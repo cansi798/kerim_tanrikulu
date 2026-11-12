@@ -105,6 +105,8 @@ const de = {
   honorarHinweis: "Die Gesamtkosten richten sich nach der Dauer des Termins. Herr Tanrikulu bestätigt sie Ihnen nach Ihrer Anfrage.",
   // steht unter dem Preis vor den Kontaktdaten (Jamil #5548: erst Preis sehen, dann entscheiden)
   preisWeiter: "Ihre Kontaktdaten geben Sie erst im nächsten Schritt an.",
+  // nur bei „Vor Ort“ (Jamil Talk xidc8qvq #5559/#5561, 12.11.2026: pauschal, nicht pro Stunde); Beträge aus src/daten/dokumente.ts
+  anfahrt: (r: string, sg: string) => `Anfahrt: pauschal ${r} €, bei Schulen und Gerichten pauschal ${sg} €.`,
   ohnePreis: "Preis nach Sichtung des Dokuments.",
   basisSeite: (n: number, min: number) => `Berechnet für ca. ${n} ${n === 1 ? "Seite" : "Seiten"}, pro Seite der fertigen Übersetzung, Mindestpreis ${min} €.`,
   basisDok: (min: number) => `Pro Dokument, Mindestpreis ${min} €.`,
@@ -223,6 +225,8 @@ const tr: Texte = {
   honorarWert: (n: number) => `Saatlik ${n} €`,
   honorarHinweis: "Toplam ücret randevunun süresine göre belirlenir. Sayın Tanrikulu bunu talebinizden sonra size teyit eder.",
   preisWeiter: "İletişim bilgilerinizi ancak bir sonraki adımda girersiniz.",
+  // VORSCHLAG (12.11.2026, #5559/#5561), von Kerim prüfen lassen
+  anfahrt: (r: string, sg: string) => `Yol ücreti: sabit ${r} €, okullar ve mahkemeler için sabit ${sg} €.`,
   ohnePreis: "Fiyat, belge incelendikten sonra belirlenir.",
   basisSeite: (n: number, min: number) => `Yaklaşık ${n} sayfa için hesaplandı; çevirinin sayfası başına, en düşük fiyat ${min} €.`,
   basisDok: (min: number) => `Belge başına, en düşük fiyat ${min} €.`,

@@ -1,6 +1,6 @@
 // Logik des mehrstufigen Anfrageformulars (aus Anfrage.astro ausgelagert, 09.11.2026, Jamil Talk xidc8qvq #5312): wird erst geladen,
 // wenn das Formular in die Nähe des Bildschirms kommt (dynamischer Import, eigene JS-Datei) – so bremst es die Startseite nicht.
-import { finden, thema as themaVon, suchen, richtwert, spanne, datumDe, MINDESTPREIS, STUNDENSATZ_DOLMETSCHEN, type Eintrag } from "./anfrage";
+import { finden, thema as themaVon, suchen, richtwert, spanne, datumDe, MINDESTPREIS, STUNDENSATZ_DOLMETSCHEN, ANFAHRT_PAUSCHAL, ANFAHRT_PAUSCHAL_SCHULE_GERICHT, betrag, type Eintrag } from "./anfrage";
 import { FT, themaTitel, dokName, type FormLang } from "./anfrage-texte";
 
 const ENDPOINT: string = import.meta.env.PUBLIC_FORM_ENDPOINT || "";
@@ -272,12 +272,15 @@ export function starten(form: HTMLFormElement) {
 
   function preis() {
     // Dolmetschen: fester Stundensatz 93 € (Jamil Talk xidc8qvq #5548/#5550, ohne MwSt.-Angabe seit #5556, 12.11.2026), im selben Kasten wie der Richtwert
-    if (wert("leistung") === "dolmetschen") return { titel: F.honorarTitel, wert: F.honorarWert(STUNDENSATZ_DOLMETSCHEN), hinweis: F.honorarHinweis, ohne: "" };
+    // Anfahrt pauschal nur „Vor Ort“ (Jamil #5559/#5561); Video/Telefon: gleicher Satz, keine Anfahrt
+    if (wert("leistung") === "dolmetschen")
+      return { titel: F.honorarTitel, wert: F.honorarWert(STUNDENSATZ_DOLMETSCHEN), hinweis: F.honorarHinweis, ohne: "",
+        anfahrt: wert("art") === "vor-ort" ? F.anfahrt(betrag(ANFAHRT_PAUSCHAL), betrag(ANFAHRT_PAUSCHAL_SCHULE_GERICHT)) : "" };
     const e = gewaehlt();
-    if (!e) return { titel: "", wert: "", hinweis: "", ohne: F.ohnePreis };
+    if (!e) return { titel: "", wert: "", hinweis: "", ohne: F.ohnePreis, anfahrt: "" };
     const n = seiten();
     const basis = e.dok.einheit === "seite" ? F.basisSeite(n, MINDESTPREIS) : F.basisDok(MINDESTPREIS);
-    return { titel: F.richtwertTitel, wert: spanne(richtwert(e.dok, n), F.ca2), hinweis: `${basis} ${F.verbindlich}`, ohne: "" };
+    return { titel: F.richtwertTitel, wert: spanne(richtwert(e.dok, n), F.ca2), hinweis: `${basis} ${F.verbindlich}`, ohne: "", anfahrt: "" };
   }
 
   // Preiskasten eines Schritts füllen (umfang, dauer, zusammenfassung). Text nur bei Änderung setzen, damit aria-live nicht doppelt meldet.
@@ -291,6 +294,8 @@ export function starten(form: HTMLFormElement) {
     setzen(q("[data-preis-titel]"), pr.titel);
     setzen(q("[data-preis-wert]"), pr.wert);
     setzen(q("[data-preis-hinweis]"), pr.hinweis);
+    const anf = q("[data-preis-anfahrt]");
+    if (anf) { anf.hidden = !pr.anfahrt; setzen(anf, pr.anfahrt); }
     const ohne = q("[data-ohne-preis]");
     if (ohne) { ohne.hidden = !pr.ohne; setzen(ohne, pr.ohne); }
   }
@@ -359,7 +364,7 @@ export function starten(form: HTMLFormElement) {
       const t = [F.anrede, "", F.einleitung, ""];
       zeilen().forEach(([k, v]) => t.push(`${k}: ${v}`));
       if (notiz) t.push("", `${F.nachricht}: ${notiz}`);
-      if (dolm) t.push("", F.mHonorar(pr.wert));
+      if (dolm) { t.push("", F.mHonorar(pr.wert)); if (pr.anfahrt) t.push(pr.anfahrt); }
       else if (pr.wert) t.push("", F.mRichtwert(pr.wert));
       else t.push("", F.mOhnePreis);
       if (!dolm) t.push("", F.mFoto);
