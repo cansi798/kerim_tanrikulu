@@ -55,6 +55,12 @@ Stand: 31.10.2026, nach Kerims Feedback (über Jamil, Talk 3990–3994). Grundre
 
 **Neuer TR-Text in der Handy-Leiste prüfen** (Jamil Talk xidc8qvq #5377, 10.11.2026): Unten am Handy steht statt „E-Mail“ jetzt „Preisanfrage“ (führt zum Anfrageformular). TR-Fassung „Fiyat talebi“, für Screenreader „Fiyat talebi: talep formuna git“ – von Kerim prüfen lassen.
 
+**Preis im Anfrageformular vor den Kontaktdaten** (Jamil Talk xidc8qvq #5548/#5550, 12.11.2026): Übersetzung – der unverbindliche Richtwert steht jetzt direkt nach Dokument und Seitenzahl (rechnet bei jeder Seitenzahl mit), erst danach kommen die Kontaktdaten; Dolmetschen – „Honorar: 93 € pro Stunde (inkl. MwSt.)“ im Schritt „Dauer“ und in der Zusammenfassung, auch im Text der E-Mail/WhatsApp-Nachricht.
+- **TR-VORSCHLAG von Kerim prüfen lassen:** „Ücret: Saatlik 93 € (KDV dahil)“, darunter „Toplam ücret randevunun süresine göre belirlenir. Sayın Tanrikulu bunu talebinizden sonra size teyit eder.“, unter beiden Preisen „İletişim bilgilerinizi ancak bir sonraki adımda girersiniz.“, im Nachrichtentext „Web sitesine göre ücret: …“.
+- DE neu: „Die Gesamtkosten richten sich nach der Dauer des Termins. Herr Tanrikulu bestätigt sie Ihnen nach Ihrer Anfrage.“ und „Ihre Kontaktdaten geben Sie erst im nächsten Schritt an.“
+- **Offen: MwSt. beim Übersetzungs-Richtwert.** Kerims Preisliste sagt nichts zur MwSt.; das Formular nennt beim Richtwert daher weiter keine MwSt.-Angabe. Sind die Spannen inkl. MwSt. (dann „inkl. MwSt.“ ergänzen) oder netto?
+- **Offen: 93 € auch auf den übrigen Seiten?** Dolmetschen-Seite, „Gut zu wissen“/Fragen, „Warum Herr Tanrikulu?“ und `llms.txt` sagen weiter „Honorar nach individueller Absprache“. Bis zur Freigabe steht der Stundensatz nur im Formular (vom Skript eingesetzt, nicht im HTML). Gilt er für vor Ort, Video und Telefon gleich? Gibt es Anfahrt, Mindestdauer oder Zuschläge (Wochenende, kurzfristig)?
+
 **Neue Hero-Texte prüfen** (Jamil Talk xidc8qvq #5332, 09.11.2026): DE „Ihre Dokumente müssen offiziell anerkannt werden?“ / „Beglaubigte Übersetzungen Deutsch ↔ Türkisch für Behörden, Gerichte, Universitäten und Einbürgerungsverfahren. Schnell, sorgfältig und in der Regel bundesweit anerkannt.“ (bewusst „in der Regel“, nicht „rechtssicher“). TR-Fassung „Belgelerinizin resmî olarak tanınması mı gerekiyor?“ + Unterzeile von Kerim prüfen lassen. Kerim bestätigen: Übersetzt er auch für Universitäten und Einbürgerungsverfahren?
 
 ## Von der Seite genommen (Talk 3904), erst nach Bestätigung wieder möglich

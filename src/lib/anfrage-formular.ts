@@ -1,6 +1,6 @@
 // Logik des mehrstufigen Anfrageformulars (aus Anfrage.astro ausgelagert, 09.11.2026, Jamil Talk xidc8qvq #5312): wird erst geladen,
 // wenn das Formular in die Nähe des Bildschirms kommt (dynamischer Import, eigene JS-Datei) – so bremst es die Startseite nicht.
-import { finden, thema as themaVon, suchen, richtwert, spanne, datumDe, MINDESTPREIS, type Eintrag } from "./anfrage";
+import { finden, thema as themaVon, suchen, richtwert, spanne, datumDe, MINDESTPREIS, STUNDENSATZ_DOLMETSCHEN, type Eintrag } from "./anfrage";
 import { FT, themaTitel, dokName, type FormLang } from "./anfrage-texte";
 
 const ENDPOINT: string = import.meta.env.PUBLIC_FORM_ENDPOINT || "";
@@ -111,6 +111,8 @@ export function starten(form: HTMLFormElement) {
       $("[data-seiten-feld]").hidden = !mit;
       $("[data-umfang-titel]").textContent = mit ? F.umfangFrage : F.umfangFrageOhne;
     }
+    // Preis vor den Kontaktdaten (Jamil Talk xidc8qvq #5548/#5550, 12.11.2026)
+    if (id === "umfang" || id === "dauer") preisZeigen(id);
     if (id === "zusammenfassung") uebersicht();
   }
 
@@ -232,10 +234,12 @@ export function starten(form: HTMLFormElement) {
     auswahlZeile();
   }
 
-  // Seitenzahl − / +
+  // Seitenzahl − / + (der Richtwert darunter rechnet sofort mit, aria-live meldet den neuen Betrag)
   const seitenFeld = $<HTMLInputElement>("#seiten");
-  $("[data-minus]").addEventListener("click", () => { seitenFeld.value = String(Math.max(1, seiten() - 1)); });
-  $("[data-plus]").addEventListener("click", () => { seitenFeld.value = String(Math.min(500, seiten() + 1)); });
+  const neuRechnen = () => { if (aktuell === "umfang") preisZeigen("umfang"); };
+  $("[data-minus]").addEventListener("click", () => { seitenFeld.value = String(Math.max(1, seiten() - 1)); neuRechnen(); });
+  $("[data-plus]").addEventListener("click", () => { seitenFeld.value = String(Math.min(500, seiten() + 1)); neuRechnen(); });
+  seitenFeld.addEventListener("input", neuRechnen);
 
   // ---------- Zusammenfassung, Text, Versand ----------
   const RICHTUNG: Record<string, string> = { "tr-de": F.trde.sicht, "de-tr": F.detr.sicht };
@@ -267,13 +271,28 @@ export function starten(form: HTMLFormElement) {
   }
 
   function preis() {
-    // Dolmetschen: bewusst kein Richtwert – der Hinweis steht aber genauso deutlich im Kasten wie sonst der Preis (Jamil #5237)
-    if (wert("leistung") === "dolmetschen") return { titel: F.honorarTitel, wert: F.honorarWert, hinweis: F.honorarHinweis, ohne: "" };
+    // Dolmetschen: fester Stundensatz 93 € inkl. MwSt. (Jamil Talk xidc8qvq #5548/#5550, 12.11.2026), im selben Kasten wie der Richtwert
+    if (wert("leistung") === "dolmetschen") return { titel: F.honorarTitel, wert: F.honorarWert(STUNDENSATZ_DOLMETSCHEN), hinweis: F.honorarHinweis, ohne: "" };
     const e = gewaehlt();
     if (!e) return { titel: "", wert: "", hinweis: "", ohne: F.ohnePreis };
     const n = seiten();
     const basis = e.dok.einheit === "seite" ? F.basisSeite(n, MINDESTPREIS) : F.basisDok(MINDESTPREIS);
     return { titel: F.richtwertTitel, wert: spanne(richtwert(e.dok, n), F.ca2), hinweis: `${basis} ${F.verbindlich}`, ohne: "" };
+  }
+
+  // Preiskasten eines Schritts füllen (umfang, dauer, zusammenfassung). Text nur bei Änderung setzen, damit aria-live nicht doppelt meldet.
+  const setzen = (el: HTMLElement | null, t: string) => { if (el && el.textContent !== t) el.textContent = t; };
+  function preisZeigen(id: string) {
+    const box = schritte.get(id)?.querySelector<HTMLElement>("[data-preisbox]");
+    if (!box) return;
+    const pr = preis();
+    const q = (s: string) => box.querySelector<HTMLElement>(s);
+    q("[data-preis]")!.hidden = !pr.wert;
+    setzen(q("[data-preis-titel]"), pr.titel);
+    setzen(q("[data-preis-wert]"), pr.wert);
+    setzen(q("[data-preis-hinweis]"), pr.hinweis);
+    const ohne = q("[data-ohne-preis]");
+    if (ohne) { ohne.hidden = !pr.ohne; setzen(ohne, pr.ohne); }
   }
 
   function uebersicht() {
@@ -321,13 +340,7 @@ export function starten(form: HTMLFormElement) {
     }
     dl.replaceChildren(...reihen);
 
-    const pr = preis();
-    $("[data-preis]").hidden = !pr.wert;
-    $("[data-preis-titel]").textContent = pr.titel;
-    $("[data-preis-wert]").textContent = pr.wert;
-    $("[data-preis-hinweis]").textContent = pr.hinweis;
-    $("[data-ohne-preis]").hidden = !pr.ohne;
-    $("[data-ohne-preis]").textContent = pr.ohne;
+    preisZeigen("zusammenfassung");
     $("[data-foto]").hidden = wert("leistung") === "dolmetschen";
     $("[data-gesendet]").textContent = "";
 
@@ -346,8 +359,9 @@ export function starten(form: HTMLFormElement) {
       const t = [F.anrede, "", F.einleitung, ""];
       zeilen().forEach(([k, v]) => t.push(`${k}: ${v}`));
       if (notiz) t.push("", `${F.nachricht}: ${notiz}`);
-      if (pr.wert && !dolm) t.push("", F.mRichtwert(pr.wert));
-      else if (!dolm) t.push("", F.mOhnePreis);
+      if (dolm) t.push("", F.mHonorar(pr.wert));
+      else if (pr.wert) t.push("", F.mRichtwert(pr.wert));
+      else t.push("", F.mOhnePreis);
       if (!dolm) t.push("", F.mFoto);
       t.push("", F.gruss, wert("name"));
       return t.join("\n");

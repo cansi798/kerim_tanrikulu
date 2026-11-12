@@ -1,6 +1,8 @@
 ---
-// Mehrstufiges Anfrageformular (Jamil Talk xidc8qvq #5217, 09.11.2026): eine Frage pro Schritt, thematisch geordnet,
-// der unverbindliche Richtwert erscheint erst in der Zusammenfassung direkt vor „Anfrage senden“.
+// Mehrstufiges Anfrageformular (Jamil Talk xidc8qvq #5217, 09.11.2026): eine Frage pro Schritt, thematisch geordnet.
+// Preis VOR den Kontaktdaten (Jamil Talk xidc8qvq #5548/#5550, 12.11.2026): der unverbindliche Richtwert steht direkt nach
+// Dokument und Seitenzahl (Schritt „umfang“, aktualisiert sich bei jeder Seitenzahl), beim Dolmetschen 93 € pro Stunde inkl. MwSt.
+// im Schritt „dauer“; beides noch einmal in der Zusammenfassung vor „Anfrage senden“.
 // Versand ohne Fremddienst: „Anfrage senden“ öffnet das eigene E-Mail-Programm (mailto), „Per WhatsApp senden“ öffnet wa.me –
 // jeweils mit dem fertigen Text. Optional später ein eigener Empfang über PUBLIC_FORM_ENDPOINT (leer = mailto; entscheidet Can).
 // Einmal pro Seite einbinden (feste ids): /kontakt/ und – seit Jamil Talk xidc8qvq #5312 – die deutsche Startseite.
@@ -8,7 +10,9 @@
 // Robustheit (Jamil Talk xidc8qvq #5237, 09.11.2026): Das Formular ist sichtbar erst, wenn das Skript es fertig eingerichtet hat
 // (data-bereit am Rahmen). Bis dahin steht „Das Anfrage-Formular lädt …“; lädt das Skript nicht, erscheint nach einigen Sekunden
 // ein Hinweis auf Neuladen bzw. die Kontaktwege. So gibt es nie Karten, die anklickbar aussehen, aber nichts tun.
-// Preise stehen NICHT im HTML: die Dokumentlisten baut das Skript aus src/daten/dokumente.ts (gebündelte JS-Datei).
+// Preise stehen NICHT im HTML: die Dokumentlisten und Preiskästen ([data-preisbox]) füllt das Skript aus src/daten/dokumente.ts.
+// Auch die 93 €/Stunde setzt nur das Skript ein: Die übrigen Seiten (Dolmetschen, Fragen, llms.txt) nennen noch „nach individueller
+// Absprache“ – ein Betrag im HTML würde Suchmaschinen widersprüchliche Angaben zeigen, bis Kerim/Jamil auch diese Texte freigeben.
 import Icon from "./Icon.astro";
 import { THEMEN } from "../daten/dokumente";
 import { MAIL, WHATSAPP_LINK } from "../daten";
@@ -139,6 +143,14 @@ const datenschutz = p(lang, "datenschutz");
         </div>
         <p class="hilfe" id="seiten-hilfe">{F.schaetzung}</p>
       </div>
+      <div class="preisbox" data-preisbox>
+        <div class="preis" data-preis hidden>
+          <p class="preis-zeile" aria-live="polite" aria-atomic="true"><span data-preis-titel></span> <strong data-preis-wert></strong></p>
+          <p class="preis-hinweis" data-preis-hinweis></p>
+        </div>
+        <p class="preis ohne" data-ohne-preis hidden></p>
+        <p class="preis-weiter">{F.preisWeiter}</p>
+      </div>
       <div class="feld">
         <label for="wunsch">{F.wunsch} <span class="opt">{F.optional}</span></label>
         <input id="wunsch" name="wunsch" type="date" data-ab-heute />
@@ -192,6 +204,13 @@ const datenschutz = p(lang, "datenschutz");
           <label class="wahl kompakt"><input type="radio" name="dauer" value={d} /><span class="innen"><span class="text"><span class="titel">{d}</span></span><span class="punkt" aria-hidden="true"></span></span></label>
         ))}
       </div>
+      <div class="preisbox" data-preisbox>
+        <div class="preis" data-preis hidden>
+          <p class="preis-zeile"><span data-preis-titel></span> <strong data-preis-wert></strong></p>
+          <p class="preis-hinweis" data-preis-hinweis></p>
+        </div>
+        <p class="preis-weiter">{F.preisWeiter}</p>
+      </div>
       <p class="fehler" data-fehler hidden></p>
     </fieldset>
 
@@ -218,15 +237,17 @@ const datenschutz = p(lang, "datenschutz");
       <p class="fehler" data-fehler hidden></p>
     </fieldset>
 
-    <!-- 7 Zusammenfassung (hier und nur hier der Richtwert) -->
+    <!-- 7 Zusammenfassung (Preis noch einmal, wie im Schritt „umfang“ bzw. „dauer“) -->
     <fieldset class="schritt" data-schritt="zusammenfassung" hidden>
       <legend><h3 tabindex="-1">{F.uebersichtFrage}</h3></legend>
       <dl class="uebersicht" data-uebersicht></dl>
-      <div class="preis" data-preis hidden>
-        <p class="preis-zeile"><span data-preis-titel>{F.richtwertTitel}</span> <strong data-preis-wert></strong></p>
-        <p class="preis-hinweis" data-preis-hinweis></p>
+      <div class="preisbox" data-preisbox>
+        <div class="preis" data-preis hidden>
+          <p class="preis-zeile"><span data-preis-titel></span> <strong data-preis-wert></strong></p>
+          <p class="preis-hinweis" data-preis-hinweis></p>
+        </div>
+        <p class="preis ohne" data-ohne-preis hidden></p>
       </div>
-      <p class="preis ohne" data-ohne-preis hidden></p>
       <p class="foto-hinweis" data-foto hidden>{F.foto}</p>
       <div class="senden">
         <a class="knopf" href={`mailto:${MAIL}`} data-senden-mail><Icon name="mail" />{F.senden}</a>

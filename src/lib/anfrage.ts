@@ -1,11 +1,12 @@
 // Logik des mehrstufigen Anfrageformulars (Kontaktseite und Startseite, DE und TR) (Jamil Talk xidc8qvq #5217, 09.11.2026).
 // Läuft nur im Browser des Besuchers. Nichts wird gespeichert oder an die Website übertragen:
 // Die fertige Anfrage schickt der Besucher selbst per E-Mail-Programm (mailto) oder WhatsApp (wa.me).
-// Preise kommen nur aus src/daten/dokumente.ts und erscheinen erst in der Zusammenfassung.
-import { THEMEN, MINDESTPREIS, type Dokument, type Thema } from "../daten/dokumente";
+// Preise kommen nur aus src/daten/dokumente.ts und werden nur vom Skript eingesetzt (nie im HTML). Seit Jamil Talk xidc8qvq
+// #5548/#5550 (12.11.2026) steht der Richtwert schon nach Dokument und Seitenzahl – vor den Kontaktdaten – und noch einmal in der Zusammenfassung.
+import { THEMEN, MINDESTPREIS, STUNDENSATZ_DOLMETSCHEN, type Dokument, type Thema } from "../daten/dokumente";
 import { DOK_TR } from "../daten/dokumente-tr";
 
-export { THEMEN, MINDESTPREIS };
+export { THEMEN, MINDESTPREIS, STUNDENSATZ_DOLMETSCHEN };
 export type { Dokument, Thema };
 
 /** Für die Suche: klein, ohne Akzente, ß → ss, türkisches ı/İ → i, nur Buchstaben/Ziffern. */
