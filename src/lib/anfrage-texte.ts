@@ -100,8 +100,8 @@ const de = {
   keinWunsch: "keiner angegeben",
   aendern: "Ändern",
   honorarTitel: "Honorar:",
-  // Dolmetschen: 93 € pro Stunde inkl. MwSt. (Jamil Talk xidc8qvq #5548/#5550, 12.11.2026); Zahl aus src/daten/dokumente.ts
-  honorarWert: (n: number) => `${n} € pro Stunde (inkl. MwSt.)`,
+  // Dolmetschen: 93 € pro Stunde (Jamil Talk xidc8qvq #5548/#5550; #5556: keine MwSt.-Angabe, „so brutto wie netto“, 12.11.2026); Zahl aus src/daten/dokumente.ts
+  honorarWert: (n: number) => `${n} € pro Stunde`,
   honorarHinweis: "Die Gesamtkosten richten sich nach der Dauer des Termins. Herr Tanrikulu bestätigt sie Ihnen nach Ihrer Anfrage.",
   // steht unter dem Preis vor den Kontaktdaten (Jamil #5548: erst Preis sehen, dann entscheiden)
   preisWeiter: "Ihre Kontaktdaten geben Sie erst im nächsten Schritt an.",
@@ -219,8 +219,8 @@ const tr: Texte = {
   keinWunsch: "belirtilmedi",
   aendern: "Değiştir",
   honorarTitel: "Ücret:",
-  // VORSCHLAG (12.11.2026), von Kerim prüfen lassen: „Saatlik 93 € (KDV dahil)“ + die drei Sätze darunter
-  honorarWert: (n: number) => `Saatlik ${n} € (KDV dahil)`,
+  // VORSCHLAG (12.11.2026), von Kerim prüfen lassen: „Saatlik 93 €“ + die drei Sätze darunter
+  honorarWert: (n: number) => `Saatlik ${n} €`,
   honorarHinweis: "Toplam ücret randevunun süresine göre belirlenir. Sayın Tanrikulu bunu talebinizden sonra size teyit eder.",
   preisWeiter: "İletişim bilgilerinizi ancak bir sonraki adımda girersiniz.",
   ohnePreis: "Fiyat, belge incelendikten sonra belirlenir.",

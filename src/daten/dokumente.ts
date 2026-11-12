@@ -17,7 +17,8 @@ export type Dokument = {
 /** Mindestpreis laut Kerim: 60 € für eine übersetzte Seite, auch bei einfachen Dokumenten. */
 export const MINDESTPREIS = 60;
 
-/** Dolmetschen: 93 € pro Stunde inkl. MwSt. (Jamil Talk xidc8qvq #5548/#5550, 12.11.2026: „Ok inkl mwst“).
+/** Dolmetschen: 93 € pro Stunde (Jamil Talk xidc8qvq #5548/#5550, 12.11.2026). Korrektur #5556: keine MwSt.-Angabe – Kerim berechnet keine MwSt., „so brutto wie netto“.
+ *  Bewusst KEIN Steuer-Hinweis (keine Aussage zu § 19 UStG o. ä.) auf der Seite.
  *  Nur das Formular nennt den Satz (Zusammenfassung + Schritt „Dauer“); die übrigen Seiten sagen noch „nach individueller Absprache“. */
 export const STUNDENSATZ_DOLMETSCHEN = 93;
 

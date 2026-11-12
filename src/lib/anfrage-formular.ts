@@ -271,7 +271,7 @@ export function starten(form: HTMLFormElement) {
   }
 
   function preis() {
-    // Dolmetschen: fester Stundensatz 93 € inkl. MwSt. (Jamil Talk xidc8qvq #5548/#5550, 12.11.2026), im selben Kasten wie der Richtwert
+    // Dolmetschen: fester Stundensatz 93 € (Jamil Talk xidc8qvq #5548/#5550, ohne MwSt.-Angabe seit #5556, 12.11.2026), im selben Kasten wie der Richtwert
     if (wert("leistung") === "dolmetschen") return { titel: F.honorarTitel, wert: F.honorarWert(STUNDENSATZ_DOLMETSCHEN), hinweis: F.honorarHinweis, ohne: "" };
     const e = gewaehlt();
     if (!e) return { titel: "", wert: "", hinweis: "", ohne: F.ohnePreis };
