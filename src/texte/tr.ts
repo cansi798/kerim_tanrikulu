@@ -186,7 +186,7 @@ export const tr: Texte = {
     aria: "Üç adımda süreç",
     schritte: [
       { icon: "telefon", titel: "İletişime geçin", kurz: "Arayın, WhatsApp'tan veya e-posta ile yazın ya da talep formunu kullanın." },
-      { icon: "gespraech", titel: "Talebinizi konuşun", kurz: "Belgelerinizi fotoğraf veya tarama olarak gönderirsiniz ve bir fiyat teklifi alırsınız." },
+      { icon: "gespraech", titel: "Talebinizi konuşun", kurz: "Belgelerinizin fotoğrafını veya taranmış hâlini bize gönderin, size bir fiyat teklifi sunalım." }, // Wortlaut von Jamil vorgegeben (Talk xidc8qvq #5604, 12.11.2026)
       { icon: "dokument", titel: "Çeviri veya randevu", kurz: "Onaylı çevirinizi alırsınız ya da randevunuzda sözlü tercüme yapılır." },
     ],
   },

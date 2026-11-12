@@ -63,6 +63,8 @@ Stand: 31.10.2026, nach Kerims Feedback (über Jamil, Talk 3990–3994). Grundre
 - [x] ~~Gleicher Satz für vor Ort, Video und Telefon? Anfahrt?~~ **erledigt** (Jamil Talk xidc8qvq #5559/#5561, 12.11.2026): 93 € pro Stunde gilt gleich für vor Ort, Video und Telefon/Audio. Nur bei „Vor Ort“ steht im Formular (Schritt „Dauer“, Zusammenfassung, Nachrichtentext): „Anfahrt: pauschal 46,50 €, bei Schulen und Gerichten pauschal 93 €.“ Bei Video/Telefon kein Anfahrt-Hinweis.
 - **TR-VORSCHLAG Anfahrt von Kerim prüfen lassen:** „Yol ücreti: sabit 46,50 €, okullar ve mahkemeler için sabit 93 €.“
 
+**TR-Ablauf Schritt 2 – von Jamil vorgegeben, kein Vorschlag mehr** (Jamil Talk xidc8qvq #5604, 12.11.2026): In der Ablauf-Animation der türkischen Startseite steht bei Schritt 2 („Talebinizi konuşun“) jetzt wörtlich: „Belgelerinizin fotoğrafını veya taranmış hâlini bize gönderin, size bir fiyat teklifi sunalım.“ (DE unverändert). Der ähnliche Satz im Abschnitt „Talep“ der Seiten Übersetzungen/Dolmetschen („Belgelerinizi fotoğraf veya tarama olarak gönderin, bir fiyat teklifi alırsınız.“) gehört nicht zum Ablauf und ist unverändert.
+
 **Neue Hero-Texte prüfen** (Jamil Talk xidc8qvq #5332, 09.11.2026): DE „Ihre Dokumente müssen offiziell anerkannt werden?“ / „Beglaubigte Übersetzungen Deutsch ↔ Türkisch für Behörden, Gerichte, Universitäten und Einbürgerungsverfahren. Schnell, sorgfältig und in der Regel bundesweit anerkannt.“ (bewusst „in der Regel“, nicht „rechtssicher“). TR-Fassung „Belgelerinizin resmî olarak tanınması mı gerekiyor?“ + Unterzeile von Kerim prüfen lassen. Kerim bestätigen: Übersetzt er auch für Universitäten und Einbürgerungsverfahren?
 
 ## Von der Seite genommen (Talk 3904), erst nach Bestätigung wieder möglich
