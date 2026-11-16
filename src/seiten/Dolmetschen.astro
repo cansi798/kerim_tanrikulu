@@ -25,7 +25,7 @@ const S = T.seiten.dolmetschen;
     </div>
   </section>
 
-  <!-- Einsatzgebiet (Can 31.10.2026 10:46; von Kerim bestätigt und um Mecklenburg-Vorpommern ergänzt, Talk 3990) -->
+  <!-- Einsatzgebiet: deutschlandweit, Standort Hamburg (Kerim über Jamil, Talk xidc8qvq #6173, 16.11.2026) -->
   <section class="abschnitt sand gebiet" aria-labelledby="gebiet-titel">
     <div class="huelle raster-2">
       <h2 id="gebiet-titel">{T.gebiet.titel}</h2>
@@ -100,7 +100,7 @@ const S = T.seiten.dolmetschen;
   .sand { background: var(--sand); }
   .gebiet-inhalt { display: grid; gap: 1.25rem; align-items: center; }
   /* Karte über dem Text (seit MV breiter, 800 × 640) – nebeneinander wurden die Beschriftungen zu klein */
-  .gebiet-inhalt :global(.rkarte) { width: min(100%, 32rem); }
+  .gebiet-inhalt :global(.rkarte) { width: min(100%, 22rem); } /* Deutschland hochkant (16.11.2026) */
   .gebiet-inhalt .lead { margin-bottom: 0.5rem; }
   .gebiet-inhalt .leise { margin: 0; }
 </style>

@@ -9,39 +9,33 @@ import type { Lang } from "../i18n";
 
 const gen = rough.generator();
 
-// Projektion: x = (Länge − 6,55) · K, y = (55,1 − Breite) · K · 1,66 (1° Breite ≈ 1,66° Länge auf 53,5° N)
-const K = 100;
-const P = (lon: number, lat: number): [number, number] => [Math.round((lon - 6.55) * K * 10) / 10, Math.round((55.1 - lat) * K * 1.66 * 10) / 10];
-const BREITE = 800, HOEHE = 640; // 31.10.2026: breiter für Mecklenburg-Vorpommern (Kerim Talk 3990)
+// Seit 16.11.2026 (Kerim über Jamil, Talk xidc8qvq #6173): ganz Deutschland als Einsatzgebiet, Hamburg als Standort mit Pin.
+// Projektion: x = (Länge − 5,6) · K, y = (55,25 − Breite) · K · 1,6 (1° Breite ≈ 1,6° Länge auf 51° N)
+const K = 62;
+const P = (lon: number, lat: number): [number, number] => [Math.round((lon - 5.6) * K * 10) / 10, Math.round((55.25 - lat) * K * 1.6 * 10) / 10];
+const BREITE = 600, HOEHE = 810;
 
-// Vereinfachte Umrisse (Länge, Breite)
-const SH: [number, number][] = [
+// Deutschland, stark vereinfachter Umriss (Länge, Breite), im Uhrzeigersinn ab der dänischen Grenze
+const DE: [number, number][] = [
   [8.66, 54.91], [9.44, 54.83], [9.95, 54.78], [10.03, 54.55], [10.2, 54.43], [10.87, 54.38], [11.05, 54.36], [10.8, 54.08],
-  [10.88, 53.96], [10.95, 53.85], [10.78, 53.6], [10.62, 53.38], [10.32, 53.45], [10.2, 53.55], [10.05, 53.72], [9.85, 53.67],
-  [9.73, 53.57], [9.42, 53.79], [9.13, 53.9], [8.87, 54.0], [8.83, 54.18], [8.63, 54.3], [8.9, 54.46], [8.8, 54.62],
-];
-const HH: [number, number][] = [[9.73, 53.57], [9.85, 53.67], [10.05, 53.72], [10.2, 53.58], [10.32, 53.45], [10.1, 53.4], [9.92, 53.42], [9.77, 53.47]];
-const HB: [number, number][] = [[8.48, 53.2], [8.7, 53.17], [8.98, 53.08], [8.92, 53.01], [8.7, 53.02], [8.55, 53.12]];
-const HB_HAFEN: [number, number][] = [[8.53, 53.6], [8.63, 53.58], [8.62, 53.5], [8.52, 53.52]];
-const NI: [number, number][] = [
-  [7.2, 53.3], [7.15, 53.62], [7.75, 53.7], [8.05, 53.7], [8.12, 53.52], [8.3, 53.6], [8.5, 53.55], [8.5, 53.75], [8.68, 53.88],
-  [9.0, 53.83], [9.3, 53.7], [9.73, 53.57], [9.77, 53.47], [9.92, 53.42], [10.1, 53.4], [10.32, 53.45], [10.62, 53.38], [10.95, 53.25],
-  [11.3, 53.1], [11.6, 53.0], [11.2, 52.85], [10.95, 52.6], [10.95, 52.3], [11.05, 52.0], [10.65, 51.65], [10.45, 51.48], [10.0, 51.42],
-  [9.65, 51.42], [9.55, 51.62], [9.3, 51.72], [9.1, 52.0], [8.75, 52.12], [8.45, 52.45], [8.0, 52.35], [7.9, 52.1], [7.6, 52.4],
-  [7.05, 52.25], [6.75, 52.45], [7.05, 52.65], [7.0, 52.95],
-];
-// Mecklenburg-Vorpommern (Kerim Talk 3990): Westgrenze = Ostgrenze SH/HH, Südwesten an der Elbe wie NI, Küste mit Darß und Rügen vereinfacht
-const MV: [number, number][] = [
   [10.88, 53.96], [11.2, 54.0], [11.45, 53.92], [11.55, 54.05], [12.08, 54.18], [12.4, 54.33], [12.6, 54.45], [12.95, 54.43],
-  [13.15, 54.6], [13.4, 54.68], [13.6, 54.6], [13.7, 54.38], [13.75, 54.15], [14.0, 54.05], [14.22, 53.92], [14.27, 53.7],
-  [14.4, 53.3], [14.25, 53.27], [13.8, 53.35], [13.2, 53.25], [12.3, 53.2], [11.6, 53.05], [11.3, 53.1], [10.95, 53.25],
-  [10.62, 53.38], [10.78, 53.6], [10.95, 53.85],
+  [13.15, 54.6], [13.4, 54.68], [13.6, 54.6], [13.7, 54.38], [13.75, 54.15], [14.0, 54.05], [14.22, 53.92],
+  [14.27, 53.7], [14.4, 53.3], [14.15, 52.85], [14.6, 52.6], [14.55, 52.3], [14.75, 52.05], [14.6, 51.8], [14.75, 51.5],
+  [15.0, 51.25], [14.82, 50.87], [14.4, 51.03], [13.9, 50.8], [13.5, 50.65], [13.0, 50.45], [12.5, 50.4], [12.3, 50.25],
+  [12.1, 50.3], [12.5, 49.95], [12.4, 49.7], [12.9, 49.35], [13.4, 49.0], [13.85, 48.75], [13.45, 48.57], [12.95, 48.2],
+  [12.75, 48.1], [13.0, 47.85], [12.95, 47.48], [12.75, 47.67], [12.25, 47.7], [11.6, 47.58], [11.1, 47.4], [10.5, 47.55],
+  [10.25, 47.3], [9.95, 47.55], [9.55, 47.53], [9.0, 47.68], [8.6, 47.65], [8.6, 47.8], [8.2, 47.62], [7.6, 47.58],
+  [7.55, 47.9], [7.6, 48.3], [7.8, 48.6], [8.2, 48.97], [7.6, 49.05], [7.0, 49.15], [6.6, 49.4], [6.35, 49.47],
+  [6.5, 49.75], [6.1, 50.1], [6.4, 50.35], [6.15, 50.6], [6.0, 50.75], [5.95, 50.98], [6.1, 51.2], [6.05, 51.65],
+  [5.95, 51.8], [6.4, 51.85], [6.75, 51.9], [7.05, 52.25], [6.75, 52.45], [7.05, 52.65], [7.0, 52.95], [7.2, 53.3],
+  [7.15, 53.62], [7.75, 53.7], [8.05, 53.7], [8.12, 53.52], [8.3, 53.6], [8.5, 53.55], [8.5, 53.75], [8.68, 53.88],
+  [8.87, 54.0], [8.83, 54.18], [8.63, 54.3], [8.9, 54.46], [8.8, 54.62],
 ];
-const ELBE: [number, number][] = [[11.45, 53.05], [10.95, 53.25], [10.6, 53.37], [10.3, 53.43], [10.0, 53.53], [9.73, 53.56], [9.4, 53.75], [9.1, 53.88], [8.75, 53.96], [8.5, 54.02]];
+const HAMBURG: [number, number] = [10.0, 53.55];
 
-const T: Record<Lang, { sh: string; ni: string; mv: [string, string]; hh: string; hb: string; sitz: string; nordsee: string; ostsee: string }> = {
-  de: { sh: "Schleswig-Holstein", ni: "Niedersachsen", mv: ["Mecklenburg-", "Vorpommern"], hh: "Hamburg", hb: "Bremen", sitz: "Standort", nordsee: "Nordsee", ostsee: "Ostsee" },
-  tr: { sh: "Schleswig-Holstein", ni: "Aşağı Saksonya", mv: ["Mecklenburg-", "Vorpommern"], hh: "Hamburg", hb: "Bremen", sitz: "Konum", nordsee: "Kuzey Denizi", ostsee: "Baltık Denizi" },
+const T: Record<Lang, { land: string; sitz: [string, string]; nordsee: string; ostsee: string }> = {
+  de: { land: "Deutschland", sitz: ["Standort", "Hamburg"], nordsee: "Nordsee", ostsee: "Ostsee" },
+  tr: { land: "Almanya", sitz: ["Konum", "Hamburg"], nordsee: "Kuzey Denizi", ostsee: "Baltık Denizi" },
 };
 
 type Teil = { d: string; art: "s" | "f"; t: number; dauer?: number; farbe: string; breite: number; fill?: string };
@@ -53,7 +47,7 @@ const DATEI_STIL = (dunkel: boolean) =>
     ? "--k-linie:#c3cbda;--k-schraffur:rgba(195,203,218,.26);--k-gold:#efe6d6;--k-punkt-rand:#fbf7f0;--k-fluss:rgba(243,237,228,.24);--k-text:#fbf7f0;--k-leise:#dde2ea;--k-meer:#c3cbda;--k-hof:#1d315a"
     : "--k-linie:#1d315a;--k-schraffur:rgba(29,49,90,.2);--k-gold:#1d315a;--k-punkt-rand:#fbf7f0;--k-fluss:rgba(29,49,90,.13);--k-text:#1d315a;--k-leise:#4a5570;--k-meer:#4a5570;--k-hof:#efe6d6") +
   "}.rk-x{stroke:var(--k-hof);stroke-width:6px;paint-order:stroke;stroke-linejoin:round}.rk-p{fill:var(--k-text)}" +
-  ".rk-land{font:600 28px Georgia,serif;fill:var(--k-text)}.rk-stadt{font:700 26px Arial,sans-serif;fill:var(--k-text)}.rk-gross{font-size:28px}" +
+  ".rk-land{font:600 28px Georgia,serif;fill:var(--k-text)}.rk-gross-land{font-size:34px;letter-spacing:.06em}.rk-stadt{font:700 26px Arial,sans-serif;fill:var(--k-text)}.rk-gross{font-size:28px}" +
   ".rk-klein{font:600 20px Arial,sans-serif;fill:var(--k-leise)}.rk-meer{font:italic 500 21px Georgia,serif;fill:var(--k-meer)}</style>";
 export const KARTE_MASSE = { breite: BREITE, hoehe: HOEHE };
 
@@ -76,19 +70,16 @@ export function karteSvg(lang: Lang, datei?: { dunkel: boolean }): string {
   const land = (pkte: [number, number][], t: number, dauer: number, o: Options = {}) =>
     aufnehmen(gen.polygon(pkte.map(([a, b]) => P(a, b)), opt({ stroke: "var(--k-linie)", strokeWidth: 2.2, fill: "var(--k-schraffur)", fillStyle: "hachure", hachureGap: 14, hachureAngle: -41, fillWeight: 1, ...o })), t, dauer);
 
-  // Elbe (breiter, heller Strich), dann Länder, Hamburg zuletzt (Standort)
-  aufnehmen(gen.curve(ELBE.map(([a, b]) => P(a, b)), opt({ stroke: "var(--k-fluss)", strokeWidth: 4.5, roughness: 0.5 })), 0, 0.7);
-  land(NI, 0.1, 0.9);
-  land(SH, 0.35, 0.8, { hachureAngle: -48 });
-  land(MV, 0.5, 0.9, { hachureAngle: -36 });
-  land(HB, 0.75, 0.35, { strokeWidth: 1.8, hachureGap: 5 });
-  land(HB_HAFEN, 0.8, 0.3, { strokeWidth: 1.6, hachureGap: 5 });
-  land(HH, 0.85, 0.4, { strokeWidth: 2, fill: "var(--k-gold)", fillStyle: "solid" });
+  // Deutschland (Umriss + Schraffur = ganzes Einsatzgebiet), danach der Standort-Pin Hamburg
+  land(DE, 0, 1.2, { strokeWidth: 2.4, hachureGap: 11, hachureAngle: -41, fillWeight: 1.3 });
 
   const L = T[lang];
-  const [hx, hy] = P(10.0, 53.56), [bx, by] = P(8.8, 53.08);
-  const sitz = gen.circle(hx, hy, 17, opt({ stroke: "var(--k-punkt-rand)", strokeWidth: 2, fill: "var(--k-gold)", fillStyle: "solid", roughness: 0.5 }));
-  const sitzPfade = sitz.sets.map((s) => `<path d="${gen.opsToPath(s, 1)}"${s.type === "fillPath" ? ` fill="var(--k-gold)" stroke="none"` : ` stroke="var(--k-punkt-rand)" stroke-width="2" fill="none"`}/>`).join("");
+  const [hx, hy] = P(...HAMBURG);
+  // Pin: Tropfenform mit Spitze genau auf Hamburg, heller Rand, kleiner Punkt in der Mitte
+  const pinPfad = `M ${hx} ${hy} C ${hx - 6} ${hy - 12} ${hx - 17} ${hy - 22} ${hx - 17} ${hy - 34} A 17 17 0 1 1 ${hx + 17} ${hy - 34} C ${hx + 17} ${hy - 22} ${hx + 6} ${hy - 12} ${hx} ${hy} Z`;
+  const pin = gen.path(pinPfad, opt({ stroke: "var(--k-punkt-rand)", strokeWidth: 2, fill: "var(--k-gold)", fillStyle: "solid", roughness: 0.35 }));
+  const sitzPfade = pin.sets.map((s) => `<path d="${gen.opsToPath(s, 1)}"${s.type === "fillPath" ? ` fill="var(--k-gold)" stroke="none"` : ` stroke="var(--k-punkt-rand)" stroke-width="2" fill="none"`}/>`).join("") +
+    `<circle cx="${hx}" cy="${hy - 34}" r="6" fill="var(--k-punkt-rand)"/>`;
 
   // Zeiten als Klassen in 0,05-s-Schritten (t0…t40, d1…d20) – die CSP erlaubt keine style-Attribute
   const tk = (t: number) => `t${Math.min(40, Math.round(t / 0.05))}`;
@@ -99,19 +90,14 @@ export function karteSvg(lang: Lang, datei?: { dunkel: boolean }): string {
     : `<path class="rk-f ${tk(p.t)}" d="${p.d}" stroke="${p.farbe}" stroke-width="${p.breite}"/>`).join("");
   const text = (x: number, y: number, s: string, kl: string, t: number, anker = "middle") =>
     `<text class="rk-x ${kl} ${tk(t)}" x="${x}" y="${y}" text-anchor="${anker}">${s}</text>`;
-  const [shx, shy] = P(9.55, 54.3), [nix, niy] = P(9.2, 52.55), [nsx, nsy] = P(7.4, 54.35), [osx, osy] = P(11.9, 54.8), [mvx, mvy] = P(13.1, 53.74);
+  const [lx, ly] = P(10.35, 51.15), [nsx, nsy] = P(6.75, 54.45), [osx, osy] = P(12.35, 54.95);
   const kopf = datei ? ` xmlns="http://www.w3.org/2000/svg" width="${BREITE}" height="${HOEHE}"` : "";
   return `<svg${kopf} class="rk-svg" viewBox="0 0 ${BREITE} ${HOEHE}" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">` +
     (datei ? DATEI_STIL(datei.dunkel) : "") + pfade +
-    `<g class="rk-sitz ${tk(1.25)}">${sitzPfade}</g>` +
-    `<circle class="rk-p ${tk(1.1)}" cx="${bx}" cy="${by}" r="5"/>` +
-    text(shx, shy, L.sh, "rk-land", 1.0) +
-    text(nix, niy, L.ni, "rk-land", 0.9) +
-    text(mvx, mvy, L.mv[0], "rk-land", 1.05) +
-    text(mvx, mvy + 32, L.mv[1], "rk-land", 1.05) +
-    text(P(10.36, 0)[0] + 10, hy + 2, L.hh, "rk-stadt rk-gross", 1.3, "start") +
-    text(P(10.36, 0)[0] + 10, hy + 26, L.sitz, "rk-klein", 1.35, "start") +
-    text(bx - 14, by + 30, L.hb, "rk-stadt", 1.15, "end") +
+    text(lx, ly, L.land, "rk-land rk-gross-land", 1.0) +
+    `<g class="rk-sitz ${tk(1.3)}">${sitzPfade}</g>` +
+    text(hx + 26, hy - 40, L.sitz[0], "rk-klein", 1.45, "start") +
+    text(hx + 26, hy - 12, L.sitz[1], "rk-stadt rk-gross", 1.45, "start") +
     text(nsx, nsy, L.nordsee, "rk-meer", 0.6) +
     text(osx, osy, L.ostsee, "rk-meer", 0.6) +
     "</svg>";

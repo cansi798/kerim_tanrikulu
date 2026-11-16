@@ -53,14 +53,14 @@ const person: Record<string, unknown> = {
     { "@type": "EducationalOccupationalCredential", credentialCategory: "degree", name: "Bachelor of Arts in Philosophie und Germanistik", dateCreated: "2021" },
   ],
   contactPoint: [
-    { "@type": "ContactPoint", contactType: "customer service", email: MAIL, ...(TELEFON_BESTAETIGT ? { telephone: TELEFON_INTERNATIONAL } : {}), availableLanguage: ["de", "tr"], areaServed: GEBIET.map((name) => ({ "@type": "AdministrativeArea", name })) },
+    { "@type": "ContactPoint", contactType: "customer service", email: MAIL, ...(TELEFON_BESTAETIGT ? { telephone: TELEFON_INTERNATIONAL } : {}), availableLanguage: ["de", "tr"], areaServed: GEBIET },
     // WhatsApp (Kerim Talk 3993): Link, über den Kunden schreiben können
     { "@type": "ContactPoint", contactType: "customer service", name: "WhatsApp", url: WHATSAPP_LINK, availableLanguage: ["de", "tr"] },
   ],
   ...(PORTRAIT ? { image: new URL(u(`${PORTRAIT}-560.webp`), Astro.site).href } : {}),
 };
-// v5 (Can 31.10.2026): Leistungen als Service mit Einsatzgebiet (Dolmetschen vor Ort). Übersetzungen ohne Gebietsangabe (kein Versprechen).
-const gebiet = GEBIET.map((name) => ({ "@type": "AdministrativeArea", name }));
+// v5 (Can 31.10.2026): Leistungen als Service mit Einsatzgebiet (Dolmetschen vor Ort), seit 16.11.2026 deutschlandweit (#6173). Übersetzungen ohne Gebietsangabe.
+const gebiet = GEBIET;
 const leistung = (name: string, seite: Seite, mitGebiet: boolean) => ({
   "@context": "https://schema.org",
   "@type": "Service",

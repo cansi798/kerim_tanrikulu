@@ -19,7 +19,7 @@ export const GET: APIRoute = ({ site }) => {
     `- Studium: ${D.fakten.studienabschluss}`,
     `- Sprachen: ${D.fakten.sprachen}`,
     `- Standort: ${D.fakten.ort}`,
-    `- Einsatzgebiet (Dolmetschen vor Ort): ${D.gebiet.satz}`,
+    `- Einsatzgebiet: ${D.gebiet.satz} (${D.gebiet.zusatz})`,
     `- Außerdem: ${D.fakten.fernDolmetschen}`,
     "",
     "## Vorteile auf einen Blick",

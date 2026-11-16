@@ -21,9 +21,9 @@ export const SEIT = "Mai 2021";
 export const SPRACHEN = "Deutsch und Türkisch";
 /** Standort laut Jamils Konzept; vom Kunden bestätigen lassen (OFFENE-INFOS). */
 export const ORT = "Hamburg";
-/** Einsatzgebiet fürs Dolmetschen vor Ort: Vorgabe von Can (31.10.2026 10:46), von Kerim bestätigt und um
- *  Mecklenburg-Vorpommern ergänzt (Kerims Feedback über Jamil, Talk 3990, 31.10.2026). Für JSON-LD areaServed (Bundesländer, deutsche Namen). */
-export const GEBIET = ["Hamburg", "Schleswig-Holstein", "Mecklenburg-Vorpommern", "Bremen", "Niedersachsen"];
+/** Einsatzgebiet: deutschlandweit, Standort Hamburg (Kerim über Jamil, Talk xidc8qvq #6173, 16.11.2026; vorher fünf Nordländer).
+ *  Für JSON-LD areaServed (Country DE). */
+export const GEBIET = { "@type": "Country", name: "Deutschland", identifier: "DE" } as const;
 
 /** Claim laut Jamil (Talk 3904). Kerims eigener Satz lautet „Brückenbildung zwischen den Kulturen“ – Wortlaut bestätigen lassen (OFFENE-INFOS). */
 export const CLAIM = "Brücken bauen zwischen den Sprachen";
@@ -45,7 +45,7 @@ export const mailLink = (betreff = "Anfrage über die Website") =>
   `mailto:${MAIL}?subject=${encodeURIComponent(betreff)}`;
 
 export const BESCHREIBUNG =
-  "Kerim Mikael Tanrikulu ist allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für Deutsch und Türkisch (Oberlandesgericht Schleswig, seit Mai 2021). Beglaubigte Übersetzungen und Dolmetschen (vor Ort, per Video oder Telefon), Standort Hamburg.";
+  "Ich bin Kerim Mikael Tanrikulu, allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für Deutsch und Türkisch (Oberlandesgericht Schleswig, seit Mai 2021). Beglaubigte Übersetzungen und Dolmetschen (vor Ort, per Video oder Telefon), Standort Hamburg, Einsatz deutschlandweit.";
 
 // Texte (DE/TR), Erfahrungen, Dokumentarten, Fragen und Ratgeber stehen seit v4 in src/texte/de.ts und tr.ts,
 // Routen und Navigation in src/i18n.ts.

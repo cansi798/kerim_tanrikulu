@@ -63,13 +63,13 @@ const formular = mitFormular(lang, "start");
 
   <div id="weiter"></div>
 
-  <!-- Warum Herr Tanrikulu (Can 10:41/10:43): USP direkt nach dem Hero, als Kundennutzen, nur belegte Fakten.
+  <!-- Warum Sie bei mir richtig sind (früher „Warum Herr Tanrikulu?“, Ich-Form seit 16.11.2026, #6173; Can 10:41/10:43): USP direkt nach dem Hero, als Kundennutzen, nur belegte Fakten.
        Dunkles Band wie die frühere Vertrauensleiste (Bauwelt-Muster, Jamil 3910). Je Punkt: Titel + Kurzzeile (immer),
        Langfassung nur breit (steht aber im HTML), die ganze Zeile führt zu den Details. Dazu das Einsatzgebiet (Can 10:46). -->
   <section class="warum" aria-labelledby="warum-titel">
     <div class="huelle">
       <div class="section-head reveal warum-kopf">
-        <!-- Portrait (Kerim Talk 3991/3992), dezent über der Frage „Warum Herr Tanrikulu?“; lazy, feste Maße (kein Springen) -->
+        <!-- Portrait (Kerim Talk 3991/3992), dezent über der Überschrift „Warum Sie bei mir richtig sind“; lazy, feste Maße (kein Springen) -->
         {PORTRAIT && <Portrait lang={lang} groesse={112} name={false} klasse="warum-portrait" />}
         <span class="eyebrow">{W.eyebrow}</span>
         <h2 id="warum-titel" class="regel">{W.titel}</h2>
@@ -253,10 +253,10 @@ const formular = mitFormular(lang, "start");
 
   /* Einsatzgebiet: Skizzen-Karte (Can 11:29) – schmal über dem Text, breit daneben */
   .gebiet { display: grid; justify-items: center; text-align: center; gap: 1rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: clamp(1.25rem, 3vw, 2rem); border-top: 1px solid var(--tinte-3); }
-  .gebiet :global(.rkarte) { width: min(100%, 24rem); }
+  .gebiet :global(.rkarte) { width: min(100%, 19rem); } /* Deutschland hochkant (16.11.2026) */
   @media (min-width: 48rem) { .gebiet { grid-template-columns: auto minmax(0, 28rem); justify-content: center; justify-items: start; text-align: left; gap: 3rem; align-items: center; }
-    .gebiet :global(.rkarte) { width: 24rem; } }
-  @media (min-width: 66rem) { .gebiet :global(.rkarte) { width: 28rem; } }
+    .gebiet :global(.rkarte) { width: 20rem; } }
+  @media (min-width: 66rem) { .gebiet :global(.rkarte) { width: 22rem; } }
   .gebiet-text h3 { font: 600 0.82rem/1.5 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--primaer-leise); margin: 0 0 0.3rem; }
   .gebiet-satz { font: 600 clamp(1.1rem, 1.9vw, 1.4rem)/1.35 var(--serif); color: var(--primaer); margin: 0 0 0.35rem; }
   .lang-zeile { display: none; margin: 0 0 0.5rem; color: var(--text-leise); font-size: 1rem; }

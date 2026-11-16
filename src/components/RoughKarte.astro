@@ -31,7 +31,7 @@ const datei = u(`/karte/karte-${lang}-${dunkel ? "dunkel" : "hell"}.svg`);
     --k-fluss: rgba(243, 237, 228, 0.24); --k-text: #fbf7f0; --k-leise: #dde2ea; --k-meer: #c3cbda; --k-hof: var(--tinte);
   }
   .rk-svg { display: block; width: 100%; height: auto; overflow: visible; }
-  .rkarte-platz { aspect-ratio: 800 / 640; } /* = KARTE_MASSE (CSP: keine style-Attribute) */
+  .rkarte-platz { aspect-ratio: 600 / 810; } /* = KARTE_MASSE (CSP: keine style-Attribute) */
   .rkarte-bild { display: block; width: 100%; height: auto; }
   .rk-s { stroke-dasharray: 1 1; }
   .rk-p { fill: var(--k-text); }
@@ -40,6 +40,7 @@ const datei = u(`/karte/karte-${lang}-${dunkel ? "dunkel" : "hell"}.svg`);
   .rk-land { font: 600 28px var(--serif); fill: var(--k-text); letter-spacing: 0.01em; }
   .rk-stadt { font: 700 26px var(--sans); fill: var(--k-text); }
   .rk-gross { font-size: 28px; }
+  .rk-gross-land { font-size: 34px; letter-spacing: 0.06em; }
   .rk-klein { font: 600 20px var(--sans); fill: var(--k-leise); }
   .rk-meer { font: italic 500 21px var(--serif); fill: var(--k-meer); letter-spacing: 0.04em; }
   .rk-sitz { transform-box: fill-box; transform-origin: center; }

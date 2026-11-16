@@ -11,7 +11,7 @@ const de = {
   notfallVor: "Lädt das Formular nicht? Bitte laden Sie die Seite einmal neu – oder melden Sie sich direkt per ",
   notfallLink: "Telefon, WhatsApp oder E-Mail",
   notfallNach: ".",
-  ohneJs: (ort: string) => `Das Anfrageformular braucht JavaScript. Sie erreichen Herrn Tanrikulu direkt per Telefon, WhatsApp oder E-Mail – die Kontaktwege finden Sie ${ort}.`,
+  ohneJs: (ort: string) => `Das Anfrageformular braucht JavaScript. Sie erreichen mich direkt per Telefon, WhatsApp oder E-Mail – die Kontaktwege finden Sie ${ort}.`,
   wegeUnten: "gleich unter diesem Abschnitt",
   wegeEnde: "am Ende dieser Seite",
   schritt: "Schritt",
@@ -54,7 +54,7 @@ const de = {
   ortPlatzhalter: "z. B. Amtsgericht Hamburg",
   dauerFrage: "Wie lange dauert der Termin ungefähr?",
   dauer: ["Bis 1 Stunde", "1 bis 2 Stunden", "2 bis 4 Stunden", "Mehr als 4 Stunden", "Weiß ich noch nicht"],
-  kontaktFrage: "Wie erreicht Herr Tanrikulu Sie?",
+  kontaktFrage: "Wie erreiche ich Sie?",
   name: "Name",
   email: "E-Mail",
   telefon: "Telefon",
@@ -67,7 +67,7 @@ const de = {
   foto: "Ein Foto oder Scan des Dokuments schicken Sie bitte erst nach unserer Rückmeldung.",
   senden: "Anfrage senden",
   sendenWa: "Per WhatsApp senden",
-  sendenHinweis: "Es öffnet sich Ihr E-Mail-Programm oder WhatsApp mit dem fertigen Text. Erst wenn Sie dort auf „Senden“ tippen, geht Ihre Anfrage an Herrn Tanrikulu.",
+  sendenHinweis: "Es öffnet sich Ihr E-Mail-Programm oder WhatsApp mit dem fertigen Text. Erst wenn Sie dort auf „Senden“ tippen, geht Ihre Anfrage an mich.",
   zurueck: "Zurück",
   weiter: "Weiter",
   // Logik
@@ -77,7 +77,7 @@ const de = {
   fSeiten: "Bitte geben Sie eine Seitenzahl zwischen 1 und 500 an.",
   fOrt: "Bitte geben Sie den Ort des Termins an.",
   fName: "Bitte geben Sie Ihren Namen an.",
-  fMail: "Bitte geben Sie eine gültige E-Mail-Adresse an, damit Herr Tanrikulu Ihnen antworten kann.",
+  fMail: "Bitte geben Sie eine gültige E-Mail-Adresse an, damit ich Ihnen antworten kann.",
   auswahl: (n: string) => `Ihre Auswahl: ${n}`,
   treffer: (n: number) => (n ? `${n} ${n === 1 ? "Dokument" : "Dokumente"} gefunden` : "Kein Dokument gefunden"),
   trefferKopf: "Treffer aus allen Themen",
@@ -102,7 +102,7 @@ const de = {
   honorarTitel: "Honorar:",
   // Dolmetschen: 93 € pro Stunde (Jamil Talk xidc8qvq #5548/#5550; #5556: keine MwSt.-Angabe, „so brutto wie netto“, 12.11.2026); Zahl aus src/daten/dokumente.ts
   honorarWert: (n: number) => `${n} € pro Stunde`,
-  honorarHinweis: "Die Gesamtkosten richten sich nach der Dauer des Termins. Herr Tanrikulu bestätigt sie Ihnen nach Ihrer Anfrage.",
+  honorarHinweis: "Die Gesamtkosten richten sich nach der Dauer des Termins. Ich bestätige sie Ihnen nach Ihrer Anfrage.",
   // steht unter dem Preis vor den Kontaktdaten (Jamil #5548: erst Preis sehen, dann entscheiden)
   preisWeiter: "Ihre Kontaktdaten geben Sie erst im nächsten Schritt an.",
   // nur bei „Vor Ort“ (Jamil Talk xidc8qvq #5559/#5561, 12.11.2026: pauschal, nicht pro Stunde); Beträge aus src/daten/dokumente.ts
@@ -123,7 +123,7 @@ const de = {
   gruss: "Viele Grüße",
   gesendetMail: (m: string) => `Ihr E-Mail-Programm öffnet sich mit der fertigen Anfrage. Falls nicht, schreiben Sie bitte direkt an ${m} oder nutzen Sie WhatsApp.`,
   gesendetWa: "WhatsApp öffnet sich mit der fertigen Anfrage. Tippen Sie dort auf „Senden“.",
-  angekommen: "Vielen Dank, Ihre Anfrage ist angekommen. Herr Tanrikulu meldet sich bei Ihnen.",
+  angekommen: "Vielen Dank, Ihre Anfrage ist angekommen. Ich melde mich bei Ihnen.",
 };
 
 type Texte = typeof de;
@@ -133,7 +133,7 @@ const tr: Texte = {
   notfallVor: "Form yüklenmiyor mu? Lütfen sayfayı bir kez yenileyin – ya da doğrudan ",
   notfallLink: "telefon, WhatsApp veya e-posta",
   notfallNach: " ile ulaşın.",
-  ohneJs: (ort: string) => `Talep formu için JavaScript gereklidir. Sayın Tanrikulu'ya doğrudan telefon, WhatsApp veya e-posta ile ulaşabilirsiniz – iletişim yollarını ${ort} bulursunuz.`,
+  ohneJs: (ort: string) => `Talep formu için JavaScript gereklidir. Bana doğrudan telefon, WhatsApp veya e-posta ile ulaşabilirsiniz – iletişim yollarını ${ort} bulursunuz.`,
   wegeUnten: "hemen bu bölümün altında",
   wegeEnde: "bu sayfanın sonunda",
   schritt: "Adım",
@@ -176,7 +176,7 @@ const tr: Texte = {
   ortPlatzhalter: "ör. Amtsgericht Hamburg",
   dauerFrage: "Randevu yaklaşık ne kadar sürecek?",
   dauer: ["1 saate kadar", "1–2 saat", "2–4 saat", "4 saatten fazla", "Henüz bilmiyorum"],
-  kontaktFrage: "Sayın Tanrikulu size nasıl ulaşsın?",
+  kontaktFrage: "Size nasıl ulaşayım?",
   name: "Ad soyad",
   email: "E-posta",
   telefon: "Telefon",
@@ -189,7 +189,7 @@ const tr: Texte = {
   foto: "Belgenin fotoğrafını veya taramasını lütfen ancak bizim geri dönüşümüzden sonra gönderin.",
   senden: "Talep gönderin",
   sendenWa: "WhatsApp ile gönderin",
-  sendenHinweis: "E-posta programınız veya WhatsApp hazır metinle açılır. Talebiniz ancak orada „Gönder“e dokunduğunuzda Sayın Tanrikulu'ya ulaşır.",
+  sendenHinweis: "E-posta programınız veya WhatsApp hazır metinle açılır. Talebiniz ancak orada „Gönder“e dokunduğunuzda bana ulaşır.",
   zurueck: "Geri",
   weiter: "İleri",
   fWahl: "Lütfen bir seçenek seçin.",
@@ -198,7 +198,7 @@ const tr: Texte = {
   fSeiten: "Lütfen 1 ile 500 arasında bir sayfa sayısı girin.",
   fOrt: "Lütfen randevunun yerini girin.",
   fName: "Lütfen adınızı girin.",
-  fMail: "Sayın Tanrikulu'nun size cevap verebilmesi için lütfen geçerli bir e-posta adresi girin.",
+  fMail: "Size cevap verebilmem için lütfen geçerli bir e-posta adresi girin.",
   auswahl: (n: string) => `Seçiminiz: ${n}`,
   treffer: (n: number) => (n ? `${n} belge bulundu` : "Belge bulunamadı"),
   trefferKopf: "Tüm konulardan sonuçlar",
@@ -223,7 +223,7 @@ const tr: Texte = {
   honorarTitel: "Ücret:",
   // VORSCHLAG (12.11.2026), von Kerim prüfen lassen: „Saatlik 93 €“ + die drei Sätze darunter
   honorarWert: (n: number) => `Saatlik ${n} €`,
-  honorarHinweis: "Toplam ücret randevunun süresine göre belirlenir. Sayın Tanrikulu bunu talebinizden sonra size teyit eder.",
+  honorarHinweis: "Toplam ücret randevunun süresine göre belirlenir. Bunu talebinizden sonra size teyit ederim.",
   preisWeiter: "İletişim bilgilerinizi ancak bir sonraki adımda girersiniz.",
   // VORSCHLAG (12.11.2026, #5559/#5561), von Kerim prüfen lassen
   anfahrt: (r: string, sg: string) => `Yol ücreti: sabit ${r} €, okullar ve mahkemeler için sabit ${sg} €.`,
@@ -243,7 +243,7 @@ const tr: Texte = {
   gruss: "Saygılarımla",
   gesendetMail: (m: string) => `E-posta programınız hazır talep metniyle açılıyor. Açılmazsa lütfen doğrudan ${m} adresine yazın veya WhatsApp'ı kullanın.`,
   gesendetWa: "WhatsApp hazır talep metniyle açılıyor. Orada „Gönder“e dokunun.",
-  angekommen: "Teşekkürler, talebiniz ulaştı. Sayın Tanrikulu size dönüş yapacak.",
+  angekommen: "Teşekkürler, talebiniz ulaştı. Size dönüş yapacağım.",
 };
 
 export const FT: Record<FormLang, Texte> = { de, tr };
