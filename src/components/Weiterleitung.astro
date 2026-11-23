@@ -3,11 +3,13 @@
 // Ratgeber und Häufige Fragen → „Gut zu wissen“ (passender Abschnitt). Ein Sprungziel aus dem alten Link (z. B. /ratgeber/#apostille)
 // übernimmt weiter.js, sonst greift meta refresh; der Link bleibt für alle Fälle sichtbar. Nicht in Sitemap/llms.txt, noindex.
 import { u } from "../daten";
-import { ALTE_SEITEN, SEITEN, type Lang } from "../i18n";
+import { ALTE_SEITEN, SEITEN, p, type Lang } from "../i18n";
+import { t } from "../texte";
 interface Props { alt: keyof typeof ALTE_SEITEN; lang: Lang }
 const { alt, lang } = Astro.props;
 const a = ALTE_SEITEN[alt];
 const ziel = u(SEITEN[a.ziel][lang]) + a.anker;
+const T = t(lang);
 const text = a.ziel === "start" ? (lang === "tr" ? "Ana sayfaya git" : "Weiter zur Startseite") : lang === "tr" ? "„Bilmeniz gerekenler“ sayfasına git" : "Weiter zu „Gut zu wissen“";
 ---
 <!doctype html>
@@ -20,8 +22,11 @@ const text = a.ziel === "start" ? (lang === "tr" ? "Ana sayfaya git" : "Weiter z
     <meta http-equiv="refresh" content={`0; url=${ziel}`} />
     <link rel="canonical" href={new URL(ziel, Astro.site)} />
     <title>Kerim Tanrikulu</title>
+    <meta name="description" content={text} />
   </head>
   <body>
     <h1><a href={ziel}>{text}</a></h1>
+    <!-- Pflichtlinks auch auf Weiterleitungen (Release-Prüfung 23.11.2026) -->
+    <p><a href={p(lang, "impressum")}>{T.nav.impressum}</a> · <a href={p(lang, "datenschutz")}>{T.nav.datenschutz}</a></p>
   </body>
 </html>

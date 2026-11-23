@@ -53,7 +53,7 @@ const datenschutz = p(lang, "datenschutz");
   <noscript>
     <p class="ohne-js">{F.ohneJs(wege === "ende" ? F.wegeEnde : F.wegeUnten)}</p>
   </noscript>
-  <form class="anfrage" id="anfrage" novalidate data-mail={MAIL} data-wa={WHATSAPP_LINK} data-lang={lang} aria-labelledby={titelId}>
+  <form class="anfrage" id="anfrage" method="post" novalidate data-mail={MAIL} data-wa={WHATSAPP_LINK} data-lang={lang} aria-labelledby={titelId}>
     <div class="fortschritt">
       <p class="stand" aria-hidden="true">{F.schritt} <span data-nr>1</span> {F.von} <span data-von>7</span></p>
       <div class="balken" aria-hidden="true"><span data-balken></span></div>

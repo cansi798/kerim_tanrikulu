@@ -1,0 +1,58 @@
+# ALL-INKL (Apache 2.4) – Website Kerim Tanrikulu (dolmetscher-kt.de)
+# Release-Prüfung 23.11.2026. Wird von scripts/allinkl-paket.sh ins Upload-Paket gelegt (nicht in die GitHub-Vorschau).
+# Lokal getestet mit php:8.3-apache (mod_rewrite, mod_headers, mod_expires, mod_deflate). Nach dem Upload live prüfen.
+
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+AddDefaultCharset utf-8
+AddCharset utf-8 .txt .xml .css .js .svg .json
+AddType image/avif .avif
+AddType image/webp .webp
+AddType font/woff2 .woff2
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Immer HTTPS (auch hinter dem ALL-INKL-Proxy)
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+  # Kanonische Adresse ohne www (canonical/hreflang/Sitemap zeigen auf https://dolmetscher-kt.de)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  # Gleich wie das meta-CSP der Seiten, zusätzlich frame-ancestors (geht nur als Header)
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; frame-ancestors 'none'"
+  # HSTS erst einschalten, wenn HTTPS für dolmetscher-kt.de UND www.dolmetscher-kt.de nachweislich funktioniert:
+  # Header always set Strict-Transport-Security "max-age=31536000"
+  # HTML immer frisch prüfen lassen (Änderungen sofort sichtbar)
+  <FilesMatch "\.(html|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/avif "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 7 days"
+  ExpiresByType text/javascript "access plus 1 day"
+  ExpiresByType application/javascript "access plus 1 day"
+  ExpiresByType text/css "access plus 1 day"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript text/javascript application/json application/ld+json image/svg+xml
+</IfModule>
+
+# Versteckte Dateien (.git, .env …) nie ausliefern
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>

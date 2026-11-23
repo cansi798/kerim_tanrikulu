@@ -72,8 +72,9 @@ export const tr: Texte = {
     wissen: "Bilmeniz gerekenler",
     ueber: "Hakkımda",
     kontakt: "İletişim",
-    impressum: "Künye",
-    datenschutz: "Veri koruma",
+    // Release-Prüfung 23.11.2026: deutscher Begriff in Klammern – die Rechtstexte sind auch auf /tr/ deutsch (bindende Fassung) und „Impressum“/„Datenschutz“ sind so auf jeder Seite auffindbar
+    impressum: "Künye (Impressum)",
+    datenschutz: "Veri koruma (Datenschutz)",
   },
 
   meta: {

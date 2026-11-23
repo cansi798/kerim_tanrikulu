@@ -94,3 +94,9 @@ Stand: 31.10.2026, nach Kerims Feedback (über Jamil, Talk 3990–3994). Grundre
 ## Bewusst nicht auf der Seite
 
 Keine konkreten Preise, Bearbeitungszeiten, Referenzen, Kundenstimmen oder Zahlen, solange nichts davon belegt ist. Kein Kontaktformular mit Fremddienst und kein WhatsApp-Widget; Kontakt per Telefon, WhatsApp-Link und E-Mail.
+
+## Release-Prüfung 23.11.2026 (Skill astro-allinkl-release-auditor, Bericht: RELEASE-AUDIT.md)
+
+- **TR-VORSCHLAG von Kerim prüfen lassen:** Fußlinks auf den türkischen Seiten heißen jetzt „Künye (Impressum)“ und „Veri koruma (Datenschutz)“ (deutscher Begriff in Klammern, weil die Rechtstexte auch auf /tr/ deutsch sind).
+- **Dringend prüfen – Beeidigung nach Landesrecht:** Seit 01.01.2023 gilt für Dolmetscher das Gerichtsdolmetschergesetz (GDolmG, Bezeichnung nach § 6: „allgemein beeidigter Gerichtsdolmetscher für die türkische Sprache“). Für Beeidigungen nach altem Landesrecht (Kerim: Mai 2021, OLG Schleswig) gibt es eine Übergangsfrist; nach unserem Kenntnisstand endet sie am **31.12.2026** (Übergangsvorschrift im Änderungsgesetz, auf gesetze-im-internet.de nicht abrufbar – bitte amtlich bzw. beim OLG prüfen). Kerim fragen: Ist die Beeidigung nach GDolmG schon erneuert? Danach Bezeichnung auf der ganzen Seite (DE+TR, Impressum, JSON-LD) anpassen. Die Ermächtigung als Übersetzer (Landesrecht) ist davon nicht betroffen.
+- **„Schnell“ im Hero** („Schnell, sorgfältig und in der Regel bundesweit anerkannt.“, TR entsprechend) ist eine Leistungsaussage ohne belegte Bearbeitungszeit – Kerim bestätigen lassen oder streichen.

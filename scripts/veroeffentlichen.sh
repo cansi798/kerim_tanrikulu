@@ -5,6 +5,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 QUELLE="$(git rev-parse --short HEAD)"
 [ -f dist/index.html ] || { echo "Erst bauen: bash scripts/bauen.sh"; exit 1; }
+# Nur Vorschau-Builds auf GitHub Pages (Release-Prüfung 23.11.2026): ein Livegang-Build (VORSCHAU=false) wäre ohne noindex/Platzhalter öffentlich
+grep -q "Disallow: /" dist/robots.txt || { echo "ABBRUCH: dist/ ist kein Vorschau-Build. Erst: bash scripts/bauen.sh"; exit 1; }
 git fetch -q origin main
 rm -rf .deploy && git worktree add -q .deploy origin/main
 git -C .deploy checkout -q -B main origin/main

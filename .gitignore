@@ -4,3 +4,4 @@ dist/
 .deploy/
 screens/
 .DS_Store
+release/

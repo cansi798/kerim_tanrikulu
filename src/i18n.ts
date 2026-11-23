@@ -27,6 +27,8 @@ export const ALTE_SEITEN = {
   themen: { de: "/themen/", tr: "/tr/konular/", ziel: "start", anker: "" },
   ratgeber: { de: "/ratgeber/", tr: "/tr/rehber/", ziel: "wissen", anker: "#ratgeber" },
   fragen: { de: "/fragen/", tr: "/tr/sss/", ziel: "wissen", anker: "#fragen" },
+  // Frühere Vergleichsseite der Hero-Animation (31.10.2026, nur Vorschau-Links) – seit der Release-Prüfung 23.11.2026 über dieselbe Weiterleitung
+  heroVariante: { de: "/hero-variante/", tr: "/tr/hero-variante/", ziel: "start", anker: "" },
 } as const satisfies Record<string, { de: string; tr: string; ziel: Seite; anker: string }>;
 
 /** Pfad mit Base-Präfix für eine Seite in einer Sprache, z. B. p("tr", "wissen") → /kerim_tanrikulu/tr/bilmeniz-gerekenler/ */
