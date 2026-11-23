@@ -107,7 +107,9 @@ const ld = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
     <title>{voll}</title>
     <meta name="description" content={text} />
     {VORSCHAU && <meta name="robots" content="noindex, nofollow" />}
-    <link rel="canonical" href={kanon} />
+    {/* 404 (seite = null): nicht indexieren, keine kanonische Adresse (Release-Prüfung 23.11.2026) */}
+    {!VORSCHAU && !seite && <meta name="robots" content="noindex" />}
+    {seite && <link rel="canonical" href={kanon} />}
     {alternativen.map((a) => <link rel="alternate" hreflang={a.l} href={a.href} />)}
     {seite && <link rel="alternate" hreflang="x-default" href={abs(SEITEN[seite].de)} />}
     <meta name="theme-color" content="#1d315a" />

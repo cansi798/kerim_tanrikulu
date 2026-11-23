@@ -4,10 +4,10 @@ import SeitenKopf from "../components/SeitenKopf.astro";
 import Luecke from "../components/Luecke.astro";
 import { type Lang } from "../i18n";
 import { t } from "../texte";
-import { NAME, TELEFON, MAIL } from "../daten";
+import { NAME, TELEFON, MAIL, VORSCHAU } from "../daten";
 // Gerüst nach der Vorlage aus datenschutz_impressium, nur Module für tatsächliche Datenflüsse:
 // statische Seite, keine Cookies, kein Tracking, Anfrageformular nur im Browser (Versand per eigenem E-Mail-Programm/WhatsApp), Schriften lokal, Kontakt per E-Mail/Telefon.
-// Hosting-Abschnitt beim Umzug auf die eigene Domain neu schreiben (R04).
+// Hosting: ALL-INKL (Zielhoster laut Can, Release-Prüfung 23.11.2026; Server in Deutschland, daher kein Drittland-Abschnitt). Speicherdauer der Logfiles laut ALL-INKL-Vertrag eintragen.
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const T = t(lang);
@@ -23,9 +23,8 @@ const T = t(lang);
       <p>Ich verarbeite personenbezogene Daten nur, soweit dies für die Bereitstellung dieser Website und die Bearbeitung Ihrer Anfragen erforderlich ist. Rechtsgrundlagen sind insbesondere Art. 6 Abs. 1 lit. b und f DSGVO.</p>
 
       <h2>3. Hosting und Server-Logfiles</h2>
-      <p>Diese Website wird gehostet bei <Luecke>Hoster der fertigen Website mit Anschrift und Land; die Vorschau liegt derzeit bei GitHub Pages (GitHub, Inc., USA)</Luecke>. <Luecke>Vertrag über Auftragsverarbeitung nach Art. 28 DSGVO bestätigen</Luecke></p>
+      <p>Diese Website wird gehostet bei ALL-INKL.COM – Neue Medien Münnich, Hauptstraße 68, 02742 Friedersdorf, Deutschland. <Luecke>Vertragspartner des Hosting-Vertrags (Kerim oder Agentur) und Vertrag über Auftragsverarbeitung nach Art. 28 DSGVO bestätigen</Luecke>{VORSCHAU && " Hinweis nur in der Vorschau: Diese Vorschau liegt bei GitHub Pages (GitHub, Inc., USA)."}</p>
       <p>Bei jedem Aufruf verarbeitet der Hoster automatisch: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Referrer-URL, Browsertyp und Betriebssystem sowie die übertragene Datenmenge. Zweck ist die Auslieferung der Seite und ein sicherer Betrieb. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse liegt im technisch fehlerfreien und sicheren Betrieb. Speicherdauer: <Luecke>laut Hoster</Luecke>.</p>
-      <p><Luecke>Nur falls der Hoster Daten außerhalb der EU verarbeitet: Abschnitt „Datenübermittlung in Drittländer“ mit Rechtsgrundlage ergänzen</Luecke></p>
 
       <h2>4. Cookies, Schriften und Einbindungen</h2>
       <p>Diese Website setzt keine Cookies, nutzt keine Analyse- oder Werbedienste und speichert nichts in Ihrem Browser. Die Schriften werden vom selben Server geladen wie die Website; es werden keine Inhalte von Drittanbietern eingebunden.</p>
