@@ -4,8 +4,9 @@ import SeitenKopf from "../components/SeitenKopf.astro";
 import Luecke from "../components/Luecke.astro";
 import { type Lang } from "../i18n";
 import { t } from "../texte";
-import { NAME, TELEFON, MAIL, GERICHT } from "../daten";
-// Struktur nach § 5 DDG. Markierte Lücken liefert der Kunde (OFFENE-INFOS.md). Anschrift NICHT aus dem Justiz-Verzeichnis übernehmen.
+import { NAME, TELEFON, MAIL } from "../daten";
+// Struktur nach § 5 DDG. Betreiberangaben von Kerim über Jamil (Talk xidc8qvq #7195, 24.11.2026): Anschrift, Berufsbezeichnung,
+// verleihendes Gericht + Rechtsgrundlagen, Kleinunternehmer § 19 UStG, Streitbeilegung. Rechtstexte bleiben Deutsch (bindend), auch auf /tr/.
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const T = t(lang);
@@ -15,22 +16,23 @@ const T = t(lang);
   <section class="abschnitt recht" lang="de">
     <div class="huelle">
       <h2>Angaben gemäß § 5 DDG</h2>
-      <p>{NAME}<br /><Luecke>Straße und Hausnummer</Luecke><br /><Luecke>PLZ und Ort</Luecke></p>
+      <p>{NAME}<br />Beethovenstraße 51a<br />22083 Hamburg</p>
 
       <h2>Kontakt</h2>
       <p>Telefon: {TELEFON}<br />E-Mail: <a href={`mailto:${MAIL}`}>{MAIL}</a></p>
 
       <h2>Berufsrechtliche Angaben</h2>
-      <p>Berufsbezeichnung: allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische Sprache <Luecke>Wortlaut laut Urkunde bestätigen</Luecke><br />
-      Beeidigt und ermächtigt durch: {GERICHT} <Luecke>genaue Bezeichnung und Anschrift laut Urkunde</Luecke><br />
+      <p>Berufsbezeichnung: Allgemein beeidigter Dolmetscher und ermächtigter Übersetzer für die türkische und deutsche Sprache<br />
+      Verliehen durch: Schleswig-Holsteinisches Oberlandesgericht, Gottorfstraße 2, 24837 Schleswig<br />
       Verliehen in: Bundesrepublik Deutschland<br />
-      Rechtsgrundlage: <Luecke>Landesgesetz laut Urkunde</Luecke></p>
+      Rechtsgrundlage: Ermächtigung gemäß § 74 Absatz 1 des Landesjustizgesetzes; Beeidigung und Verpflichtung gemäß § 78 des Landesjustizgesetzes, § 1 des Verpflichtungsgesetzes und § 189 des Gerichtsverfassungsgesetzes in Verbindung mit § 91 Absatz 2 des Ausführungsgesetzes zum Gerichtsverfassungsgesetz.<br />
+      Beeidigung und Ermächtigung am 04.05.2021.</p>
 
-      <h2>Umsatzsteuer-ID</h2>
-      <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: <Luecke>falls vorhanden, sonst Abschnitt streichen</Luecke></p>
+      <h2>Umsatzsteuer</h2>
+      <p>Als Kleinunternehmer im Sinne von § 19 UStG wird keine Umsatzsteuer berechnet.</p>
 
       <h2>Verbraucherstreitbeilegung</h2>
-      <p><Luecke>Entscheidung des Kunden: Teilnahme an Streitbeilegungsverfahren ja oder nein. Pflicht zur Angabe nach § 36 VSBG erst ab mehr als 10 Beschäftigten; sonst freiwilliger Satz oder Abschnitt streichen</Luecke></p>
+      <p>Zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle sind wir nicht verpflichtet und nicht bereit.</p>
 
       <p class="leise">Stand: <Luecke>Datum beim Livegang</Luecke></p>
     </div>
